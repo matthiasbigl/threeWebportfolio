@@ -53,7 +53,7 @@
             class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-cyan-200 to-white py-12 px-4 drop-shadow-2xl sm:px-6 lg:px-8 "
     >
         <div
-                class="flex-row flex justify-center items-center gap-x-8 divide-x divide-zinc-600  w-full"
+                class="flex-col md:flex-row flex justify-center items-center gap-x-8  md:divide-x divide-zinc-600  w-full"
         >
             <div
                     class="w-64"
@@ -162,183 +162,77 @@
 
         </div>
 
-        <div
-                class="flex flex-col gap-4 w-full "
-        >
-            <h1 class="font-bold text-white text-4xl text-center mt-4 drop-shadow-md">My Projects</h1>
+        <h1 class="font-bold text-white text-4xl text-center mt-4 drop-shadow-md">My Projects</h1>
 
-            <div
-                    class="flex flex-row justify-center items-center gap-x-4  w-4/5 p-8 mx-auto"
-            >
+        <div class="flex flex-col gap-4 w-full overflow-auto">
 
+            <div class="flex justify-center items-center gap-4 p-8 mx-auto ">
                 {#each projects as project}
-                    <div
-                            class="flex-1
-                flex
-                flex-col
-                justify-center
-                items-center
-                bg-gradient-to-b from-gray-100 to-gray-300
-                rounded-xl shadow-lg p-4 w-60
-                hover:scale-105
-                hover:shadow-2xl
-                transition-all
-                duration-200
-                "
-                    >
-                        <h2
-                                class="font-bold text-2xl text-center blue-gradient_text p-4"
-                        >
-                            {project.title}
-                        </h2>
+                    <div class="w-60 flex flex-col justify-center items-center bg-gradient-to-b from-gray-100 to-gray-300 rounded-xl shadow-lg p-4 hover:scale-105 hover:shadow-2xl transition-all duration-200">
+                        <h2 class="font-bold text-2xl text-center blue-gradient_text p-4">{project.title}</h2>
 
-                        <div
-                                class="w-4/5 aspect-square"
-                        >
-                            <a href={project.link} class="w-full h-full cursor-pointer ">
+                        <div class="w-full aspect-square">
+                            <a href={project.link} class="w-full h-full cursor-pointer">
                                 <img src={project.image} alt={project.title}
-                                     class="
-                        hover:scale-105
-                        hover:shadow-2xl
-                        transition-all
-                        duration-200
-                        object-contain w-full h-full rounded-lg bg-slate-100 p-2 shadow-md drop-shadow-lg"
-                                />
+                                     class="hover:scale-105 hover:shadow-2xl transition-all duration-200 object-contain w-full h-full rounded-lg bg-slate-100 p-2 shadow-md drop-shadow-lg"/>
                             </a>
                         </div>
 
                         <p class="text-center p-4 drop-shadow-md text-black">{project.description}</p>
                     </div>
                 {/each}
-
-
             </div>
-
         </div>
+
 
     </div>
 
-    <div
-            class="w-full bg-gradient-to-t from-orange-400 to-sky-400 flex flex-col justify-center items-center
-            py-8 drop-shadow-lg text-white "
-    >
-        <h1 class="font-bold text-4xl text-center mt-4 drop-shadow-md">My Hobby's</h1>
+    <div class="w-full bg-gradient-to-t from-orange-400 to-sky-400 flex flex-col justify-center items-center py-8 drop-shadow-lg text-white overflow-hidden">
+        <h1 class="font-bold text-4xl text-center mt-4 drop-shadow-md">My Hobbies</h1>
+        <div class="flex flex-col gap-4 w-full overflow-auto">
+            <div class="flex justify-center items-center gap-4 p-8 mx-auto ">
+                <div class="w-60 flex flex-col justify-center items-center bg-gradient-to-b from-gray-100 to-gray-300 rounded-xl shadow-lg p-4 hover:scale-105 hover:shadow-2xl transition-all duration-200">
+                    <h2 class="font-bold text-2xl text-center blue-gradient_text p-4">GYM</h2>
 
-        <div
-                class="flex flex-col md:flex-row justify-center items-center gap-x-4  w-4/5 p-8 mx-auto"
-        >
-            <div
-                    class="flex-1
-                flex
-                flex-col
-                justify-center
-                items-center
-                bg-gradient-to-b from-gray-100 to-gray-300
-                rounded-xl shadow-lg p-4 w-60
-                hover:scale-105
-                hover:shadow-2xl
-                transition-all
-                duration-200
-                "
-            >
-                <h2
-                        class="font-bold text-2xl text-center blue-gradient_text p-4"
-                >
-                    GYM
-                </h2>
+                    <div class="w-full aspect-square">
 
-                <div
-                        class="w-4/5 aspect-square"
-                >
-                    <img src="assets/dumbbell.png" alt="Gaming"
-                         class="
-                        hover:scale-105
-                        hover:shadow-2xl
-                        transition-all
-                        duration-200
-                        object-contain w-full h-full rounded-lg bg-slate-100 p-2 shadow-md drop-shadow-lg"
-                    />
+                        <img src="assets/dumbbell.png" alt="GYM"
+                             class="hover:scale-105 hover:shadow-2xl transition-all duration-200 object-cover w-full h-full rounded-lg bg-slate-100 p-2 shadow-md drop-shadow-lg"/>
+                    </div>
+
+                    <p class="text-center p-4 drop-shadow-md text-black">I am always trying to push my limits in the gym
+                        💪</p>
                 </div>
 
-                <p class="text-center p-4 drop-shadow-md text-black">I am always trying
-                to push my limits in the gym 💪
-                </p>
-            </div>
+                <div class="w-60 flex flex-col justify-center items-center bg-gradient-to-b from-gray-100 to-gray-300 rounded-xl shadow-lg p-4 hover:scale-105 hover:shadow-2xl transition-all duration-200">
+                    <h2 class="font-bold text-2xl text-center blue-gradient_text p-4">Skiing</h2>
 
-            <div
-                    class="flex-1
-                flex
-                flex-col
-                justify-center
-                items-center
-                bg-gradient-to-b from-gray-100 to-gray-300
-                rounded-xl shadow-lg p-4 w-60
-                hover:scale-105
-                hover:shadow-2xl
-                transition-all
-                duration-200
-                "
-            >
-                <h2
-                        class="font-bold text-2xl text-center blue-gradient_text p-4"
-                >
-                    Skiing
-                </h2>
+                    <div class="w-full aspect-square">
+                        <Mountains/>
+                    </div>
 
-                <div
-                        class="w-4/5 aspect-square"
-                >
-                    <Mountains/>
+                    <p class="text-center p-4 drop-shadow-md text-black">
+                        Carving down the slopes is one of my favorite things to do in winter 🎿
+                    </p>
+                </div>
+
+                <div class="w-60 flex flex-col justify-center items-center bg-gradient-to-b from-gray-100 to-gray-300 rounded-xl shadow-lg p-4 hover:scale-105 hover:shadow-2xl transition-all duration-200">
+                    <h2 class="font-bold text-2xl text-center blue-gradient_text p-4">Surfing</h2>
+
+                    <div class="w-full aspect-square">
+
+                        <img src="assets/surfing.JPG" alt="Surfing"
+                             class="hover:scale-105 hover:shadow-2xl transition-all duration-200 object-cover w-full h-full rounded-lg bg-slate-100  shadow-md drop-shadow-lg"/>
+                    </div>
+
+                    <p class="text-center p-4 drop-shadow-md text-black">
+                        Been Surfing since I was 6 years old 🤙
+                    </p>
                 </div>
 
 
-                <p class="text-center p-4 drop-shadow-md text-black">I love skiing in the Alps</p>
             </div>
-            <div
-                    class="flex-1
-                flex
-                flex-col
-                justify-center
-                items-center
-                bg-gradient-to-b from-gray-100 to-gray-300
-                rounded-xl shadow-lg p-4 w-60
-                hover:scale-105
-                hover:shadow-2xl
-                transition-all
-                duration-200
-                "
-            >
-                <h2
-                        class="font-bold text-2xl text-center blue-gradient_text p-4"
-                >
-                    Surfing
-                </h2>
-
-                <div
-                        class="w-4/5 aspect-square"
-                >
-                    <img src="assets/surfing.JPG" alt="Gaming"
-                         class="
-                        hover:scale-105
-                        hover:shadow-2xl
-                        transition-all
-                        duration-200
-                        object-cover w-full h-full rounded-lg bg-slate-100  shadow-md drop-shadow-lg"
-                    />
-
-
-                </div>
-
-                <p class="text-center p-4 drop-shadow-md text-black">
-                    Been Surfing since i was 6 years old 🤙
-                </p>
-
-
-            </div>
-
         </div>
-
-
     </div>
 
 

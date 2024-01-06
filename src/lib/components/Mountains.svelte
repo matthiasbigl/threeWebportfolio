@@ -34,7 +34,7 @@
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-            renderer.domElement.classList.add('w-full', 'h-full', 'drop-shadow-2xl', 'overflow-hidden',);
+            renderer.domElement.classList.add('w-full', 'h-full', 'drop-shadow-2xl', 'overflow-hidden','z-10');
 
 
             canvasContainer.appendChild(renderer.domElement);
