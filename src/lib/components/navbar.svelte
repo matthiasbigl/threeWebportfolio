@@ -21,8 +21,8 @@
 
     <header class="fixed top-0 left-0 z-50 w-full flex items-center justify-center px-6 py-4 font-bold text-zinc-600">
         <div class="w-full md:w-2/3 flex-row flex items-center justify-between">
-            <div class="w-10 h-10 rounded-lg bg-white items-center justify-center flex font-bold shadow-md divide-x divide-gray-200">
-                <button on:click={() => (isHamOpen = !isHamOpen)}>MB</button>
+            <div class="w-14 h-14 text-xl rounded-lg bg-white items-center justify-center flex font-bold  shadow-md divide-x divide-gray-200">
+                <button class="blue-gradient_text" on:click={() => (isHamOpen = !isHamOpen)}>MB</button>
             </div>
 
             <div class="hidden md:flex items-center justify-center text-center rounded-lg bg-white shadow-md p-4 font-bold divide-zinc-600 divide-x">
