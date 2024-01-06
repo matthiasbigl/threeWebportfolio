@@ -6,9 +6,9 @@
     <meta name="robots" content="index, follow">
 </svelte:head>
 
-<div class="min-h-screen flex flex-col items-center justify-center sm:pt-0 bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))] from-yellow-500 via-purple-500 to-blue-500">
+<div class="min-h-screen flex flex-col items-center md:justify-center pt-20 md:pt-0 bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))] from-yellow-500 via-purple-500 to-blue-500 p-2">
 
-    <div class="w-2/3 bg-white rounded-lg shadow-2xl border border-zinc-600 drop-shadow flex flex-col items-center justify-center p-4 gap-4">
+    <div class="w-full  md:w-2/3 bg-white rounded-lg shadow-2xl border border-zinc-600 drop-shadow flex flex-col items-center justify-center p-4 gap-4">
         <h1 class="blue-gradient_text font-bold text-3xl text-center"> Contact Matthias Bigl</h1>
 
         <div class="flex flex-col items-center justify-center gap-4">
