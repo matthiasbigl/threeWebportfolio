@@ -60,14 +60,15 @@
             //add the mountain mesh to the scene
             scene.add(mountainMesh);
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
             scene.add(ambientLight);
 
 
 
 
-            sunLight = new THREE.DirectionalLight(0xaaddcc, 1);
-            sunLight.position.set(10, 5, 5);
+            sunLight = new THREE.DirectionalLight(0xaaddcc, 4);
+            sunLight.position.set(10, 5, 10);
+            sunLight.target.position.set(0, 0, 0);
             scene.add(sunLight);
 
             sunLight.castShadow = true;
