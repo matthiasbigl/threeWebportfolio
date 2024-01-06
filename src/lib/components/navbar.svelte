@@ -1,7 +1,8 @@
 <script lang="ts">
     let isHamOpen = false;
 
-    //check if when the user clicks outside of the menu, it should close
+    //check if when the user clicks outside of the menu, it should close ok lets go
+
     function checkIfShouldClose(e: MouseEvent) {
         const target = e.target as HTMLElement;
         if (target.classList.contains("fixed")) {
