@@ -40,6 +40,7 @@
             canvasContainer.appendChild(renderer.domElement);
 
             //create a mountain using a MeshStandardMaterial
+            //bubub
             const mountain = new THREE.MeshStandardMaterial({
                 displacementMap: new THREE.TextureLoader().load('/assets/terainHeightMap.png'),
                 displacementScale: 12,
