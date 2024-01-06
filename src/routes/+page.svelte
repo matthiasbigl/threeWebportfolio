@@ -34,6 +34,16 @@
 
 </script>
 
+
+<svelte:head>
+    <title>Matthias Bigl</title>
+    <meta name="description" content="Matthias Bigl - Software Engineer from Austria"/>
+    <meta name="keywords" content="Matthias Bigl, Software Engineer, Web Developer, Web, Developer, Matthias, Bigl, matthiasbigl, matthias, bigl, matthiasbigl.at, matthiasbigl.com, matthiasbigl.dev, matthiasbigl.me, matthiasbigl.xyz, matthiasbigl.tech, matthiasbigl.online, matthiasbigl.website, matthiasbigl.blog, matthiasbigl.work, matthiasbigl.fun, matthiasbigl.live, matthiasbigl.page, matthiasbigl.cloud, matthiasbigl.app, matthiasbigl.site, matthiasbigl.space, matthiasbigl.design, matthiasbigl.digital, matthiasbigl.news, matthiasbigl.store, matthiasbigl.online, matthiasbigl.shop, matthiasbigl.club, matthiasbigl.de, matthiasbigl.eu, matthiasbigl.at, matthiasbigl.ch, matthiasbigl.li, matthiasbigl.net, nextjs, svelte, htl hollabrunn, htl, hollabrunn, htl-hl, gradingbot, unleashed
+"/>
+
+
+</svelte:head>
+
 <div
         class="
        flex flex-col
@@ -250,7 +260,9 @@
                     />
                 </div>
 
-                <p class="text-center p-4 drop-shadow-md text-black">I love working out</p>
+                <p class="text-center p-4 drop-shadow-md text-black">I am always trying
+                to push my limits in the gym 💪
+                </p>
             </div>
 
             <div
@@ -283,7 +295,7 @@
                 <p class="text-center p-4 drop-shadow-md text-black">I love skiing in the Alps</p>
             </div>
             <div
-            class="flex-1
+                    class="flex-1
                 flex
                 flex-col
                 justify-center
@@ -301,6 +313,25 @@
                 >
                     Surfing
                 </h2>
+
+                <div
+                        class="w-4/5 aspect-square"
+                >
+                    <img src="assets/surfing.JPG" alt="Gaming"
+                         class="
+                        hover:scale-105
+                        hover:shadow-2xl
+                        transition-all
+                        duration-200
+                        object-cover w-full h-full rounded-lg bg-slate-100  shadow-md drop-shadow-lg"
+                    />
+
+
+                </div>
+
+                <p class="text-center p-4 drop-shadow-md text-black">
+                    Been Surfing since i was 6 years old 🤙
+                </p>
 
 
             </div>

@@ -23,10 +23,11 @@ class="header"
             Home
         </a>
         <a
-        href="/about"
+        href="/assets/resume.pdf"
+        download="MatthiasBigl-Resume.pdf"
         class="hover:blue-gradient_text transition-all duration-150 ease-in-out hover:scale-[1.1] px-4 "
         >
-            About
+            Resume
         </a>
         <a
         href="/contact"
