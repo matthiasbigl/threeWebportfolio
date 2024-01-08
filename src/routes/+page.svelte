@@ -141,7 +141,7 @@
                 </h2>
 
                 <div
-                        class="w-full md-w-4/5 aspect-square"
+                        class="w-full md:w-4/5 aspect-square"
                 >
                     <Cube
                             images={[
