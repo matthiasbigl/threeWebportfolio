@@ -56,7 +56,6 @@
                 const texture = textureLoader.load(image);
                 return new THREE.MeshStandardMaterial({
                     map: texture,
-                    shininess: 50,
                     side: THREE.DoubleSide,
                     normalScale: new THREE.Vector2(2.5, 2.5),
                     normalMap: normalMaps[index] ? textureLoader.load(normalMaps[index]) : null,
@@ -78,7 +77,7 @@
             planeMesh.receiveShadow = true; // Enable shadow receiving for the plane
             scene.add(planeMesh);
 
-            const directionalLeftLight = new THREE.DirectionalLight(0xffffff, 2);
+            const directionalLeftLight = new THREE.DirectionalLight(0xffffff, 2.5);
             directionalLeftLight.position.set(5, 5, 2);
             directionalLeftLight.castShadow = true; // Enable shadow casting
             directionalLeftLight.shadow.mapSize.width = 1024; // Shadow map width
@@ -92,7 +91,7 @@
             directionalRightLight.shadow.mapSize.height = 1024; // Shadow map height
             scene.add(directionalRightLight);
 
-            const ambientLight = new THREE.AmbientLight(0xffffff);
+            const ambientLight = new THREE.AmbientLight(0xffffff,0.75);
             scene.add(ambientLight);
 
             mouse = new THREE.Vector2();
