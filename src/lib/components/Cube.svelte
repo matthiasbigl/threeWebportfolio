@@ -4,6 +4,7 @@
     import * as THREE from 'three';
 
     export let images: string[] = [];
+    export let normalMaps: string[] = [];
 
     let hover = false;
     let isDragging = false;
@@ -12,9 +13,11 @@
     // add an image at position 4 and shift the rest of the images down one position
     function addImage(image: string) {
         images = [...images.slice(0, 3), image, ...images.slice(3)];
+        normalMaps = [...normalMaps.slice(0, 3), image, ...normalMaps.slice(3)];
     }
 
     addImage("https://placehold.co/400");
+
     console.log(images);
 
     let canvasContainer: HTMLDivElement;
@@ -49,12 +52,14 @@
 
             const textureLoader = new THREE.TextureLoader();
 
-            const materials = images.map((image) => {
+            const materials = images.map((image,index) => {
                 const texture = textureLoader.load(image);
-                return new THREE.MeshPhongMaterial({
+                return new THREE.MeshStandardMaterial({
                     map: texture,
                     shininess: 50,
                     side: THREE.DoubleSide,
+                    normalScale: new THREE.Vector2(2.5, 2.5),
+                    normalMap: normalMaps[index] ? textureLoader.load(normalMaps[index]) : null,
                 });
             });
 
@@ -92,10 +97,14 @@
 
             mouse = new THREE.Vector2();
 
-            // Mouse event listeners for dragging
+            // Mouse and touch event listeners for dragging
             canvasContainer.addEventListener('mousedown', onMouseDown);
             canvasContainer.addEventListener('mouseup', onMouseUp);
             canvasContainer.addEventListener('mousemove', onMouseMove);
+
+            canvasContainer.addEventListener('touchstart', onTouchStart);
+            canvasContainer.addEventListener('touchend', onTouchEnd);
+            canvasContainer.addEventListener('touchmove', onTouchMove);
 
             animate(0);
         });
@@ -127,23 +136,39 @@
             render();
         };
 
-        // Function to handle mouse down event
+        // Functions to handle mouse events
         function onMouseDown(event: MouseEvent) {
             isDragging = true;
             previousMouseX = event.clientX;
         }
 
-        // Function to handle mouse up event
         function onMouseUp() {
             isDragging = false;
         }
 
-        // Function to handle mouse move event
         function onMouseMove(event: MouseEvent) {
             if (isDragging) {
                 const deltaX = event.clientX - previousMouseX;
                 cube.rotation.y += (deltaX / canvasContainer.clientWidth) * Math.PI * 2;
                 previousMouseX = event.clientX;
+            }
+        }
+
+        // Functions to handle touch events
+        function onTouchStart(event: TouchEvent) {
+            isDragging = true;
+            previousMouseX = event.touches[0].clientX;
+        }
+
+        function onTouchEnd() {
+            isDragging = false;
+        }
+
+        function onTouchMove(event: TouchEvent) {
+            if (isDragging) {
+                const deltaX = event.touches[0].clientX - previousMouseX;
+                cube.rotation.y += (deltaX / canvasContainer.clientWidth) * Math.PI * 2;
+                previousMouseX = event.touches[0].clientX;
             }
         }
     }
@@ -165,6 +190,5 @@
     <!-- The canvas element will be appended here -->
 </section>
 
-<style>
 
-</style>
+

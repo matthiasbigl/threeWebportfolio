@@ -113,6 +113,13 @@
         "assets/typescript.png",
         "assets/kotlin.png",
     ]}
+                            normalMaps={[
+        "assets/pythonNormal.png",
+        "assets/javaNormal.png",
+        "assets/svelteNormal.png",
+        "assets/typescriptNormal.png",
+        "assets/kotlinNormal.png",
+                            ]}
                     />
                 </div>
 
@@ -144,6 +151,14 @@
         "assets/Teamwork.png",
         "assets/project.png",
     ]}
+                            normalMaps={[
+        "assets/backendNormal.png",
+        "assets/UINormal.png",
+        "assets/graphicNormal.png",
+        "assets/TeamworkNormal.png",
+        "assets/projectNormal.png",
+                            ]}
+
                     />
 
                     <ul
