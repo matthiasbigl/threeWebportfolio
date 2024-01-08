@@ -97,7 +97,7 @@
                     "
             >
                 <h2
-                        class="font-semibold text-3xl text-center p-4 uppercase drop-shadow-sm   "
+                        class="font-semibold text-3xl text-center p-2 md:p-4 uppercase drop-shadow-sm   "
                 >
                     Languages
                 </h2>
@@ -135,7 +135,7 @@
                     "
             >
                 <h2
-                        class="font-semibold text-3xl text-center p-4 uppercase  "
+                        class="font-semibold text-3xl text-center p-2 md:p-4 uppercase  "
                 >
                     Strengths
                 </h2>
