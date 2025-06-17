@@ -125,10 +125,16 @@
             }
 
             // animate the cube to move up and down if the hover variable is true
-            if (hover && cube.position.y < 1) {
-                cube.position.y += delta*1.5;
-            } else if (!hover && cube.position.y > 0) {
-                cube.position.y -= delta*1.5;
+            if (hover) {
+                if (cube.position.y < 1) {
+                    cube.position.y += delta * 1.5;
+                    cube.position.y = Math.min(cube.position.y, 1); // Clamp to a maximum of 1
+                }
+            } else {
+                if (cube.position.y > 0) {
+                    cube.position.y -= delta * 1.5;
+                    cube.position.y = Math.max(cube.position.y, 0); // Clamp to a minimum of 0
+                }
             }
 
             camera.updateProjectionMatrix();
@@ -188,6 +194,5 @@
 <section bind:this={canvasContainer} on:mouseenter={() => { hover = true }} on:mouseout={() => { hover = false, isDragging=false }} class="w-full h-full overflow-hidden hover:scale-1.1">
     <!-- The canvas element will be appended here -->
 </section>
-
 
 
