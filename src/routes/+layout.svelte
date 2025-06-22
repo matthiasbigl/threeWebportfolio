@@ -15,7 +15,7 @@
     });
 </script>
 
-<main class="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+<main class="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex flex-col gap-4">
     <Navbar/>
     <slot/>
 </main>
