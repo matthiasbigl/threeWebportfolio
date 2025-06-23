@@ -257,7 +257,7 @@
                         Strengths
                     </h3>
                     
-                    <div class="cube-container max-w-xs sm:max-w-sm md:max-w-md mx-auto aspect-square">
+                    <div class="cube-container  max-w-lg mx-auto aspect-square">
                         <Cube
                             images={[
                                 "assets/backend.png",
@@ -305,7 +305,7 @@
                 My <span class="blue-gradient_text">Hobbies</span>
             </h2>
             
-            <div class="stagger-cards grid grid-cols-2 md:grid-cols-3 gap-6  max-w-6xl mx-auto p-4 overflow-visible">
+            <div class="stagger-cards grid grid-cols-1 md:grid-cols-3 gap-6  max-w-6xl mx-auto p-4 overflow-visible">
                 {#each hobbies as hobby}
                     <Card 
                         title={hobby.title}

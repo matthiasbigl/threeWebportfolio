@@ -77,7 +77,7 @@
     }
     
     .image-container {
-        @apply aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden bg-white/5 p-3 sm:p-4;
+        @apply aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden bg-white/5 p-1;
         @apply flex-shrink-0;
     }
     
@@ -91,7 +91,7 @@
     }
     
     .card-description {
-        @apply text-gray-300 text-sm leading-relaxed;
+        @apply text-gray-300 text-xs md:text-sm leading-relaxed;
         @apply flex-grow;
         @apply sm:text-base;
     }
