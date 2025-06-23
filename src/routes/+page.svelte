@@ -1,42 +1,36 @@
-<script lang="ts">
+<script lang="ts">    
     import Avatar from "$lib/components/Avatar.svelte";
     import Cube from "$lib/components/Cube.svelte";
     import Mountains from "$lib/components/Mountains.svelte";
     import CustomCursor from "$lib/components/CustomCursor.svelte";
     import ScrollProgress from "$lib/components/ScrollProgress.svelte";
-    import { onMount } from 'svelte';
+    import Card from "$lib/components/Card.svelte";    import { onMount } from 'svelte';
     import { browser } from '$app/environment';
     import { gsap } from 'gsap';
     import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+    import { projects } from '$lib/data/projects';    
+    
     if (browser) {
         gsap.registerPlugin(ScrollTrigger);
-    }
+    }    
 
-    const projects = [
+    const hobbies = [
         {
-            title: "Unleashed",
-            description: "A Social Media App without any ads or tracking",
-            image: "https://unleashed-coral.vercel.app/_next/image?url=https%3A%2F%2Funleashed-images.s3.eu-central-1.amazonaws.com%2Fuser_2Oe6VaszvuPGmbbzyaBvQTbwiZu%2Fb4189c45-d379-4d17-80d5-76e38bc03c56%2Flogofinal.png&w=3840&q=30",
-            link: "https://unleashed-coral.vercel.app/"
+            title: "GYM",
+            description: "I am always trying to push my limits in the gym 💪",
+            image: "assets/dumbbell.png"
         },
         {
-            title: "Grading Bot",
-            description: "WORK IN PROGRESS: An automated System for grading Students coding Assignments",
-            image: "assets/gradingbot.png",
-            link: "https://gradingbot.htl-hl.ac.at"
+            title: "Skiing",
+            description: "Carving down the slopes is one of my favorite things to do in winter 🎿",
+            image: "",
+            isSpecialComponent: true
         },
         {
-            title: "Bigls Blog",
-            description: "A Blog about my Projects and Experiences",
-            image: "https://media.graphassets.com/f0f4hXrHQ2yNB85Dj2ou",
-            link: "https://bigls-blog.vercel.app/"
-        },
-        {
-            title: "... and many more",
-            description: "Check out my Github for more Projects",
-            image: "https://web.imt-atlantique.fr/x-info/atlanmod/images/d/d1/Github.jpg",
-            link: "https://github.com/matthiasbigl"
+            title: "Surfing",
+            description: "Been Surfing since I was 6 years old 🤙",
+            image: "assets/surfing.JPG",
+            imageObjectFit: "cover"
         }
     ];
 
@@ -184,7 +178,7 @@
 <CustomCursor />
 <ScrollProgress />
 
-<main class="relative overflow-hidden pt-16">
+<main class="relative pt-16">
     
     <!-- Hero Section -->
     <section class="hero-section relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -237,7 +231,7 @@
                         Languages
                     </h3>
                     
-                    <div class="cube-container max-w-xs sm:max-w-sm md:max-w-md mx-auto aspect-square">
+                    <div class="cube-container max-w-lg mx-auto aspect-square">
                         <Cube
                             images={[
                                 "assets/python.png",
@@ -285,97 +279,42 @@
             </div>
         </div>
     </section>    <!-- Projects Section -->
-    <section class="projects-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-2">
+    <section class="projects-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-2 overflow-visible">
         <div class="parallax-bg parallax-bg-2"></div>
         
-        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative container mx-auto px-4 lg:px-6">
             <h2 class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow">
                 My <span class="blue-gradient_text">Projects</span>
             </h2>
             
-            <div class="stagger-cards grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 sm:gap-8">                {#each projects as project, index}
-                    <div class="stagger-item magnetic-btn">
-                        <a href={project.link} class="block glass-card glass-card-hover p-4 sm:p-6 h-full transition-all duration-300 rounded-xl">
-                            <div class="aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden bg-white/5 p-3 sm:p-4">
-                                <img 
-                                    src={project.image} 
-                                    alt={project.title}
-                                    class="w-full h-full object-contain rounded-lg"
-                                />
-                            </div>
-                            
-                            <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 blue-gradient_text">
-                                {project.title}
-                            </h3>
-                            
-                            <p class="text-gray-300 text-sm leading-relaxed">
-                                {project.description}
-                            </p>
-                        </a>
-                    </div>
+            <div class="stagger-cards grid grid-cols-2 lg:grid-cols-4 gap-6 overflow-visible">
+                {#each projects as project, index}
+                    <Card 
+                        title={project.title}
+                        description={project.description}
+                        image={project.image}
+                        link={project.link}
+                    />
                 {/each}
             </div>
         </div>
     </section>    <!-- Hobbies Section -->
-    <section class="hobbies-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-3">
-        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="hobbies-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-3 overflow-visible">
+        <div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow">
                 My <span class="blue-gradient_text">Hobbies</span>
             </h2>
             
-            <div class="stagger-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
-                  <!-- GYM -->
-                <div class="stagger-item magnetic-btn">
-                    <div class="glass-card glass-card-hover p-4 sm:p-6 h-full text-center rounded-xl">
-                        <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 blue-gradient_text">GYM</h3>
-                        
-                        <div class="aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden bg-white/5 p-3 sm:p-4">
-                            <img 
-                                src="assets/dumbbell.png" 
-                                alt="GYM"
-                                class="w-full h-full object-contain rounded-lg"
-                            />
-                        </div>
-                        
-                        <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
-                            I am always trying to push my limits in the gym 💪
-                        </p>
-                    </div>
-                </div>
-                
-                <!-- Skiing -->
-                <div class="stagger-item magnetic-btn">
-                    <div class="glass-card glass-card-hover p-4 sm:p-6 h-full text-center rounded-xl">
-                        <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 blue-gradient_text">Skiing</h3>
-                        
-                        <div class="aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden">
-                            <Mountains/>
-                        </div>
-                        
-                        <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
-                            Carving down the slopes is one of my favorite things to do in winter 🎿
-                        </p>
-                    </div>
-                </div>
-                
-                <!-- Surfing -->
-                <div class="stagger-item magnetic-btn">
-                    <div class="glass-card glass-card-hover p-4 sm:p-6 h-full text-center rounded-xl">
-                        <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 blue-gradient_text">Surfing</h3>
-                        
-                        <div class="aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden bg-white/5 p-3 sm:p-4">
-                            <img 
-                                src="assets/surfing.JPG" 
-                                alt="Surfing"
-                                class="w-full h-full object-cover rounded-lg"
-                            />
-                        </div>
-                        
-                        <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
-                            Been Surfing since I was 6 years old 🤙
-                        </p>
-                    </div>
-                </div>
+            <div class="stagger-cards grid grid-cols-2 md:grid-cols-3 gap-6  max-w-6xl mx-auto p-4 overflow-visible">
+                {#each hobbies as hobby}
+                    <Card 
+                        title={hobby.title}
+                        description={hobby.description}
+                        image={hobby.image}
+                        isSpecialComponent={hobby.isSpecialComponent || false}
+                        imageObjectFit={hobby.imageObjectFit || "contain"}
+                    />
+                {/each}
             </div>
         </div>
     </section>
