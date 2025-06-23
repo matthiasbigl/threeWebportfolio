@@ -1,185 +1,193 @@
 <script lang="ts">
-    // Import required modules
     import { browser } from '$app/environment';
-    import { onMount } from 'svelte';
+    import { onMount, onDestroy } from 'svelte';
     import * as THREE from 'three';
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-    // Declare a variable to hold the container element
+    // Component state
     let canvasContainer: HTMLDivElement;
-
     let camera: THREE.PerspectiveCamera;
     let scene: THREE.Scene;
     let renderer: THREE.WebGLRenderer;
-    let isLoading = true; // Added loading state
-    // let pulsingLight: THREE.PointLight | null = null; // Removed pulsingLight
+    let isLoading = true;
+    let animationId: number;
+    let flickerIntervals: number[] = [];
 
-    // Check if the code is running in the browser environment
-    if (browser) {
-        // Declare variables for Three.js components
+    // Cleanup function
+    const cleanup = () => {
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+        }
+        
+        flickerIntervals.forEach(id => clearInterval(id));
+        flickerIntervals = [];
+        
+        if (renderer) {
+            renderer.dispose();
+            if (canvasContainer && renderer.domElement) {
+                canvasContainer.removeChild(renderer.domElement);
+            }
+        }
+        
+        if (scene) {
+            scene.traverse((object) => {
+                if (object instanceof THREE.Mesh) {
+                    object.geometry.dispose();
+                    if (object.material instanceof THREE.Material) {
+                        object.material.dispose();
+                    }
+                }
+            });
+        }
+    };
 
-        // Declare a variable to store the timestamp of the last frame
-        // let lastTimestamp = 0; // Removed lastTimestamp        // Run this code when the component is mounted
-        onMount(() => {
-            // Create a Three.js scene, camera, and renderer
+    // Random flicker timing helper
+    const getRandomFlickerDelay = () => Math.random() * 400 + 300; // 300-700ms
+
+    // Light flicker effect
+    const createFlickerEffect = (
+        light: THREE.Light, 
+        targetIntensity: number, 
+        flickerCount: number, 
+        startDelay: number
+    ) => {
+        const timeoutId = setTimeout(() => {
+            let count = 0;
+            const intervalId = setInterval(() => {
+                light.intensity = light.intensity === 0 
+                    ? targetIntensity 
+                    : Math.random() * targetIntensity * 0.5;
+                
+                count++;
+                if (count > flickerCount) {
+                    clearInterval(intervalId);
+                    light.intensity = targetIntensity;
+                    flickerIntervals = flickerIntervals.filter(id => id !== intervalId);
+                }
+            }, getRandomFlickerDelay());
+            
+            flickerIntervals.push(intervalId);
+        }, startDelay);    };
+
+    // Handle resize function - accessible to svelte:window
+    const handleResize = () => {
+        if (!browser || !camera || !renderer || !canvasContainer) return;
+        
+        camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+        renderer.render(scene, camera);
+    };
+
+    onMount(() => {
+        if (!browser) return;
+
+        const initializeThreeJS = () => {
+            if (!canvasContainer) return;
+
+            // Create Three.js scene, camera, and renderer
             scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(35, 1, 0.1, 1000); // Set FOV to 35 to reduce fisheye
+            camera = new THREE.PerspectiveCamera(35, 1, 0.1, 1000);
             renderer = new THREE.WebGLRenderer({ alpha: true });
-            renderer.setPixelRatio(window.devicePixelRatio); // Set pixel ratio for higher resolution
+            renderer.setPixelRatio(window.devicePixelRatio);
 
-            // Setup pulsing light for loading phase -- REMOVED
-            // pulsingLight = new THREE.PointLight(0xffffff, 0, 100); // White, intensity 0, range 100
-            // pulsingLight.position.set(0, 0.5, 1); // Positioned centrally
-            // scene.add(pulsingLight);
-
-            // Calculate initial canvas size based on the container
+            // Calculate canvas size and setup renderer
             const canvasWidth = canvasContainer.clientWidth;
             const canvasHeight = canvasContainer.clientHeight;
-
-            // Set renderer size and add Tailwind classes to make it responsive
             renderer.setSize(canvasWidth, canvasHeight);
             renderer.domElement.classList.add('w-full', 'h-full');
-
-            // Append renderer's canvas to the container
             canvasContainer.appendChild(renderer.domElement);
 
-            // Load the avatar GLB file with animations using GLTFLoader
-            const loader = new GLTFLoader();
-
-            loader.load(
-                '/assets/MatthiasBigl.glb',
-                function (gltf) {
-                    // Scale the loaded model (8 times bigger)
-                    gltf.scene.scale.set(3,3,3); // Adjusted from (7,7,7) to (3,3,3)
-
-                    // Move the loaded model down (50% down)
-                    gltf.scene.position.y = -1.5; // Adjusted from -2 to -1 (moved up)
-
-                    scene.add(gltf.scene);
-                    isLoading = false; // Set loading to false when model is loaded
-                    // Note: pulsingLight will be removed in the animate loop
-                    gltf.scene; // THREE.Group
-                    gltf.scenes; // Array<THREE.Group>
-                    gltf.cameras; // Array<THREE.Camera>
-                    gltf.asset; // Object
-
- },
-                function (xhr) {
-                    console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
-                },
-                // called when loading has errors
-                function (error) {
-                    console.log('An error happened');
-                }            );
-
-            // Set camera position and field of view to reduce fisheye effect
-            camera.position.z = 9; // Moved back from 5 to 8 for better distance
-            camera.fov = 35; // Reduced from default 75 to minimize fisheye distortion
+            // Setup camera
+            camera.position.z = 9;
+            camera.fov = 35;
             camera.updateProjectionMatrix();
             camera.rotation.set(-Math.PI / 28, 0, 0);
 
-            const targetFrontLightIntensity = 4.0; // Increased from 2.5 to 4.0
-            const frontLight = new THREE.DirectionalLight(0xffffff, 0); // Start with intensity 0
-            frontLight.position.set(0, 1, 4); // In front of the avatar, adjusted Y position
+            // Setup lighting
+            setupLighting();
+
+            // Load the avatar model
+            loadAvatarModel();
+
+            // Start animation loop
+            animate();
+        };
+
+        const setupLighting = () => {
+            // Front light with flicker effect
+            const frontLight = new THREE.DirectionalLight(0xffffff, 0);
+            frontLight.position.set(0, 1, 4);
             scene.add(frontLight);
+            createFlickerEffect(frontLight, 4.0, 9, 500);
 
-            // Flicker effect for frontLight on mount
-            setTimeout(() => {
-                let flickerCount = 0;
-                const flickerInterval = setInterval(() => {
-                    frontLight.intensity = frontLight.intensity === 0 ? targetFrontLightIntensity : Math.random() * targetFrontLightIntensity * 0.5;
-                    flickerCount++;
-                    if (flickerCount > 9) { // Flicker ~5 times
-                        clearInterval(flickerInterval);
-                        frontLight.intensity = targetFrontLightIntensity; // Ensure it's on
-                    }
-                }, 120); // Flicker every 120ms
-            }, 500); // Start flicker after 500ms            const targetBlueLightIntensity = 2.0; // Increased from 1.2 to 2.0
-            const blueLight = new THREE.DirectionalLight(0x0000ff, 0); // Start with intensity 0
-            blueLight.position.set(1.5, 0.5, 1); // From the right, adjusted position and intensity
+            // Blue light with flicker effect
+            const blueLight = new THREE.DirectionalLight(0x0000ff, 0);
+            blueLight.position.set(1.5, 0.5, 1);
             scene.add(blueLight);
+            createFlickerEffect(blueLight, 2.0, 7, 600);
 
-            // Flicker effect for blueLight on mount
-            setTimeout(() => {
-                let flickerCount = 0;
-                const flickerInterval = setInterval(() => {
-                    blueLight.intensity = blueLight.intensity === 0 ? targetBlueLightIntensity : Math.random() * targetBlueLightIntensity * 0.5;
-                    flickerCount++;
-                    if (flickerCount > 7) { // Flicker ~4 times
-                        clearInterval(flickerInterval);
-                        blueLight.intensity = targetBlueLightIntensity; // Ensure it's on
-                    }
-                }, 150); // Flicker every 150ms
-            }, 600); // Start flicker after 600ms
-
-            // Add red light from the left
-            const targetRedLightIntensity = 2.0; // Increased from 1.2 to 2.0
-            const redLight = new THREE.DirectionalLight(0xff0000, 0); // Start with intensity 0
-            redLight.position.set(-1.5, 0.5, 1); // From the left, adjusted position and intensity
+            // Red light with flicker effect
+            const redLight = new THREE.DirectionalLight(0xff0000, 0);
+            redLight.position.set(-1.5, 0.5, 1);
             scene.add(redLight);
+            createFlickerEffect(redLight, 2.0, 11, 700);
 
-            // Flicker effect for redLight on mount
-            setTimeout(() => {
-                let flickerCount = 0;
-                const flickerInterval = setInterval(() => {
-                    redLight.intensity = redLight.intensity === 0 ? targetRedLightIntensity : Math.random() * targetRedLightIntensity * 0.5;
-                    flickerCount++;
-                    if (flickerCount > 11) { // Flicker ~6 times
-                        clearInterval(flickerInterval);
-                        redLight.intensity = targetRedLightIntensity; // Ensure it's on
-                    }
-                }, 200); // Flicker every 100ms
-            }, 700); // Start flicker after 700ms            // Add ambient light - increased for better overall brightness
-            const ambientLight = new THREE.AmbientLight(0x404040, 2.0); // Increased intensity from default to 2.0
+            // Ambient and fill lights
+            const ambientLight = new THREE.AmbientLight(0x404040, 2.0);
             scene.add(ambientLight);
 
-            // Add additional fill light to brighten the avatar
             const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
-            fillLight.position.set(0, -1, 2); // From below to fill shadows
+            fillLight.position.set(0, -1, 2);
             scene.add(fillLight);
+        };
 
-            // Start the animation loop
-            animate();
+        const loadAvatarModel = () => {
+            const loader = new GLTFLoader();
+            
+            loader.load(
+                '/assets/MatthiasBigl.glb',
+                (gltf) => {
+                    gltf.scene.scale.set(3, 3, 3);
+                    gltf.scene.position.y = -1.5;
+                    scene.add(gltf.scene);
+                    isLoading = false;
+                },
+                (xhr) => {
+                    console.log(`Loading progress: ${(xhr.loaded / xhr.total) * 100}%`);
+                },
+                (error) => {
+                    console.error('Error loading avatar model:', error);
+                    isLoading = false;
+                }
+            );
+        };
 
-
-        });
-
-        // Function to render the scene
         const render = () => {
             renderer.clear();
             renderer.render(scene, camera);
         };
 
-        // Animation loop
-        const animate = () => { // Removed timestamp parameter
-            requestAnimationFrame(animate);
-
-           
-            // Check if canvasContainer is available
-            if (!canvasContainer) {
-                return;
-            }
-
-            // Update the camera's aspect ratio and position
-            camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
-            camera.updateProjectionMatrix();
-
-            // Render the scene
+        const animate = () => {
+            animationId = requestAnimationFrame(animate);
+            
+            if (!canvasContainer) return;
+            
             render();
         };
-    }
 
+        // Wait for DOM to be ready, then initialize
+        requestAnimationFrame(() => {
+            initializeThreeJS();
+        });
+    });
 
+    onDestroy(() => {
+        cleanup();
+    });
 </script>
 
-<svelte:window on:resize={() => {
-    if (canvasContainer) {
-        camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-        renderer.render(scene, camera);
-    }
-}} />
+<svelte:window on:resize={handleResize} />
 
 <section
         bind:this={canvasContainer}
