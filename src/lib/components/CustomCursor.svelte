@@ -6,9 +6,19 @@
     let cursor: HTMLDivElement;
     let follower: HTMLDivElement;
     let isHovering = false;
+    let isMobile = false;
 
     if (browser) {
         onMount(() => {
+            // Check if device is mobile/touch
+            isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches || 
+                      window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Don't show custom cursor on mobile
+                return;
+            }
+
             const handleMouseMove = (e: MouseEvent) => {
                 gsap.to(cursor, {
                     x: e.clientX,
@@ -73,12 +83,16 @@
     }
 </script>
 
-<div bind:this={cursor} class="cursor-dot"></div>
-<div bind:this={follower} class="cursor-follower"></div>
+{#if !isMobile}
+    <div bind:this={cursor} class="cursor-dot"></div>
+    <div bind:this={follower} class="cursor-follower"></div>
+{/if}
 
 <style>
-    :global(body) {
-        cursor: none;
+    @media (hover: hover) and (pointer: fine) {
+        :global(body) {
+            cursor: none;
+        }
     }
 
     .cursor-dot {

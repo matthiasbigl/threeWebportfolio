@@ -41,6 +41,8 @@
   },
   "type": "module",
   "dependencies": {
-    "gsap": "^3.13.0"
+    "@emailjs/nodejs": "^5.0.2",
+    "gsap": "^3.13.0",
+    "zod": "^3.25.67"
   }
 }

@@ -184,65 +184,60 @@
 <CustomCursor />
 <ScrollProgress />
 
-<main class="relative overflow-hidden">
+<main class="relative overflow-hidden pt-16">
     
     <!-- Hero Section -->
     <section class="hero-section relative min-h-screen flex items-center justify-center overflow-hidden">
         <div class="parallax-bg parallax-bg-hero aurora-bg"></div>
         
-        <div class="relative z-10 container mx-auto px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20">
-                
-                <!-- Avatar -->
+        <div class="relative z-10 container mx-auto p-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-12 lg:gap-20">
+                  <!-- Avatar -->
                 <div class="hero-avatar floating-avatar relative">
-                    <div class="w-80 h-80 lg:w-96 lg:h-96 glass-card glow-border p-8 floating">
+                    <div class="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 glass-card glow-border p-4 sm:p-6 lg:p-8 floating">
                         <Avatar/>
                     </div>
                 </div>
                 
                 <!-- Hero Text -->
-                <div class="text-center lg:text-left max-w-2xl">
-                    <h1 class="hero-title font-bold text-5xl lg:text-7xl mb-6 text-glow">
+                <div class="text-center lg:text-left max-w-2xl px-4">
+                    <h1 class="hero-title font-bold text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-4 sm:mb-6 text-glow leading-tight">
                         Hey I am <span class="blue-gradient_text">Matthias Bigl</span>
                     </h1>
                     
-                    <p class="hero-subtitle text-xl lg:text-2xl text-gray-300 mb-8 leading-relaxed">
+                    <p class="hero-subtitle text-lg sm:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">
                         I am a <span class="blue-gradient_text font-semibold">Software Engineer</span> from Austria 🇦🇹.<br/>
                         I love developing new and exciting <span class="blue-gradient_text font-semibold">Web-Experiences</span><br/>
                         Let's get to know each other!
                     </p>
                     
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <a href="/contact" class="magnetic-btn glass-card glass-card-hover px-8 py-4 text-lg font-semibold text-white text-center">
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start px-4 sm:px-0">                        <a href="/contact" class="magnetic-btn glass-card glass-card-hover px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white text-center rounded-xl">
                             Get In Touch
                         </a>
-                        <a href="/assets/resume.pdf" download="MatthiasBigl-Resume.pdf" class="magnetic-btn glass-card glass-card-hover px-8 py-4 text-lg font-semibold text-white text-center border border-white/20">
+                        <a href="/assets/resume.pdf" download="MatthiasBigl-Resume.pdf" class="magnetic-btn glass-card glass-card-hover px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white text-center border border-white/20 rounded-xl">
                             Download Resume
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="skills-section reveal-section glass-section relative py-20 lg:py-32 gradient-bg-1">
+    </section>    <!-- Skills Section -->
+    <section class="skills-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-1">
         <div class="parallax-bg parallax-bg-1"></div>
         
-        <div class="relative z-10 container mx-auto px-6 lg:px-8">
-            <h2 class="section-title text-4xl lg:text-6xl font-bold text-center mb-16 text-glow">
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow">
                 My <span class="blue-gradient_text">Skills</span>
             </h2>
             
-            <div class="grid lg:grid-cols-2 gap-16 lg:gap-24">
-                
-                <!-- Languages -->
+            <div class="grid lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-24">
+                  <!-- Languages -->
                 <div class="text-center">
-                    <h3 class="text-2xl lg:text-3xl font-semibold mb-8 text-gray-300 uppercase tracking-wider">
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 text-gray-300 uppercase tracking-wider">
                         Languages
                     </h3>
                     
-                    <div class="cube-container max-w-md mx-auto aspect-square">
+                    <div class="cube-container max-w-xs sm:max-w-sm md:max-w-md mx-auto aspect-square">
                         <Cube
                             images={[
                                 "assets/python.png",
@@ -264,11 +259,11 @@
                 
                 <!-- Strengths -->
                 <div class="text-center">
-                    <h3 class="text-2xl lg:text-3xl font-semibold mb-8 text-gray-300 uppercase tracking-wider">
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 text-gray-300 uppercase tracking-wider">
                         Strengths
                     </h3>
                     
-                    <div class="cube-container max-w-md mx-auto aspect-square">
+                    <div class="cube-container max-w-xs sm:max-w-sm md:max-w-md mx-auto aspect-square">
                         <Cube
                             images={[
                                 "assets/backend.png",
@@ -289,22 +284,19 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section class="projects-section reveal-section glass-section relative py-20 lg:py-32 gradient-bg-2">
+    </section>    <!-- Projects Section -->
+    <section class="projects-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-2">
         <div class="parallax-bg parallax-bg-2"></div>
         
-        <div class="relative z-10 container mx-auto px-6 lg:px-8">
-            <h2 class="section-title text-4xl lg:text-6xl font-bold text-center mb-16 text-glow">
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow">
                 My <span class="blue-gradient_text">Projects</span>
             </h2>
             
-            <div class="stagger-cards grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-                {#each projects as project, index}
+            <div class="stagger-cards grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 sm:gap-8">                {#each projects as project, index}
                     <div class="stagger-item magnetic-btn">
-                        <a href={project.link} class="block glass-card glass-card-hover p-6 h-full transition-all duration-300">
-                            <div class="aspect-square mb-6 rounded-xl overflow-hidden bg-white/5 p-4">
+                        <a href={project.link} class="block glass-card glass-card-hover p-4 sm:p-6 h-full transition-all duration-300 rounded-xl">
+                            <div class="aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden bg-white/5 p-3 sm:p-4">
                                 <img 
                                     src={project.image} 
                                     alt={project.title}
@@ -312,7 +304,7 @@
                                 />
                             </div>
                             
-                            <h3 class="text-xl font-bold mb-4 blue-gradient_text">
+                            <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 blue-gradient_text">
                                 {project.title}
                             </h3>
                             
@@ -324,23 +316,20 @@
                 {/each}
             </div>
         </div>
-    </section>
-
-    <!-- Hobbies Section -->
-    <section class="hobbies-section reveal-section glass-section relative py-20 lg:py-32 gradient-bg-3">
-        <div class="relative z-10 container mx-auto px-6 lg:px-8">
-            <h2 class="section-title text-4xl lg:text-6xl font-bold text-center mb-16 text-glow">
+    </section>    <!-- Hobbies Section -->
+    <section class="hobbies-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-3">
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow">
                 My <span class="blue-gradient_text">Hobbies</span>
             </h2>
             
-            <div class="stagger-cards grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                
-                <!-- GYM -->
+            <div class="stagger-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+                  <!-- GYM -->
                 <div class="stagger-item magnetic-btn">
-                    <div class="glass-card glass-card-hover p-6 h-full text-center">
-                        <h3 class="text-2xl font-bold mb-6 blue-gradient_text">GYM</h3>
+                    <div class="glass-card glass-card-hover p-4 sm:p-6 h-full text-center rounded-xl">
+                        <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 blue-gradient_text">GYM</h3>
                         
-                        <div class="aspect-square mb-6 rounded-xl overflow-hidden bg-white/5 p-4">
+                        <div class="aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden bg-white/5 p-3 sm:p-4">
                             <img 
                                 src="assets/dumbbell.png" 
                                 alt="GYM"
@@ -348,7 +337,7 @@
                             />
                         </div>
                         
-                        <p class="text-gray-300 leading-relaxed">
+                        <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
                             I am always trying to push my limits in the gym 💪
                         </p>
                     </div>
@@ -356,14 +345,14 @@
                 
                 <!-- Skiing -->
                 <div class="stagger-item magnetic-btn">
-                    <div class="glass-card glass-card-hover p-6 h-full text-center">
-                        <h3 class="text-2xl font-bold mb-6 blue-gradient_text">Skiing</h3>
+                    <div class="glass-card glass-card-hover p-4 sm:p-6 h-full text-center rounded-xl">
+                        <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 blue-gradient_text">Skiing</h3>
                         
-                        <div class="aspect-square mb-6 rounded-xl overflow-hidden">
+                        <div class="aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden">
                             <Mountains/>
                         </div>
                         
-                        <p class="text-gray-300 leading-relaxed">
+                        <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
                             Carving down the slopes is one of my favorite things to do in winter 🎿
                         </p>
                     </div>
@@ -371,10 +360,10 @@
                 
                 <!-- Surfing -->
                 <div class="stagger-item magnetic-btn">
-                    <div class="glass-card glass-card-hover p-6 h-full text-center">
-                        <h3 class="text-2xl font-bold mb-6 blue-gradient_text">Surfing</h3>
+                    <div class="glass-card glass-card-hover p-4 sm:p-6 h-full text-center rounded-xl">
+                        <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 blue-gradient_text">Surfing</h3>
                         
-                        <div class="aspect-square mb-6 rounded-xl overflow-hidden bg-white/5 p-4">
+                        <div class="aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden bg-white/5 p-3 sm:p-4">
                             <img 
                                 src="assets/surfing.JPG" 
                                 alt="Surfing"
@@ -382,7 +371,7 @@
                             />
                         </div>
                         
-                        <p class="text-gray-300 leading-relaxed">
+                        <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
                             Been Surfing since I was 6 years old 🤙
                         </p>
                     </div>

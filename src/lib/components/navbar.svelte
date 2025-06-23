@@ -60,12 +60,12 @@
 
 <svelte:window on:click={checkIfShouldClose} />
 
-<header bind:this={navbar} class="navbar fixed top-0 left-0 z-50 w-full flex items-center justify-center px-6 py-4 transition-all duration-300">
+<header bind:this={navbar} class="navbar fixed top-0 left-0 z-50 w-full flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300">
     <div class="w-full max-w-6xl flex-row flex items-center justify-between">
         <!-- Logo -->
         <div class="logo-container magnetic-btn">
             <button 
-                class="w-14 h-14 text-xl rounded-xl glass-card glass-card-hover items-center justify-center flex font-bold text-white glow-border" 
+                class="w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl rounded-xl glass-card glass-card-hover items-center justify-center flex font-bold text-white glow-border" 
                 on:click={toggleMenu}
             >
                 <span class="blue-gradient_text">MB</span>
@@ -73,16 +73,16 @@
         </div>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center justify-center text-center glass-card px-8 py-4 font-semibold">
-            <a href="/" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-6 py-2 relative overflow-hidden">
+        <nav class="hidden md:flex items-center justify-center text-center glass-card px-6 lg:px-8 py-3 lg:py-4 font-semibold">
+            <a href="/" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base">
                 Home
             </a>
             <div class="w-px h-6 bg-white/20 mx-2"></div>
-            <a href="/assets/resume.pdf" download="MatthiasBigl-Resume.pdf" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-6 py-2 relative overflow-hidden">
+            <a href="/assets/resume.pdf" download="MatthiasBigl-Resume.pdf" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base">
                 Resume
             </a>
             <div class="w-px h-6 bg-white/20 mx-2"></div>
-            <a href="/contact" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-6 py-2 relative overflow-hidden">
+            <a href="/contact" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base">
                 Contact
             </a>
         </nav>
@@ -93,11 +93,10 @@
 {#if isHamOpen}
     <div class="mobile-menu fixed top-0 left-0 w-full h-full bg-black/80 backdrop-blur-md flex items-center justify-center z-50"
          on:click={() => (isHamOpen = false)}
-    >
-        <div class="glass-card p-8 rounded-2xl m-6 max-w-sm w-full">
-            <div class="flex flex-col space-y-6">
+    >        <div class="glass-card p-6 sm:p-8 rounded-2xl m-4 sm:m-6 max-w-sm w-full">
+            <div class="flex flex-col space-y-4 sm:space-y-6">
                 <button
-                    class="mobile-menu-item nav-link magnetic-btn text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-4 rounded-lg glass-card-hover"
+                    class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
                     on:click={() => {
                         goto("/");
                         isHamOpen = false;
@@ -107,14 +106,14 @@
                 </button>
                 
                 <a href="/assets/resume.pdf" download="MatthiasBigl-Resume.pdf" 
-                   class="mobile-menu-item nav-link block text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-4 rounded-lg glass-card-hover"
+                   class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
                    on:click={() => (isHamOpen = false)}
                 >
                     Resume
                 </a>
                 
                 <button
-                    class="mobile-menu-item nav-link magnetic-btn text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-4 rounded-lg glass-card-hover"
+                    class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
                     on:click={() => {
                         goto("/contact");
                         isHamOpen = false;

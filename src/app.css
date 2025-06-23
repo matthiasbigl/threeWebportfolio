@@ -35,18 +35,20 @@ body:has(.card[data-color="green"]:hover) {
 
     .subhead-text {
         @apply font-semibold sm:text-3xl text-xl relative font-poppins;
-    }
-
-    .blue-gradient_text {
-        @apply bg-gradient-to-r from-[#00c6ff] to-[#0072ff] bg-clip-text text-transparent drop-shadow-md;
-    }
-
-    .input {
-        @apply bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2.5 font-normal shadow-card;
+    }    .blue-gradient_text {
+        background: linear-gradient(135deg, #00c6ff 0%, #0072ff 50%, #7b68ee 100%);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 3s ease-in-out infinite;
+        text-shadow: 0 0 30px rgba(0, 198, 255, 0.3);
+    }    .input {
+        @apply bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2.5 font-normal shadow-lg;
     }
 
     .textarea {
-        @apply block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-200 focus:ring-blue-500 focus:border-blue-500 mt-2.5 font-normal shadow-card;
+        @apply block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-200 focus:ring-blue-500 focus:border-blue-500 mt-2.5 font-normal shadow-lg;
     }
 
     .btn {
@@ -316,4 +318,93 @@ body:has(.card[data-color="green"]:hover) {
     border: #fff;
     box-shadow: 0.6vmin 0.6vmin #fff, 1vmin 1vmin #d2e4ff, 1vmin 1vmin #d2e4ff,
     0.65vmin 1vmin #d2e4ff, 1vmin 0.65vmin #d2e4ff;
+}
+
+/* Custom shadow definitions */
+.shadow-card {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 640px) {
+    .hero-section {
+        min-height: calc(100vh - 4rem);
+        padding-top: 2rem;
+    }
+    
+    .glass-card {
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+    }
+    
+    .text-glow {
+        text-shadow: 0 0 15px rgba(0, 198, 255, 0.2);
+    }
+    
+    .blue-gradient_text {
+        text-shadow: 0 0 20px rgba(0, 198, 255, 0.2);
+    }
+    
+    .aurora-bg {
+        background: 
+            radial-gradient(ellipse at top left, rgba(120, 119, 198, 0.2) 0%, transparent 60%),
+            radial-gradient(ellipse at top right, rgba(255, 119, 198, 0.2) 0%, transparent 60%),
+            radial-gradient(ellipse at center right, rgba(119, 198, 255, 0.2) 0%, transparent 60%),
+            radial-gradient(ellipse at center left, rgba(119, 255, 198, 0.2) 0%, transparent 60%);
+    }
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        line-height: 1.2;
+    }
+    
+    .hero-title {
+        line-height: 1.1;
+    }
+    
+    .stagger-cards {
+        gap: 1rem;
+    }
+    
+    .cube-container {
+        max-width: 280px;
+    }
+}
+
+/* Improved touch targets for mobile */
+@media (hover: none) and (pointer: coarse) {
+    .magnetic-btn {
+        transform: none !important;
+    }
+    
+    .magnetic-btn:active {
+        transform: scale(0.95) !important;
+    }
+    
+    .glass-card-hover:hover {
+        transform: none;
+    }
+    
+    .glass-card-hover:active {
+        transform: translateY(-4px);
+        background: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Ensure proper spacing on very small screens */
+@media (max-width: 320px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .hero-title {
+        font-size: 1.875rem;
+        line-height: 1.1;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
 }
