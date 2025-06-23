@@ -19,13 +19,11 @@
         // Declare variables for Three.js components
 
         // Declare a variable to store the timestamp of the last frame
-        // let lastTimestamp = 0; // Removed lastTimestamp
-
-        // Run this code when the component is mounted
+        // let lastTimestamp = 0; // Removed lastTimestamp        // Run this code when the component is mounted
         onMount(() => {
             // Create a Three.js scene, camera, and renderer
             scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera();
+            camera = new THREE.PerspectiveCamera(35, 1, 0.1, 1000); // Set FOV to 35 to reduce fisheye
             renderer = new THREE.WebGLRenderer({ alpha: true });
             renderer.setPixelRatio(window.devicePixelRatio); // Set pixel ratio for higher resolution
 
@@ -55,7 +53,7 @@
                     gltf.scene.scale.set(3,3,3); // Adjusted from (7,7,7) to (3,3,3)
 
                     // Move the loaded model down (50% down)
-                    gltf.scene.position.y = -1; // Adjusted from -2 to -1 (moved up)
+                    gltf.scene.position.y = -1.5; // Adjusted from -2 to -1 (moved up)
 
                     scene.add(gltf.scene);
                     isLoading = false; // Set loading to false when model is loaded
@@ -72,14 +70,15 @@
                 // called when loading has errors
                 function (error) {
                     console.log('An error happened');
-                }
-            );
+                }            );
 
-            // Set camera position
-            camera.position.z = 6;
+            // Set camera position and field of view to reduce fisheye effect
+            camera.position.z = 9; // Moved back from 5 to 8 for better distance
+            camera.fov = 35; // Reduced from default 75 to minimize fisheye distortion
+            camera.updateProjectionMatrix();
             camera.rotation.set(-Math.PI / 28, 0, 0);
 
-            const targetFrontLightIntensity = 2.5;
+            const targetFrontLightIntensity = 4.0; // Increased from 2.5 to 4.0
             const frontLight = new THREE.DirectionalLight(0xffffff, 0); // Start with intensity 0
             frontLight.position.set(0, 1, 4); // In front of the avatar, adjusted Y position
             scene.add(frontLight);
@@ -95,10 +94,7 @@
                         frontLight.intensity = targetFrontLightIntensity; // Ensure it's on
                     }
                 }, 120); // Flicker every 120ms
-            }, 500); // Start flicker after 500ms
-
-
-            const targetBlueLightIntensity = 1.2;
+            }, 500); // Start flicker after 500ms            const targetBlueLightIntensity = 2.0; // Increased from 1.2 to 2.0
             const blueLight = new THREE.DirectionalLight(0x0000ff, 0); // Start with intensity 0
             blueLight.position.set(1.5, 0.5, 1); // From the right, adjusted position and intensity
             scene.add(blueLight);
@@ -117,7 +113,7 @@
             }, 600); // Start flicker after 600ms
 
             // Add red light from the left
-            const targetRedLightIntensity = 1.2;
+            const targetRedLightIntensity = 2.0; // Increased from 1.2 to 2.0
             const redLight = new THREE.DirectionalLight(0xff0000, 0); // Start with intensity 0
             redLight.position.set(-1.5, 0.5, 1); // From the left, adjusted position and intensity
             scene.add(redLight);
@@ -133,11 +129,14 @@
                         redLight.intensity = targetRedLightIntensity; // Ensure it's on
                     }
                 }, 200); // Flicker every 100ms
-            }, 700); // Start flicker after 700ms
-
-            // Add ambient light
-            const ambientLight = new THREE.AmbientLight(0x404040); // Soft white light
+            }, 700); // Start flicker after 700ms            // Add ambient light - increased for better overall brightness
+            const ambientLight = new THREE.AmbientLight(0x404040, 2.0); // Increased intensity from default to 2.0
             scene.add(ambientLight);
+
+            // Add additional fill light to brighten the avatar
+            const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            fillLight.position.set(0, -1, 2); // From below to fill shadows
+            scene.add(fillLight);
 
             // Start the animation loop
             animate();
@@ -155,41 +154,7 @@
         const animate = () => { // Removed timestamp parameter
             requestAnimationFrame(animate);
 
-            // if (isLoading && pulsingLight) { // REMOVED pulsing light logic
-            //     const time = Date.now() * 0.001; // Time in seconds
-            //     const pulseSpeed = 0.8; // Controls speed of the pulse (lower is slower)
-            //     const maxIntensity = 1.5; // Maximum intensity of the pulse
-            //     const exponent = 2; // Controls the shape (e.g., 2 for a sharper peak)
-            //
-            //     const pulseFactor = (Math.sin(time * pulseSpeed) + 1) / 2; // Oscillates 0-1
-            //     pulsingLight.intensity = Math.pow(pulseFactor, exponent) * maxIntensity;
-            // } else if (!isLoading && pulsingLight) {
-            //     scene.remove(pulsingLight);
-            //     pulsingLight.dispose(); // Clean up the light
-            //     pulsingLight = null; // Set to null to stop further processing
-            // }
-
-            // Calculate delta based on the elapsed time since the last frame
-            // const delta = (timestamp - lastTimestamp) / 1000; // Convert milliseconds to seconds // Removed delta calculation
-            // lastTimestamp = timestamp; // Removed lastTimestamp update
-
-            // Find the "greeting" animation
-            // const greetingAnimation = THREE.AnimationClip.findByName(gltfAnimations, 'greeting'); // Removed animation finding
-            // const dancingAnimation = THREE.AnimationClip.findByName(gltfAnimations, 'dance'); // Removed animation finding
-
-            // if (greetingAnimation) { // Removed animation playback
-            //     // Create an action and play the "greeting" animation
-            //     const greetingAction = mixer.clipAction(greetingAnimation);
-            //     greetingAction.play();
-            // }
-
-
-
-            // Check if mixer is available and update it
-            // if (mixer) { // Removed mixer update
-            //     mixer.update(delta);
-            // }
-
+           
             // Check if canvasContainer is available
             if (!canvasContainer) {
                 return;
