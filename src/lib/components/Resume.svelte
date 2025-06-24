@@ -1,6 +1,6 @@
-<script lang="ts">    import { onMount } from 'svelte';
+<script lang="ts">    
+    import { onMount } from 'svelte';
     import { browser } from '$app/environment';
-    import { gsap } from 'gsap';
     import type { PdfLoadSuccessContent, PdfPageContent } from 'svelte-pdf-simple';
 
     interface Props {
@@ -13,7 +13,8 @@
     let isLoading = $state(true);
     let isPdfLoaded = $state(false);
     let pageNumber = $state(1);
-    let totalPages = $state(1);      let scale = $state(0.8);
+    let totalPages = $state(1);      
+    let scale = $state(0.8);
     let minScale = 0.4;
     let maxScale = 3.0;
     let containerElement: HTMLDivElement = $state();
@@ -73,10 +74,9 @@
         const dx = touch1.clientX - touch2.clientX;
         const dy = touch1.clientY - touch2.clientY;
         return Math.sqrt(dx * dx + dy * dy);
-    };
-
-    const handleTouchStart = (event: TouchEvent) => {
+    };    const handleTouchStart = (event: TouchEvent) => {
         if (event.touches.length === 2) {
+            // Only prevent default for pinch gestures, allow scrolling for single touch
             event.preventDefault();
             initialPinchDistance = getTouchDistance(event.touches[0], event.touches[1]);
             startingScale = scale;
@@ -85,6 +85,7 @@
 
     const handleTouchMove = (event: TouchEvent) => {
         if (event.touches.length === 2 && initialPinchDistance > 0) {
+            // Only prevent default for pinch gestures, allow scrolling for single touch
             event.preventDefault();
             
             const currentDistance = getTouchDistance(event.touches[0], event.touches[1]);
@@ -96,6 +97,7 @@
                 pdfViewer?.resize(newScale);
             }
         }
+        // Single touch events are allowed to bubble up for normal scrolling
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
@@ -181,11 +183,13 @@
             <h3 class="text-2xl sm:text-3xl font-bold blue-gradient_text text-center sm:text-left">
                 Resume Preview
             </h3>            <div class="flex items-center gap-3">
+
                 {#if isPdfLoaded}
-                    <div class="flex items-center gap-2 glass-card px-3 py-1 rounded-lg text-sm text-gray-300">
+                    <div class="flex items-center gap-1 glass-card px-2 min-w-14 justify-center py-1 rounded-lg text-xs lg:text-sm text-gray-300">
                         <span>{pageNumber} / {totalPages}</span>
                     </div>
                     
+                    <div></div>
                     <!-- Zoom Controls -->
                     <div class="flex items-center gap-1 glass-card px-2 py-1 rounded-lg">
                         <button 
@@ -193,6 +197,7 @@
                             disabled={scale <= minScale}
                             class="p-1 text-white hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             title="Zoom Out"
+                            aria-label="Zoom Out"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
@@ -208,6 +213,7 @@
                             disabled={scale >= maxScale}
                             class="p-1 text-white hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             title="Zoom In"
+                            aria-label="Zoom In"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
@@ -218,6 +224,7 @@
                             onclick={resetZoom}
                             class="p-1 text-white hover:text-blue-400 transition-colors ml-1"
                             title="Reset Zoom"
+                            aria-label="Reset Zoom"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -240,16 +247,15 @@
         <!-- PDF Viewer -->
         <div class="relative">
             {#if PdfViewer}
-                <div class="flex flex-col items-center">                    <!-- PDF Container -->                    
-                    <div 
+                <div class="flex flex-col items-center">                    <!-- PDF Container -->                      <div 
                         bind:this={pdfContainer}
-                        class="w-full max-w-full rounded-lg shadow-2xl bg-white cursor-grab active:cursor-grabbing overflow-auto"
-                        style="touch-action: none; max-height: 80vh;"
+                        class="w-full max-w-full rounded-lg shadow-2xl bg-white overflow-auto"
+                        style="touch-action: pan-x pan-y pinch-zoom; max-height: 80vh; -webkit-overflow-scrolling: touch;"
                         onwheel={handleWheel}
                         ontouchstart={handleTouchStart}
                         ontouchmove={handleTouchMove}
                         ontouchend={handleTouchEnd}
-                    >                        {#if PdfViewer}
+                    >{#if PdfViewer}
                             <PdfViewer
                                 bind:this={pdfViewer}
                                 props={{
