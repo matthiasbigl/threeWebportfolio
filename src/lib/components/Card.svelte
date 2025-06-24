@@ -9,53 +9,53 @@
     export let imageObjectFit: "contain" | "cover" = "contain";
 </script>
 
-<div class="stagger-item h-full overflow-visible ">
+<div class="stagger-item h-full overflow-visible">
     {#if link}
-        <a href={link} class="card-wrapper magnetic-btn">
-            <div class="card-content">
-                <div class="image-container">
+        <a href={link} class="block glass-card glass-card-hover h-full transition-all duration-300 rounded-xl p-4 sm:p-6 text-center relative magnetic-btn" style="z-index: 1; will-change: transform, box-shadow; perspective: 1000px;">
+            <div class="h-full flex flex-col">
+                <div class="aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden bg-white/5 p-1 flex-shrink-0">
                     {#if isSpecialComponent && title === "Skiing"}
                         <Mountains/>
                     {:else}
                         <img 
                             src={image} 
                             alt={title}
-                            class="card-image object-{imageObjectFit}"
+                            class="w-full h-full rounded-lg object-{imageObjectFit}"
                             loading="lazy"
                         />
                     {/if}
                 </div>
                 
-                <h3 class="card-title">
+                <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 blue-gradient_text flex-shrink-0">
                     {title}
                 </h3>
                 
-                <p class="card-description">
+                <p class="text-gray-300 text-xs md:text-sm leading-relaxed flex-grow sm:text-base">
                     {description}
                 </p>
             </div>
         </a>
     {:else}
-        <div class="card-wrapper magnetic-btn">
-            <div class="card-content ">
-                <div class="image-container">
+        <div class="block glass-card glass-card-hover h-full transition-all duration-300 rounded-xl p-4 sm:p-6 text-center relative magnetic-btn" style="z-index: 1; will-change: transform, box-shadow; perspective: 1000px;">
+            <div class="h-full flex flex-col">
+                <div class="aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden bg-white/5 p-1 flex-shrink-0">
                     {#if isSpecialComponent && title === "Skiing"}
                         <Mountains/>
                     {:else}
                         <img 
                             src={image} 
                             alt={title}
-                            class="card-image object-{imageObjectFit}"
+                            class="w-full h-full rounded-lg object-{imageObjectFit}"
                             loading="lazy"
                         />
                     {/if}
                 </div>
                 
-                <h3 class="card-title">
+                <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 blue-gradient_text flex-shrink-0">
                     {title}
                 </h3>
                 
-                <p class="card-description">
+                <p class="text-gray-300 text-xs md:text-sm leading-relaxed flex-grow sm:text-base">
                     {description}
                 </p>
             </div>
@@ -63,41 +63,9 @@
     {/if}
 </div>
 
-<style>    .card-wrapper {
-        @apply block glass-card glass-card-hover h-full transition-all duration-300 rounded-xl;
-        @apply p-4 sm:p-6 text-center;
-        @apply relative;
-        z-index: 1;
-        will-change: transform, box-shadow;
-        perspective: 1000px;
-    }
-    
-    .card-content  {
-        @apply h-full flex flex-col;
-    }
-    
-    .image-container {
-        @apply aspect-square mb-4 sm:mb-6 rounded-xl overflow-hidden bg-white/5 p-1;
-        @apply flex-shrink-0;
-    }
-    
-    .card-image {
-        @apply w-full h-full rounded-lg;
-    }
-    
-    .card-title {
-        @apply text-lg sm:text-xl font-bold mb-3 sm:mb-4 blue-gradient_text;
-        @apply flex-shrink-0;
-    }
-    
-    .card-description {
-        @apply text-gray-300 text-xs md:text-sm leading-relaxed;
-        @apply flex-grow;
-        @apply sm:text-base;
-    }
-    
+<style>
     /* Ensure proper z-index stacking on hover */
-    .card-wrapper:hover {
+    .glass-card:hover {
         z-index: 50;
     }
     
