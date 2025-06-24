@@ -5,11 +5,11 @@
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
     // Component state
-    let canvasContainer: HTMLDivElement;
+    let canvasContainer: HTMLDivElement = $state();
     let camera: THREE.PerspectiveCamera;
     let scene: THREE.Scene;
     let renderer: THREE.WebGLRenderer;
-    let isLoading = true;
+    let isLoading = $state(true);
     let animationId: number;
     let flickerIntervals: number[] = [];
 
@@ -187,7 +187,7 @@
     });
 </script>
 
-<svelte:window on:resize={handleResize} />
+<svelte:window onresize={handleResize} />
 
 <section
         bind:this={canvasContainer}

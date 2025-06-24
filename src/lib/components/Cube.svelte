@@ -3,11 +3,15 @@
     import { onMount } from 'svelte';
     import * as THREE from 'three';
 
-    export let images: string[] = [];
-    export let normalMaps: string[] = [];
+    interface Props {
+        images?: string[];
+        normalMaps?: string[];
+    }
 
-    let hover = false;
-    let isDragging = false;
+    let { images = $bindable([]), normalMaps = $bindable([]) }: Props = $props();
+
+    let hover = $state(false);
+    let isDragging = $state(false);
     let previousMouseX = 0;
 
     // add an image at position 4 and shift the rest of the images down one position
@@ -20,10 +24,10 @@
 
     console.log(images);
 
-    let canvasContainer: HTMLDivElement;
-    let camera: THREE.OrthographicCamera;
-    let scene: THREE.Scene;
-    let renderer: THREE.WebGLRenderer;
+    let canvasContainer: HTMLDivElement = $state();
+    let camera: THREE.OrthographicCamera = $state();
+    let scene: THREE.Scene = $state();
+    let renderer: THREE.WebGLRenderer = $state();
     let cube: THREE.Mesh;
     let mouse: THREE.Vector2;
 
@@ -179,7 +183,7 @@
     }
 </script>
 
-<svelte:window on:resize={() => {
+<svelte:window onresize={() => {
     if (canvasContainer) {
         camera.left = -5;
         camera.right = 5;
@@ -191,7 +195,7 @@
     }
 }}/>
 
-<section bind:this={canvasContainer} on:mouseenter={() => { hover = true }} on:mouseout={() => { hover = false, isDragging=false }} class="w-full h-full overflow-hidden hover:scale-1.1">
+<section bind:this={canvasContainer} onmouseenter={() => { hover = true }} onmouseout={() => { hover = false, isDragging=false }} class="w-full h-full overflow-hidden hover:scale-1.1">
     <!-- The canvas element will be appended here -->
 </section>
 

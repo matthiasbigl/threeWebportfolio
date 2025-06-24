@@ -3,10 +3,10 @@
     import { browser } from '$app/environment';
     import { gsap } from 'gsap';
 
-    let cursor: HTMLDivElement;
-    let follower: HTMLDivElement;
+    let cursor: HTMLDivElement = $state();
+    let follower: HTMLDivElement = $state();
     let isHovering = false;
-    let isMobile = false;
+    let isMobile = $state(false);
 
     if (browser) {
         onMount(() => {

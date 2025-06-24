@@ -1,10 +1,12 @@
-<script lang="ts">    
+<script lang="ts">      
     import Avatar from "$lib/components/Avatar.svelte";
     import Cube from "$lib/components/Cube.svelte";
     import Mountains from "$lib/components/Mountains.svelte";
     import CustomCursor from "$lib/components/CustomCursor.svelte";
     import ScrollProgress from "$lib/components/ScrollProgress.svelte";
-    import Card from "$lib/components/Card.svelte";    import { onMount } from 'svelte';
+    import Card from "$lib/components/Card.svelte";
+    import Resume from "$lib/components/Resume.svelte";
+    import { onMount } from 'svelte';
     import { browser } from '$app/environment';
     import { gsap } from 'gsap';
     import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -295,10 +297,26 @@
                         image={project.image}
                         link={project.link}
                     />
-                {/each}
-            </div>
+                {/each}            </div>
         </div>
-    </section>    <!-- Hobbies Section -->
+    </section>
+
+    <!-- Resume Section -->
+    <section class="resume-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-1 overflow-visible">
+        <div class="parallax-bg parallax-bg-1"></div>
+        
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow">
+                My <span class="blue-gradient_text">Resume</span>
+            </h2>
+            
+           
+            <Resume />
+            
+        </div>
+    </section>
+
+    <!-- Hobbies Section -->
     <section class="hobbies-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-3 overflow-visible">
         <div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow">

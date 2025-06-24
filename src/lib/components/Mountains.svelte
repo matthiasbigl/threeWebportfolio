@@ -3,14 +3,14 @@
     import { onMount } from 'svelte';
     import * as THREE from 'three';
 
-    let hover = false;
-    let isDragging = false;
+    let hover = $state(false);
+    let isDragging = $state(false);
     let previousMouseX = 0;
 
-    let canvasContainer: HTMLDivElement;
-    let camera: THREE.PerspectiveCamera;
-    let scene: THREE.Scene;
-    let renderer: THREE.WebGLRenderer;
+    let canvasContainer: HTMLDivElement = $state();
+    let camera: THREE.PerspectiveCamera = $state();
+    let scene: THREE.Scene = $state();
+    let renderer: THREE.WebGLRenderer = $state();
     let mountainMesh: THREE.Mesh;
     let sunLight: THREE.DirectionalLight;
 
@@ -183,7 +183,7 @@
     }
 </script>
 
-<svelte:window on:resize={() => {
+<svelte:window onresize={() => {
     if (canvasContainer) {
         camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
         camera.updateProjectionMatrix();
@@ -192,8 +192,8 @@
     }
 }}/>
 
-<section bind:this={canvasContainer} on:mouseenter={() => { hover = true }}
-         on:mouseout={() => { hover = false; isDragging = false }} class="hover:scale-105
+<section bind:this={canvasContainer} onmouseenter={() => { hover = true }}
+         onmouseout={() => { hover = false; isDragging = false }} class="hover:scale-105
          hover:shadow-2xl
          transition-all
          duration-200

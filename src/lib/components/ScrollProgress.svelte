@@ -3,7 +3,7 @@
     import { browser } from '$app/environment';
     import { gsap } from 'gsap';
 
-    let progressBar: HTMLDivElement;
+    let progressBar: HTMLDivElement = $state();
     let scrollTween: gsap.core.Tween;
 
     if (browser) {

@@ -1,12 +1,23 @@
 <script lang="ts">
     import Mountains from "./Mountains.svelte";
     
-    export let title: string;
-    export let description: string;
-    export let image: string = "";
-    export let link: string = "";
-    export let isSpecialComponent: boolean = false; // For Mountains component
-    export let imageObjectFit: "contain" | "cover" = "contain";
+    interface Props {
+        title: string;
+        description: string;
+        image?: string;
+        link?: string;
+        isSpecialComponent?: boolean;
+        imageObjectFit?: "contain" | "cover";
+    }
+
+    let {
+        title,
+        description,
+        image = "",
+        link = "",
+        isSpecialComponent = false,
+        imageObjectFit = "contain"
+    }: Props = $props();
 </script>
 
 <div class="stagger-item h-full overflow-visible">

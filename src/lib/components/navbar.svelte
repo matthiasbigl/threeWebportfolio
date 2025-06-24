@@ -4,8 +4,8 @@
     import { browser } from '$app/environment';
     import { gsap } from 'gsap';
 
-    let isHamOpen = false;
-    let navbar: HTMLElement;
+    let isHamOpen = $state(false);
+    let navbar: HTMLElement = $state();
 
     function checkIfShouldClose(e: MouseEvent) {
         const target = e.target as HTMLElement;
@@ -58,7 +58,7 @@
     });
 </script>
 
-<svelte:window on:click={checkIfShouldClose} />
+<svelte:window onclick={checkIfShouldClose} />
 
 <header bind:this={navbar} class="navbar fixed top-0 left-0 z-50 w-full flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300">
     <div class="w-full max-w-6xl flex-row flex items-center justify-between">
@@ -66,7 +66,7 @@
         <div class="logo-container magnetic-btn">
             <button 
                 class="w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl rounded-xl glass-card glass-card-hover items-center justify-center flex font-bold text-white glow-border" 
-                on:click={toggleMenu}
+                onclick={toggleMenu}
             >
                 <span class="blue-gradient_text">MB</span>
             </button>
@@ -92,12 +92,12 @@
 <!-- Mobile Menu -->
 {#if isHamOpen}
     <div class="mobile-menu fixed top-0 left-0 w-full h-full bg-black/80 backdrop-blur-md flex items-center justify-center z-50"
-         on:click={() => (isHamOpen = false)}
+         onclick={() => (isHamOpen = false)}
     >        <div class="glass-card p-6 sm:p-8 rounded-2xl m-4 sm:m-6 max-w-sm w-full">
             <div class="flex flex-col space-y-4 sm:space-y-6">
                 <button
                     class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
-                    on:click={() => {
+                    onclick={() => {
                         goto("/");
                         isHamOpen = false;
                     }}
@@ -107,14 +107,14 @@
                 
                 <a href="/assets/resume.pdf" download="MatthiasBigl-Resume.pdf" 
                    class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
-                   on:click={() => (isHamOpen = false)}
+                   onclick={() => (isHamOpen = false)}
                 >
                     Resume
                 </a>
                 
                 <button
                     class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
-                    on:click={() => {
+                    onclick={() => {
                         goto("/contact");
                         isHamOpen = false;
                     }}

@@ -3,6 +3,8 @@
     import Navbar from "$lib/components/navbar.svelte";
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
+    /** @type {{children?: import('svelte').Snippet}} */
+    let { children } = $props();
 
     onMount(() => {
         if (browser) {
@@ -17,7 +19,7 @@
 
 <main class="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 ">
     <Navbar/>
-    <slot/>
+    {@render children?.()}
 </main>
 
 <style>
