@@ -13,9 +13,8 @@
     let isLoading = $state(true);
     let isPdfLoaded = $state(false);
     let pageNumber = $state(1);
-    let totalPages = $state(1);    
-    let scale = $state(1.2);
-    let minScale = 0.5;
+    let totalPages = $state(1);      let scale = $state(0.8);
+    let minScale = 0.4;
     let maxScale = 3.0;
     let containerElement: HTMLDivElement = $state();
     let pdfContainer: HTMLDivElement = $state();
@@ -120,17 +119,20 @@
 
     const handlePageChange = (event: CustomEvent<PdfPageContent>) => {
         pageNumber = event.detail.pageNumber;
-    };
-
-    // Calculate responsive scale
+    };    // Calculate responsive scale
     const calculateScale = () => {
-        if (!containerElement) return 1.2;
+        if (!containerElement) return 0.8;
         const containerWidth = containerElement.clientWidth;
-        // Adjust scale based on container width
-        if (containerWidth < 640) return 0.8; // Mobile
-        if (containerWidth < 1024) return 1.0; // Tablet
-        return 1.2; // Desktop
-    };    const updateScale = () => {
+        // Start with a scale that ensures the PDF width fits completely
+        // Assuming standard PDF width of ~612px, scale down to fit container with some padding
+        const availableWidth = containerWidth - 32; // Account for padding
+        const baseScale = Math.min(availableWidth / 612, 1.0);
+        
+        // Adjust for different screen sizes
+        if (containerWidth < 640) return Math.max(baseScale, 0.6); // Mobile
+        if (containerWidth < 1024) return Math.max(baseScale, 0.8); // Tablet
+        return Math.max(baseScale, 0.9); // Desktop
+    };const updateScale = () => {
         const newScale = calculateScale();
         if (Math.abs(scale - newScale) > 0.1) { // Only update if significant change
             scale = newScale;
@@ -238,16 +240,16 @@
         <!-- PDF Viewer -->
         <div class="relative">
             {#if PdfViewer}
-                <div class="flex flex-col items-center">                    <!-- PDF Container -->                    <div 
+                <div class="flex flex-col items-center">                    <!-- PDF Container -->                    
+                    <div 
                         bind:this={pdfContainer}
-                        class="w-full max-w-full overflow-hidden rounded-lg shadow-2xl bg-white cursor-grab active:cursor-grabbing"
+                        class="w-full max-w-full rounded-lg shadow-2xl bg-white cursor-grab active:cursor-grabbing overflow-auto"
+                        style="touch-action: none; max-height: 80vh;"
                         onwheel={handleWheel}
                         ontouchstart={handleTouchStart}
                         ontouchmove={handleTouchMove}
                         ontouchend={handleTouchEnd}
-                        style="touch-action: none;"
-                    >
-                        {#if PdfViewer}
+                    >                        {#if PdfViewer}
                             <PdfViewer
                                 bind:this={pdfViewer}
                                 props={{
@@ -257,7 +259,7 @@
                                     withAnnotations: true,
                                     withTextContent: false
                                 }}
-                                style="display: block; max-width: 100%; height: auto;"
+                                style="display: block; width: auto; height: auto; min-width: 100%;"
                                 on:load_success={handleLoadSuccess}
                                 on:load_failure={handleLoadFailure}
                                 on:page_changed={handlePageChange}
