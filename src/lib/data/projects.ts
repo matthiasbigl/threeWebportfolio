@@ -30,6 +30,13 @@ export const projects: Project[] = [    {
         link: "https://www.genesys.com"
     },
     {
+        title: "Bigls Portfolio",
+        description: "This Portfolio Website, showcasing my projects and skills, built with SvelteKit,Typescript,Three.js, GSAP and many more",
+        image: "/assets/svelte.png",
+        link: "#"
+
+    },
+    {
         title: "Bigls Blog",
         description: "A Blog about my Projects and Experiences",
         image: "https://media.graphassets.com/f0f4hXrHQ2yNB85Dj2ou",

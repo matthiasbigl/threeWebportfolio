@@ -1,6 +1,6 @@
-<script lang="ts">
-    import { onMount } from 'svelte';
+<script lang="ts">    import { onMount } from 'svelte';
     import { browser } from '$app/environment';
+    import { gsap } from 'gsap';
     import type { PdfLoadSuccessContent, PdfPageContent } from 'svelte-pdf-simple';
 
     interface Props {
@@ -13,24 +13,97 @@
     let isLoading = $state(true);
     let isPdfLoaded = $state(false);
     let pageNumber = $state(1);
-    let totalPages = $state(1);
+    let totalPages = $state(1);    
     let scale = $state(1.2);
+    let minScale = 0.5;
+    let maxScale = 3.0;
     let containerElement: HTMLDivElement = $state();
+    let pdfContainer: HTMLDivElement = $state();
 
     const downloadPDF = () => {
         const link = document.createElement('a');
         link.href = pdfUrl;
         link.download = 'MatthiasBigl-Resume.pdf';
         link.click();
-    };
-
-    const navigatePages = (forward: boolean = false) => {
+    };    const navigatePages = (forward: boolean = false) => {
         if (forward) {
             pageNumber = pageNumber === totalPages ? 1 : pageNumber + 1;
         } else {
             pageNumber = pageNumber === 1 ? totalPages : pageNumber - 1;
         }
         pdfViewer?.goToPage(pageNumber);
+    };
+
+    const zoomIn = () => {
+        const newScale = Math.min(scale + 0.2, maxScale);
+        scale = newScale;
+        pdfViewer?.resize(newScale);
+    };
+
+    const zoomOut = () => {
+        const newScale = Math.max(scale - 0.2, minScale);
+        scale = newScale;
+        pdfViewer?.resize(newScale);
+    };    const resetZoom = () => {
+        const newScale = calculateScale();
+        scale = newScale;
+        pdfViewer?.resize(newScale);
+    };
+
+    // Zoom with mouse wheel
+    const handleWheel = (event: WheelEvent) => {
+        // Only zoom if Ctrl key is held down (like in browsers)
+        if (event.ctrlKey) {
+            event.preventDefault();
+            
+            const zoomDelta = event.deltaY > 0 ? -0.1 : 0.1;
+            const newScale = Math.max(minScale, Math.min(maxScale, scale + zoomDelta));
+            
+            if (newScale !== scale) {
+                scale = newScale;
+                pdfViewer?.resize(newScale);
+            }
+        }
+    };
+
+    // Touch zoom gestures
+    let initialPinchDistance = 0;
+    let startingScale = 1;
+
+    const getTouchDistance = (touch1: Touch, touch2: Touch) => {
+        const dx = touch1.clientX - touch2.clientX;
+        const dy = touch1.clientY - touch2.clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+    };
+
+    const handleTouchStart = (event: TouchEvent) => {
+        if (event.touches.length === 2) {
+            event.preventDefault();
+            initialPinchDistance = getTouchDistance(event.touches[0], event.touches[1]);
+            startingScale = scale;
+        }
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+        if (event.touches.length === 2 && initialPinchDistance > 0) {
+            event.preventDefault();
+            
+            const currentDistance = getTouchDistance(event.touches[0], event.touches[1]);
+            const scaleChange = currentDistance / initialPinchDistance;
+            const newScale = Math.max(minScale, Math.min(maxScale, startingScale * scaleChange));
+            
+            if (Math.abs(newScale - scale) > 0.01) {
+                scale = newScale;
+                pdfViewer?.resize(newScale);
+            }
+        }
+    };
+
+    const handleTouchEnd = (event: TouchEvent) => {
+        if (event.touches.length < 2) {
+            initialPinchDistance = 0;
+            startingScale = 1;
+        }
     };
 
     const handleLoadSuccess = (event: CustomEvent<PdfLoadSuccessContent>) => {
@@ -57,12 +130,15 @@
         if (containerWidth < 640) return 0.8; // Mobile
         if (containerWidth < 1024) return 1.0; // Tablet
         return 1.2; // Desktop
-    };
-
-    const updateScale = () => {
+    };    const updateScale = () => {
         const newScale = calculateScale();
-        scale = newScale;
-        pdfViewer?.resize(newScale);
+        if (Math.abs(scale - newScale) > 0.1) { // Only update if significant change
+            scale = newScale;
+            // Use setTimeout to ensure the scale state is updated before calling resize
+            setTimeout(() => {
+                pdfViewer?.resize(newScale);
+            }, 10);
+        }
     };
 
     onMount(async () => {
@@ -78,17 +154,20 @@
         } catch (error) {
             console.error('Failed to load PDF viewer:', error);
             isLoading = false;
-        }
-
-        // Handle window resize
+        }        // Handle window resize with debouncing
+        let resizeTimeout: NodeJS.Timeout;
         const handleResize = () => {
-            updateScale();
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                updateScale();
+            }, 150); // Debounce resize events
         };
 
-        window.addEventListener('resize', handleResize);
-
-        return () => {
+        window.addEventListener('resize', handleResize);        return () => {
             window.removeEventListener('resize', handleResize);
+            if (resizeTimeout) {
+                clearTimeout(resizeTimeout);
+            }
         };
     });
 </script>
@@ -99,11 +178,49 @@
         <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
             <h3 class="text-2xl sm:text-3xl font-bold blue-gradient_text text-center sm:text-left">
                 Resume Preview
-            </h3>
-            <div class="flex items-center gap-3">
+            </h3>            <div class="flex items-center gap-3">
                 {#if isPdfLoaded}
                     <div class="flex items-center gap-2 glass-card px-3 py-1 rounded-lg text-sm text-gray-300">
                         <span>{pageNumber} / {totalPages}</span>
+                    </div>
+                    
+                    <!-- Zoom Controls -->
+                    <div class="flex items-center gap-1 glass-card px-2 py-1 rounded-lg">
+                        <button 
+                            onclick={zoomOut}
+                            disabled={scale <= minScale}
+                            class="p-1 text-white hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            title="Zoom Out"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
+                            </svg>
+                        </button>
+                        
+                        <span class="text-xs text-gray-300 min-w-[40px] text-center">
+                            {Math.round(scale * 100)}%
+                        </span>
+                        
+                        <button 
+                            onclick={zoomIn}
+                            disabled={scale >= maxScale}
+                            class="p-1 text-white hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            title="Zoom In"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                            </svg>
+                        </button>
+                        
+                        <button 
+                            onclick={resetZoom}
+                            class="p-1 text-white hover:text-blue-400 transition-colors ml-1"
+                            title="Reset Zoom"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </button>
                     </div>
                 {/if}
                 <button 
@@ -121,8 +238,15 @@
         <!-- PDF Viewer -->
         <div class="relative">
             {#if PdfViewer}
-                <div class="flex flex-col items-center">                    <!-- PDF Container -->
-                    <div class="w-full max-w-full overflow-hidden rounded-lg shadow-2xl bg-white">
+                <div class="flex flex-col items-center">                    <!-- PDF Container -->                    <div 
+                        bind:this={pdfContainer}
+                        class="w-full max-w-full overflow-hidden rounded-lg shadow-2xl bg-white cursor-grab active:cursor-grabbing"
+                        onwheel={handleWheel}
+                        ontouchstart={handleTouchStart}
+                        ontouchmove={handleTouchMove}
+                        ontouchend={handleTouchEnd}
+                        style="touch-action: none;"
+                    >
                         {#if PdfViewer}
                             <PdfViewer
                                 bind:this={pdfViewer}
