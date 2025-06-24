@@ -177,7 +177,7 @@
 </script>
 
 <div bind:this={containerElement} class="w-full mx-auto">
-    <div class="glass-card p-6 sm:p-8 rounded-2xl">
+    <div class="glass-card p-2 lg:p-6 sm:p-8 rounded-2xl">
         <!-- Header -->
         <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
             <h3 class="text-2xl sm:text-3xl font-bold blue-gradient_text text-center sm:text-left">
