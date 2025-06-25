@@ -59,12 +59,11 @@
     
     /** Total number of pages in the PDF document */
     let totalPages = $state(1);
-    
-    /** Current zoom scale factor (0.4 to 3.0 range) */
-    let scale = $state(0.8);
+      /** Current zoom scale factor (0.6 to 3.0 range) */
+    let scale = $state(1.2);
     
     /** Minimum allowed zoom scale */
-    let minScale = 0.4;
+    let minScale = 0.6;
     
     /** Maximum allowed zoom scale */
     let maxScale = 3.0;
@@ -92,13 +91,16 @@
 
     // ========================================================================
     // ZOOM & RENDER MANAGEMENT
-    // ========================================================================
-
-    // Touch zoom gestures
+    // ========================================================================    // Touch zoom gestures
     let initialPinchDistance = 0;
     let startingScale = 1;
     let isZooming = $state(false);
     let zoomThrottleId: number | null = null;
+    
+    // Touch debouncing
+    let touchDebounceTimeout: ReturnType<typeof setTimeout> | null = null;
+    let lastTouchScale = 0;
+    let touchUpdatePending = false;
       // PDF Render Queue Management
     let currentRenderTask: any = null;
     let pendingScale: number | null = null;
@@ -117,25 +119,55 @@
         link.href = pdfUrl;
         link.download = 'MatthiasBigl-Resume.pdf';
         link.click();
-    };
-
+    };    
     const getTouchDistance = (touch1: Touch, touch2: Touch) => {
         const dx = touch1.clientX - touch2.clientX;
         const dy = touch1.clientY - touch2.clientY;
         return Math.sqrt(dx * dx + dy * dy);
-    };
-
-    // Calculate responsive scale
+    };    // Debounced touch zoom handler
+    
+    const debouncedTouchZoom = (newScale: number, touchEvent?: TouchEvent) => {
+        // Only proceed if we're actually in a pinch-zoom gesture
+        if (!isZooming) {
+            return;
+        }
+        
+        // Additional safety check - ensure we have 2 touches for pinch zoom
+        if (touchEvent && touchEvent.touches.length !== 2) {
+            return;
+        }
+        
+        // Clear existing timeout
+        if (touchDebounceTimeout) {
+            clearTimeout(touchDebounceTimeout);
+        }
+        
+        // Update the scale immediately for visual feedback
+        lastTouchScale = newScale;
+        scale = newScale;
+        
+        // Mark that we have a pending update
+        touchUpdatePending = true;
+        
+        // Debounce the actual render operation
+        touchDebounceTimeout = setTimeout(() => {
+            if (touchUpdatePending && isZooming && Math.abs(scale - lastTouchScale) < SCALE_THRESHOLD) {
+                throttledResize(lastTouchScale);
+                touchUpdatePending = false;
+            }
+            touchDebounceTimeout = null;
+        }, 20); 
+    };    // Calculate responsive scale
     const calculateScale = () => {
-        if (!containerElement) return 0.8;
+        if (!containerElement) return 1.2;
         const containerWidth = containerElement.clientWidth;
         const availableWidth = containerWidth - CONTAINER_PADDING;
-        const baseScale = Math.min(availableWidth / STANDARD_PDF_WIDTH, 1.0);
+        const baseScale = Math.min(availableWidth / STANDARD_PDF_WIDTH, 1.4);
         
-        // Adjust for different screen sizes
-        if (containerWidth < 640) return Math.max(baseScale, 0.6); // Mobile
-        if (containerWidth < 1024) return Math.max(baseScale, 0.8); // Tablet
-        return Math.max(baseScale, 0.9); // Desktop
+        // Ensure minimum quality by setting higher base scales
+        if (containerWidth < 640) return Math.max(baseScale, 0.8); // Mobile - higher quality
+        if (containerWidth < 1024) return Math.max(baseScale, 1.0); // Tablet - good quality
+        return Math.max(baseScale, 1.2); // Desktop - high quality
     };
 
     const updateScale = () => {
@@ -286,7 +318,7 @@
                 pdfContainer.style.touchAction = 'pan-y';
             }
         }
-    };const handleTouchMove = (event: TouchEvent) => {
+    };    const handleTouchMove = (event: TouchEvent) => {
         if (event.touches.length === 2 && initialPinchDistance > 0 && isZooming) {
             // Prevent all browser gestures during pinch-zoom
             event.preventDefault();
@@ -297,14 +329,16 @@
             const newScale = Math.max(minScale, Math.min(maxScale, startingScale * scaleChange));
             
             if (Math.abs(newScale - scale) > SCALE_THRESHOLD) {
-                scale = newScale;
-                // Use throttled resize for better performance
-                throttledResize(newScale);
+                // Use debounced touch zoom with event context to ensure it's a pinch gesture
+                debouncedTouchZoom(newScale, event);
             }
         }
         // Single touch events are allowed to bubble up for normal scrolling
     };    const handleTouchEnd = (event: TouchEvent) => {
         if (event.touches.length < 2) {
+            // Only perform final render if we were actually zooming (not just single touch)
+            const wasZooming = isZooming;
+            
             initialPinchDistance = 0;
             startingScale = 1;
             isZooming = false;
@@ -318,15 +352,25 @@
                 }
             }
             
-            // Cancel any pending throttled operation and perform final render
+            // Clear touch debounce
+            if (touchDebounceTimeout) {
+                clearTimeout(touchDebounceTimeout);
+                touchDebounceTimeout = null;
+            }
+            
+            // Cancel any pending throttled operation
             if (zoomThrottleId) {
                 cancelAnimationFrame(zoomThrottleId);
                 zoomThrottleId = null;
             }
             
-            // Ensure final accurate render after touch ends
-            if (pendingScale !== null || !isRendering) {
+            // Only perform final render if we were actually in a zoom gesture
+            if (wasZooming && (touchUpdatePending || pendingScale !== null)) {
                 throttledResize(scale);
+                touchUpdatePending = false;
+            } else if (!wasZooming) {
+                // Clear any pending updates from single touch
+                touchUpdatePending = false;
             }
         }
     };
@@ -361,17 +405,16 @@
             viewport.name = 'viewport';
             viewport.content = 'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes';
             document.head.appendChild(viewport);
-        }
-
-        // PDF Viewer Setup
+        }        // PDF Viewer Setup
         (async () => {
             try {
                 // Dynamic import for SSR compatibility
                 const module = await import('svelte-pdf-simple');
                 PdfViewer = module.PdfViewer;
                 
-                // Calculate initial scale
-                scale = calculateScale();
+                // Calculate initial scale with better quality
+                const initialScale = calculateScale();
+                scale = Math.max(initialScale, 1.0); // Ensure minimum 1.0 scale for quality
             } catch (error) {
                 console.error('Failed to load PDF viewer:', error);
                 isLoading = false;
@@ -391,9 +434,7 @@
 
         // Initial scale calculation
         updateScale();
-        throttledResize(scale);
-
-        // Cleanup
+        throttledResize(scale);        // Cleanup
         return () => {
             window.removeEventListener('resize', handleResize);
             if (resizeTimeout) {
@@ -401,6 +442,9 @@
             }
             if (zoomThrottleId) {
                 cancelAnimationFrame(zoomThrottleId);
+            }
+            if (touchDebounceTimeout) {
+                clearTimeout(touchDebounceTimeout);
             }
             // Cancel any ongoing render operations
             if (currentRenderTask) {
@@ -506,9 +550,7 @@
                                         <div class="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                                     </div>
                                 </div>
-                            {/if}
-
-                            {#if PdfViewer}
+                            {/if}                            {#if PdfViewer}
                                 <PdfViewer
                                     bind:this={pdfViewer}
                                     props={{
@@ -516,7 +558,9 @@
                                         scale: scale,
                                         page: pageNumber,
                                         withAnnotations: true,
-                                        withTextContent: true
+                                        withTextContent: true,
+                                        renderTextLayer: true,
+                                        enableHighQuality: true
                                     }}
                                     style="display: block; width: auto; height: auto; min-width: 100%;"
                                     on:load_success={handleLoadSuccess}
