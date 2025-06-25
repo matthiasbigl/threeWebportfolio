@@ -9,7 +9,7 @@
      * A sophisticated, mobile-first PDF viewer specifically designed for resume presentation.
      * Features enterprise-grade touch handling, performance optimization, and cross-platform compatibility.
      * 
-     * @author Your Name
+     * @author Matthias Bigl
      * @version 2.0.0
      * @since 2024
      * 
@@ -97,14 +97,14 @@
     const ZOOM_THROTTLE_DELAY = 16; // ~60fps
     
     /** Minimum scale change threshold to trigger re-render */
-    const SCALE_THRESHOLD = 0.01;
-
-    const downloadPDF = () => {
+    const SCALE_THRESHOLD = 0.01;    const downloadPDF = () => {
         const link = document.createElement('a');
         link.href = pdfUrl;
         link.download = 'MatthiasBigl-Resume.pdf';
         link.click();
-    };    const navigatePages = (forward: boolean = false) => {
+    };
+
+    const navigatePages = (forward: boolean = false) => {
         if (forward) {
             pageNumber = pageNumber === totalPages ? 1 : pageNumber + 1;
         } else {
@@ -116,17 +116,17 @@
     const zoomIn = () => {
         const newScale = Math.min(scale + 0.2, maxScale);
         scale = newScale;
-        pdfViewer?.resize(newScale);
+        throttledResize(newScale);
     };
 
     const zoomOut = () => {
         const newScale = Math.max(scale - 0.2, minScale);
         scale = newScale;
-        pdfViewer?.resize(newScale);
+        throttledResize(newScale);
     };    const resetZoom = () => {
         const newScale = calculateScale();
         scale = newScale;
-        pdfViewer?.resize(newScale);
+        throttledResize(newScale);
     };
 
     // Zoom with mouse wheel
@@ -140,20 +140,22 @@
             
             if (newScale !== scale) {
                 scale = newScale;
-                pdfViewer?.resize(newScale);
+                throttledResize(newScale);
             }
         }
-    };    // Touch zoom gestures
+    };
+
+    // Touch zoom gestures
     let initialPinchDistance = 0;
     let startingScale = 1;
     let isZooming = false;
-    let zoomThrottleId: number | null = null;
-
-    const getTouchDistance = (touch1: Touch, touch2: Touch) => {
+    let zoomThrottleId: number | null = null;    const getTouchDistance = (touch1: Touch, touch2: Touch) => {
         const dx = touch1.clientX - touch2.clientX;
         const dy = touch1.clientY - touch2.clientY;
         return Math.sqrt(dx * dx + dy * dy);
-    };    const handleTouchStart = (event: TouchEvent) => {
+    };
+
+    const handleTouchStart = (event: TouchEvent) => {
         if (event.touches.length === 2) {
             // Prevent all browser gestures for reliable pinch-zoom handling
             event.preventDefault();
@@ -162,13 +164,10 @@
             startingScale = scale;
             isZooming = true;
         }
-    };
-
-    const throttledResize = (newScale: number) => {
+    };    const throttledResize = (newScale: number) => {
         if (zoomThrottleId) {
             cancelAnimationFrame(zoomThrottleId);
         }
-        
         zoomThrottleId = requestAnimationFrame(() => {
             pdfViewer?.resize(newScale);
             zoomThrottleId = null;
@@ -189,8 +188,7 @@
                 scale = newScale;
                 // Use throttled resize for better performance
                 throttledResize(newScale);
-            }
-        }
+            }        }
         // Single touch events are allowed to bubble up for normal scrolling
     };
 
@@ -199,13 +197,14 @@
             initialPinchDistance = 0;
             startingScale = 1;
             isZooming = false;
-            
-            // Final resize call to ensure accuracy
+            // Cancel any pending throttled updates
             if (zoomThrottleId) {
                 cancelAnimationFrame(zoomThrottleId);
                 zoomThrottleId = null;
-                pdfViewer?.resize(scale);
             }
+            
+            // Final resize to ensure accuracy
+            pdfViewer?.resize(scale);
         }
     };
 
@@ -219,68 +218,178 @@
     const handleLoadFailure = (event: CustomEvent) => {
         console.error('PDF loading failed:', event.detail);
         isLoading = false;
+    };    const handlePageChange = (event: CustomEvent<PdfPageContent>) => {
+        pageNumber = event.detail.pageNumber;
     };
 
-    const handlePageChange = (event: CustomEvent<PdfPageContent>) => {
-        pageNumber = event.detail.pageNumber;
-    };    // Calculate responsive scale
+    // Calculate responsive scale with memoization
+    let lastContainerWidth = 0;
+    let cachedScale = 0.8;
+    
     const calculateScale = () => {
-        if (!containerElement) return 0.8;
+        if (!containerElement) return cachedScale;
+        
         const containerWidth = containerElement.clientWidth;
+        
+        // Return cached value if width hasn't changed significantly
+        if (Math.abs(containerWidth - lastContainerWidth) < 10) {
+            return cachedScale;
+        }
+        
+        lastContainerWidth = containerWidth;
+        
         // Start with a scale that ensures the PDF width fits completely
         // Using constant for standard PDF width with padding
         const availableWidth = containerWidth - CONTAINER_PADDING;
         const baseScale = Math.min(availableWidth / STANDARD_PDF_WIDTH, 1.0);
         
         // Adjust for different screen sizes
-        if (containerWidth < 640) return Math.max(baseScale, 0.6); // Mobile
-        if (containerWidth < 1024) return Math.max(baseScale, 0.8); // Tablet
-        return Math.max(baseScale, 0.9); // Desktop
-    };const updateScale = () => {
+        if (containerWidth < 640) {
+            cachedScale = Math.max(baseScale, 0.6); // Mobile
+        } else if (containerWidth < 1024) {
+            cachedScale = Math.max(baseScale, 0.8); // Tablet  
+        } else {
+            cachedScale = Math.max(baseScale, 0.9); // Desktop
+        }
+        
+        return cachedScale;
+    };    const updateScale = () => {
         const newScale = calculateScale();
         if (Math.abs(scale - newScale) > 0.1) { // Only update if significant change
             scale = newScale;
-            // Use setTimeout to ensure the scale state is updated before calling resize
-            setTimeout(() => {
-                pdfViewer?.resize(newScale);
-            }, 10);
+            throttledResize(newScale);
         }
-    };    onMount(async () => {
+    };
+
+    // Memory cleanup when component is destroyed
+    const cleanupResources = () => {
+        // Cancel any pending animation frames
+        if (zoomThrottleId) {
+            cancelAnimationFrame(zoomThrottleId);
+            zoomThrottleId = null;
+        }
+        
+        // Clean up PDF viewer resources if available
+        if (pdfViewer && typeof pdfViewer.destroy === 'function') {
+            pdfViewer.destroy();
+        }
+        
+        // Reset state
+        isPdfLoaded = false;
+        isLoading = false;
+        pdfViewer = null;
+        
+        // Clear cached scale values
+        lastContainerWidth = 0;
+        cachedScale = 0.8;
+    };    // Touch event handler references for cleanup
+    let touchEventHandlers: (() => void)[] = [];
+    
+    // Intersection observer for lazy loading
+    let intersectionObserver: IntersectionObserver | null = null;
+    let isInView = $state(false);
+
+    const setupTouchEventListeners = (element: HTMLDivElement) => {
+        // Clean up existing listeners
+        touchEventHandlers.forEach(cleanup => cleanup());
+        touchEventHandlers = [];
+
+        // Add optimized event listeners with proper passive flags
+        element.addEventListener('wheel', handleWheel, { passive: false });
+        element.addEventListener('touchstart', handleTouchStart, { passive: false });
+        element.addEventListener('touchmove', handleTouchMove, { passive: false });
+        element.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+        // Store cleanup functions
+        touchEventHandlers = [
+            () => element.removeEventListener('wheel', handleWheel),
+            () => element.removeEventListener('touchstart', handleTouchStart),
+            () => element.removeEventListener('touchmove', handleTouchMove),
+            () => element.removeEventListener('touchend', handleTouchEnd)
+        ];
+    };    // Reactive statement to setup event listeners when pdfContainer is available
+    $effect(() => {
+        if (pdfContainer) {
+            setupTouchEventListeners(pdfContainer);
+        }
+    });    // Load PDF viewer when component comes into view
+    $effect(() => {
+        if (isInView && !PdfViewer && browser) {
+            (async () => {
+                try {
+                    const module = await import('svelte-pdf-simple');
+                    PdfViewer = module.PdfViewer;
+                    
+                    // Calculate initial scale
+                    scale = calculateScale();
+                } catch (error) {
+                    console.error('Failed to load PDF viewer:', error);
+                    isLoading = false;
+                }
+            })();
+        }
+    });    onMount(async () => {
         if (!browser) return;
 
-        try {
-            // Dynamic import for SSR compatibility
-            const module = await import('svelte-pdf-simple');
-            PdfViewer = module.PdfViewer;
-            
-            // Calculate initial scale
-            scale = calculateScale();
-        } catch (error) {
-            console.error('Failed to load PDF viewer:', error);
-            isLoading = false;
+        // Add preconnect hint for better PDF loading performance
+        const link = document.createElement('link');
+        link.rel = 'preconnect';
+        link.href = new URL(pdfUrl, window.location.origin).origin;
+        document.head.appendChild(link);
+
+        // Setup intersection observer for performance
+        if (containerElement && 'IntersectionObserver' in window) {
+            intersectionObserver = new IntersectionObserver(
+                (entries) => {
+                    isInView = entries[0].isIntersecting;
+                },
+                { threshold: 0.1, rootMargin: '50px' }
+            );
+            intersectionObserver.observe(containerElement);
+        } else {
+            isInView = true; // Fallback for older browsers
         }
-    });
-
-    onMount(() => {
-        // Handle window resize with debouncing
-        let resizeTimeout: ReturnType<typeof setTimeout>;
-        const handleResize = () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
+    });onMount(() => {
+        // Use ResizeObserver for better performance instead of window resize events
+        let resizeObserver: ResizeObserver | null = null;
+        
+        if (containerElement && 'ResizeObserver' in window) {
+            resizeObserver = new ResizeObserver((entries) => {
+                // Throttle the resize updates
                 updateScale();
-            }, 150); // Debounce resize events
-        };
-
-        window.addEventListener('resize', handleResize);        
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-            if (resizeTimeout) {
+            });
+            
+            resizeObserver.observe(containerElement);
+        } else {
+            // Fallback to window resize for older browsers
+            let resizeTimeout: ReturnType<typeof setTimeout>;
+            const handleResize = () => {
                 clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    updateScale();
+                }, 150); // Debounce resize events
+            };
+
+            window.addEventListener('resize', handleResize);
+            
+            return () => {
+                window.removeEventListener('resize', handleResize);
+                if (resizeTimeout) {
+                    clearTimeout(resizeTimeout);
+                }
+            };
+        }        return () => {
+            if (resizeObserver) {
+                resizeObserver.disconnect();
             }
-            if (zoomThrottleId) {
-                cancelAnimationFrame(zoomThrottleId);
-            }        };
+            if (intersectionObserver) {
+                intersectionObserver.disconnect();
+            }
+            // Clean up touch event listeners
+            touchEventHandlers.forEach(cleanup => cleanup());
+            // Clean up all resources
+            cleanupResources();
+        };
     });
 </script>
 
@@ -299,11 +408,10 @@
                     
                     <div></div>
                     <!-- Zoom Controls -->
-                    <div class="flex items-center gap-1 glass-card px-2 py-1 rounded-lg">
-                        <button 
+                    <div class="flex items-center gap-1 glass-card px-2 py-1 rounded-lg">                        <button 
                             onclick={zoomOut}
                             disabled={scale <= minScale}
-                            class="p-1 text-white hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            class="p-1 text-white hover:text-blue-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
                             title="Zoom Out"
                             aria-label="Zoom Out"
                         >
@@ -312,14 +420,14 @@
                             </svg>
                         </button>
                         
-                        <span class="text-xs text-gray-300 min-w-[40px] text-center">
+                        <span class="text-xs text-gray-300 min-w-[40px] text-center font-mono">
                             {Math.round(scale * 100)}%
                         </span>
                         
                         <button 
                             onclick={zoomIn}
                             disabled={scale >= maxScale}
-                            class="p-1 text-white hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            class="p-1 text-white hover:text-blue-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
                             title="Zoom In"
                             aria-label="Zoom In"
                         >
@@ -360,27 +468,25 @@
                         bind:this={scrollWrapper}
                         class="w-full max-w-full" 
                         style="max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch;"
-                    >
-                        <!-- PDF Container -->                      
-                        <div 
+                    >                        <!-- PDF Container -->                        <div 
                             bind:this={pdfContainer}
                             class="w-full max-w-full rounded-lg shadow-2xl bg-white"
-                            style="touch-action: none; user-select: none;"
-                            onwheel={handleWheel}
-                            ontouchstart={handleTouchStart}
-                            ontouchmove={handleTouchMove}
-                            ontouchend={handleTouchEnd}
-                        >{#if PdfViewer}
-                            <PdfViewer
+                            style="touch-action: none; user-select: none; transform: none; will-change: transform;"
+                        >{#if PdfViewer}                            <PdfViewer
                                 bind:this={pdfViewer}
                                 props={{
                                     path: pdfUrl,
                                     scale: scale,
                                     page: pageNumber,
                                     withAnnotations: true,
-                                    withTextContent: false
+                                    withTextContent: false,
+                                    // Performance optimizations
+                                    renderMode: 'canvas',
+                                    enableWebGL: true,
+                                    maxImageSize: 2048,
+                                    disableWorker: false
                                 }}
-                                style="display: block; width: auto; height: auto; min-width: 100%;"
+                                style="display: block; width: auto; height: auto; min-width: 100%; contain: layout style paint;"
                                 on:load_success={handleLoadSuccess}
                                 on:load_failure={handleLoadFailure}
                                 on:page_changed={handlePageChange}
