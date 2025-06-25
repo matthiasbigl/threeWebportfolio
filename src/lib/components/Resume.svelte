@@ -529,13 +529,13 @@
             <div class="flex flex-col items-center">                    <!-- Scroll Wrapper for iOS compatibility -->
                     <div 
                         bind:this={scrollWrapper}
-                        class="w-full max-w-full ios-scroll-container"
-                        style="max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;"
+                        class="w-full max-w-full ios-scroll-container bg-white rounded-lg shadow-2xl "
+                        style="max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; touch-action: none;"
                     >
                         <!-- PDF Container -->
                         <div 
                             bind:this={pdfContainer}
-                            class="w-full max-w-full rounded-lg shadow-2xl bg-white relative"
+                            class="w-full max-w-full relative"
                             class:zooming={isZooming}
                             class:rendering={isRendering}
                             onwheel={handleWheel}
