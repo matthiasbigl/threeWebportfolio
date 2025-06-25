@@ -9,7 +9,7 @@
      * A sophisticated, mobile-first PDF viewer specifically designed for resume presentation.
      * Features enterprise-grade touch handling, performance optimization, and cross-platform compatibility.
      * 
-     * @author Matthias Bigl
+     * @author Your Name
      * @version 2.0.0
      * @since 2024
      * 
@@ -29,26 +29,21 @@
      * - Cross-browser compatibility (Chrome, Safari, Firefox, Edge)
      * - TypeScript strict mode compliance with proper error boundaries
      * - Accessibility (ARIA labels, keyboard navigation, screen readers)
-     */
-
-    /**
+     */    /**
      * Component props interface
-     * @interface Props
      */
     interface Props {
-        /** 
-         * URL path to the PDF file to display
-         * @default '/assets/resume.pdf'
-         */
+        /** URL path to the PDF file to display */
         pdfUrl?: string;
-    }    // ========================================================================
+    }
+
+    // ========================================================================
     // STATE MANAGEMENT & REACTIVE VARIABLES
     // ========================================================================
     
     let { pdfUrl = '/assets/resume.pdf' }: Props = $props();
-    
-    /** PDF Viewer component instance (dynamically imported for SSR compatibility) */
-      let PdfViewer: any = $state(null);
+      /** PDF Viewer component instance (dynamically imported for SSR compatibility) */
+    let PdfViewer: any = $state(null);
     
     /** Reference to the active PDF viewer instance for method calls */
     let pdfViewer: any = $state(null);
@@ -66,7 +61,7 @@
     let totalPages = $state(1);
     
     /** Current zoom scale factor (0.4 to 3.0 range) */
-        let scale = $state(0.8);
+    let scale = $state(0.8);
     
     /** Minimum allowed zoom scale */
     let minScale = 0.4;
@@ -75,15 +70,14 @@
     let maxScale = 3.0;
     
     // DOM Element References
-    /** Main container element for responsive calculations */    let containerElement: HTMLDivElement | undefined = $state();
+    /** Main container element for responsive calculations */
+    let containerElement: HTMLDivElement | undefined = $state();
     
     /** PDF display container with touch event handlers */
     let pdfContainer: HTMLDivElement | undefined = $state();
     
     /** Scroll wrapper for iOS touch-action compatibility */
-    let scrollWrapper: HTMLDivElement | undefined = $state();
-
-    // ========================================================================
+    let scrollWrapper: HTMLDivElement | undefined = $state();    // ========================================================================
     // PERFORMANCE & COMPATIBILITY CONSTANTS
     // ========================================================================
     
@@ -93,16 +87,134 @@
     /** Container padding offset for responsive width calculations */
     const CONTAINER_PADDING = 32;
     
-    /** Throttle delay for smooth 60fps zoom rendering */
-    const ZOOM_THROTTLE_DELAY = 16; // ~60fps
-    
     /** Minimum scale change threshold to trigger re-render */
-    const SCALE_THRESHOLD = 0.01;    const downloadPDF = () => {
+    const SCALE_THRESHOLD = 0.01;
+
+    // ========================================================================
+    // ZOOM & RENDER MANAGEMENT
+    // ========================================================================
+
+    // Touch zoom gestures
+    let initialPinchDistance = 0;
+    let startingScale = 1;
+    let isZooming = $state(false);
+    let zoomThrottleId: number | null = null;
+      // PDF Render Queue Management
+    let currentRenderTask: any = null;
+    let pendingScale: number | null = null;
+    let isRendering = $state(false);
+    
+    // iOS Detection
+    let isIOS = false;
+
+    // ========================================================================
+    // UTILITY FUNCTIONS
+    // ========================================================================
+    
+
+    const downloadPDF = () => {
         const link = document.createElement('a');
         link.href = pdfUrl;
         link.download = 'MatthiasBigl-Resume.pdf';
         link.click();
     };
+
+    const getTouchDistance = (touch1: Touch, touch2: Touch) => {
+        const dx = touch1.clientX - touch2.clientX;
+        const dy = touch1.clientY - touch2.clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+    };
+
+    // Calculate responsive scale
+    const calculateScale = () => {
+        if (!containerElement) return 0.8;
+        const containerWidth = containerElement.clientWidth;
+        const availableWidth = containerWidth - CONTAINER_PADDING;
+        const baseScale = Math.min(availableWidth / STANDARD_PDF_WIDTH, 1.0);
+        
+        // Adjust for different screen sizes
+        if (containerWidth < 640) return Math.max(baseScale, 0.6); // Mobile
+        if (containerWidth < 1024) return Math.max(baseScale, 0.8); // Tablet
+        return Math.max(baseScale, 0.9); // Desktop
+    };
+
+    const updateScale = () => {
+        const newScale = calculateScale();
+        if (Math.abs(scale - newScale) > SCALE_THRESHOLD) {
+            scale = newScale;
+            throttledResize(newScale);
+        }
+    };
+
+    // ========================================================================
+    // PDF RENDER MANAGEMENT
+    // ========================================================================
+
+    // Throttled resize function for performance optimization
+    const throttledResize = async (newScale: number) => {
+        // Cancel any existing throttled operation
+        if (zoomThrottleId) {
+            cancelAnimationFrame(zoomThrottleId);
+            zoomThrottleId = null;
+        }
+        
+        // Store the pending scale for batching
+        pendingScale = newScale;
+        
+        // If already rendering, just update the pending scale and return
+        if (isRendering) {
+            return;
+        }
+          // Start the render process
+        zoomThrottleId = requestAnimationFrame(async () => {
+            await performRender();
+            zoomThrottleId = null;
+        });
+    };
+
+    const performRender = async () => {
+        if (isRendering || !pdfViewer || pendingScale === null) {
+            return;
+        }
+        
+        isRendering = true;
+        const scaleToRender = pendingScale;
+        pendingScale = null;
+        
+        try {
+            // Cancel any ongoing render task
+            if (currentRenderTask) {
+                await currentRenderTask.cancel();
+                currentRenderTask = null;
+            }
+            
+            // Perform the resize/render operation
+            const renderPromise = pdfViewer.resize(scaleToRender);
+            
+            // Store the current render task for potential cancellation
+            if (renderPromise && typeof renderPromise.then === 'function') {
+                currentRenderTask = renderPromise;
+                await renderPromise;
+                currentRenderTask = null;
+            }
+              } catch (error: any) {
+            // Ignore cancellation errors, they're expected
+            if (error?.name !== 'RenderingCancelledException') {
+                console.warn('PDF render error:', error);
+            }
+            currentRenderTask = null;
+        } finally {
+            isRendering = false;
+            
+            // If there's a pending scale change, process it
+            if (pendingScale !== null) {
+                requestAnimationFrame(() => performRender());
+            }
+        }    };
+
+    // ========================================================================
+    // NAVIGATION & ZOOM CONTROLS
+    // ========================================================================
 
     const navigatePages = (forward: boolean = false) => {
         if (forward) {
@@ -112,49 +224,45 @@
         }
         pdfViewer?.goToPage(pageNumber);
     };
-
-    const zoomIn = () => {
-        const newScale = Math.min(scale + 0.2, maxScale);
-        scale = newScale;
-        throttledResize(newScale);
+      const zoomIn = () => {
+        const newScale = Math.min(scale + 0.1, maxScale);
+        if (Math.abs(newScale - scale) > SCALE_THRESHOLD) {
+            scale = newScale;
+            throttledResize(newScale);
+        }
+    };    const zoomOut = () => {
+        const newScale = Math.max(scale - 0.1, minScale);
+        if (Math.abs(newScale - scale) > SCALE_THRESHOLD) {
+            scale = newScale;
+            throttledResize(newScale);
+        }
     };
 
-    const zoomOut = () => {
-        const newScale = Math.max(scale - 0.2, minScale);
-        scale = newScale;
-        throttledResize(newScale);
-    };    const resetZoom = () => {
+    const resetZoom = () => {
         const newScale = calculateScale();
-        scale = newScale;
-        throttledResize(newScale);
+        if (Math.abs(newScale - scale) > SCALE_THRESHOLD) {
+            scale = newScale;
+            throttledResize(newScale);
+        }
     };
 
-    // Zoom with mouse wheel
+    // ========================================================================
+    // EVENT HANDLERS
+    // ========================================================================    // Zoom with mouse wheel
     const handleWheel = (event: WheelEvent) => {
         // Only zoom if Ctrl key is held down (like in browsers)
         if (event.ctrlKey) {
             event.preventDefault();
             
-            const zoomDelta = event.deltaY > 0 ? -0.1 : 0.1;
+            const zoomDelta = event.deltaY > 0 ? -0.05 : 0.05;
             const newScale = Math.max(minScale, Math.min(maxScale, scale + zoomDelta));
             
-            if (newScale !== scale) {
+            if (Math.abs(newScale - scale) > SCALE_THRESHOLD) {
                 scale = newScale;
                 throttledResize(newScale);
-            }
-        }
-    };
-
-    // Touch zoom gestures
-    let initialPinchDistance = 0;
-    let startingScale = 1;
-    let isZooming = false;
-    let zoomThrottleId: number | null = null;    const getTouchDistance = (touch1: Touch, touch2: Touch) => {
-        const dx = touch1.clientX - touch2.clientX;
-        const dy = touch1.clientY - touch2.clientY;
-        return Math.sqrt(dx * dx + dy * dy);
-    };
-
+            }    
+        };    // Touch gesture handlers
+    }
     const handleTouchStart = (event: TouchEvent) => {
         if (event.touches.length === 2) {
             // Prevent all browser gestures for reliable pinch-zoom handling
@@ -163,18 +271,22 @@
             initialPinchDistance = getTouchDistance(event.touches[0], event.touches[1]);
             startingScale = scale;
             isZooming = true;
+            
+            // Disable iOS Safari zoom during our custom zoom
+            if (pdfContainer) {
+                pdfContainer.style.touchAction = 'none';
+                // iOS specific: prevent document zoom
+                if (isIOS) {
+                    document.body.style.touchAction = 'none';
+                }
+            }
+        } else if (isIOS && event.touches.length === 1) {
+            // Allow single touch scrolling on iOS
+            if (pdfContainer) {
+                pdfContainer.style.touchAction = 'pan-y';
+            }
         }
-    };    const throttledResize = (newScale: number) => {
-        if (zoomThrottleId) {
-            cancelAnimationFrame(zoomThrottleId);
-        }
-        zoomThrottleId = requestAnimationFrame(() => {
-            pdfViewer?.resize(newScale);
-            zoomThrottleId = null;
-        });
-    };
-
-    const handleTouchMove = (event: TouchEvent) => {
+    };const handleTouchMove = (event: TouchEvent) => {
         if (event.touches.length === 2 && initialPinchDistance > 0 && isZooming) {
             // Prevent all browser gestures during pinch-zoom
             event.preventDefault();
@@ -188,26 +300,38 @@
                 scale = newScale;
                 // Use throttled resize for better performance
                 throttledResize(newScale);
-            }        }
+            }
+        }
         // Single touch events are allowed to bubble up for normal scrolling
-    };
-
-    const handleTouchEnd = (event: TouchEvent) => {
+    };    const handleTouchEnd = (event: TouchEvent) => {
         if (event.touches.length < 2) {
             initialPinchDistance = 0;
             startingScale = 1;
             isZooming = false;
-            // Cancel any pending throttled updates
+            
+            // Re-enable normal touch interactions for iOS
+            if (pdfContainer) {
+                pdfContainer.style.touchAction = 'auto';
+                // iOS specific: re-enable document interactions
+                if (isIOS) {
+                    document.body.style.touchAction = 'auto';
+                }
+            }
+            
+            // Cancel any pending throttled operation and perform final render
             if (zoomThrottleId) {
                 cancelAnimationFrame(zoomThrottleId);
                 zoomThrottleId = null;
             }
             
-            // Final resize to ensure accuracy
-            pdfViewer?.resize(scale);
+            // Ensure final accurate render after touch ends
+            if (pendingScale !== null || !isRendering) {
+                throttledResize(scale);
+            }
         }
     };
 
+    // PDF event handlers
     const handleLoadSuccess = (event: CustomEvent<PdfLoadSuccess>) => {
         totalPages = event.detail.totalPages;
         pageNumber = 1;
@@ -220,198 +344,93 @@
         isLoading = false;
     };    const handlePageChange = (event: CustomEvent<PdfPageContent>) => {
         pageNumber = event.detail.pageNumber;
-    };
+    };    
+      // ========================================================================
+    // COMPONENT LIFECYCLE
+    // ========================================================================
 
-    // Calculate responsive scale with memoization
-    let lastContainerWidth = 0;
-    let cachedScale = 0.8;
-    
-    const calculateScale = () => {
-        if (!containerElement) return cachedScale;
-        
-        const containerWidth = containerElement.clientWidth;
-        
-        // Return cached value if width hasn't changed significantly
-        if (Math.abs(containerWidth - lastContainerWidth) < 10) {
-            return cachedScale;
-        }
-        
-        lastContainerWidth = containerWidth;
-        
-        // Start with a scale that ensures the PDF width fits completely
-        // Using constant for standard PDF width with padding
-        const availableWidth = containerWidth - CONTAINER_PADDING;
-        const baseScale = Math.min(availableWidth / STANDARD_PDF_WIDTH, 1.0);
-        
-        // Adjust for different screen sizes
-        if (containerWidth < 640) {
-            cachedScale = Math.max(baseScale, 0.6); // Mobile
-        } else if (containerWidth < 1024) {
-            cachedScale = Math.max(baseScale, 0.8); // Tablet  
-        } else {
-            cachedScale = Math.max(baseScale, 0.9); // Desktop
-        }
-        
-        return cachedScale;
-    };    const updateScale = () => {
-        const newScale = calculateScale();
-        if (Math.abs(scale - newScale) > 0.1) { // Only update if significant change
-            scale = newScale;
-            throttledResize(newScale);
-        }
-    };
-
-    // Memory cleanup when component is destroyed
-    const cleanupResources = () => {
-        // Cancel any pending animation frames
-        if (zoomThrottleId) {
-            cancelAnimationFrame(zoomThrottleId);
-            zoomThrottleId = null;
-        }
-        
-        // Clean up PDF viewer resources if available
-        if (pdfViewer && typeof pdfViewer.destroy === 'function') {
-            pdfViewer.destroy();
-        }
-        
-        // Reset state
-        isPdfLoaded = false;
-        isLoading = false;
-        pdfViewer = null;
-        
-        // Clear cached scale values
-        lastContainerWidth = 0;
-        cachedScale = 0.8;
-    };    // Touch event handler references for cleanup
-    let touchEventHandlers: (() => void)[] = [];
-    
-    // Intersection observer for lazy loading
-    let intersectionObserver: IntersectionObserver | null = null;
-    let isInView = $state(false);
-
-    const setupTouchEventListeners = (element: HTMLDivElement) => {
-        // Clean up existing listeners
-        touchEventHandlers.forEach(cleanup => cleanup());
-        touchEventHandlers = [];
-
-        // Add optimized event listeners with proper passive flags
-        element.addEventListener('wheel', handleWheel, { passive: false });
-        element.addEventListener('touchstart', handleTouchStart, { passive: false });
-        element.addEventListener('touchmove', handleTouchMove, { passive: false });
-        element.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-        // Store cleanup functions
-        touchEventHandlers = [
-            () => element.removeEventListener('wheel', handleWheel),
-            () => element.removeEventListener('touchstart', handleTouchStart),
-            () => element.removeEventListener('touchmove', handleTouchMove),
-            () => element.removeEventListener('touchend', handleTouchEnd)
-        ];
-    };    // Reactive statement to setup event listeners when pdfContainer is available
-    $effect(() => {
-        if (pdfContainer) {
-            setupTouchEventListeners(pdfContainer);
-        }
-    });    // Load PDF viewer when component comes into view
-    $effect(() => {
-        if (isInView && !PdfViewer && browser) {
-            (async () => {
-                try {
-                    const module = await import('svelte-pdf-simple');
-                    PdfViewer = module.PdfViewer;
-                    
-                    // Calculate initial scale
-                    scale = calculateScale();
-                } catch (error) {
-                    console.error('Failed to load PDF viewer:', error);
-                    isLoading = false;
-                }
-            })();
-        }
-    });    onMount(async () => {
+    onMount(() => {
         if (!browser) return;
-
-        // Add preconnect hint for better PDF loading performance
-        const link = document.createElement('link');
-        link.rel = 'preconnect';
-        link.href = new URL(pdfUrl, window.location.origin).origin;
-        document.head.appendChild(link);
-
-        // Setup intersection observer for performance
-        if (containerElement && 'IntersectionObserver' in window) {
-            intersectionObserver = new IntersectionObserver(
-                (entries) => {
-                    isInView = entries[0].isIntersecting;
-                },
-                { threshold: 0.1, rootMargin: '50px' }
-            );
-            intersectionObserver.observe(containerElement);
-        } else {
-            isInView = true; // Fallback for older browsers
-        }
-    });onMount(() => {
-        // Use ResizeObserver for better performance instead of window resize events
-        let resizeObserver: ResizeObserver | null = null;
         
-        if (containerElement && 'ResizeObserver' in window) {
-            resizeObserver = new ResizeObserver((entries) => {
-                // Throttle the resize updates
-                updateScale();
-            });
-            
-            resizeObserver.observe(containerElement);
-        } else {
-            // Fallback to window resize for older browsers
-            let resizeTimeout: ReturnType<typeof setTimeout>;
-            const handleResize = () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    updateScale();
-                }, 150); // Debounce resize events
-            };
+        // Detect iOS for specific handling
+        isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+        
+        // Add viewport meta tag if missing (important for iOS zoom)
+        if (isIOS && !document.querySelector('meta[name="viewport"]')) {
+            const viewport = document.createElement('meta');
+            viewport.name = 'viewport';
+            viewport.content = 'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes';
+            document.head.appendChild(viewport);
+        }
 
-            window.addEventListener('resize', handleResize);
-            
-            return () => {
-                window.removeEventListener('resize', handleResize);
-                if (resizeTimeout) {
-                    clearTimeout(resizeTimeout);
-                }
-            };
-        }        return () => {
-            if (resizeObserver) {
-                resizeObserver.disconnect();
+        // PDF Viewer Setup
+        (async () => {
+            try {
+                // Dynamic import for SSR compatibility
+                const module = await import('svelte-pdf-simple');
+                PdfViewer = module.PdfViewer;
+                
+                // Calculate initial scale
+                scale = calculateScale();
+            } catch (error) {
+                console.error('Failed to load PDF viewer:', error);
+                isLoading = false;
             }
-            if (intersectionObserver) {
-                intersectionObserver.disconnect();
+        })();
+
+        // Event Listeners Setup
+        let resizeTimeout: ReturnType<typeof setTimeout>;
+        const handleResize = () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                updateScale();
+            }, 150); // Debounce resize events
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Initial scale calculation
+        updateScale();
+        throttledResize(scale);
+
+        // Cleanup
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            if (resizeTimeout) {
+                clearTimeout(resizeTimeout);
             }
-            // Clean up touch event listeners
-            touchEventHandlers.forEach(cleanup => cleanup());
-            // Clean up all resources
-            cleanupResources();
+            if (zoomThrottleId) {
+                cancelAnimationFrame(zoomThrottleId);
+            }
+            // Cancel any ongoing render operations
+            if (currentRenderTask) {
+                currentRenderTask.cancel?.();
+                currentRenderTask = null;
+            }
         };
     });
+
 </script>
 
 <div bind:this={containerElement} class="w-full lg:w-4/5 mx-auto">
     <div class="glass-card p-2 lg:p-6 rounded-2xl">
         <!-- Header -->
-        <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-            <h3 class="text-2xl sm:text-3xl font-bold blue-gradient_text text-center sm:text-left">
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">            <h3 class="text-2xl sm:text-3xl font-bold blue-gradient_text text-center sm:text-left">
                 Resume Preview
-            </h3>            <div class="flex items-center gap-3">
-
+            </h3>
+            
+            <div class="flex items-center gap-3">
                 {#if isPdfLoaded}
                     <div class="flex items-center gap-1 glass-card px-2 min-w-14 justify-center py-1 rounded-lg text-xs lg:text-sm text-gray-300">
                         <span>{pageNumber} / {totalPages}</span>
                     </div>
                     
-                    <div></div>
                     <!-- Zoom Controls -->
-                    <div class="flex items-center gap-1 glass-card px-2 py-1 rounded-lg">                        <button 
+                    <div class="flex items-center gap-1 glass-card px-2 py-1 rounded-lg">
+                        <button 
                             onclick={zoomOut}
                             disabled={scale <= minScale}
-                            class="p-1 text-white hover:text-blue-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                            class="p-1 text-white hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             title="Zoom Out"
                             aria-label="Zoom Out"
                         >
@@ -420,14 +439,14 @@
                             </svg>
                         </button>
                         
-                        <span class="text-xs text-gray-300 min-w-[40px] text-center font-mono">
+                        <span class="text-xs text-gray-300 min-w-[40px] text-center">
                             {Math.round(scale * 100)}%
                         </span>
                         
                         <button 
                             onclick={zoomIn}
                             disabled={scale >= maxScale}
-                            class="p-1 text-white hover:text-blue-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                            class="p-1 text-white hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             title="Zoom In"
                             aria-label="Zoom In"
                         >
@@ -462,33 +481,46 @@
 
         <!-- PDF Viewer -->
         <div class="relative">
-            {#if PdfViewer}                <div class="flex flex-col items-center">
-                    <!-- Scroll Wrapper for iOS compatibility -->
+            {#if PdfViewer}                
+            <div class="flex flex-col items-center">                    <!-- Scroll Wrapper for iOS compatibility -->
                     <div 
                         bind:this={scrollWrapper}
-                        class="w-full max-w-full" 
-                        style="max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch;"
-                    >                        <!-- PDF Container -->                        <div 
+                        class="w-full max-w-full ios-scroll-container"
+                        style="max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;"
+                    >
+                        <!-- PDF Container -->
+                        <div 
                             bind:this={pdfContainer}
-                            class="w-full max-w-full rounded-lg shadow-2xl bg-white"
-                            style="touch-action: none; user-select: none; transform: none; will-change: transform;"
-                        >{#if PdfViewer}                            <PdfViewer
-                                bind:this={pdfViewer}
-                                props={{
-                                    path: pdfUrl,
-                                    scale: scale,
-                                    page: pageNumber,
-                                    withAnnotations: true,
-                                    withTextContent: false,
-                                    // Performance optimizations
-                                    renderMode: 'canvas',
-                                    enableWebGL: true,
-                                    maxImageSize: 2048,
-                                    disableWorker: false
-                                }}
-                                style="display: block; width: auto; height: auto; min-width: 100%; contain: layout style paint;"
-                                on:load_success={handleLoadSuccess}
-                                on:load_failure={handleLoadFailure}
+                            class="w-full max-w-full rounded-lg shadow-2xl bg-white relative"
+                            class:zooming={isZooming}
+                            class:rendering={isRendering}
+                            onwheel={handleWheel}
+                            ontouchstart={handleTouchStart}
+                            ontouchmove={handleTouchMove}
+                            ontouchend={handleTouchEnd}
+                        >
+                            <!-- Rendering Indicator -->
+                            {#if isRendering}
+                                <div class="absolute inset-0 bg-black/10 backdrop-blur-[1px] flex items-center justify-center z-10 rounded-lg">
+                                    <div class="bg-white/20 backdrop-blur-sm rounded-full p-3">
+                                        <div class="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                    </div>
+                                </div>
+                            {/if}
+
+                            {#if PdfViewer}
+                                <PdfViewer
+                                    bind:this={pdfViewer}
+                                    props={{
+                                        url: pdfUrl,
+                                        scale: scale,
+                                        page: pageNumber,
+                                        withAnnotations: true,
+                                        withTextContent: true
+                                    }}
+                                    style="display: block; width: auto; height: auto; min-width: 100%;"
+                                    on:load_success={handleLoadSuccess}
+                                    on:load_failure={handleLoadFailure}
                                 on:page_changed={handlePageChange}
                             >
                                 <svelte:fragment slot="loading">
@@ -504,11 +536,11 @@
                                             <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
-                                        </div>
-                                        <p class="text-red-600 text-lg mb-2">Failed to Load PDF</p>
+                                        </div>                                        <p class="text-red-600 text-lg mb-2">Failed to Load PDF</p>
                                         <p class="text-gray-500 text-sm">Please check if the file exists and try again</p>
                                     </div>
-                                </svelte:fragment>                            </PdfViewer>
+                                </svelte:fragment>
+                            </PdfViewer>
                         {/if}
                         </div>
                     </div>
@@ -543,8 +575,7 @@
                             </button>
                         </div>
                     {/if}
-                </div>
-            {:else}
+                </div>            {:else}
                 <div class="flex flex-col items-center justify-center p-12 text-center">
                     <div class="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
                     <p class="text-gray-300 text-lg">Loading PDF Viewer...</p>
@@ -553,3 +584,61 @@
         </div>
     </div>
 </div>
+
+<style>
+    /* iOS-specific scroll container optimization */
+    .ios-scroll-container {
+        /* Prevent iOS from interfering with our custom zoom */
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        /* Ensure smooth momentum scrolling */
+        -webkit-overflow-scrolling: touch;
+        /* Prevent bounce scrolling from interfering */
+        overscroll-behavior: contain;
+    }
+    
+    /* Only prevent interactions during active pinch-zoom */
+    .zooming {
+        touch-action: none !important;
+        user-select: none !important;
+        pointer-events: none !important;
+        /* Prevent iOS Safari from interfering during zoom */
+        -webkit-user-select: none !important;
+        -webkit-touch-callout: none !important;
+    }
+    
+    /* Slightly dim content during rendering */
+    .rendering {
+        transition: opacity 0.2s ease;
+    }
+      /* Allow normal PDF interactions when not zooming */
+    :global(.pdf-container:not(.zooming)) {
+        touch-action: auto;
+        user-select: text;
+    }
+    
+    /* Ensure PDF content is interactive by default */
+    :global(.pdf-container) {
+        touch-action: auto;
+        user-select: text;
+    }
+    
+    /* iOS Safari specific fixes */
+    @supports (-webkit-touch-callout: none) {
+        .ios-scroll-container {
+            /* Prevent iOS from adding extra scroll momentum that conflicts with zoom */
+            scroll-behavior: auto;
+        }        /* Ensure pinch zoom works on iOS */
+        :global(.pdf-container) {
+            /* Allow iOS to handle single touch for scrolling */
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        :global(.pdf-container:not(.zooming)) {
+            /* Re-enable text selection when not zooming */
+            -webkit-user-select: text;
+            user-select: text;
+        }
+    }
+</style>
