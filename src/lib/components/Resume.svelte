@@ -530,7 +530,7 @@
                     <div 
                         bind:this={scrollWrapper}
                         class="w-full max-w-full ios-scroll-container bg-white rounded-lg shadow-2xl "
-                        style="max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; touch-action: none;"
+                        style="max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; touch-action: pan-y;"
                     >
                         <!-- PDF Container -->
                         <div 
