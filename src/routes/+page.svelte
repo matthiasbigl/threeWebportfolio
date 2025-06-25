@@ -16,7 +16,7 @@
         gsap.registerPlugin(ScrollTrigger);
     }    
 
-    const hobbies = [
+    const hobbies  = [
         {
             title: "GYM",
             description: "I am always trying to push my limits in the gym 💪",
