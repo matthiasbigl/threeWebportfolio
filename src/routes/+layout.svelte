@@ -26,12 +26,19 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://matthias-bigl.vercel.app/" />
     <meta property="og:title" content="Matthias Bigl - Full Stack Developer & Designer" />
-    <meta property="og:description" content="Passionate full stack developer and designer creating innovative web experiences." />
-    <meta property="og:image" content="/asseets/portfolioPreview.png" />
+    <meta property="og:description" content="Passionate full stack developer and designer creating innovative web experiences." />    <meta property="og:image" content="/assets/portfolioPreview.png" />
     <meta property="og:image:width" content="1350" />
     <meta property="og:image:height" content="720" />    
-    <meta property="og:image:alt" content="Portfoilio Preview" />
-    <meta property="og:site_name" content="Matthias Bigl Portfolio" />    
+    <meta property="og:image:alt" content="Portfolio Preview" />    <meta property="og:site_name" content="Matthias Bigl Portfolio" />    
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://matthias-bigl.vercel.app/" />
+    <meta property="twitter:title" content="Matthias Bigl - Full Stack Developer & Designer" />
+    <meta property="twitter:description" content="Passionate full stack developer and designer creating innovative web experiences." />
+    <meta property="twitter:image" content="/assets/portfolioPreview.png" />
+    <meta property="twitter:image:alt" content="Portfolio Preview" />
+
 
     <!-- Additional SEO -->
     <meta name="robots" content="index, follow" />    
