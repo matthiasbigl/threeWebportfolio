@@ -15,6 +15,7 @@
     let { data, form }: Props = $props();
 
     let isSubmitting = $state(false);
+    let formLoadTime = $state(0);
 
     const contactMethods = [
         {
@@ -44,10 +45,14 @@
             value: '@matthiasbigl',
             href: 'https://github.com/matthiasbigl',
             description: 'Check out my code repositories'
-        }    ];
+        }
+    ];
 
     onMount(() => {
         if (!browser) return;
+        
+        // Record form load time for bot detection
+        formLoadTime = Date.now();
 
         // Hero animation
         gsap.fromTo(".contact-hero", 
@@ -235,7 +240,18 @@
                             }
                             await update();
                         };
-                    }} class="space-y-6">                        <div class="form-field">
+                    }} class="space-y-6">
+                        
+                        <!-- Honeypot field - hidden from users but filled by bots -->
+                        <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
+                            <label for="website">Website (leave blank)</label>
+                            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+                        </div>
+                        
+                        <!-- Timestamp for timing check -->
+                        <input type="hidden" name="_timestamp" value={formLoadTime} />
+                        
+                        <div class="form-field">
                             <label for="name" class="block text-sm font-medium text-gray-300 mb-2">
                                 Your Name
                             </label>
@@ -246,6 +262,7 @@
                                     name="name"
                                     value={form?.name ?? ''}
                                     required
+                                    maxlength="100"
                                     class="form-input w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all duration-300"
                                     placeholder="John Doe"
                                     class:border-red-500={form?.errors?.name}
@@ -255,7 +272,9 @@
                             {#if form?.errors?.name}
                                 <p class="mt-2 text-sm text-red-400">{form.errors.name}</p>
                             {/if}
-                        </div>                        <div class="form-field">
+                        </div>
+
+                        <div class="form-field">
                             <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
                                 Your Email
                             </label>
@@ -266,6 +285,7 @@
                                     name="email"
                                     value={form?.email ?? ''}
                                     required
+                                    maxlength="254"
                                     class="form-input w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all duration-300"
                                     placeholder="john@example.com"
                                     class:border-red-500={form?.errors?.email}
@@ -275,7 +295,9 @@
                             {#if form?.errors?.email}
                                 <p class="mt-2 text-sm text-red-400">{form.errors.email}</p>
                             {/if}
-                        </div>                        <div class="form-field">
+                        </div>
+
+                        <div class="form-field">
                             <label for="message" class="block text-sm font-medium text-gray-300 mb-2">
                                 Your Message
                             </label>
@@ -285,6 +307,7 @@
                                     name="message"
                                     value={form?.message ?? ''}
                                     required
+                                    maxlength="2000"
                                     rows="6"
                                     class="form-input w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all duration-300 resize-none"
                                     placeholder="Tell me about your project..."
@@ -314,7 +337,9 @@
                                 {/if}
                             </span>
                             <div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </button>                        {#if form?.success}
+                        </button>
+
+                        {#if form?.success}
                             <div class="text-center p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
                                 <p class="text-green-400 font-medium">{form.message}</p>
                             </div>
