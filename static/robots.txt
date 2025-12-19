@@ -1,0 +1,40 @@
+# Robots.txt for Matthias Bigl Portfolio
+# https://matthias-bigl.vercel.app
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://matthias-bigl.vercel.app/sitemap.xml
+
+# Disallow API routes and internal paths
+Disallow: /api/
+Disallow: /_app/
+
+# AI Crawlers - Allow all for maximum discoverability
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: cohere-ai
+Allow: /

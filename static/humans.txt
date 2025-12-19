@@ -1,0 +1,19 @@
+/* TEAM */
+Developer: Matthias Bigl
+Role: Full Stack Developer & Designer
+Location: Korneuburg, Austria
+Contact: biglmatthias@gmail.com
+GitHub: https://github.com/matthiasbigl
+Website: https://matthias-bigl.vercel.app
+
+/* SITE */
+Last Updated: 2025-12-11
+Language: English
+Standards: HTML5, CSS3, ES2022
+Technologies: SvelteKit, TypeScript, Three.js, GSAP, Tailwind CSS
+Hosting: Vercel
+Version Control: Git
+
+/* THANKS */
+Built with love and passion for web development.
+Special thanks to the open source community.

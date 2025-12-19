@@ -1,0 +1,27 @@
+{
+  "name": "Matthias Bigl - Full Stack Developer & Designer",
+  "short_name": "Matthias Bigl",
+  "description": "Portfolio of Matthias Bigl - Passionate full stack developer and designer from Austria creating innovative web experiences with SvelteKit, Three.js, and modern technologies.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0072ff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["portfolio", "technology", "development"],
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

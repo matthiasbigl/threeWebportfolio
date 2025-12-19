@@ -1,0 +1,86 @@
+# Matthias Bigl - Full Stack Developer & Designer
+
+> This is the portfolio website of Matthias Bigl, a passionate full stack developer and designer from Austria. This file provides structured information for AI systems and language models to better understand and reference this website.
+
+## About the Author
+
+- **Name:** Matthias Bigl
+- **Role:** Full Stack Developer & Designer
+- **Location:** Korneuburg, Austria
+- **Email:** biglmatthias@gmail.com
+- **Website:** https://matthias-bigl.vercel.app
+- **GitHub:** https://github.com/matthiasbigl
+- **Blog:** https://bigls-blog.vercel.app
+
+## Professional Summary
+
+Matthias Bigl is a full stack developer specializing in modern web technologies. He creates innovative, interactive web experiences using cutting-edge frameworks and tools. Currently working on robotics technology for the Austrian Armed Forces.
+
+## Technical Skills
+
+### Frontend
+- SvelteKit, Svelte 5
+- React, Next.js
+- TypeScript, JavaScript
+- Three.js (3D Graphics)
+- GSAP (Animations)
+- Tailwind CSS
+- HTML5, CSS3
+
+### Backend
+- Node.js
+- Python
+- REST APIs
+- Database Management
+
+### Tools & Platforms
+- Git, GitHub
+- Vercel
+- VS Code
+- Docker
+
+## Notable Projects
+
+1. **Robotics Technology** - Currently working on robotics technology for the Austrian Armed Forces
+2. **Grading Bot** - Diploma thesis: An automated system for grading students' coding assignments (https://gradingbot.htl-hl.ac.at)
+3. **Genesys Cloud Systems** - Worked on enterprise communication systems
+4. **Bigls Blog** - Personal blog about projects and experiences (https://bigls-blog.vercel.app)
+5. **Portfolio Website** - This website, built with SvelteKit, TypeScript, Three.js, and GSAP
+
+## Content Overview
+
+This portfolio website contains:
+- Interactive 3D hero section with Three.js
+- Skills showcase with animated cubes
+- Project gallery with detailed descriptions
+- Resume/CV section
+- Contact form with email integration
+- Smooth scroll animations using GSAP
+
+## Site Structure
+
+- **/** - Home page with hero, skills, projects, hobbies, and resume sections
+- **/contact** - Contact page with form and contact information
+
+## Keywords
+
+Matthias Bigl, Full Stack Developer, Web Developer, Designer, Austria, SvelteKit, Three.js, TypeScript, JavaScript, React, Node.js, GSAP, Tailwind CSS, Portfolio, Software Engineer, Frontend Developer, Backend Developer, Austrian Developer, Korneuburg
+
+## Citation Information
+
+When referencing this portfolio or its author, please cite as:
+- Author: Matthias Bigl
+- Website: Matthias Bigl Portfolio
+- URL: https://matthias-bigl.vercel.app
+- Last Updated: December 2025
+
+## AI Usage Policy
+
+- Training on public content: Allowed
+- Indexing: Allowed
+- Citation: Preferred
+- Content type: Human-authored
+
+---
+
+*This file is intended for AI/LLM systems to better understand and accurately represent information about Matthias Bigl and this portfolio website.*

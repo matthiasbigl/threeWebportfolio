@@ -1,8 +1,11 @@
 <script>
     import "../app.css";
     import Navbar from "$lib/components/navbar.svelte";
+    import Footer from "$lib/components/Footer.svelte";
+    import SEO from "$lib/components/SEO.svelte";
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
+    import { page } from '$app/stores';
     /** @type {{children?: import('svelte').Snippet}} */
     let { children } = $props();
 
@@ -17,44 +20,16 @@
     });
 </script>
 
-<svelte:head>    <!-- Primary Meta Tags -->
-    <title>Matthias Bigl - Full Stack Developer & Designer</title>
-    <meta name="title" content="Matthias Bigl - Full Stack Developer & Designer" />
-    <meta name="description" content="Passionate full stack developer and designer creating innovative web experiences." />
-    <meta name="author" content="Matthias Bigl" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://matthias-bigl.vercel.app/" />
-    <meta property="og:title" content="Matthias Bigl - Full Stack Developer & Designer" />    <meta property="og:description" content="Passionate full stack developer and designer creating innovative web experiences." />    <meta property="og:image" content="https://matthias-bigl.vercel.app/assets/portfolioPreview.png" />
-    <meta property="og:image:width" content="1350" />
-    <meta property="og:image:height" content="720" />    
-    <meta property="og:image:alt" content="Portfolio Preview" />    <meta property="og:site_name" content="Matthias Bigl Portfolio" />    
+<!-- Default SEO - will be overridden by page-specific SEO components -->
+<SEO />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://matthias-bigl.vercel.app/" />
-    <meta property="twitter:title" content="Matthias Bigl - Full Stack Developer & Designer" />
-    <meta property="twitter:description" content="Passionate full stack developer and designer creating innovative web experiences." />
-    <meta property="twitter:image" content="https://matthias-bigl.vercel.app/assets/portfolioPreview.png" />
-    <meta property="twitter:image:alt" content="Portfolio Preview" />
-
-
-    <!-- Additional SEO -->
-    <meta name="robots" content="index, follow" />    
-    <meta name="language" content="English" />
-    <meta name="revisit-after" content="7 days" />
-    <meta name="theme-color" content="#0072ff" />
-    <link rel="canonical" href="https://matthias-bigl.vercel.app/" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
-</svelte:head>
-
-<main class="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 ">
+<div class="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex flex-col">
     <Navbar/>
-    {@render children?.()}
-</main>
+    <main class="flex-grow">
+        {@render children?.()}
+    </main>
+    <Footer />
+</div>
 
 <style>
     :global(html) {

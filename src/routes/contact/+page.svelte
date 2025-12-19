@@ -1,6 +1,7 @@
 <script lang="ts">
     import CustomCursor from "$lib/components/CustomCursor.svelte";
     import ScrollProgress from "$lib/components/ScrollProgress.svelte";
+    import SEO from "$lib/components/SEO.svelte";
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
     import { gsap } from 'gsap';
@@ -16,6 +17,26 @@
 
     let isSubmitting = $state(false);
     let formLoadTime = $state(0);
+
+    // Contact page specific structured data
+    const contactPageSchema = {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": "Contact Matthias Bigl",
+        "description": "Get in touch with Matthias Bigl - Full Stack Developer from Austria. Available for freelance work, collaborations, and job opportunities.",
+        "url": "https://matthias-bigl.vercel.app/contact",
+        "mainEntity": {
+            "@type": "Person",
+            "name": "Matthias Bigl",
+            "email": "biglmatthias@gmail.com",
+            "telephone": "+43 660 459 6636",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Korneuburg",
+                "addressCountry": "Austria"
+            }
+        }
+    };
 
     const contactMethods = [
         {
@@ -137,16 +158,22 @@
     });
 </script>
 
+<SEO 
+    title="Contact - Matthias Bigl | Full Stack Developer"
+    description="Get in touch with Matthias Bigl - Full Stack Developer from Austria. Available for freelance work, collaborations, and job opportunities. Contact via email, phone, or the contact form."
+    url="https://matthias-bigl.vercel.app/contact"
+    keywords={['Matthias Bigl', 'Contact', 'Email', 'Phone', 'Software Engineer', 'Austria', 'Web Developer', 'Freelance', 'Hire Developer', 'Full Stack Developer']}
+/>
+
 <svelte:head>
-    <title>Contact - Matthias Bigl</title>
-    <meta name="description" content="Get in touch with Matthias Bigl - Software Engineer from Austria"/>
-    <meta name="keywords" content="Matthias Bigl, contact, email, phone, software engineer, austria, web developer"/>
+    <!-- Contact Page Specific Structured Data -->
+    {@html `<script type="application/ld+json">${JSON.stringify(contactPageSchema)}</script>`}
 </svelte:head>
 
 <CustomCursor />
 <ScrollProgress />
 
-<main class="relative min-h-screen overflow-hidden pt-16 sm:pt-20">
+<div class="relative min-h-screen overflow-hidden pt-16 sm:pt-20">
     
     <!-- Background Elements -->
     <div class="fixed inset-0 z-0">
@@ -375,7 +402,7 @@
             </div>
         </div>
     </div>
-</main>
+</div>
 
 <style>
     .form-field {

@@ -1,0 +1,43 @@
+# AI Policy and Machine-Readable Information
+# For: Matthias Bigl Portfolio
+# URL: https://matthias-bigl.vercel.app
+
+[identity]
+name = Matthias Bigl
+type = Person
+role = Full Stack Developer & Designer
+location = Korneuburg, Austria
+
+[site]
+name = Matthias Bigl Portfolio
+url = https://matthias-bigl.vercel.app
+description = Portfolio of Matthias Bigl - Passionate full stack developer and designer from Austria creating innovative web experiences.
+language = en
+last_updated = 2025-12-11
+
+[contact]
+email = biglmatthias@gmail.com
+phone = +43 660 459 6636
+github = https://github.com/matthiasbigl
+blog = https://bigls-blog.vercel.app
+
+[ai_policy]
+training_allowed = yes
+indexing_allowed = yes
+citation_required = preferred
+content_type = human-authored
+scraping_allowed = yes
+
+[content_summary]
+topics = web development, full stack development, software engineering, Three.js, SvelteKit, TypeScript, portfolio, projects
+audience = recruiters, developers, tech enthusiasts, potential clients
+purpose = professional portfolio and contact
+
+[structured_data]
+schema_types = Person, WebSite, ContactPage
+json_ld = available
+
+[crawling]
+sitemap = https://matthias-bigl.vercel.app/sitemap.xml
+robots = https://matthias-bigl.vercel.app/robots.txt
+frequency = weekly
