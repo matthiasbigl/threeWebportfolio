@@ -1,11 +1,11 @@
 # Robots.txt for Matthias Bigl Portfolio
-# https://matthias-bigl.vercel.app
+# https://bigls.net
 
 User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://matthias-bigl.vercel.app/sitemap.xml
+Sitemap: https://bigls.net/sitemap.xml
 
 # Disallow API routes and internal paths
 Disallow: /api/

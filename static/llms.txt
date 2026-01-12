@@ -8,9 +8,9 @@
 - **Role:** Full Stack Developer & Designer
 - **Location:** Korneuburg, Austria
 - **Email:** biglmatthias@gmail.com
-- **Website:** https://matthias-bigl.vercel.app
+- **Website:** https://bigls.net
 - **GitHub:** https://github.com/matthiasbigl
-- **Blog:** https://bigls-blog.vercel.app
+- **Blog:** https://blog.bigls.net
 
 ## Professional Summary
 
@@ -44,7 +44,7 @@ Matthias Bigl is a full stack developer specializing in modern web technologies.
 1. **Robotics Technology** - Currently working on robotics technology for the Austrian Armed Forces
 2. **Grading Bot** - Diploma thesis: An automated system for grading students' coding assignments (https://gradingbot.htl-hl.ac.at)
 3. **Genesys Cloud Systems** - Worked on enterprise communication systems
-4. **Bigls Blog** - Personal blog about projects and experiences (https://bigls-blog.vercel.app)
+4. **Bigls Blog** - Personal blog about projects and experiences (https://blog.bigls.net)
 5. **Portfolio Website** - This website, built with SvelteKit, TypeScript, Three.js, and GSAP
 
 ## Content Overview
@@ -71,7 +71,7 @@ Matthias Bigl, Full Stack Developer, Web Developer, Designer, Austria, SvelteKit
 When referencing this portfolio or its author, please cite as:
 - Author: Matthias Bigl
 - Website: Matthias Bigl Portfolio
-- URL: https://matthias-bigl.vercel.app
+- URL: https://bigls.net
 - Last Updated: December 2025
 
 ## AI Usage Policy

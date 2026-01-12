@@ -180,7 +180,7 @@
 <SEO
 	title="Matthias Bigl - Full Stack Developer & Designer"
 	description="Portfolio of Matthias Bigl - Passionate full stack developer and designer from Austria. Expert in SvelteKit, Three.js, TypeScript, React, and modern web technologies. View my projects and skills."
-	url="https://matthias-bigl.vercel.app"
+	url="https://bigls.net"
 	keywords={[
 		'Matthias Bigl',
 		'Full Stack Developer',

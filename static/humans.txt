@@ -4,7 +4,7 @@ Role: Full Stack Developer & Designer
 Location: Korneuburg, Austria
 Contact: biglmatthias@gmail.com
 GitHub: https://github.com/matthiasbigl
-Website: https://matthias-bigl.vercel.app
+Website: https://bigls.net
 
 /* SITE */
 Last Updated: 2025-12-11

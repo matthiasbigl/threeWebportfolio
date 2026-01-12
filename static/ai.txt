@@ -1,6 +1,6 @@
 # AI Policy and Machine-Readable Information
 # For: Matthias Bigl Portfolio
-# URL: https://matthias-bigl.vercel.app
+# URL: https://bigls.net
 
 [identity]
 name = Matthias Bigl
@@ -10,7 +10,7 @@ location = Korneuburg, Austria
 
 [site]
 name = Matthias Bigl Portfolio
-url = https://matthias-bigl.vercel.app
+url = https://bigls.net
 description = Portfolio of Matthias Bigl - Passionate full stack developer and designer from Austria creating innovative web experiences.
 language = en
 last_updated = 2025-12-11
@@ -19,7 +19,7 @@ last_updated = 2025-12-11
 email = biglmatthias@gmail.com
 phone = +43 660 459 6636
 github = https://github.com/matthiasbigl
-blog = https://bigls-blog.vercel.app
+blog = https://blog.bigls.net
 
 [ai_policy]
 training_allowed = yes
@@ -38,6 +38,6 @@ schema_types = Person, WebSite, ContactPage
 json_ld = available
 
 [crawling]
-sitemap = https://matthias-bigl.vercel.app/sitemap.xml
-robots = https://matthias-bigl.vercel.app/robots.txt
+sitemap = https://bigls.net/sitemap.xml
+robots = https://bigls.net/robots.txt
 frequency = weekly
