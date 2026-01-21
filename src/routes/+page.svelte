@@ -6,36 +6,40 @@
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import Resume from '$lib/components/Resume.svelte';
+	import Services from '$lib/components/Services.svelte';
+	import FAQ from '$lib/components/FAQ.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import { projects } from '$lib/data/projects';
+	import { _, locale } from 'svelte-i18n';
 
 	if (browser) {
 		gsap.registerPlugin(ScrollTrigger);
 	}
 
-	const hobbies = [
+	// Reactive hobbies based on locale
+	const hobbies = $derived([
 		{
-			title: 'GYM',
-			description: 'I am always trying to push my limits in the gym 💪',
+			title: $_('hobbies.items.gym.title'),
+			description: $_('hobbies.items.gym.description'),
 			image: 'assets/dumbbell.png'
 		},
 		{
-			title: 'Skiing',
-			description: 'Carving down the slopes is one of my favorite things to do in winter 🎿',
+			title: $_('hobbies.items.skiing.title'),
+			description: $_('hobbies.items.skiing.description'),
 			image: '',
 			isSpecialComponent: true
 		},
 		{
-			title: 'Surfing',
-			description: 'Been Surfing since I was 6 years old 🤙',
+			title: $_('hobbies.items.surfing.title'),
+			description: $_('hobbies.items.surfing.description'),
 			image: 'assets/surfing.JPG',
-			imageObjectFit: 'cover'
+			imageObjectFit: 'cover' as const
 		}
-	];
+	]);
 
 	onMount(() => {
 		if (!browser) return;
@@ -178,25 +182,27 @@
 </script>
 
 <SEO
-	title="Matthias Bigl - Full Stack Developer & Designer"
-	description="Portfolio of Matthias Bigl - Passionate full stack developer and designer from Austria. Expert in SvelteKit, Three.js, TypeScript, React, and modern web technologies. View my projects and skills."
+	title={$_('seo.home.title')}
+	description={$_('seo.home.description')}
 	url="https://bigls.net"
 	keywords={[
+		'Webdesign Wien',
+		'Webentwicklung Wien',
+		'Webdesign Korneuburg',
+		'Website erstellen lassen',
+		'Webshop erstellen',
+		'Webdesigner Österreich',
+		'Freelancer Webentwicklung',
+		'Homepage erstellen Wien',
+		'Full Stack Developer Wien',
 		'Matthias Bigl',
-		'Full Stack Developer',
-		'Web Developer',
-		'Software Engineer',
-		'Designer',
-		'Austria',
+		'Webentwickler Niederösterreich',
+		'Website Wien günstig',
+		'Responsive Webdesign',
 		'SvelteKit',
-		'Three.js',
-		'TypeScript',
 		'React',
-		'GSAP',
-		'Portfolio',
-		'Korneuburg',
-		'HTL Hollabrunn',
-		'Grading Bot',
+		'TypeScript',
+		'Webdesign Agentur Alternative',
 		'Austrian Developer'
 	]}
 />
@@ -225,17 +231,14 @@
 					<h1
 						class="hero-title font-bold text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-4 sm:mb-6 text-glow leading-tight"
 					>
-						Hey I am <span class="blue-gradient_text">Matthias Bigl</span>
+						{$_('hero.greeting')} <span class="blue-gradient_text">{$_('hero.name')}</span>
 					</h1>
 
 					<p
 						class="hero-subtitle text-lg sm:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 leading-relaxed"
 					>
-						I am a <span class="blue-gradient_text font-semibold">Software Engineer</span> from
-						Austria 🇦🇹.<br />
-						I love developing new and exciting
-						<span class="blue-gradient_text font-semibold">Web-Experiences</span><br />
-						Let's get to know each other!
+						{@html $_('hero.subtitle')}<br />
+						{@html $_('hero.description')}
 					</p>
 
 					<div
@@ -245,31 +248,37 @@
 							href="/contact"
 							class="magnetic-btn glass-card glass-card-hover px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white text-center rounded-xl"
 						>
-							Get In Touch
+							{$_('hero.cta')}
 						</a>
 						<a
-							href="/assets/resume.pdf"
-							download="MatthiasBigl-Resume.pdf"
+							href="#services"
 							class="magnetic-btn glass-card glass-card-hover px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white text-center border border-white/20 rounded-xl"
 						>
-							Download Resume
+							{$_('hero.ctaServices')}
 						</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
+
+	<!-- Services Section -->
+	<section class="services-wrapper reveal-section glass-section relative gradient-bg-1">
+		<div class="parallax-bg parallax-bg-1"></div>
+		<Services />
+	</section>
+
 	<!-- Skills Section -->
 	<section
-		class="skills-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-1"
+		class="skills-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-2"
 	>
-		<div class="parallax-bg parallax-bg-1"></div>
+		<div class="parallax-bg parallax-bg-2"></div>
 
 		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
 			<h2
 				class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow"
 			>
-				My <span class="blue-gradient_text">Skills</span>
+				{$_('skills.title')} <span class="blue-gradient_text">{$_('skills.titleHighlight')}</span>
 			</h2>
 
 			<div class="grid lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-24">
@@ -278,7 +287,7 @@
 					<h3
 						class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 text-gray-300 uppercase tracking-wider"
 					>
-						Languages
+						{$_('skills.languages')}
 					</h3>
 
 					<div class="cube-container max-w-lg mx-auto aspect-square">
@@ -306,7 +315,7 @@
 					<h3
 						class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 text-gray-300 uppercase tracking-wider"
 					>
-						Strengths
+						{$_('skills.strengths')}
 					</h3>
 
 					<div class="cube-container max-w-lg mx-auto aspect-square">
@@ -333,15 +342,15 @@
 	</section>
 	<!-- Projects Section -->
 	<section
-		class="projects-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-2 overflow-visible"
+		class="projects-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-1 overflow-visible"
 	>
-		<div class="parallax-bg parallax-bg-2"></div>
+		<div class="parallax-bg parallax-bg-1"></div>
 
 		<div class="relative container mx-auto px-4 lg:px-6">
 			<h2
 				class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow"
 			>
-				My <span class="blue-gradient_text">Projects</span>
+				{$_('projects.title')} <span class="blue-gradient_text">{$_('projects.titleHighlight')}</span>
 			</h2>
 
 			<div class="stagger-cards grid grid-cols-2 lg:grid-cols-4 gap-6 overflow-visible">
@@ -354,20 +363,24 @@
 					/>
 				{/each}
 			</div>
+
+			<p class="text-center text-gray-400 mt-8 text-lg">
+				{$_('projects.moreOnGithub')} <a href="https://github.com/matthiasbigl" target="_blank" rel="noopener noreferrer" class="blue-gradient_text hover:underline">GitHub</a>!
+			</p>
 		</div>
 	</section>
 
 	<!-- Resume Section -->
 	<section
-		class="resume-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-1 overflow-visible"
+		class="resume-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-2 overflow-visible"
 	>
-		<div class="parallax-bg parallax-bg-1"></div>
+		<div class="parallax-bg parallax-bg-2"></div>
 
 		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
 			<h2
 				class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow"
 			>
-				My <span class="blue-gradient_text">Resume</span>
+				{$_('resume.title')} <span class="blue-gradient_text">{$_('resume.titleHighlight')}</span>
 			</h2>
 
 			<Resume />
@@ -376,13 +389,13 @@
 
 	<!-- Hobbies Section -->
 	<section
-		class="hobbies-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-3 overflow-visible"
+		class="hobbies-section reveal-section glass-section relative py-16 sm:py-20 lg:py-32 gradient-bg-1 overflow-visible"
 	>
 		<div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
 			<h2
 				class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow"
 			>
-				My <span class="blue-gradient_text">Hobbies</span>
+				{$_('hobbies.title')} <span class="blue-gradient_text">{$_('hobbies.titleHighlight')}</span>
 			</h2>
 
 			<div
@@ -399,5 +412,11 @@
 				{/each}
 			</div>
 		</div>
+	</section>
+
+	<!-- FAQ Section -->
+	<section class="faq-wrapper reveal-section glass-section relative gradient-bg-2">
+		<div class="parallax-bg parallax-bg-2"></div>
+		<FAQ />
 	</section>
 </div>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
+	
 	const currentYear = new Date().getFullYear();
 
 	const socialLinks = [
@@ -19,33 +21,45 @@
 		}
 	];
 
-	const quickLinks = [
-		{ name: 'Home', href: '/' },
-		{ name: 'Contact', href: '/contact' },
+	// Reactive quick links based on translations
+	const quickLinks = $derived([
+		{ name: $_('nav.home'), href: '/' },
+		{ name: $_('nav.services'), href: '/#services' },
+		{ name: $_('nav.contact'), href: '/contact' },
+		{ name: $_('nav.faq'), href: '/#faq' },
 		{ name: 'Blog', href: 'https://blog.bigls.net' }
-	];
+	]);
+
+	const services = $derived([
+		{ name: $_('footer.services.websites'), href: '/#services' },
+		{ name: $_('footer.services.webshops'), href: '/#services' },
+		{ name: $_('footer.services.experiences'), href: '/#services' },
+		{ name: $_('footer.services.hosting'), href: '/#services' }
+	]);
 </script>
 
 <footer
 	class="relative z-10 border-t border-white/10 bg-gradient-to-b from-transparent to-black/30"
 >
 	<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
 			<!-- Brand Section -->
-			<div class="space-y-4">
+			<div class="space-y-4 md:col-span-2 lg:col-span-1">
 				<h3 class="text-2xl font-bold">
 					<span class="blue-gradient_text">Matthias Bigl</span>
 				</h3>
 				<p class="text-gray-400 text-sm leading-relaxed">
-					Full Stack Developer & Designer from Austria. Passionate about creating innovative web
-					experiences with modern technologies.
+					{$_('footer.description')}
 				</p>
-				<p class="text-gray-500 text-xs">📍 Korneuburg, Austria</p>
+				<div class="text-gray-500 text-xs space-y-1">
+					<p>📍 {$_('footer.location')}</p>
+					<p>📞 <a href="tel:+436604596636" class="hover:text-blue-400 transition-colors">+43 660 459 6636</a></p>
+				</div>
 			</div>
 
 			<!-- Quick Links -->
 			<div class="space-y-4">
-				<h4 class="text-lg font-semibold text-white">Quick Links</h4>
+				<h4 class="text-lg font-semibold text-white">{$_('footer.navigation')}</h4>
 				<nav class="flex flex-col space-y-2" aria-label="Footer navigation">
 					{#each quickLinks as link}
 						<a
@@ -60,9 +74,24 @@
 				</nav>
 			</div>
 
+			<!-- Services -->
+			<div class="space-y-4">
+				<h4 class="text-lg font-semibold text-white">{$_('footer.servicesTitle')}</h4>
+				<nav class="flex flex-col space-y-2" aria-label="Services navigation">
+					{#each services as service}
+						<a
+							href={service.href}
+							class="text-gray-400 hover:text-blue-400 transition-colors text-sm"
+						>
+							{service.name}
+						</a>
+					{/each}
+				</nav>
+			</div>
+
 			<!-- Social & Contact -->
 			<div class="space-y-4">
-				<h4 class="text-lg font-semibold text-white">Connect</h4>
+				<h4 class="text-lg font-semibold text-white">{$_('footer.contactTitle')}</h4>
 				<div class="flex space-x-4">
 					{#each socialLinks as social}
 						<a
@@ -88,6 +117,9 @@
 						biglmatthias@gmail.com
 					</a>
 				</p>
+				<p class="text-gray-600 text-xs">
+					Webdesign Wien • Webentwicklung Korneuburg • Niederösterreich
+				</p>
 			</div>
 		</div>
 
@@ -96,7 +128,7 @@
 			class="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
 		>
 			<p class="text-gray-500 text-sm">
-				© {currentYear} Matthias Bigl. All rights reserved.
+				© {currentYear} Matthias Bigl. {$_('footer.copyright')}
 			</p>
 			<div class="flex space-x-6 text-xs text-gray-600">
 				<a href="/humans.txt" class="hover:text-gray-400 transition-colors">humans.txt</a>

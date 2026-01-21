@@ -1,0 +1,105 @@
+<script lang="ts">
+    import { locale, setLocale } from '$lib/i18n';
+    import { _, locale as localeStore } from 'svelte-i18n';
+    import { get } from 'svelte/store';
+
+    let isOpen = $state(false);
+    
+    // Reactive current locale
+    let currentLocale = $state('de');
+    
+    // Subscribe to locale changes
+    $effect(() => {
+        const unsubscribe = localeStore.subscribe(value => {
+            currentLocale = value || 'de';
+        });
+        return unsubscribe;
+    });
+
+    function handleLocaleChange(lang: 'de' | 'en') {
+        setLocale(lang);
+        isOpen = false;
+    }
+
+    function toggleDropdown() {
+        isOpen = !isOpen;
+    }
+</script>
+
+<svelte:window onclick={() => isOpen = false} />
+
+<div class="relative">
+    <button
+        onclick={(e) => { e.stopPropagation(); toggleDropdown(); }}
+        class="flex items-center gap-2 px-3 py-2 rounded-lg glass-card glass-card-hover text-white text-sm font-medium transition-all duration-300 hover:scale-105 border border-white/10"
+        aria-label="Change language"
+        title="Change language"
+    >
+        <!-- Globe icon -->
+        <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+        </svg>
+        <span class="text-base">{currentLocale === 'de' ? '🇩🇪' : '🇬🇧'}</span>
+        <span class="text-xs uppercase tracking-wide">{currentLocale}</span>
+        <svg 
+            class="w-3 h-3 transition-transform duration-200" 
+            class:rotate-180={isOpen}
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+        >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+
+    {#if isOpen}
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <div 
+            class="absolute right-0 mt-2 w-40 glass-card rounded-xl overflow-hidden shadow-xl z-50 animate-fadeIn"
+            onclick={(e) => e.stopPropagation()}
+        >
+            <button
+                onclick={() => handleLocaleChange('de')}
+                class="w-full flex items-center gap-3 px-4 py-3 text-left text-white hover:bg-white/10 transition-colors duration-200 {currentLocale === 'de' ? 'bg-white/10' : ''}"
+            >
+                <span class="text-lg">🇩🇪</span>
+                <span>{$_('language.de')}</span>
+                {#if currentLocale === 'de'}
+                    <svg class="w-4 h-4 ml-auto text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                {/if}
+            </button>
+            <button
+                onclick={() => handleLocaleChange('en')}
+                class="w-full flex items-center gap-3 px-4 py-3 text-left text-white hover:bg-white/10 transition-colors duration-200 {currentLocale === 'en' ? 'bg-white/10' : ''}"
+            >
+                <span class="text-lg">🇬🇧</span>
+                <span>{$_('language.en')}</span>
+                {#if currentLocale === 'en'}
+                    <svg class="w-4 h-4 ml-auto text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                {/if}
+            </button>
+        </div>
+    {/if}
+</div>
+
+<style>
+    .animate-fadeIn {
+        animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

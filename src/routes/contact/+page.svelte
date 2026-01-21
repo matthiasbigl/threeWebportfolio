@@ -6,6 +6,7 @@
 	import { browser } from '$app/environment';
 	import { gsap } from 'gsap';
 	import { enhance } from '$app/forms';
+	import { _ } from 'svelte-i18n';
 	import type { PageData, ActionData } from './$types';
 
 	interface Props {
@@ -22,53 +23,57 @@
 	const contactPageSchema = {
 		'@context': 'https://schema.org',
 		'@type': 'ContactPage',
-		name: 'Contact Matthias Bigl',
+		name: 'Kontakt - Matthias Bigl Webdesign',
 		description:
-			'Get in touch with Matthias Bigl - Full Stack Developer from Austria. Available for freelance work, collaborations, and job opportunities.',
+			'Kontaktieren Sie mich für Ihr Webprojekt. Kostenlose Erstberatung für Websites, Webshops und individuelle Web-Erlebnisse. Webdesigner aus Wien/Korneuburg.',
 		url: 'https://bigls.net/contact',
 		mainEntity: {
 			'@type': 'Person',
 			name: 'Matthias Bigl',
 			email: 'biglmatthias@gmail.com',
 			telephone: '+43 660 459 6636',
+			jobTitle: 'Webdesigner & Full Stack Developer',
 			address: {
 				'@type': 'PostalAddress',
 				addressLocality: 'Korneuburg',
-				addressCountry: 'Austria'
-			}
+				addressRegion: 'Niederösterreich',
+				addressCountry: 'AT'
+			},
+			areaServed: ['Wien', 'Korneuburg', 'Niederösterreich', 'Österreich']
 		}
 	};
 
-	const contactMethods = [
+	// Reactive contact methods based on translations
+	const contactMethods = $derived([
 		{
 			icon: 'email',
-			title: 'Email',
+			title: $_('contact.methods.email.title'),
 			value: 'biglmatthias@gmail.com',
 			href: 'mailto:biglmatthias@gmail.com',
-			description: 'Send me an email for any inquiries'
+			description: $_('contact.methods.email.description')
 		},
 		{
 			icon: 'phone',
-			title: 'Phone',
+			title: $_('contact.methods.phone.title'),
 			value: '+43 660 459 6636',
 			href: 'tel:+436604596636',
-			description: 'Call me for urgent matters'
+			description: $_('contact.methods.phone.description')
 		},
 		{
 			icon: 'location',
-			title: 'Location',
+			title: $_('contact.methods.location.title'),
 			value: 'Korneuburg, Austria',
 			href: 'https://maps.google.com/?q=Korneuburg,Austria',
-			description: 'Based in beautiful Austria'
+			description: $_('contact.methods.location.description')
 		},
 		{
 			icon: 'github',
-			title: 'GitHub',
+			title: $_('contact.methods.github.title'),
 			value: '@matthiasbigl',
 			href: 'https://github.com/matthiasbigl',
-			description: 'Check out my code repositories'
+			description: $_('contact.methods.github.description')
 		}
-	];
+	]);
 
 	onMount(() => {
 		if (!browser) return;
@@ -163,20 +168,20 @@
 </script>
 
 <SEO
-	title="Contact - Matthias Bigl | Full Stack Developer"
-	description="Get in touch with Matthias Bigl - Full Stack Developer from Austria. Available for freelance work, collaborations, and job opportunities. Contact via email, phone, or the contact form."
+	title={$_('seo.contact.title')}
+	description={$_('seo.contact.description')}
 	url="https://bigls.net/contact"
 	keywords={[
-		'Matthias Bigl',
-		'Contact',
-		'Email',
-		'Phone',
-		'Software Engineer',
-		'Austria',
-		'Web Developer',
-		'Freelance',
-		'Hire Developer',
-		'Full Stack Developer'
+		'Webdesign Anfrage',
+		'Kontakt Webdesigner Wien',
+		'Website erstellen lassen Angebot',
+		'Webentwickler kontaktieren',
+		'Freelancer Webdesign Wien',
+		'Webshop Anfrage',
+		'Matthias Bigl Kontakt',
+		'Webdesign Korneuburg',
+		'Homepage erstellen Angebot',
+		'Webentwicklung Niederösterreich'
 	]}
 />
 
@@ -212,11 +217,10 @@
 		<!-- Hero Section -->
 		<div class="contact-hero text-center mb-16 lg:mb-24">
 			<h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 text-glow">
-				Let's <span class="blue-gradient_text">Connect</span>
+				{$_('contact.title')} <span class="blue-gradient_text">{$_('contact.titleHighlight')}</span>
 			</h1>
 			<p class="text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-				Ready to bring your ideas to life? Let's discuss your next project and create something
-				amazing together.
+				{$_('contact.subtitle')}
 			</p>
 		</div>
 
@@ -224,7 +228,7 @@
 			<!-- Contact Methods -->
 			<div class="space-y-6">
 				<h2 class="text-2xl lg:text-3xl font-bold mb-8 text-gray-300">
-					Get In <span class="blue-gradient_text">Touch</span>
+					{$_('contact.getInTouch')} <span class="blue-gradient_text">{$_('contact.getInTouchHighlight')}</span>
 				</h2>
 
 				<div class="grid gap-6">
@@ -322,7 +326,7 @@
 			<div class="contact-form">
 				<div class="glass-card p-8 rounded-2xl">
 					<h2 class="text-2xl lg:text-3xl font-bold mb-8 text-gray-300">
-						Send Me A <span class="blue-gradient_text">Message</span>
+						{$_('contact.form.title')} <span class="blue-gradient_text">{$_('contact.form.titleHighlight')}</span>
 					</h2>
 
 					<form
@@ -355,7 +359,7 @@
 
 						<div class="form-field">
 							<label for="name" class="block text-sm font-medium text-gray-300 mb-2">
-								Your Name
+								{$_('contact.form.name')}
 							</label>
 							<div class="relative">
 								<input
@@ -366,7 +370,7 @@
 									required
 									maxlength="100"
 									class="form-input w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all duration-300"
-									placeholder="John Doe"
+									placeholder={$_('contact.form.namePlaceholder')}
 									class:border-red-500={form?.errors?.name}
 								/>
 								<div
@@ -380,7 +384,7 @@
 
 						<div class="form-field">
 							<label for="email" class="block text-sm font-medium text-gray-300 mb-2">
-								Your Email
+								{$_('contact.form.email')}
 							</label>
 							<div class="relative">
 								<input
@@ -391,7 +395,7 @@
 									required
 									maxlength="254"
 									class="form-input w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all duration-300"
-									placeholder="john@example.com"
+									placeholder={$_('contact.form.emailPlaceholder')}
 									class:border-red-500={form?.errors?.email}
 								/>
 								<div
@@ -405,7 +409,7 @@
 
 						<div class="form-field">
 							<label for="message" class="block text-sm font-medium text-gray-300 mb-2">
-								Your Message
+								{$_('contact.form.message')}
 							</label>
 							<div class="relative">
 								<textarea
@@ -416,7 +420,7 @@
 									maxlength="2000"
 									rows="6"
 									class="form-input w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all duration-300 resize-none"
-									placeholder="Tell me about your project..."
+									placeholder={$_('contact.form.messagePlaceholder')}
 									class:border-red-500={form?.errors?.message}
 								></textarea>
 								<div
@@ -454,9 +458,9 @@
 											d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
 										></path>
 									</svg>
-									Sending...
+									{$_('contact.form.sending')}
 								{:else}
-									Send Message
+									{$_('contact.form.submit')}
 								{/if}
 							</span>
 							<div
@@ -484,25 +488,24 @@
 		<div class="text-center mt-16 lg:mt-24">
 			<div class="glass-card p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto">
 				<h3 class="text-2xl lg:text-3xl font-bold mb-4 text-glow">
-					Ready to start your <span class="blue-gradient_text">project</span>?
+					{$_('contact.cta.title')} <span class="blue-gradient_text">{$_('contact.cta.titleHighlight')}</span>{$_('contact.cta.titleEnd')}
 				</h3>
 				<p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
-					I'm always excited to work on new challenges and help bring innovative ideas to life.
-					Let's create something extraordinary together.
+					{$_('contact.cta.subtitle')}
 				</p>
 				<div class="flex flex-col sm:flex-row gap-4 justify-center">
 					<a
 						href="mailto:biglmatthias@gmail.com"
 						class="magnetic-btn glass-card glass-card-hover px-8 py-4 text-lg font-semibold text-white text-center rounded-xl border border-white/20"
 					>
-						Email Me
+						{$_('contact.cta.emailMe')}
 					</a>
 					<a
 						href="/assets/resume.pdf"
 						download="MatthiasBigl-Resume.pdf"
 						class="magnetic-btn glass-card glass-card-hover px-8 py-4 text-lg font-semibold text-white text-center rounded-xl"
 					>
-						Download Resume
+						{$_('contact.cta.downloadResume')}
 					</a>
 				</div>
 			</div>

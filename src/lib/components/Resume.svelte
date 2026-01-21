@@ -26,22 +26,13 @@
     let isPdfLoaded = $state(false);
     let pageNumber = $state(1);
     let totalPages = $state(1);
-    
-    // RENDER SCALE: Fixed high value for crisp PDF rendering (internal canvas resolution)
-    // This is multiplied by devicePixelRatio for HiDPI displays
-    const RENDER_SCALE = 2.0;
-    
-    // VISUAL ZOOM: CSS transform scale for actual zoom in/out (what user sees)
-    let visualZoom = $state(1.0);
-    const minZoom = 0.75;  // Don't allow zooming out too far
-    const maxZoom = 2.5;   // Reasonable max zoom
-    
-    // Legacy scale variable for compatibility (maps to visualZoom for display)
-    let scale = $derived(visualZoom);
-    
+    let scale = $state(1.2);
     let isFullscreen = $state(false);
     let showControls = $state(true);
     let controlsTimeout: ReturnType<typeof setTimeout> | null = null;
+    
+    const minScale = 0.6;
+    const maxScale = 3.0;
     
     // DOM References
     let containerElement: HTMLDivElement | undefined = $state();
@@ -49,10 +40,22 @@
     let scrollWrapper: HTMLDivElement | undefined = $state();
     let fullscreenContainer: HTMLDivElement | undefined = $state();
 
+    // Performance Constants
+    const STANDARD_PDF_WIDTH = 612;
+    const CONTAINER_PADDING = 32;
+    const SCALE_THRESHOLD = 0.01;
+
     // Touch & Zoom State
     let initialPinchDistance = 0;
     let startingScale = 1;
     let isZooming = $state(false);
+    let zoomThrottleId: number | null = null;
+    let touchDebounceTimeout: ReturnType<typeof setTimeout> | null = null;
+    let lastTouchScale = 0;
+    let touchUpdatePending = false;
+    let currentRenderTask: any = null;
+    let pendingScale: number | null = null;
+    let isRendering = $state(false);
     let isIOS = false;
 
     // ========================================================================
@@ -100,6 +103,103 @@
         return Math.sqrt(dx * dx + dy * dy);
     };
 
+    const debouncedTouchZoom = (newScale: number, touchEvent?: TouchEvent) => {
+        if (!isZooming) return;
+        if (touchEvent && touchEvent.touches.length !== 2) return;
+        
+        if (touchDebounceTimeout) clearTimeout(touchDebounceTimeout);
+        
+        lastTouchScale = newScale;
+        scale = newScale;
+        touchUpdatePending = true;
+        
+        touchDebounceTimeout = setTimeout(() => {
+            if (touchUpdatePending && isZooming && Math.abs(scale - lastTouchScale) < SCALE_THRESHOLD) {
+                throttledResize(lastTouchScale);
+                touchUpdatePending = false;
+            }
+            touchDebounceTimeout = null;
+        }, 20); 
+    };
+
+    const calculateScale = () => {
+        if (!containerElement) return 1.2;
+        const containerWidth = containerElement.clientWidth;
+        const availableWidth = containerWidth - CONTAINER_PADDING;
+        const baseScale = Math.min(availableWidth / STANDARD_PDF_WIDTH, 1.4);
+        
+        if (containerWidth < 640) return Math.max(baseScale, 0.8);
+        if (containerWidth < 1024) return Math.max(baseScale, 1.0);
+        return Math.max(baseScale, 1.2);
+    };
+
+    const updateScale = () => {
+        const newScale = calculateScale();
+        if (Math.abs(scale - newScale) > SCALE_THRESHOLD) {
+            scale = newScale;
+            throttledResize(newScale);
+        }
+    };
+
+    // ========================================================================
+    // PDF RENDER MANAGEMENT
+    // ========================================================================
+
+    const throttledResize = async (newScale: number) => {
+        if (zoomThrottleId) {
+            cancelAnimationFrame(zoomThrottleId);
+            zoomThrottleId = null;
+        }
+        
+        pendingScale = newScale;
+        
+        if (isRendering) return;
+        zoomThrottleId = requestAnimationFrame(async () => {
+            await performRender();
+            zoomThrottleId = null;
+        });
+    };
+
+    const performRender = async () => {
+        if (isRendering || !pdfViewer || pendingScale === null) {
+            return;
+        }
+        
+        isRendering = true;
+        const scaleToRender = pendingScale;
+        pendingScale = null;
+        
+        try {
+            // Cancel any ongoing render task
+            if (currentRenderTask) {
+                await currentRenderTask.cancel();
+                currentRenderTask = null;
+            }
+            
+            // Perform the resize/render operation
+            const renderPromise = pdfViewer.resize(scaleToRender);
+            
+            // Store the current render task for potential cancellation
+            if (renderPromise && typeof renderPromise.then === 'function') {
+                currentRenderTask = renderPromise;
+                await renderPromise;
+                currentRenderTask = null;
+            }
+              } catch (error: any) {
+            // Ignore cancellation errors, they're expected
+            if (error?.name !== 'RenderingCancelledException') {
+                console.warn('PDF render error:', error);
+            }
+            currentRenderTask = null;
+        } finally {
+            isRendering = false;
+            
+            // If there's a pending scale change, process it
+            if (pendingScale !== null) {
+                requestAnimationFrame(() => performRender());
+            }
+        }    };
+
     // ========================================================================
     // NAVIGATION & ZOOM CONTROLS
     // ========================================================================
@@ -112,43 +212,52 @@
         }
         pdfViewer?.goToPage(pageNumber);
     };
-    
-    // Simple zoom functions - just update CSS transform, no re-rendering needed
-    const zoomIn = () => {
-        visualZoom = Math.min(visualZoom + 0.15, maxZoom);
-    };
-    
-    const zoomOut = () => {
-        visualZoom = Math.max(visualZoom - 0.15, minZoom);
+      const zoomIn = () => {
+        const newScale = Math.min(scale + 0.1, maxScale);
+        if (Math.abs(newScale - scale) > SCALE_THRESHOLD) {
+            scale = newScale;
+            throttledResize(newScale);
+        }
+    };    const zoomOut = () => {
+        const newScale = Math.max(scale - 0.1, minScale);
+        if (Math.abs(newScale - scale) > SCALE_THRESHOLD) {
+            scale = newScale;
+            throttledResize(newScale);
+        }
     };
 
     const resetZoom = () => {
-        visualZoom = 1.0;
+        const newScale = calculateScale();
+        if (Math.abs(newScale - scale) > SCALE_THRESHOLD) {
+            scale = newScale;
+            throttledResize(newScale);
+        }
     };
 
     // ========================================================================
     // EVENT HANDLERS
-    // ========================================================================
-    
-    // Zoom with mouse wheel - CSS transform only, no re-render needed
+    // ========================================================================    // Zoom with mouse wheel
     const handleWheel = (event: WheelEvent) => {
         // Only zoom if Ctrl key is held down (like in browsers)
         if (event.ctrlKey) {
             event.preventDefault();
             
-            const zoomDelta = event.deltaY > 0 ? -0.1 : 0.1;
-            visualZoom = Math.max(minZoom, Math.min(maxZoom, visualZoom + zoomDelta));
-        }
-    };
-    
-    // Touch gesture handlers
+            const zoomDelta = event.deltaY > 0 ? -0.05 : 0.05;
+            const newScale = Math.max(minScale, Math.min(maxScale, scale + zoomDelta));
+            
+            if (Math.abs(newScale - scale) > SCALE_THRESHOLD) {
+                scale = newScale;
+                throttledResize(newScale);
+            }    
+        };    // Touch gesture handlers
+    }
     const handleTouchStart = (event: TouchEvent) => {
         if (event.touches.length === 2) {
             // Prevent all browser gestures for reliable pinch-zoom handling
             event.preventDefault();
             event.stopPropagation();
             initialPinchDistance = getTouchDistance(event.touches[0], event.touches[1]);
-            startingScale = visualZoom;
+            startingScale = scale;
             isZooming = true;
             
             // Disable iOS Safari zoom during our custom zoom
@@ -165,9 +274,7 @@
                 pdfContainer.style.touchAction = 'pan-y';
             }
         }
-    };
-    
-    const handleTouchMove = (event: TouchEvent) => {
+    };    const handleTouchMove = (event: TouchEvent) => {
         if (event.touches.length === 2 && initialPinchDistance > 0 && isZooming) {
             // Prevent all browser gestures during pinch-zoom
             event.preventDefault();
@@ -175,14 +282,19 @@
             
             const currentDistance = getTouchDistance(event.touches[0], event.touches[1]);
             const scaleChange = currentDistance / initialPinchDistance;
-            // Update visual zoom directly - no re-render needed, just CSS transform
-            visualZoom = Math.max(minZoom, Math.min(maxZoom, startingScale * scaleChange));
+            const newScale = Math.max(minScale, Math.min(maxScale, startingScale * scaleChange));
+            
+            if (Math.abs(newScale - scale) > SCALE_THRESHOLD) {
+                // Use debounced touch zoom with event context to ensure it's a pinch gesture
+                debouncedTouchZoom(newScale, event);
+            }
         }
         // Single touch events are allowed to bubble up for normal scrolling
-    };
-    
-    const handleTouchEnd = (event: TouchEvent) => {
+    };    const handleTouchEnd = (event: TouchEvent) => {
         if (event.touches.length < 2) {
+            // Only perform final render if we were actually zooming (not just single touch)
+            const wasZooming = isZooming;
+            
             initialPinchDistance = 0;
             startingScale = 1;
             isZooming = false;
@@ -194,6 +306,27 @@
                 if (isIOS) {
                     document.body.style.touchAction = 'auto';
                 }
+            }
+            
+            // Clear touch debounce
+            if (touchDebounceTimeout) {
+                clearTimeout(touchDebounceTimeout);
+                touchDebounceTimeout = null;
+            }
+            
+            // Cancel any pending throttled operation
+            if (zoomThrottleId) {
+                cancelAnimationFrame(zoomThrottleId);
+                zoomThrottleId = null;
+            }
+            
+            // Only perform final render if we were actually in a zoom gesture
+            if (wasZooming && (touchUpdatePending || pendingScale !== null)) {
+                throttledResize(scale);
+                touchUpdatePending = false;
+            } else if (!wasZooming) {
+                // Clear any pending updates from single touch
+                touchUpdatePending = false;
             }
         }
     };
@@ -234,11 +367,26 @@
                 // Dynamic import for SSR compatibility
                 const module = await import('svelte-pdf-simple');
                 PdfViewer = module.PdfViewer;
+                
+                // Calculate initial scale with better quality
+                const initialScale = calculateScale();
+                scale = Math.max(initialScale, 1.0); // Ensure minimum 1.0 scale for quality
             } catch (error) {
                 console.error('Failed to load PDF viewer:', error);
                 isLoading = false;
             }
         })();
+
+        // Event Listeners Setup
+        let resizeTimeout: ReturnType<typeof setTimeout>;
+        const handleResize = () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                updateScale();
+            }, 150); // Debounce resize events
+        };
+
+        window.addEventListener('resize', handleResize);
 
         // Fullscreen change listener
         const handleFullscreenChange = () => {
@@ -247,11 +395,28 @@
         };
         document.addEventListener('fullscreenchange', handleFullscreenChange);
 
-        // Cleanup
+        // Initial scale calculation
+        updateScale();
+        throttledResize(scale);        // Cleanup
         return () => {
+            window.removeEventListener('resize', handleResize);
             document.removeEventListener('fullscreenchange', handleFullscreenChange);
+            if (resizeTimeout) {
+                clearTimeout(resizeTimeout);
+            }
             if (controlsTimeout) {
                 clearTimeout(controlsTimeout);
+            }
+            if (zoomThrottleId) {
+                cancelAnimationFrame(zoomThrottleId);
+            }
+            if (touchDebounceTimeout) {
+                clearTimeout(touchDebounceTimeout);
+            }
+            // Cancel any ongoing render operations
+            if (currentRenderTask) {
+                currentRenderTask.cancel?.();
+                currentRenderTask = null;
             }
         };
     });
@@ -259,7 +424,6 @@
 </script>
 
 <!-- Fullscreen Container -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div 
     bind:this={fullscreenContainer}
     class="resume-viewer-wrapper"
@@ -307,7 +471,7 @@
                             <div class="flex items-center gap-1 bg-white/5 backdrop-blur-sm px-2 py-1.5 rounded-xl border border-white/10">
                                 <button 
                                     onclick={zoomOut}
-                                    disabled={visualZoom <= minZoom}
+                                    disabled={scale <= minScale}
                                     class="p-1.5 text-gray-300 hover:text-white hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed transition-all rounded-lg"
                                     title="Zoom Out (Ctrl + Scroll)"
                                     aria-label="Zoom Out"
@@ -320,13 +484,13 @@
                                 <div class="w-12 h-1 bg-white/20 rounded-full overflow-hidden">
                                     <div 
                                         class="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full transition-all duration-200"
-                                        style="width: {((visualZoom - minZoom) / (maxZoom - minZoom)) * 100}%"
+                                        style="width: {((scale - minScale) / (maxScale - minScale)) * 100}%"
                                     ></div>
                                 </div>
                                 
                                 <button 
                                     onclick={zoomIn}
-                                    disabled={visualZoom >= maxZoom}
+                                    disabled={scale >= maxScale}
                                     class="p-1.5 text-gray-300 hover:text-white hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed transition-all rounded-lg"
                                     title="Zoom In (Ctrl + Scroll)"
                                     aria-label="Zoom In"
@@ -436,43 +600,43 @@
                                 class="pdf-scroll-container relative overflow-auto rounded-lg"
                                 class:fullscreen-scroll={isFullscreen}
                             >
-                                <!-- PDF Container - sized to account for zoom -->
+                                <!-- PDF Container -->
                                 <div 
                                     bind:this={pdfContainer}
                                     class="pdf-content-wrapper relative bg-white"
                                     class:zooming={isZooming}
+                                    class:rendering={isRendering}
                                     onwheel={handleWheel}
                                     ontouchstart={handleTouchStart}
                                     ontouchmove={handleTouchMove}
                                     ontouchend={handleTouchEnd}
                                 >
-                                    <!-- 
-                                        Zoom container that expands to show full scaled content.
-                                        We use a wrapper that grows with the zoom level so scrolling works properly.
-                                    -->
-                                    <div 
-                                        class="pdf-zoom-container"
-                                        style="width: calc(100% * {visualZoom}); height: auto;"
+                                    <!-- Loading/Rendering Overlay -->
+                                    {#if isRendering}
+                                        <div class="absolute inset-0 bg-white/50 backdrop-blur-[2px] flex items-center justify-center z-20">
+                                            <div class="flex flex-col items-center gap-2">
+                                                <div class="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                                <span class="text-xs text-gray-500">Rendering...</span>
+                                            </div>
+                                        </div>
+                                    {/if}
+                                    
+                                    <PdfViewer
+                                        bind:this={pdfViewer}
+                                        props={{
+                                            url: pdfUrl,
+                                            scale: scale,
+                                            page: pageNumber,
+                                            withAnnotations: true,
+                                            withTextContent: true,
+                                            renderTextLayer: true,
+                                            enableHighQuality: true
+                                        }}
+                                        style="display: block; width: auto; height: auto; min-width: 100%;"
+                                        on:load_success={handleLoadSuccess}
+                                        on:load_failure={handleLoadFailure}
+                                        on:page_changed={handlePageChange}
                                     >
-                                        <div 
-                                            class="pdf-zoom-wrapper"
-                                            style="transform: scale({visualZoom}); transform-origin: top left; width: calc(100% / {visualZoom});"
-                                        >
-                                            <PdfViewer
-                                                bind:this={pdfViewer}
-                                                props={{
-                                                    url: pdfUrl,
-                                                    scale: RENDER_SCALE,
-                                                    page: pageNumber,
-                                                    withAnnotations: true,
-                                                    withTextContent: true
-                                                }}
-                                                class="pdf-viewer-element"
-                                                style="display: block;"
-                                                on:load_success={handleLoadSuccess}
-                                                on:load_failure={handleLoadFailure}
-                                                on:page_changed={handlePageChange}
-                                            >
                                         <svelte:fragment slot="loading">
                                             <div class="pdf-skeleton">
                                                 <div class="skeleton-header"></div>
@@ -508,13 +672,11 @@
                                             </div>
                                         </svelte:fragment>
                                     </PdfViewer>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     {:else}
-                        <!-- Initial Loading State - only shown before PdfViewer loads -->
+                        <!-- Initial Loading State -->
                         <div class="pdf-document-frame">
                             <div class="pdf-scroll-container rounded-lg overflow-hidden">
                                 <div class="pdf-skeleton">
@@ -620,52 +782,18 @@
     /* PDF Content */
     .pdf-content-wrapper {
         @apply min-h-[400px];
-        /* Allow text selection */
-        user-select: text;
-        -webkit-user-select: text;
-    }
-
-    /* Container that expands to match zoomed content size for proper scrolling */
-    .pdf-zoom-container {
-        display: inline-block;
-        min-width: 100%;
-    }
-
-    /* Zoom wrapper for CSS transform-based zoom */
-    .pdf-zoom-wrapper {
-        display: inline-block;
-        transition: transform 0.15s ease-out;
-        transform-origin: top left;
-        /* Ensure text selection works through transform */
-        user-select: text;
-        -webkit-user-select: text;
-    }
-
-    /* Improve canvas rendering quality - allow pointer events for text selection */
-    .pdf-content-wrapper :global(canvas) {
-        image-rendering: auto;
-    }
-    
-    /* Ensure text layer is selectable and positioned above canvas */
-    .pdf-content-wrapper :global(.textLayer) {
-        user-select: text !important;
-        -webkit-user-select: text !important;
-        pointer-events: auto !important;
-        z-index: 2;
-    }
-
-    /* Annotation layer should also be interactive */
-    .pdf-content-wrapper :global(.annotationLayer) {
-        pointer-events: auto !important;
-        z-index: 3;
+        transition: opacity 0.2s ease;
     }
     
     .pdf-content-wrapper.zooming {
         touch-action: none !important;
-        /* Only disable selection during active pinch gesture */
         user-select: none !important;
         -webkit-user-select: none !important;
         -webkit-touch-callout: none !important;
+    }
+    
+    .pdf-content-wrapper.rendering {
+        pointer-events: none;
     }
     
     /* Skeleton Loading Animation */

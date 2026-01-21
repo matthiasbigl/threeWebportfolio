@@ -1,5 +1,8 @@
 <script>
     import "../app.css";
+    import "$lib/i18n";
+    import { isLoading } from 'svelte-i18n';
+    import { initLocaleFromStorage } from '$lib/i18n';
     import Navbar from "$lib/components/navbar.svelte";
     import Footer from "$lib/components/Footer.svelte";
     import SEO from "$lib/components/SEO.svelte";
@@ -11,6 +14,9 @@
 
     onMount(() => {
         if (browser) {
+            // Initialize locale from localStorage
+            initLocaleFromStorage();
+            
             // Smooth scrolling behavior
             document.documentElement.style.scrollBehavior = 'smooth';
             
@@ -23,13 +29,19 @@
 <!-- Default SEO - will be overridden by page-specific SEO components -->
 <SEO />
 
-<div class="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex flex-col">
-    <Navbar/>
-    <main class="flex-grow">
-        {@render children?.()}
-    </main>
-    <Footer />
-</div>
+{#if $isLoading}
+    <div class="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+        <div class="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full"></div>
+    </div>
+{:else}
+    <div class="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex flex-col">
+        <Navbar/>
+        <main class="flex-grow">
+            {@render children?.()}
+        </main>
+        <Footer />
+    </div>
+{/if}
 
 <style>
     :global(html) {

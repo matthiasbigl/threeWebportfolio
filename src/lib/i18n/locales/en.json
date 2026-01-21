@@ -1,0 +1,231 @@
+{
+	"nav": {
+		"home": "Home",
+		"services": "Services",
+		"faq": "FAQ",
+		"contact": "Contact"
+	},
+	"hero": {
+		"greeting": "Hey, I'm",
+		"name": "Matthias Bigl",
+		"subtitle": "I make your business <span class=\"blue-gradient_text font-semibold\">shine online</span> 🇦🇹",
+		"description": "Your <span class=\"blue-gradient_text font-semibold\">digital storefront</span> that wins new customers 24/7 – while you focus on what you do best.",
+		"cta": "Free Consultation",
+		"ctaServices": "How I Can Help"
+	},
+	"services": {
+		"title": "More Customers,",
+		"titleHighlight": "Less Hassle",
+		"subtitle": "Want to be visible online but don't want to waste weeks on tech? <span class=\"blue-gradient_text\">I'll handle it for you</span> – personally, no agency chaos, fair pricing.",
+		"items": {
+			"websites": {
+				"title": "Websites That Sell",
+				"description": "Your website works for you – even at 3 AM. Professional, trust-building, and designed to turn visitors into customers.",
+				"features": ["Perfect on all devices", "Found by customers", "Lightning fast", "Trust at first sight"]
+			},
+			"webshops": {
+				"title": "Selling Online, Made Simple",
+				"description": "Your own shop taking orders while you sleep. Easy to manage, secure for your customers, optimized for more sales.",
+				"features": ["Dead-simple management", "Secure payments", "Automatic orders", "Know what works"]
+			},
+			"experiences": {
+				"title": "Guaranteed Wow-Effect",
+				"description": "Stand out from the crowd. Interactive experiences that stick in memory and make your brand unforgettable.",
+				"features": ["Stunning 3D worlds", "Interactive & playful", "Tailor-made for you", "Unique as your business"]
+			},
+			"fullstack": {
+				"title": "Worry-Free Package",
+				"description": "Tech isn't your thing? No problem. I handle everything – from the first idea to ongoing support. You just need to say 'yes'.",
+				"features": ["All from one source", "Fast & secure hosting", "Updates included", "Always reachable"]
+			}
+		},
+		"whyMe": {
+			"title": "Agency Quality,",
+			"titleHighlight": "Without Agency Prices",
+			"subtitle": "Why pay for 10 people when one can do it all? Direct, personal, no detours."
+		},
+		"benefits": {
+			"personal": {
+				"title": "No Hold Music",
+				"description": "You call, I pick up. No tickets, no 'your request has been forwarded'. Direct communication, fast solutions."
+			},
+			"local": {
+				"title": "Coffee Over Video Call",
+				"description": "Personal meetings possible in Vienna or Korneuburg. Sometimes a face-to-face conversation is just better."
+			},
+			"prices": {
+				"title": "More Website, Less Invoice",
+				"description": "No agency surcharges for meetings about meetings. You pay for results, not overhead."
+			},
+			"detail": {
+				"title": "Your Project = My Project",
+				"description": "Every detail counts. I work as if it were my own website – because my reputation depends on your satisfaction."
+			},
+			"tech": {
+				"title": "Built for the Future",
+				"description": "No outdated systems that cause problems in 2 years. Modern tech that grows with your business."
+			},
+			"allInOne": {
+				"title": "Sit Back and Relax",
+				"description": "Hosting, updates, security – runs in the background. You focus on your business, I focus on your website."
+			}
+		},
+		"cta": "Get Free Advice Now →",
+		"ctaSubtext": "No strings attached • Reply within 24h • No hidden costs"
+	},
+	"skills": {
+		"title": "My",
+		"titleHighlight": "Skills",
+		"languages": "Languages",
+		"strengths": "Strengths"
+	},
+	"projects": {
+		"title": "My",
+		"titleHighlight": "Favorite Projects",
+		"moreOnGithub": "...and much more on my"
+	},
+	"resume": {
+		"title": "My",
+		"titleHighlight": "Resume"
+	},
+	"hobbies": {
+		"title": "My",
+		"titleHighlight": "Hobbies",
+		"items": {
+			"gym": {
+				"title": "GYM",
+				"description": "I'm always trying to push my limits in the gym 💪"
+			},
+			"skiing": {
+				"title": "Skiing",
+				"description": "Carving down the slopes is one of my favorite things to do in winter 🎿"
+			},
+			"surfing": {
+				"title": "Surfing",
+				"description": "Been surfing since I was 6 years old 🤙"
+			}
+		}
+	},
+	"faq": {
+		"title": "Your Questions,",
+		"titleHighlight": "Honest Answers",
+		"subtitle": "No marketing fluff – here's how working together actually works",
+		"moreQuestions": "Still unsure? Let's just hop on a call!",
+		"cta": "Call Me Now",
+		"items": {
+			"cost": {
+				"question": "What's this going to cost me?",
+				"answer": "Let me be straight: A landing page from €650, a full website from €2,000, webshops from €3,250. But more importantly: In a free call, we figure out what you ACTUALLY need – nothing more, nothing less. Then you get a transparent quote with no surprises."
+			},
+			"duration": {
+				"question": "When can I go live?",
+				"answer": "A simple website? You're online in 1-2 weeks. Bigger projects with shops or special features: 4-8 weeks. The best part: You see progress along the way – no ugly surprises at the end."
+			},
+			"hosting": {
+				"question": "What happens after launch?",
+				"answer": "Here's the beauty: You don't have to worry about anything. Hosting, security, updates, backups – all runs automatically in the background. If something breaks, I'm one call away. You do your thing, I keep your website running."
+			},
+			"edit": {
+				"question": "Can I edit content myself?",
+				"answer": "Absolutely! Depending on your needs, I build in a simple admin system you'll understand in 10 minutes. Or I handle all changes for you – whatever you prefer. You shouldn't need a tech course."
+			},
+			"remote": {
+				"question": "Do I need to be in Vienna?",
+				"answer": "Nope! Most of my clients I only know via video or phone – works perfectly. But if you're in Vienna or nearby and prefer grabbing a coffee: Happy to!"
+			},
+			"agency": {
+				"question": "Why not a big agency?",
+				"answer": "Picture this: One contact instead of five. No 'that's not my department' answers. No inflated bills for internal meetings. With me, you always know who's working on your project: Me. Personal, direct, no detours."
+			},
+			"tech": {
+				"question": "Is my website future-proof?",
+				"answer": "Absolutely. I use modern technologies that'll still be relevant in 5 years – no outdated WordPress themes that get hacked regularly. Fast, secure, and you never have to worry about things suddenly breaking."
+			},
+			"process": {
+				"question": "How does this actually work?",
+				"answer": "Simple: 1) We talk for 15 minutes – free, no strings. 2) I send you a clear quote. 3) During development, you see regular progress. 4) Your website goes live, and I'm still there for you. No stress, no surprises."
+			},
+			"seo": {
+				"question": "Will people find me on Google?",
+				"answer": "The basics are always included: Fast loading, clean code, mobile optimization, all important meta tags. That gives you a solid foundation. For intensive SEO campaigns, I'm happy to create a separate offer."
+			},
+			"existing": {
+				"question": "I already have a website – can you help?",
+				"answer": "Sure! Whether redesign, performance boost, or new features – just send me the link, and I'll tell you honestly what makes sense and what doesn't."
+			}
+		}
+	},
+	"contact": {
+		"title": "Let's Get",
+		"titleHighlight": "Started",
+		"subtitle": "You have an idea? I have the execution. In 15 minutes you'll know if we're a fit – free and no strings attached.",
+		"getInTouch": "How to",
+		"getInTouchHighlight": "Reach Me",
+		"methods": {
+			"email": {
+				"title": "Email",
+				"description": "Response within 24 hours"
+			},
+			"phone": {
+				"title": "Phone",
+				"description": "Talk to me directly"
+			},
+			"location": {
+				"title": "Location",
+				"description": "Vienna & Korneuburg, Austria"
+			},
+			"github": {
+				"title": "GitHub",
+				"description": "See how I work"
+			}
+		},
+		"form": {
+			"title": "Describe Your",
+			"titleHighlight": "Project",
+			"name": "Your Name",
+			"namePlaceholder": "What should I call you?",
+			"email": "Your Email",
+			"emailPlaceholder": "Where can I reach you?",
+			"message": "Tell me about your project",
+			"messagePlaceholder": "What do you have in mind? What's the goal? Don't worry, doesn't have to be perfect yet...",
+			"submit": "Send & Get Started",
+			"sending": "Sending..."
+		},
+		"cta": {
+			"title": "Ready for Your",
+			"titleHighlight": "Online",
+			"titleEnd": "Success?",
+			"subtitle": "The first step is a conversation. 15 minutes, free, no strings. After that you'll know exactly what's possible and what it costs.",
+			"emailMe": "Email Me",
+			"downloadResume": "More About Me"
+		}
+	},
+	"footer": {
+		"description": "I help businesses become visible online – with websites that don't just look good, but actually bring in customers. Personal, no agency detours, from Vienna/Korneuburg.",
+		"navigation": "Navigation",
+		"servicesTitle": "Services",
+		"contactTitle": "Contact",
+		"services": {
+			"websites": "Websites That Sell",
+			"webshops": "Webshops & Online Sales",
+			"experiences": "Wow Experiences",
+			"hosting": "Hosting & Support"
+		},
+		"copyright": "All rights reserved.",
+		"location": "Korneuburg / Vienna, Austria"
+	},
+	"seo": {
+		"home": {
+			"title": "Matthias Bigl | Web Design & Development Vienna/Korneuburg",
+			"description": "Matthias Bigl – Your web designer from Vienna/Korneuburg, Austria. Websites, webshops & web experiences. Personal, no agency prices, online in 1-2 weeks. Free consultation!"
+		},
+		"contact": {
+			"title": "Contact | Matthias Bigl - Web Design Vienna/Korneuburg",
+			"description": "Contact Matthias Bigl for your web project. 15-minute free consultation – no strings attached. Web design from Vienna/Korneuburg. Response within 24h!"
+		}
+	},
+	"language": {
+		"de": "Deutsch",
+		"en": "English"
+	}
+}
