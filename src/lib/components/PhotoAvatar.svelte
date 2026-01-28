@@ -79,21 +79,26 @@
 		class="w-full h-full object-cover object-top scale-105 transition-transform duration-700 ease-out"
 	/>
 
-	<!-- Inner Border/Glint -->
+	/* Inner Border/Glint */
 	<div class="absolute inset-0 border border-white/20 rounded-3xl pointer-events-none"></div>
 	<div
 		class="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-50 pointer-events-none"
+	></div>
+
+	<!-- Sweeping Glint Effect -->
+	<div
+		class="glint-effect absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full pointer-events-none"
 	></div>
 </div>
 
 <style>
 	.glass-card-premium {
 		background: rgba(255, 255, 255, 0.03);
-		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
 		border: 1px solid rgba(255, 255, 255, 0.1);
 		box-shadow:
-			0 8px 32px 0 rgba(0, 0, 0, 0.8),
+			0 20px 50px 0 rgba(0, 0, 0, 0.5),
 			inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 	}
 
@@ -102,7 +107,22 @@
 		will-change: transform;
 	}
 
+	.glint-effect {
+		animation: glint 8s infinite ease-in-out;
+	}
+
+	@keyframes glint {
+		0%,
+		80% {
+			transform: skewX(-12deg) translateX(-100%);
+		}
+		90%,
+		100% {
+			transform: skewX(-12deg) translateX(100%);
+		}
+	}
+
 	:global(.hero-avatar) {
-		filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
+		filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.2));
 	}
 </style>

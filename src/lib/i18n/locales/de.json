@@ -8,10 +8,10 @@
 	"hero": {
 		"greeting": "Hey, ich bin",
 		"name": "Matthias Bigl",
-		"subtitle": "Ich bringe Ihr Business <span class=\"blue-gradient_text font-semibold\">online zum Strahlen</span> 🇦🇹",
-		"description": "Ihre <span class=\"blue-gradient_text font-semibold\">digitale Visitenkarte</span>, die rund um die Uhr neue Kunden gewinnt – während Sie sich auf Ihr Kerngeschäft konzentrieren.",
-		"cta": "Kostenloses Erstgespräch",
-		"ctaServices": "So kann ich helfen"
+		"subtitle": "Professionelles <span class=\"blue-gradient_text font-semibold\">Webdesign & Webentwicklung</span> 🇦🇹",
+		"description": "Ihre <span class=\"blue-gradient_text font-semibold\">digitale Visitenkarte</span> in Wien & Korneuburg, die rund um die Uhr neue Kunden gewinnt – während Sie sich auf Ihr Kerngeschäft konzentrieren.",
+		"cta": "Kostenlose Beratung",
+		"ctaServices": "Meine Leistungen"
 	},
 	"services": {
 		"title": "Mehr Kunden,",
@@ -19,24 +19,44 @@
 		"subtitle": "Sie wollen online sichtbar sein, aber nicht Wochen mit Technik verschwenden? <span class=\"blue-gradient_text\">Ich übernehme das für Sie</span> – persönlich, ohne Agentur-Chaos, zum fairen Preis.",
 		"items": {
 			"websites": {
-				"title": "Websites, die verkaufen",
-				"description": "Ihre Website arbeitet für Sie – auch um 3 Uhr nachts. Professionell, vertrauensbildend und so gestaltet, dass Besucher zu Kunden werden.",
-				"features": ["Auf allen Geräten perfekt", "Von Kunden gefunden werden", "Blitzschnell geladen", "Vertrauen auf den ersten Blick"]
+				"title": "SEO-optimierte Websites",
+				"description": "Modernes Webdesign, das für Sie arbeitet – auch um 3 Uhr nachts. Professionell, vertrauensbildend und für maximale Sichtbarkeit optimiert.",
+				"features": [
+					"Responsive Webdesign",
+					"Auf Google gefunden werden",
+					"Blitzschnelle Ladezeiten",
+					"Vertrauen auf den ersten Blick"
+				]
 			},
 			"webshops": {
 				"title": "Online verkaufen, einfach gemacht",
 				"description": "Ihr eigener Shop, der Bestellungen annimmt während Sie schlafen. Einfach zu verwalten, sicher für Ihre Kunden, optimiert für mehr Verkäufe.",
-				"features": ["Kinderleichte Verwaltung", "Sichere Zahlungen", "Automatische Bestellungen", "Wissen, was funktioniert"]
+				"features": [
+					"Kinderleichte Verwaltung",
+					"Sichere Zahlungen",
+					"Automatische Bestellungen",
+					"Wissen, was funktioniert"
+				]
 			},
 			"experiences": {
 				"title": "Wow-Effekt garantiert",
 				"description": "Heben Sie sich von der Masse ab. Interaktive Erlebnisse, die im Gedächtnis bleiben und Ihre Marke unvergesslich machen.",
-				"features": ["Beeindruckende 3D-Welten", "Interaktiv & spielerisch", "Maßgeschneidert für Sie", "Einzigartig wie Ihr Business"]
+				"features": [
+					"Beeindruckende 3D-Welten",
+					"Interaktiv & spielerisch",
+					"Maßgeschneidert für Sie",
+					"Einzigartig wie Ihr Business"
+				]
 			},
 			"fullstack": {
 				"title": "Rundum-Sorglos-Paket",
 				"description": "Technik ist nicht Ihr Ding? Kein Problem. Ich kümmere mich um alles – von der ersten Idee bis zur laufenden Betreuung. Sie müssen nur noch 'Ja' sagen.",
-				"features": ["Alles aus einer Hand", "Schnelles & sicheres Hosting", "Updates & Wartung inklusive", "Immer für Sie erreichbar"]
+				"features": [
+					"Alles aus einer Hand",
+					"Schnelles & sicheres Hosting",
+					"Updates & Wartung inklusive",
+					"Immer für Sie erreichbar"
+				]
 			}
 		},
 		"whyMe": {
@@ -70,8 +90,8 @@
 				"description": "Hosting, Updates, Sicherheit – das läuft im Hintergrund. Sie konzentrieren sich auf Ihr Business, ich auf Ihre Website."
 			}
 		},
-		"cta": "Jetzt kostenlos beraten lassen →",
-		"ctaSubtext": "Unverbindlich • In 24h Antwort • Keine versteckten Kosten"
+		"cta": "Jetzt gratis Webdesign-Beratung →",
+		"ctaSubtext": "Unverbindlich • Gratis Beratung • Keine versteckten Kosten"
 	},
 	"skills": {
 		"title": "Meine",
@@ -80,9 +100,212 @@
 		"strengths": "Stärken"
 	},
 	"projects": {
-		"title": "Meine",
-		"titleHighlight": "Lieblingsprojekte",
-		"moreOnGithub": "...und vieles mehr auf meinem"
+		"title": "Portfolio &",
+		"titleHighlight": "Case Studies",
+		"moreOnGithub": "Weitere Open-Source Projekte auf",
+		"items": {
+			"loveline": {
+				"title": "LoveLine - Relationship OS",
+				"tagline": "Verbindung durch dezente Technologie. Eine private digitale Brücke für Paare im Zeitalter der ständigen Ablenkung.",
+				"description": "Ein privater digitaler Raum für Paare mit IoT-Interaktion und integrierter Date-Planung.",
+				"sections": {
+					"context": "LoveLine ist ein spezialisiertes Kommunikationstool, das die Lücke zwischen digitaler Interaktion und physischer Präsenz schließt. Es fungiert als private Verbindung zwischen Haushalten — ein permanentes Band unabhängig von der Distanz.",
+					"problem": "Standard-Messenger wirken oft unpersönlich. Fernbeziehungen fehlt die haptische Atmosphäre, die dedizierte Hardware bieten kann. Bestehende Tools sind oft auf Produktivität statt auf persönliche Verbindung ausgelegt.",
+					"solution": "Ein Echtzeit-IoT-Ökosystem auf Basis von SvelteKit und ESP32. Beim Senden eines Moments reagiert ein physischer Rahmen beim Partner sofort. Synchrone Präsenz, entwickelt für fokussierte, persönliche Interaktion.",
+					"impact": "Strukturierte Entscheidungsfindung durch eine integrierte Date-Engine. Erfolgreiche Überbrückung von Distanzen durch Null-Latenz-Hardware, die die räumliche Trennung greifbarer macht."
+				},
+				"features": [
+					"ESP32 Hardware-Pulsieren",
+					"KI-gestützter 'Spark' Date-Planer",
+					"End-to-End Privacy Architektur",
+					"Interaktive Fotostreams",
+					"Dynamische Beziehungsziele"
+				],
+				"technologies": [
+					"SvelteKit",
+					"ESP32",
+					"C++",
+					"GSAP",
+					"OpenAI API",
+					"WebSockets"
+				],
+				"tags": [
+					"IoT",
+					"SvelteKit",
+					"ESP32",
+					"Messenger",
+					"Relationship OS",
+					"KI"
+				]
+			},
+			"robotics": {
+				"title": "ABC-Frühwarnsystem - Robotik",
+				"tagline": "Zuverlässige Daten, wo Standardsysteme versagen. Spezialisierte ABC-Erkennung mit einem 2km-LoRa-Herzschlag.",
+				"description": "Funktionaler ABC/CBRN Detektions-Demonstrator und Handheld-Überwachungssystem für die technische Sicherheitsbewertung.",
+				"sections": {
+					"context": "Entwickelt im Auftrag des Österreichischen Bundesheeres — dieses Projekt dient als technischer Demonstrator. Das Ziel war der Bau einer mobilen ABC-Detektionseinheit unter Verwendung kosteneffizienter Off-the-shelf-Komponenten.",
+					"problem": "Gefahrenzonen erfordern einen schnellen Einsatz, doch professionelle Hardware ist oft teuer oder proprietär. Gefragt war eine Lösung, die Zuverlässigkeit mit zugänglichen Hardwarekomponenten kombiniert.",
+					"solution": "Ein ESP32-basiertes Ökosystem, das LoRa für einen 2-km-Herzschlag nutzt. Durch die Integration von Standardsensoren und modularer Elektronik erkennt der Roboter Strahlung, O2 und CO in Echtzeit und streamt diese an ein Terminal.",
+					"impact": "Ein funktionaler, serienreifer Prototyp, der 100 % Telemetrie-Zuverlässigkeit beweist. Der Beleg, dass spezialisierte Sicherheitswerkzeuge effektiv auf Basis moderner Mikrocontroller realisierbar sind."
+				},
+				"features": [
+					"Sensordaten-Fusion",
+					"2 km Long-Range LoRa Herzschlag",
+					"Hochintegres Custom-Protokoll",
+					"unphone-Native Terminal UI",
+					"Autonome ABC-Warnlogik"
+				],
+				"technologies": [
+					"ESP32",
+					"C++",
+					"LoRa",
+					"unphone",
+					"ABC-Sensoren",
+					"Off-the-shelf Hardware"
+				],
+				"tags": [
+					"ABC-Schutz",
+					"CBRN",
+					"LoRa",
+					"Robotik",
+					"Defense Tech",
+					"Embedded"
+				]
+			},
+			"grading-bot": {
+				"title": "Grading Bot - EdTech Automatisierung",
+				"tagline": "Effiziente Bewertung, nahtloses Feedback. Hochleistungs-Engine für die automatisierte Code-Analyse.",
+				"description": "Ein professionelles automatisiertes System zur Bewertung von Programmieraufgaben im Einsatz an der HTL Hollabrunn.",
+				"sections": {
+					"context": "Grading Bot ist ein High-End-Diplomprojekt, entwickelt für die praktischen Anforderungen von über 1.000 Abgaben. Als automatisierte Engine an der HTL Hollabrunn macht es den Bewertungsprozess signifikant effizienter.",
+					"problem": "Manuelle Code-Reviews waren zeitintensiv und konnten inkonsistent sein. Ein schnelleres, faires und absolut sicheres System in einer Sandbox wurde benötigt, um hohe Abgabevolumina effektiv zu bewältigen.",
+					"solution": "Hochleistungs-Bewertungssystem mit Docker für isolierte Ausführung. Integration von Azure AD und MS Teams ermöglicht einen nahtlosen Workflow, der studentischen Code in Sekunden bewertet.",
+					"impact": "Über 1.000 erfolgreich bewertete Aufgaben. Zuverlässige Sicherheit und signifikante Zeitersparnis für Lehrkräfte. Studierende erhalten sofortiges Feedback während ihres Workflows."
+				},
+				"features": [
+					"Docker-basierte Sandbox-Ausführung",
+					"Azure AD & MS Teams Integration",
+					"Live-Grading-Dashboard",
+					"Automatisierte Feedback-Fabrik",
+					"Hochskalierbare Architektur"
+				],
+				"technologies": [
+					"SvelteKit",
+					"Docker",
+					"Azure AD",
+					"PostgreSQL",
+					"Tailwind CSS"
+				],
+				"tags": [
+					"EdTech",
+					"Automatisierung",
+					"CI/CD",
+					"Coding",
+					"Docker",
+					"Azure"
+				]
+			},
+			"unleashed": {
+				"title": "Unleashed - Privacy-First Social Media",
+				"tagline": "Privacy by Design. Eine digitale Plattform für Verbindung ohne Kompromisse beim Datenschutz.",
+				"description": "Soziales Netzwerkkonzept mit Fokus auf Privatsphäre und direkte Interaktion.",
+				"sections": {
+					"context": "Unleashed ist ein Proof of Concept für datenschutzfokussierte soziale Medien. Eine Mobile-First-Plattform, die zeigt, dass menschliche Verbindung ohne gängige Tracking-Mechanismen erreicht werden kann.",
+					"problem": "Moderne soziale Medien kompromittieren oft Nutzerdaten zur Monetarisierung. Privatsphäre steht häufig hinter Werbeinteressen und komplexen Algorithmen zurück.",
+					"solution": "Datenzentrierte Architektur, bei der Nutzerkontrolle der Standard ist. Kein Tracking oder manipulative Algorithmen — nur direkte, nutzerfokussierte Interaktion auf einer zuverlässigen Basis.",
+					"impact": "Ein funktionales Modell für ethische soziale Medien. Hohes Engagement bei gleichzeitiger Priorisierung von Datenschutz und Nutzerkontrolle."
+				},
+				"tags": [
+					"Social Media",
+					"Datenschutz",
+					"Mobile App"
+				]
+			},
+			"genesys": {
+				"title": "Genesys Cloud Systeme",
+				"tagline": "Orchestrierung weltweiter Kommunikation. High-Availability CX Engineering für Enterprise-Kunden.",
+				"description": "Enterprise-Lösungen für Customer Experience (CX) für globale Marken.",
+				"sections": {
+					"context": "Consulting an der Schnittstelle von Psychologie und Skalierung. Management komplexer Kommunikations-Architekturen für global agierende Unternehmen.",
+					"problem": "Große Kontaktcenter leiden oft unter fragmentierten Altsystemen. Latenz behindert Empathie, und getrennte Kanäle frustrieren Agenten und Kunden.",
+					"solution": "Entwurf von Interaktionsflüssen im Sub-Sekunden-Bereich auf Basis der Genesys Cloud Plattform. Individuelle Routing-Logik und einheitliche Tools transformieren Lärm in ein harmonisches Omnichannel-Erlebnis.",
+					"impact": "25 % Steigerung der Agenteneffizienz. Nahtlose Kommunikation für Millionen von Nutzern. Beleg für personalisierte Interaktion auch im Enterprise-Maßstab."
+				},
+				"features": [
+					"Enterprise Routing Orchestrierung",
+					"Echtzeit-Interaktions-APIs",
+					"Omnichannel CX Workflows",
+					"Sichere Datenintegration",
+					"Entwicklung individueller Agenten-Tools"
+				],
+				"technologies": [
+					"Genesys Cloud",
+					"TypeScript",
+					"Cloud APIs",
+					"Micro-services"
+				],
+				"tags": [
+					"Enterprise",
+					"Cloud",
+					"Kommunikation",
+					"Customer Experience",
+					"CX"
+				]
+			},
+			"portfolio": {
+				"title": "Bigls Portfolio - 3D Erlebnis",
+				"tagline": "Technische Exzellenz und Performance. Ein leistungsstarkes 3D-Experiment in moderner Web-Entwicklung.",
+				"description": "Interaktives 3D-Portfolio zur Erforschung moderner Web-Technologien.",
+				"sections": {
+					"context": "Ein Projekt, das zeigt, dass 3D-Grafik, Animationen und SEO-Performance effektiv in einem Paket integriert werden können.",
+					"problem": "3D im Web kann oft langsam sein oder von Suchmaschinen schwer indexiert werden. Cinematic Portfolios vernachlässigen häufig die mobile Performance oder Barrierefreiheit.",
+					"solution": "Optimierte Shader, SvelteKit für Server-Side State und GSAP zur Koordination der Interaktionen. Eine 60-FPS-Experience, die für Suchmaschinen-Crawler zugänglich bleibt.",
+					"impact": "Hohe Performance-Werte über alle Metriken hinweg. Keine technischen Kompromisse bei der Kernerfahrung. Ein Nachweis, wie modernes Web-Design immersiv und gleichzeitig auffindbar sein kann."
+				},
+				"features": [
+					"Kinoreifre 3D-Szenen-Rendering",
+					"Physikbasierte Interaktionen",
+					"High-Performance Motion Design",
+					"Vollständig responsives 3D-Canvas",
+					"Fortschrittliche SEO- & i18n-Architektur"
+				],
+				"technologies": [
+					"SvelteKit",
+					"Three.js",
+					"GSAP",
+					"TypeScript",
+					"Tailwind CSS"
+				],
+				"tags": [
+					"SvelteKit",
+					"Three.js",
+					"GSAP",
+					"TypeScript",
+					"3D Web",
+					"Portfolio"
+				]
+			},
+			"blog": {
+				"title": "Bigls Blog - Tech Einblicke",
+				"description": "Ein Tech-Blog über Projekte und Erfahrungen.",
+				"longDescription": "Teilen von technischem Wissen, Projekt-Updates und Meinungen zu modernen Web-Technologien.",
+				"tags": [
+					"Blogging",
+					"Webentwicklung",
+					"Content Management"
+				]
+			},
+			"github-projects": {
+				"title": "GitHub Archiv",
+				"description": "Dutzende Open-Source Repositories und Experimente.",
+				"longDescription": "Vom kleinen Skript bis zur Bibliothek - mein GitHub Profil dokumentiert meine Reise durch die Softwareentwicklung.",
+				"tags": [
+					"Open Source",
+					"GitHub",
+					"Webentwicklung"
+				]
+			}
+		}
 	},
 	"resume": {
 		"title": "Mein",

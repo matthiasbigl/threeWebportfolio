@@ -8,10 +8,10 @@
 	"hero": {
 		"greeting": "Hey, I'm",
 		"name": "Matthias Bigl",
-		"subtitle": "I make your business <span class=\"blue-gradient_text font-semibold\">shine online</span> 🇦🇹",
-		"description": "Your <span class=\"blue-gradient_text font-semibold\">digital storefront</span> that wins new customers 24/7 – while you focus on what you do best.",
-		"cta": "Free Consultation",
-		"ctaServices": "How I Can Help"
+		"subtitle": "Professional <span class=\"blue-gradient_text font-semibold\">Webdesign & Web Development</span> 🇦🇹",
+		"description": "Your <span class=\"blue-gradient_text font-semibold\">digital storefront</span> in Vienna & Korneuburg that wins new customers 24/7 – while you focus on what you do best.",
+		"cta": "Free Consult",
+		"ctaServices": "My Services"
 	},
 	"services": {
 		"title": "More Customers,",
@@ -19,24 +19,44 @@
 		"subtitle": "Want to be visible online but don't want to waste weeks on tech? <span class=\"blue-gradient_text\">I'll handle it for you</span> – personally, no agency chaos, fair pricing.",
 		"items": {
 			"websites": {
-				"title": "Websites That Sell",
-				"description": "Your website works for you – even at 3 AM. Professional, trust-building, and designed to turn visitors into customers.",
-				"features": ["Perfect on all devices", "Found by customers", "Lightning fast", "Trust at first sight"]
+				"title": "SEO Optimized Websites",
+				"description": "Modern web design that works for you – even at 3 AM. Professional, trust-building, and designed for maximum search engine visibility.",
+				"features": [
+					"Responsive Webdesign",
+					"Found on Google",
+					"Lightning Fast",
+					"Trust at first sight"
+				]
 			},
 			"webshops": {
 				"title": "Selling Online, Made Simple",
 				"description": "Your own shop taking orders while you sleep. Easy to manage, secure for your customers, optimized for more sales.",
-				"features": ["Dead-simple management", "Secure payments", "Automatic orders", "Know what works"]
+				"features": [
+					"Dead-simple management",
+					"Secure payments",
+					"Automatic orders",
+					"Know what works"
+				]
 			},
 			"experiences": {
 				"title": "Guaranteed Wow-Effect",
 				"description": "Stand out from the crowd. Interactive experiences that stick in memory and make your brand unforgettable.",
-				"features": ["Stunning 3D worlds", "Interactive & playful", "Tailor-made for you", "Unique as your business"]
+				"features": [
+					"Stunning 3D worlds",
+					"Interactive & playful",
+					"Tailor-made for you",
+					"Unique as your business"
+				]
 			},
 			"fullstack": {
 				"title": "Worry-Free Package",
 				"description": "Tech isn't your thing? No problem. I handle everything – from the first idea to ongoing support. You just need to say 'yes'.",
-				"features": ["All from one source", "Fast & secure hosting", "Updates included", "Always reachable"]
+				"features": [
+					"All from one source",
+					"Fast & secure hosting",
+					"Updates included",
+					"Always reachable"
+				]
 			}
 		},
 		"whyMe": {
@@ -70,8 +90,8 @@
 				"description": "Hosting, updates, security – runs in the background. You focus on your business, I focus on your website."
 			}
 		},
-		"cta": "Get Free Advice Now →",
-		"ctaSubtext": "No strings attached • Reply within 24h • No hidden costs"
+		"cta": "Get Free Webdesign Advice Now →",
+		"ctaSubtext": "No strings attached • Free Consult • No hidden costs"
 	},
 	"skills": {
 		"title": "My",
@@ -80,9 +100,211 @@
 		"strengths": "Strengths"
 	},
 	"projects": {
-		"title": "My",
-		"titleHighlight": "Favorite Projects",
-		"moreOnGithub": "...and much more on my"
+		"title": "Portfolio &",
+		"titleHighlight": "Case Studies",
+		"moreOnGithub": "See more open source code on",
+		"items": {
+			"loveline": {
+				"title": "LoveLine - Relationship OS",
+				"tagline": "Connecting partners through subtle technology. A private digital bridge for couples in the age of constant distraction.",
+				"description": "Private digital space for couples featuring IoT interaction and integrated date planning.",
+				"sections": {
+					"context": "LoveLine is a specialized communication tool designed to bridge the gap between digital interaction and physical presence. It provides a private connection between homes, serving as a permanent link regardless of distance.",
+					"problem": "Standard messaging often feels impersonal. Long-distance partners lack the tactile atmosphere that dedicated hardware can provide. Existing tools focus on productivity rather than personal connection.",
+					"solution": "A real-time IoT ecosystem where SvelteKit meets ESP32. When a moment is sent, a physical frame in the partner's home responds instantly. Synchronous presence designed for focused, personal interaction.",
+					"impact": "Managed decision-making through an integrated date-engine. Successful bridging of distance with low-latency hardware, making physical separation feel more manageable."
+				},
+				"features": [
+					"ESP32 Hardware Pulsing",
+					"AI-Driven 'Spark' Date Planner",
+					"End-to-End Privacy Architecture",
+					"Interactive Photo Streams",
+					"Dynamic Relationship Goals"
+				],
+				"technologies": [
+					"SvelteKit",
+					"ESP32",
+					"C++",
+					"GSAP",
+					"OpenAI API",
+					"Server Side Events SSE"
+				],
+				"tags": [
+					"IoT",
+					"SvelteKit",
+					"ESP32",
+					"Personal Messenger",
+					"Relationship OS",
+					"AI"
+				]
+			},
+			"robotics": {
+				"title": "CBRN Prewarning - Robotics",
+				"tagline": "Reliable data where standard systems fail. Specialized CBRN detection with a 2km LoRa heartbeat.",
+				"description": "Functional ABC/CBRN detection demonstrator and handheld monitoring system for technical safety evaluation.",
+				"sections": {
+					"context": "Commissioned for the Austrian Armed Forces, this project serves as a technical demonstrator. The goal was to build a mobile CBRN detection unit using cost-effective, off-the-shelf components to provide a digital early-warning lifeline.",
+					"problem": "Hazardous environments require rapid deployment, but professional grade hardware is often expensive or proprietary. A solution was needed that combined reliability with accessible hardware components.",
+					"solution": "An ESP32-based ecosystem utilizing LoRa for a 2km heartbeat. By integrating standard sensors and modular electronics, the robot detects Radiation, O2, and CO in real-time, streaming high-integrity data to a terminal.",
+					"impact": "A functional production-ready prototype demonstrating 100% telemetry reliability. Proven that specialized safety tools can be built effectively on modern microcontrollers."
+				},
+				"features": [
+					"Industrial-Grade Sensor Fusion",
+					"2km Long-Range LoRa Heartbeat",
+					"Custom High-Integrity Protocol",
+					"unphone-Native Terminal UI",
+					"Autonomous ABC Warning Logic"
+				],
+				"technologies": [
+					"ESP32",
+					"C++",
+					"LoRa",
+					"unphone",
+					"CBRN Sensors",
+					"Off-the-shelf Hardware"
+				],
+				"tags": [
+					"ABC-Schutz",
+					"CBRN",
+					"LoRa",
+					"Robotics",
+					"Defense Tech",
+					"Embedded"
+				]
+			},
+			"grading-bot": {
+				"title": "Grading Bot - EdTech Automation",
+				"tagline": "Optimizing evaluation, streamlining feedback. High-performance engine for automated code assessment.",
+				"description": "Professional-grade automated system for evaluating student coding assignments, used at HTL Hollabrunn.",
+				"sections": {
+					"context": "Grading Bot is a flagship diploma project, designed to handle the practical requirements of 1000+ student submissions. It is the automated engine powering code evaluation at HTL Hollabrunn, making the process significantly more efficient.",
+					"problem": "Manual code reviews were slow and could be inconsistent. A faster, fairer, and strictly sandboxed system was required to handle high volumes of submissions effectively.",
+					"solution": "High-performance evaluation system using Docker for secure, isolated execution. Integration with Azure AD and MS Teams creates a seamless workflow that evaluates student code in seconds.",
+					"impact": "More than 1,000 assignments successfully evaluated. Reliable security and significant time savings for instructors. Students receive immediate feedback during their workflow."
+				},
+				"features": [
+					"Dockerized Sandbox Execution",
+					"Azure AD & MS Teams Integration",
+					"Live Evaluation Dashboard",
+					"Automated Feedback System",
+					"High-Scalability Architecture"
+				],
+				"technologies": [
+					"SvelteKit",
+					"Docker",
+					"Azure AD",
+					"PostgreSQL",
+					"Tailwind CSS"
+				],
+				"tags": [
+					"Education Tech",
+					"Automation",
+					"CI/CD",
+					"Docker",
+					"Azure"
+				]
+			},
+			"unleashed": {
+				"title": "Unleashed - Privacy-First Social Media",
+				"tagline": "Privacy by design. A digital platform for connection without data compromises.",
+				"description": "Social network concept focused on user privacy and direct interaction.",
+				"sections": {
+					"context": "Unleashed is a proof of concept for privacy-focused social media. A mobile-first platform built to demonstrate that human connection can be achieved without typical tracking mechanisms.",
+					"problem": "Modern social media often compromises user data for monetization. Privacy is frequently secondary to advertising interests and complex algorithms.",
+					"solution": "Privacy-centered architecture where user control is the default. No tracking or manipulative algorithms—just direct, user-focused interaction built on a foundation of reliability.",
+					"impact": "A functional model for ethical social media. High levels of engagement maintained while prioritizing data privacy and user control."
+				},
+				"tags": [
+					"Social Media",
+					"Privacy",
+					"Mobile App"
+				]
+			},
+			"genesys": {
+				"title": "Genesys Cloud Systems",
+				"tagline": "Orchestrating global conversations. High-availability CX engineering for the enterprise.",
+				"description": "Enterprise-grade customer experience solutions for global brands.",
+				"sections": {
+					"context": "Consulting at the intersection of psychology and scale. Managing complex communication architecture that powers customer experience for global household names.",
+					"problem": "Massive contact centers are often fragmented by legacy tools. Latency hinders empathy, and disconnected channels frustrate both agents and customers.",
+					"solution": "Sub-second interaction flows architected via Genesys Cloud's API-first platform. Custom routing logic and unified agent tools transformed fragmented noise into a harmonious omnichannel experience.",
+					"impact": "25% boost in agent efficiency. Seamless communication for millions. Proof that every interaction can feel personal even at massive enterprise scale."
+				},
+				"features": [
+					"Enterprise Routing Orchestration",
+					"Real-Time Interaction APIs",
+					"Omnichannel CX Workflows",
+					"Secure Data Integration",
+					"Custom Agent Tools Development"
+				],
+				"technologies": [
+					"Genesys Cloud",
+					"TypeScript",
+					"Cloud APIs",
+					"Micro-services"
+				],
+				"tags": [
+					"Enterprise",
+					"Cloud",
+					"Communications",
+					"Customer Experience",
+					"CX"
+				]
+			},
+			"portfolio": {
+				"title": "Bigls Portfolio - 3D Experience",
+				"tagline": "Technical excellence and performance. High-performance 3D experiment in modern web engineering.",
+				"description": "Interactive 3D portfolio exploring modern web technologies.",
+				"sections": {
+					"context": "A project demonstrating that 3D graphics, animations, and SEO performance can be effectively integrated into a single package.",
+					"problem": "3D on the web can often be slow or difficult for search engines to index. Cinematic portfolios frequently compromise on mobile performance or accessibility.",
+					"solution": "Optimized custom shaders, SvelteKit for server-side state, and GSAP for coordinated interaction. A 60FPS experience that remains accessible to search engine crawlers.",
+					"impact": "High performance scores across all metrics. Zero technical compromises on the core experience. A demonstration of how modern web tech can be both immersive and discoverable."
+				},
+				"features": [
+					"Cinematic 3D Scene Rendering",
+					"Physics-Based Interactions",
+					"High-Performance Motion Design",
+					"Fully Responsive 3D Canvas",
+					"Advanced SEO & i18n Architecture"
+				],
+				"technologies": [
+					"SvelteKit",
+					"Three.js",
+					"GSAP",
+					"TypeScript",
+					"Tailwind CSS"
+				],
+				"tags": [
+					"SvelteKit",
+					"Three.js",
+					"GSAP",
+					"TypeScript",
+					"3D Web",
+					"Portfolio"
+				]
+			},
+			"blog": {
+				"title": "Bigls Blog - Tech Insights",
+				"description": "A tech blog sharing development experiences and projects.",
+				"longDescription": "A platform for sharing technical knowledge, project updates, and opinions on the latest web technologies.",
+				"tags": [
+					"Blogging",
+					"Web Development",
+					"Content Management"
+				]
+			},
+			"github-projects": {
+				"title": "GitHub Archive",
+				"description": "Dozens of open-source repositories and experiments.",
+				"longDescription": "From small scripts to full-blown libraries, my GitHub profile is an archive of my journey through software engineering.",
+				"tags": [
+					"Open Source",
+					"GitHub",
+					"Web Development"
+				]
+			}
+		}
 	},
 	"resume": {
 		"title": "My",

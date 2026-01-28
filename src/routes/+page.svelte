@@ -178,6 +178,35 @@
 			yoyo: true,
 			repeat: -1
 		});
+		// Floating animations for hero background elements
+		gsap.to('.hero-floating-1', {
+			y: -30,
+			rotation: 10,
+			duration: 6,
+			ease: 'power1.inOut',
+			yoyo: true,
+			repeat: -1
+		});
+
+		gsap.to('.hero-floating-2', {
+			y: -20,
+			rotation: -5,
+			duration: 8,
+			ease: 'power1.inOut',
+			yoyo: true,
+			repeat: -1,
+			delay: 1
+		});
+
+		gsap.to('.hero-floating-3', {
+			y: -40,
+			x: 20,
+			duration: 10,
+			ease: 'power1.inOut',
+			yoyo: true,
+			repeat: -1,
+			delay: 2
+		});
 	});
 </script>
 
@@ -185,6 +214,8 @@
 	title={$_('seo.home.title')}
 	description={$_('seo.home.description')}
 	url="https://bigls.net"
+	type="profile"
+	image="https://bigls.net/headshot.png"
 	keywords={[
 		'Webdesign Wien',
 		'Webentwicklung Wien',
@@ -210,15 +241,41 @@
 <CustomCursor />
 <ScrollProgress />
 
-<div class="relative pt-16">
+<div class="relative pt-16 selection:bg-blue-500/20">
+	<!-- UI Layers for consistency with project pages -->
+	<div class="fixed inset-0 z-0 opacity-[0.05] pointer-events-none grid-lines"></div>
+	<div class="fixed inset-0 z-0 opacity-20 pointer-events-none">
+		<div class="aurora-bg w-full h-full"></div>
+	</div>
+
 	<!-- Hero Section -->
 	<section
-		class="hero-section relative min-h-screen flex items-center justify-center overflow-hidden"
+		id="hero"
+		class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
 	>
-		<div class="parallax-bg parallax-bg-hero aurora-bg"></div>
+		<!-- Enhanced Hero Background -->
+		<div class="absolute inset-0 z-0">
+			<div
+				class="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-black/80 to-purple-900/10"
+			></div>
 
-		<div class="relative z-10 container mx-auto p-6 lg:px-8">
-			<div class="flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-12 lg:gap-20">
+			<!-- Floating geometric shapes -->
+			<div
+				class="hero-floating-1 absolute top-[15%] left-[10%] w-64 h-64 bg-blue-500/5 rounded-full blur-[80px]"
+			></div>
+			<div
+				class="hero-floating-2 absolute bottom-[20%] right-[15%] w-96 h-96 bg-purple-500/5 rounded-full blur-[100px]"
+			></div>
+			<div
+				class="hero-floating-3 absolute top-[40%] right-[25%] w-48 h-48 bg-cyan-500/5 rounded-full blur-[60px]"
+			></div>
+
+			<!-- Optional subtle grid overlay for hero specifically -->
+			<div class="absolute inset-0 opacity-[0.02] grid-lines"></div>
+		</div>
+
+		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="flex flex-col lg:flex-row items-center justify-between gap-12 sm:gap-16">
 				<!-- Avatar -->
 				<div class="hero-avatar floating-avatar relative">
 					<div class="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 floating">
@@ -227,32 +284,38 @@
 				</div>
 
 				<!-- Hero Text -->
-				<div class="text-center lg:text-left max-w-2xl px-4">
-					<h1
-						class="hero-title font-bold text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-4 sm:mb-6 text-glow leading-tight"
+				<div class="text-center lg:text-left max-w-3xl px-4">
+					<p
+						class="hero-intro font-poppins text-lg sm:text-xl font-medium text-blue-400 mb-4 tracking-wider uppercase"
 					>
-						{$_('hero.greeting')} <span class="blue-gradient_text">{$_('hero.name')}</span>
+						{$_('hero.greeting')}
+						{$_('hero.name')}
+					</p>
+
+					<h1
+						class="hero-title font-poppins font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-8 text-white leading-[1.1] tracking-tight text-glow-soft"
+					>
+						{@html $_('hero.subtitle')}
 					</h1>
 
 					<p
-						class="hero-subtitle text-lg sm:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 leading-relaxed"
+						class="hero-description text-lg sm:text-xl lg:text-2xl text-gray-300 mb-10 leading-relaxed font-light"
 					>
-						{@html $_('hero.subtitle')}<br />
 						{@html $_('hero.description')}
 					</p>
 
 					<div
-						class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start px-4 sm:px-0"
+						class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start px-4 sm:px-0"
 					>
 						<a
 							href="/contact"
-							class="magnetic-btn glass-card glass-card-hover px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white text-center rounded-xl"
+							class="magnetic-btn glass-card glass-card-hover px-10 py-5 text-lg font-bold text-white text-center rounded-[2rem] shadow-xl shadow-blue-500/10"
 						>
 							{$_('hero.cta')}
 						</a>
 						<a
 							href="#services"
-							class="magnetic-btn glass-card glass-card-hover px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white text-center border border-white/20 rounded-xl"
+							class="magnetic-btn glass-card glass-card-hover px-10 py-5 text-lg font-bold text-white text-center border border-white/10 rounded-[2rem]"
 						>
 							{$_('hero.ctaServices')}
 						</a>
@@ -275,11 +338,14 @@
 		<div class="parallax-bg parallax-bg-2"></div>
 
 		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-			<h2
-				class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow"
-			>
-				{$_('skills.title')} <span class="blue-gradient_text">{$_('skills.titleHighlight')}</span>
-			</h2>
+			<div class="flex flex-col items-center mb-12 lg:mb-20">
+				<h2
+					class="section-title font-poppins text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-6 text-white tracking-tight"
+				>
+					{$_('skills.title')} <span class="blue-gradient_text">{$_('skills.titleHighlight')}</span>
+				</h2>
+				<div class="h-1 w-24 bg-blue-500 rounded-full"></div>
+			</div>
 
 			<div class="grid lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-24">
 				<!-- Languages -->
@@ -347,25 +413,35 @@
 		<div class="parallax-bg parallax-bg-1"></div>
 
 		<div class="relative container mx-auto px-4 lg:px-6">
-			<h2
-				class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow"
-			>
-				{$_('projects.title')} <span class="blue-gradient_text">{$_('projects.titleHighlight')}</span>
-			</h2>
+			<div class="flex flex-col items-center mb-12 lg:mb-20">
+				<h2
+					class="section-title font-poppins text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-6 text-white tracking-tight"
+				>
+					{$_('projects.title')}
+					<span class="blue-gradient_text">{$_('projects.titleHighlight')}</span>
+				</h2>
+				<div class="h-1 w-24 bg-blue-500 rounded-full"></div>
+			</div>
 
 			<div class="stagger-cards grid grid-cols-2 lg:grid-cols-4 gap-6 overflow-visible">
-				{#each projects as project, index}
+				{#each projects as project}
 					<Card
-						title={project.title}
-						description={project.description}
+						title={$_(`projects.items.${project.slug}.title`)}
+						description={$_(`projects.items.${project.slug}.description`)}
 						image={project.image}
-						link={project.link}
+						link="/projects/{project.slug}"
 					/>
 				{/each}
 			</div>
 
 			<p class="text-center text-gray-400 mt-8 text-lg">
-				{$_('projects.moreOnGithub')} <a href="https://github.com/matthiasbigl" target="_blank" rel="noopener noreferrer" class="blue-gradient_text hover:underline">GitHub</a>!
+				{$_('projects.moreOnGithub')}
+				<a
+					href="https://github.com/matthiasbigl"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="blue-gradient_text hover:underline">GitHub</a
+				>!
 			</p>
 		</div>
 	</section>
@@ -378,7 +454,7 @@
 
 		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
 			<h2
-				class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow"
+				class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-10 sm:mb-12 text-glow"
 			>
 				{$_('resume.title')} <span class="blue-gradient_text">{$_('resume.titleHighlight')}</span>
 			</h2>
@@ -393,7 +469,7 @@
 	>
 		<div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
 			<h2
-				class="section-title text-3xl sm:text-4xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 text-glow"
+				class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-10 sm:mb-12 text-glow"
 			>
 				{$_('hobbies.title')} <span class="blue-gradient_text">{$_('hobbies.titleHighlight')}</span>
 			</h2>
@@ -419,4 +495,25 @@
 		<div class="parallax-bg parallax-bg-2"></div>
 		<FAQ />
 	</section>
+
+	<!-- Scroll Down Indicator -->
+	<div
+		class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer z-20"
+		onclick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+	>
+		<span class="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-400">Scroll</span>
+		<div class="w-px h-12 bg-gradient-to-b from-blue-500 to-transparent"></div>
+	</div>
 </div>
+
+<style>
+	:global(.font-poppins) {
+		font-family: 'Poppins', sans-serif;
+	}
+
+	.aurora-bg {
+		background: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+			radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 40%);
+		filter: blur(80px);
+	}
+</style>

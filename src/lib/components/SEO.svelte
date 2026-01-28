@@ -11,8 +11,8 @@
 
 	let {
 		title = 'Matthias Bigl | Webdesign & Webentwicklung Wien/Korneuburg',
-		description = 'Matthias Bigl – Ihr Webdesigner aus Wien/Korneuburg. Websites, Webshops & individuelle Web-Erlebnisse. Persönliche Betreuung, faire Preise. Jetzt unverbindlich anfragen!',
-		image = 'https://bigls.net/assets/portfolioPreview.png',
+		description = 'Matthias Bigl – Ihr Webdesigner aus Wien/Korneuburg. Professionelles Webdesign, Webshops & individuelle Web-Erlebnisse. Jetzt unverbindlich anfragen!',
+		image = 'https://bigls.net/headshot.png',
 		url = 'https://bigls.net',
 		type = 'website',
 		keywords = [
@@ -20,7 +20,7 @@
 			'Matthias Bigl',
 			'Matthias Bigl Webdesign',
 			'Matthias Bigl Wien',
-			
+
 			// Lokale Keywords
 			'Webdesign Wien',
 			'Webentwicklung Wien',
@@ -29,7 +29,7 @@
 			'Webentwickler Niederösterreich',
 			'Webdesigner in der Nähe',
 			'lokaler Webentwickler Wien',
-			
+
 			// Services Deutsch
 			'Website erstellen lassen',
 			'Homepage erstellen Wien',
@@ -38,32 +38,32 @@
 			'Website Redesign',
 			'Homepage modernisieren',
 			'Landingpage erstellen',
-			
+
 			// Zielgruppen
 			'Website für KMU',
 			'Homepage für Kleinunternehmen',
 			'Website für Selbstständige',
 			'Website für Handwerker',
 			'Website für Unternehmen Wien',
-			
+
 			// Preisbezogen (hohe Suchintention!)
 			'Website Kosten Österreich',
 			'Was kostet eine Website',
 			'Website Wien günstig',
 			'Webdesign faire Preise',
 			'Webdesign ohne Agentur',
-			
+
 			// Eigenschaften
 			'Responsive Webdesign',
 			'moderne Website erstellen',
 			'professionelle Homepage',
 			'schnelle Website erstellen',
-			
+
 			// Freelancer vs Agentur
 			'Freelancer Webentwicklung',
 			'Webdesign Agentur Alternative',
 			'Full Stack Developer Wien',
-			
+
 			// Englisch (Expats & International)
 			'Web developer Vienna',
 			'Web design Austria',
@@ -84,11 +84,12 @@
 		name: 'Matthias Bigl',
 		alternateName: 'Bigl',
 		url: 'https://bigls.net',
-		image: 'https://bigls.net/assets/portfolioPreview.png',
+		image: 'https://bigls.net/headshot.png',
 		email: 'biglmatthias@gmail.com',
 		telephone: '+43 660 459 6636',
 		jobTitle: 'Webdesigner & Full Stack Developer',
-		description: 'Unabhängiger Webentwickler aus Wien/Korneuburg. Spezialisiert auf moderne Websites, Webshops und individuelle Web-Erlebnisse.',
+		description:
+			'Unabhängiger Webentwickler aus Wien/Korneuburg. Spezialisiert auf moderne Websites, Webshops und individuelle Web-Erlebnisse.',
 		address: {
 			'@type': 'PostalAddress',
 			addressLocality: 'Korneuburg',
@@ -101,7 +102,7 @@
 				name: 'Wien'
 			},
 			{
-				'@type': 'City', 
+				'@type': 'City',
 				name: 'Korneuburg'
 			},
 			{
@@ -141,11 +142,12 @@
 		'@id': 'https://bigls.net/#business',
 		name: 'Matthias Bigl - Webdesign & Webentwicklung',
 		alternateName: 'Bigls Webdesign',
-		description: 'Professionelle Webentwicklung aus Wien/Korneuburg. Websites, Webshops & individuelle Web-Erlebnisse. Persönliche Betreuung, faire Preise, Full-Stack-Lösungen.',
+		description:
+			'Professionelle Webentwicklung aus Wien/Korneuburg. Websites, Webshops & individuelle Web-Erlebnisse. Persönliche Betreuung, faire Preise, Full-Stack-Lösungen.',
 		url: 'https://bigls.net',
 		telephone: '+43 660 459 6636',
 		email: 'biglmatthias@gmail.com',
-		image: 'https://bigls.net/assets/portfolioPreview.png',
+		image: 'https://bigls.net/headshot.png',
 		priceRange: '€€',
 		address: {
 			'@type': 'PostalAddress',
@@ -278,9 +280,9 @@
 	<meta property="og:title" content={title} />
 	<meta property="og:description" content={description} />
 	<meta property="og:image" content={image} />
-	<meta property="og:image:width" content="1350" />
-	<meta property="og:image:height" content="720" />
-	<meta property="og:image:alt" content="{title} - Preview" />
+	<meta property="og:image:width" content="1000" />
+	<meta property="og:image:height" content="1000" />
+	<meta property="og:image:alt" content="{title} - Matthias Bigl" />
 	<meta property="og:site_name" content={siteName} />
 	<meta property="og:locale" content="de_AT" />
 	<meta property="og:locale:alternate" content="en_US" />
