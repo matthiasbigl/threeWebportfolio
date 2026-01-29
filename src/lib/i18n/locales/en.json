@@ -8,9 +8,9 @@
 	"hero": {
 		"greeting": "Hey, I'm",
 		"name": "Matthias Bigl",
-		"subtitle": "Professional <span class=\"blue-gradient_text font-semibold\">Webdesign & Web Development</span> 🇦🇹",
-		"description": "Your <span class=\"blue-gradient_text font-semibold\">digital storefront</span> in Vienna & Korneuburg that wins new customers 24/7 – while you focus on what you do best.",
-		"cta": "Free Consult",
+		"subtitle": "Professional <span class=\"blue-gradient_text font-semibold\">Webdesign & Web Development</span> from Vienna 🇦🇹",
+		"description": "Your <span class=\"blue-gradient_text font-semibold\">digital storefront</span> in Vienna & Korneuburg that wins new customers 24/7 – while you focus on running your business.",
+		"cta": "Free Consultation",
 		"ctaServices": "My Services"
 	},
 	"services": {
@@ -19,8 +19,8 @@
 		"subtitle": "Want to be visible online but don't want to waste weeks on tech? <span class=\"blue-gradient_text\">I'll handle it for you</span> – personally, no agency chaos, fair pricing.",
 		"items": {
 			"websites": {
-				"title": "SEO Optimized Websites",
-				"description": "Modern web design that works for you – even at 3 AM. Professional, trust-building, and designed for maximum search engine visibility.",
+				"title": "SEO-Optimized Websites",
+				"description": "Modern, responsive web design that generates leads – even at 3 AM. Professional, trust-building, and built for maximum Google visibility.",
 				"features": [
 					"Responsive Webdesign",
 					"Found on Google",
@@ -29,8 +29,8 @@
 				]
 			},
 			"webshops": {
-				"title": "Selling Online, Made Simple",
-				"description": "Your own shop taking orders while you sleep. Easy to manage, secure for your customers, optimized for more sales.",
+				"title": "E-Commerce & Online Shops",
+				"description": "Your own webshop taking orders while you sleep. Easy to manage, secure payments, and optimized for higher conversion rates.",
 				"features": [
 					"Dead-simple management",
 					"Secure payments",
@@ -39,8 +39,8 @@
 				]
 			},
 			"experiences": {
-				"title": "Guaranteed Wow-Effect",
-				"description": "Stand out from the crowd. Interactive experiences that stick in memory and make your brand unforgettable.",
+				"title": "Interactive Web Experiences",
+				"description": "Stand out from competitors. Custom 3D websites and interactive experiences that stick in memory and make your brand unforgettable.",
 				"features": [
 					"Stunning 3D worlds",
 					"Interactive & playful",
@@ -49,8 +49,8 @@
 				]
 			},
 			"fullstack": {
-				"title": "Worry-Free Package",
-				"description": "Tech isn't your thing? No problem. I handle everything – from the first idea to ongoing support. You just need to say 'yes'.",
+				"title": "Full-Service Web Solutions",
+				"description": "Tech isn't your thing? No problem. Full stack development from concept to launch, including hosting, maintenance, and ongoing support.",
 				"features": [
 					"All from one source",
 					"Fast & secure hosting",
@@ -60,44 +60,51 @@
 			}
 		},
 		"whyMe": {
-			"title": "Agency Quality,",
+			"title": "Freelance Web Developer",
 			"titleHighlight": "Without Agency Prices",
-			"subtitle": "Why pay for 10 people when one can do it all? Direct, personal, no detours."
+			"subtitle": "Why pay for 10 people when one experienced developer can deliver? Direct, personal, no middlemen."
 		},
 		"benefits": {
 			"personal": {
-				"title": "No Hold Music",
-				"description": "You call, I pick up. No tickets, no 'your request has been forwarded'. Direct communication, fast solutions."
+				"title": "Direct Communication",
+				"description": "You call, I pick up. No tickets, no 'your request has been forwarded'. Fast responses, faster solutions."
 			},
 			"local": {
-				"title": "Coffee Over Video Call",
-				"description": "Personal meetings possible in Vienna or Korneuburg. Sometimes a face-to-face conversation is just better."
+				"title": "Local in Vienna & Korneuburg",
+				"description": "Personal meetings possible in Vienna or Korneuburg. Sometimes face-to-face beats any video call."
 			},
 			"prices": {
-				"title": "More Website, Less Invoice",
-				"description": "No agency surcharges for meetings about meetings. You pay for results, not overhead."
+				"title": "Transparent Pricing",
+				"description": "No agency surcharges for meetings about meetings. You pay for results, not overhead costs."
 			},
 			"detail": {
-				"title": "Your Project = My Project",
-				"description": "Every detail counts. I work as if it were my own website – because my reputation depends on your satisfaction."
+				"title": "Dedicated to Your Success",
+				"description": "Every detail matters. I work as if it were my own website – because my reputation depends on your satisfaction."
 			},
 			"tech": {
-				"title": "Built for the Future",
-				"description": "No outdated systems that cause problems in 2 years. Modern tech that grows with your business."
+				"title": "Modern Technology Stack",
+				"description": "No outdated WordPress themes. Modern frameworks like SvelteKit and React that scale with your business."
 			},
 			"allInOne": {
-				"title": "Sit Back and Relax",
-				"description": "Hosting, updates, security – runs in the background. You focus on your business, I focus on your website."
+				"title": "Hosting & Maintenance Included",
+				"description": "Hosting, updates, security – all handled. You focus on your business, I focus on keeping your website running perfectly."
 			}
 		},
-		"cta": "Get Free Webdesign Advice Now →",
+		"cta": "Get Free Webdesign Consultation →",
 		"ctaSubtext": "No strings attached • Free Consult • No hidden costs"
 	},
 	"skills": {
-		"title": "My",
+		"title": "Some of My Best",
 		"titleHighlight": "Skills",
+		"hint": "👆 Try grabbing the cubes!",
 		"languages": "Languages",
-		"strengths": "Strengths"
+		"strengths": "Strengths",
+		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin",
+		"strengthsList": "Backend, UI/UX, Graphic Design, Teamwork, Project Management",
+		"languagesDescription": "Proficient programming languages including Python, Java, Svelte, TypeScript, and Kotlin for full-stack web and mobile development.",
+		"strengthsDescription": "Core professional strengths including backend development, UI/UX design, graphic design, teamwork, and project management.",
+		"languagesAriaLabel": "Interactive 3D cube showcasing programming languages: Python, Java, Svelte, TypeScript, and Kotlin. Drag to rotate.",
+		"strengthsAriaLabel": "Interactive 3D cube showcasing professional strengths: Backend Development, UI/UX Design, Graphic Design, Teamwork, and Project Management. Drag to rotate."
 	},
 	"projects": {
 		"title": "Portfolio &",
@@ -214,10 +221,26 @@
 					"solution": "Privacy-centered architecture where user control is the default. No tracking or manipulative algorithms—just direct, user-focused interaction built on a foundation of reliability.",
 					"impact": "A functional model for ethical social media. High levels of engagement maintained while prioritizing data privacy and user control."
 				},
+				"features": [
+					"Zero-Tracking Architecture",
+					"End-to-End Encrypted Messaging",
+					"User-Controlled Content Feed",
+					"No Algorithmic Manipulation",
+					"Decentralized Data Storage"
+				],
+				"technologies": [
+					"Kotlin",
+					"Jetpack Compose",
+					"Clerk Auth",
+					"Supabase",
+					"Android SDK"
+				],
 				"tags": [
 					"Social Media",
 					"Privacy",
-					"Mobile App"
+					"Mobile App",
+					"Android",
+					"Kotlin"
 				]
 			},
 			"genesys": {

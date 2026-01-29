@@ -42,10 +42,9 @@
   "type": "module",
   "dependencies": {
     "@emailjs/nodejs": "^5.0.2",
+    "@embedpdf/svelte-pdf-viewer": "^2.3.0",
     "gsap": "^3.13.0",
     "svelte-i18n": "^4.0.1",
-    "svelte-pdf": "^1.0.28",
-    "svelte-pdf-simple": "^2.0.0",
     "zod": "^3.25.67"
   }
 }

@@ -94,10 +94,17 @@
 		"ctaSubtext": "Unverbindlich • Gratis Beratung • Keine versteckten Kosten"
 	},
 	"skills": {
-		"title": "Meine",
+		"title": "Einige meiner besten",
 		"titleHighlight": "Skills",
+		"hint": "👆 Probier die Würfel zu greifen!",
 		"languages": "Sprachen",
-		"strengths": "Stärken"
+		"strengths": "Stärken",
+		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin",
+		"strengthsList": "Backend, UI/UX, Grafikdesign, Teamwork, Projektmanagement",
+		"languagesDescription": "Erfahrene Programmiersprachen wie Python, Java, Svelte, TypeScript und Kotlin für Full-Stack Web- und Mobile-Entwicklung.",
+		"strengthsDescription": "Kernkompetenzen wie Backend-Entwicklung, UI/UX Design, Grafikdesign, Teamarbeit und Projektmanagement.",
+		"languagesAriaLabel": "Interaktiver 3D-Würfel mit Programmiersprachen: Python, Java, Svelte, TypeScript und Kotlin. Ziehen zum Drehen.",
+		"strengthsAriaLabel": "Interaktiver 3D-Würfel mit professionellen Stärken: Backend-Entwicklung, UI/UX Design, Grafikdesign, Teamarbeit und Projektmanagement. Ziehen zum Drehen."
 	},
 	"projects": {
 		"title": "Portfolio &",
@@ -215,10 +222,26 @@
 					"solution": "Datenzentrierte Architektur, bei der Nutzerkontrolle der Standard ist. Kein Tracking oder manipulative Algorithmen — nur direkte, nutzerfokussierte Interaktion auf einer zuverlässigen Basis.",
 					"impact": "Ein funktionales Modell für ethische soziale Medien. Hohes Engagement bei gleichzeitiger Priorisierung von Datenschutz und Nutzerkontrolle."
 				},
+				"features": [
+					"Zero-Tracking-Architektur",
+					"Ende-zu-Ende verschlüsselte Nachrichten",
+					"Nutzerkontrollierter Content-Feed",
+					"Keine algorithmische Manipulation",
+					"Dezentrale Datenspeicherung"
+				],
+				"technologies": [
+					"Kotlin",
+					"Jetpack Compose",
+					"Clerk Auth",
+					"Supabase",
+					"Android SDK"
+				],
 				"tags": [
 					"Social Media",
 					"Datenschutz",
-					"Mobile App"
+					"Mobile App",
+					"Android",
+					"Kotlin"
 				]
 			},
 			"genesys": {

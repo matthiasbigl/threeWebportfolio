@@ -97,41 +97,42 @@
     {@html `<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`}
 </svelte:head>
 
-<section id="faq" class="faq-section relative py-16 sm:py-20 lg:py-32">
+<section id="faq" class="faq-section relative py-20 sm:py-24 lg:py-32">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         <!-- Section Header -->
-        <div class="text-center mb-12 sm:mb-16">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-glow">
+        <div class="text-center mb-14 sm:mb-16">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5 sm:mb-6 text-glow tracking-tight">
                 {$_('faq.title')} <span class="blue-gradient_text">{$_('faq.titleHighlight')}</span>
             </h2>
-            <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+            <p class="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
                 {$_('faq.subtitle')}
             </p>
         </div>
 
         <!-- FAQ List -->
-        <div class="faq-container space-y-4">
+        <div class="faq-container space-y-3 sm:space-y-4">
             {#each faqs as faq, index}
-                <div class="faq-item glass-card rounded-xl overflow-hidden">
+                <div class="faq-item glass-card rounded-2xl overflow-hidden transition-all duration-300" class:faq-item-open={openIndex === index}>
                     <button
-                        class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                        class="w-full px-5 sm:px-6 py-5 sm:py-6 text-left flex items-center justify-between gap-4 hover:bg-white/[0.03] transition-colors duration-300"
                         onclick={() => toggleFAQ(index)}
                         aria-expanded={openIndex === index}
                         aria-controls={`faq-answer-${index}`}
                     >
-                        <span class="text-base sm:text-lg font-medium text-white pr-4">{faq.question}</span>
+                        <span class="text-sm sm:text-base lg:text-lg font-medium text-white pr-4 leading-snug">{faq.question}</span>
                         <span 
-                            class="text-2xl text-blue-400 transition-transform duration-300 flex-shrink-0"
-                            class:rotate-45={openIndex === index}
+                            class="w-8 h-8 rounded-full flex items-center justify-center text-blue-400 transition-all duration-300 flex-shrink-0 {openIndex === index ? 'bg-blue-500/20 rotate-45' : 'bg-blue-500/10'}"
                         >
-                            +
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m6-6H6"></path>
+                            </svg>
                         </span>
                     </button>
                     
                     {#if openIndex === index}
                         <div 
                             id={`faq-answer-${index}`}
-                            class="px-6 pb-5 text-gray-300 leading-relaxed animate-fadeIn"
+                            class="px-5 sm:px-6 pb-5 sm:pb-6 text-gray-400 text-sm sm:text-base leading-relaxed animate-fadeIn"
                         >
                             {faq.answer}
                         </div>
@@ -141,13 +142,26 @@
         </div>
 
         <!-- CTA -->
-        <div class="text-center mt-12 sm:mt-16">
-            <p class="text-gray-400 mb-6">{$_('faq.moreQuestions')}</p>
+        <div class="text-center mt-14 sm:mt-16">
+            <p class="text-gray-500 mb-6 text-sm sm:text-base">{$_('faq.moreQuestions')}</p>
             <a 
                 href="/contact" 
-                class="magnetic-btn inline-block glass-card glass-card-hover px-8 py-4 text-lg font-semibold text-white rounded-xl"
+                class="magnetic-btn inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600/20 to-purple-600/20 hover:from-blue-600/30 hover:to-purple-600/30 border border-blue-500/30 hover:border-blue-500/50 rounded-2xl transition-all duration-300 group shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20"
             >
-                {$_('faq.cta')}
+                <span class="text-base sm:text-lg font-bold text-white">{$_('faq.cta')}</span>
+                <svg
+                    class="w-5 h-5 text-blue-400 group-hover:translate-x-1.5 transition-transform duration-300"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    ></path>
+                </svg>
             </a>
         </div>
     </div>
@@ -159,13 +173,13 @@
     }
 
     .animate-fadeIn {
-        animation: fadeIn 0.3s ease-out;
+        animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     @keyframes fadeIn {
         from {
             opacity: 0;
-            transform: translateY(-10px);
+            transform: translateY(-8px);
         }
         to {
             opacity: 1;
@@ -174,10 +188,15 @@
     }
 
     .faq-item {
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .faq-item:hover {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .faq-item-open {
         border-color: rgba(0, 198, 255, 0.2);
+        background: rgba(255, 255, 255, 0.02);
     }
 </style>

@@ -10,11 +10,28 @@
 }
 
 body {
-    font-family: "Work Sans", sans-serif;
+    font-family: "Instrument Sans", "Work Sans", sans-serif;
     background: #0a0a0f;
     color: white;
     overflow-x: hidden;
     position: relative;
+}
+
+@layer components {
+    .font-syne { font-family: 'Syne', sans-serif; }
+    
+    .glass-card-luxe {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
 }
 
 body:has(.card[data-color="blue"]:hover) {
@@ -135,11 +152,22 @@ body:has(.card[data-color="green"]:hover) {
     }
 
     .glass-section {
-        background: rgba(255, 255, 255, 0.02);
+        background: rgba(255, 255, 255, 0.015);
         backdrop-filter: blur(40px);
         -webkit-backdrop-filter: blur(40px);
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Cube glow effect on hover */
+    .cube-glow {
+        transition: filter 0.4s ease, transform 0.3s ease;
+    }
+
+    .cube-glow:hover {
+        filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.25)) drop-shadow(0 0 80px rgba(139, 92, 246, 0.15));
     }
 
     /* Motion Tokens */
@@ -211,20 +239,15 @@ body:has(.card[data-color="green"]:hover) {
     transform: translateX(60px);
 }
 
+/* Stagger items - default visible, GSAP will handle animation */
 .stagger-item {
-    opacity: 0;
-    transform: translateY(30px);
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .parallax-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 120%;
-    background-size: cover;
-    background-position: center;
-    z-index: -1;
+    display: none;
+    /* Removed parallax entirely */
 }
 
 .text-glow {
@@ -258,6 +281,58 @@ body:has(.card[data-color="green"]:hover) {
     75% {
         background-position: 0% 100%, 100% 0%, 100% 50%, 0% 50%;
     }
+}
+
+@keyframes float-1 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    33% {
+        transform: translate(10px, -20px) rotate(5deg);
+    }
+
+    66% {
+        transform: translate(-10px, -10px) rotate(-5deg);
+    }
+}
+
+@keyframes float-2 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    50% {
+        transform: translate(-15px, -30px) rotate(-10deg);
+    }
+}
+
+@keyframes float-3 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    50% {
+        transform: translate(20px, -40px) rotate(15deg);
+    }
+}
+
+.css-floating-1 {
+    animation: float-1 8s ease-in-out infinite;
+}
+
+.css-floating-2 {
+    animation: float-2 10s ease-in-out infinite;
+}
+
+.css-floating-3 {
+    animation: float-3 12s ease-in-out infinite;
 }
 
 .floating {
@@ -406,10 +481,17 @@ body:has(.card[data-color="green"]:hover) {
 
     .aurora-bg {
         background:
-            radial-gradient(ellipse at top left, rgba(120, 119, 198, 0.2) 0%, transparent 60%),
-            radial-gradient(ellipse at top right, rgba(255, 119, 198, 0.2) 0%, transparent 60%),
-            radial-gradient(ellipse at center right, rgba(119, 198, 255, 0.2) 0%, transparent 60%),
-            radial-gradient(ellipse at center left, rgba(119, 255, 198, 0.2) 0%, transparent 60%);
+            radial-gradient(ellipse at top left, rgba(120, 119, 198, 0.15) 0%, transparent 60%),
+            radial-gradient(ellipse at top right, rgba(255, 119, 198, 0.15) 0%, transparent 60%);
+        animation: none;
+        /* Disable expensive animation on mobile */
+    }
+
+    .glassmorphism,
+    .glass-card,
+    .glass-section {
+        backdrop-filter: blur(10px) saturate(150%);
+        -webkit-backdrop-filter: blur(10px) saturate(150%);
     }
 }
 

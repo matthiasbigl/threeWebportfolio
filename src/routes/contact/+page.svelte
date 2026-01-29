@@ -81,77 +81,70 @@
 		// Record form load time for bot detection
 		formLoadTime = Date.now();
 
-		// Hero animation
-		gsap.fromTo(
-			'.contact-hero',
-			{ opacity: 0, y: 100, scale: 0.9 },
-			{ opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'back.out(1.7)', delay: 0.3 }
-		);
+		const mm = gsap.matchMedia();
 
-		// Contact methods stagger animation
-		gsap.fromTo(
-			'.contact-method',
-			{ opacity: 0, y: 60, rotationX: -15 },
-			{
-				opacity: 1,
-				y: 0,
-				rotationX: 0,
-				duration: 0.8,
-				ease: 'back.out(1.7)',
-				stagger: 0.2,
-				delay: 0.8
-			}
-		);
+		mm.add('(min-width: 768px)', () => {
+			// Hero animation
+			gsap.fromTo(
+				'.contact-hero',
+				{ opacity: 0, y: 100, scale: 0.9 },
+				{ opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'back.out(1.7)', delay: 0.3 }
+			);
 
-		// Form animation
-		gsap.fromTo(
-			'.contact-form',
-			{ opacity: 0, x: 50, scale: 0.95 },
-			{ opacity: 1, x: 0, scale: 1, duration: 1, ease: 'power2.out', delay: 1.2 }
-		);
+			// Contact methods stagger animation
+			gsap.fromTo(
+				'.contact-method',
+				{ opacity: 0, y: 60, rotationX: -15 },
+				{
+					opacity: 1,
+					y: 0,
+					rotationX: 0,
+					duration: 0.8,
+					ease: 'back.out(1.7)',
+					stagger: 0.15,
+					delay: 0.8
+				}
+			);
 
-		// Floating animations
-		gsap.to('.floating-1', {
-			y: -20,
-			rotation: 5,
-			duration: 4,
-			ease: 'power1.inOut',
-			yoyo: true,
-			repeat: -1
-		});
+			// Form animation
+			gsap.fromTo(
+				'.contact-form',
+				{ opacity: 0, x: 50, scale: 0.95 },
+				{ opacity: 1, x: 0, scale: 1, duration: 1, ease: 'power2.out', delay: 1.2 }
+			);
 
-		gsap.to('.floating-2', {
-			y: -15,
-			rotation: -3,
-			duration: 5,
-			ease: 'power1.inOut',
-			yoyo: true,
-			repeat: -1,
-			delay: 1
-		});
+			// Magnetic effect for contact cards
+			document.querySelectorAll('.contact-card').forEach((card: any) => {
+				card.addEventListener('mouseenter', () => {
+					gsap.to(card, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
+				});
 
-		// Magnetic effect for contact cards
-		document.querySelectorAll('.contact-card').forEach((card: any) => {
-			card.addEventListener('mouseenter', () => {
-				gsap.to(card, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
-			});
+				card.addEventListener('mouseleave', () => {
+					gsap.to(card, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+				});
 
-			card.addEventListener('mouseleave', () => {
-				gsap.to(card, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
-			});
+				card.addEventListener('mousemove', (e: MouseEvent) => {
+					const rect = card.getBoundingClientRect();
+					const x = e.clientX - rect.left - rect.width / 2;
+					const y = e.clientY - rect.top - rect.height / 2;
 
-			card.addEventListener('mousemove', (e: MouseEvent) => {
-				const rect = card.getBoundingClientRect();
-				const x = e.clientX - rect.left - rect.width / 2;
-				const y = e.clientY - rect.top - rect.height / 2;
-
-				gsap.to(card, {
-					x: x * 0.2,
-					y: y * 0.2,
-					duration: 0.3,
-					ease: 'power2.out'
+					gsap.to(card, {
+						x: x * 0.2,
+						y: y * 0.2,
+						duration: 0.3,
+						ease: 'power2.out'
+					});
 				});
 			});
+		});
+
+		mm.add('(max-width: 767px)', () => {
+			// Simpler entrance for mobile
+			gsap.fromTo(
+				'.contact-hero, .contact-method, .contact-form',
+				{ opacity: 0, y: 30 },
+				{ opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out' }
+			);
 		});
 
 		// Form input focus animations
@@ -164,6 +157,8 @@
 				gsap.to(input.parentElement, { scale: 1, duration: 0.3 });
 			});
 		});
+
+		return () => mm.revert();
 	});
 </script>
 
@@ -203,13 +198,13 @@
 
 		<!-- Floating geometric shapes -->
 		<div
-			class="floating-1 absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-xl"
+			class="floating-1 css-floating-1 absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-xl"
 		></div>
 		<div
-			class="floating-2 absolute bottom-20 right-20 w-48 h-48 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-full blur-xl"
+			class="floating-2 css-floating-2 absolute bottom-20 right-20 w-48 h-48 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-full blur-xl"
 		></div>
 		<div
-			class="floating-1 absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-xl"
+			class="floating-3 css-floating-3 absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-xl"
 		></div>
 	</div>
 
@@ -228,7 +223,8 @@
 			<!-- Contact Methods -->
 			<div class="space-y-6">
 				<h2 class="text-2xl lg:text-3xl font-bold mb-8 text-gray-300">
-					{$_('contact.getInTouch')} <span class="blue-gradient_text">{$_('contact.getInTouchHighlight')}</span>
+					{$_('contact.getInTouch')}
+					<span class="blue-gradient_text">{$_('contact.getInTouchHighlight')}</span>
 				</h2>
 
 				<div class="grid gap-6">
@@ -326,7 +322,8 @@
 			<div class="contact-form">
 				<div class="glass-card p-8 rounded-2xl">
 					<h2 class="text-2xl lg:text-3xl font-bold mb-8 text-gray-300">
-						{$_('contact.form.title')} <span class="blue-gradient_text">{$_('contact.form.titleHighlight')}</span>
+						{$_('contact.form.title')}
+						<span class="blue-gradient_text">{$_('contact.form.titleHighlight')}</span>
 					</h2>
 
 					<form
@@ -488,7 +485,10 @@
 		<div class="text-center mt-16 lg:mt-24">
 			<div class="glass-card p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto">
 				<h3 class="text-2xl lg:text-3xl font-bold mb-4 text-glow">
-					{$_('contact.cta.title')} <span class="blue-gradient_text">{$_('contact.cta.titleHighlight')}</span>{$_('contact.cta.titleEnd')}
+					{$_('contact.cta.title')}
+					<span class="blue-gradient_text">{$_('contact.cta.titleHighlight')}</span>{$_(
+						'contact.cta.titleEnd'
+					)}
 				</h3>
 				<p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
 					{$_('contact.cta.subtitle')}

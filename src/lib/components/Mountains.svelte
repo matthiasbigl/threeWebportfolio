@@ -1,210 +1,226 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
-    import { onMount } from 'svelte';
-    import * as THREE from 'three';
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
+	import * as THREE from 'three';
+	import Skeleton from './Skeleton.svelte';
 
-    let hover = $state(false);
-    let isDragging = $state(false);
-    let previousMouseX = 0;
+	let hover = $state(false);
+	let isDragging = $state(false);
+	let isLoaded = $state(false);
+	let isVisible = $state(false);
+	let previousMouseX = 0;
 
-    let canvasContainer: HTMLDivElement = $state();
-    let camera: THREE.PerspectiveCamera = $state();
-    let scene: THREE.Scene = $state();
-    let renderer: THREE.WebGLRenderer = $state();
-    let mountainMesh: THREE.Mesh;
-    let sunLight: THREE.DirectionalLight;
+	let canvasContainer: HTMLDivElement | undefined = $state();
+	let camera: THREE.PerspectiveCamera | undefined = $state();
+	let scene: THREE.Scene | undefined = $state();
+	let renderer: THREE.WebGLRenderer | undefined = $state();
+	let mountainMesh: THREE.Mesh | undefined;
+	let sunLight: THREE.DirectionalLight | undefined;
+	let observer: IntersectionObserver;
 
-    function toRadians(number: number) {
-        return number * Math.PI / 180;
-    }
+	function toRadians(number: number) {
+		return (number * Math.PI) / 180;
+	}
 
-    if (browser) {
-        let lastTimestamp = 0;
+	if (browser) {
+		let lastTimestamp = 0;
+		let animationId: number;
 
-        //check if the user is on a mobile device
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+		const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-        if (isMobile) {
-            hover = true;
-        }
+		if (isMobile) {
+			hover = true;
+		}
 
-        onMount(() => {
-            scene = new THREE.Scene();
+		onMount(() => {
+			if (!canvasContainer) return;
 
-            camera = new THREE.PerspectiveCamera(75, canvasContainer.clientWidth / canvasContainer.clientHeight, 0.1, 1000);
-            camera.position.set(5, 5, 5);
-            camera.lookAt(scene.position);
+			scene = new THREE.Scene();
 
-            renderer = new THREE.WebGLRenderer({ alpha: true });
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-            renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-            renderer.domElement.classList.add('w-full', 'h-full', 'drop-shadow-2xl', 'overflow-hidden', 'z-50');
+			camera = new THREE.PerspectiveCamera(
+				75,
+				canvasContainer.clientWidth / canvasContainer.clientHeight,
+				0.1,
+				1000
+			);
+			camera.position.set(5, 5, 5);
+			camera.lookAt(scene.position);
 
-            canvasContainer.appendChild(renderer.domElement);
+			renderer = new THREE.WebGLRenderer({
+				alpha: true,
+				antialias: !isMobile
+			});
 
-            //create a mountain using a MeshStandardMaterial
-            const mountain = new THREE.MeshStandardMaterial({
-                displacementMap: new THREE.TextureLoader().load('/assets/terainHeightMap.png'),
-                displacementScale: 12,
-                map: new THREE.TextureLoader().load('/assets/terain.png'),
-            });
+			renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+			renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+			renderer.domElement.classList.add('w-full', 'h-full', 'drop-shadow-2xl', 'overflow-hidden');
 
-            //create a plane geometry to hold the mountain material
-            const plane = new THREE.PlaneGeometry(15, 15, 100, 100);
-            //create a mesh using the plane geometry and mountain material
-            mountainMesh = new THREE.Mesh(plane, mountain);
-            //rotate the mountain mesh so it is flat
-            mountainMesh.rotation.x = -Math.PI / 2;
-            mountainMesh.position.y = -1;
-            mountainMesh.castShadow = true;
-            mountainMesh.receiveShadow = true;
+			if (!isMobile) {
+				renderer.shadowMap.enabled = true;
+				renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+			}
 
-            //add the mountain mesh to the scene
-            scene.add(mountainMesh);
+			canvasContainer.appendChild(renderer.domElement);
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-            scene.add(ambientLight);
+			const textureLoader = new THREE.TextureLoader();
+			let loadedCount = 0;
+			const checkLoaded = () => {
+				loadedCount++;
+				if (loadedCount >= 2) isLoaded = true;
+			};
 
-            sunLight = new THREE.DirectionalLight(0xaaddcc, 4);
-            sunLight.position.set(10, 5, 10);
-            sunLight.target.position.set(0, 0, 0);
-            scene.add(sunLight);
+			const mountain = new THREE.MeshStandardMaterial({
+				displacementMap: textureLoader.load('/assets/terainHeightMap.png', checkLoaded),
+				displacementScale: 12,
+				map: textureLoader.load('/assets/terain.png', checkLoaded)
+			});
 
-            sunLight.castShadow = true;
-            sunLight.shadow.mapSize.width = 1024;
-            sunLight.shadow.mapSize.height = 1024;
-            sunLight.shadow.camera.near = 0.5;
-            sunLight.shadow.camera.far = 500;
+			const plane = new THREE.PlaneGeometry(15, 15, isMobile ? 64 : 128, isMobile ? 64 : 128);
+			mountainMesh = new THREE.Mesh(plane, mountain);
+			mountainMesh.rotation.x = -Math.PI / 2;
+			mountainMesh.position.y = -1;
+			mountainMesh.castShadow = !isMobile;
+			mountainMesh.receiveShadow = !isMobile;
+			scene.add(mountainMesh);
 
-            // Mouse and touch event listeners for dragging
-            canvasContainer.addEventListener('mousedown', onMouseDown);
-            canvasContainer.addEventListener('mouseup', onMouseUp);
-            canvasContainer.addEventListener('mousemove', onMouseMove);
+			const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+			scene.add(ambientLight);
 
-            canvasContainer.addEventListener('touchstart', onTouchStart);
-            canvasContainer.addEventListener('touchend', onTouchEnd);
-            canvasContainer.addEventListener('touchmove', onTouchMove);
+			sunLight = new THREE.DirectionalLight(0xaaddcc, 4);
+			sunLight.position.set(10, 5, 10);
+			scene.add(sunLight);
 
-            animate(0);
-        });
+			if (!isMobile) {
+				sunLight.castShadow = true;
+				sunLight.shadow.mapSize.width = 1024;
+				sunLight.shadow.mapSize.height = 1024;
+			}
 
-        const render = () => {
-            renderer.clear();
-            renderer.render(scene, camera);
-        };
+			// Visibility tracking
+			observer = new IntersectionObserver(
+				(entries) => {
+					isVisible = entries[0].isIntersecting;
+					if (isVisible) {
+						animate(performance.now());
+					} else {
+						cancelAnimationFrame(animationId);
+					}
+				},
+				{ threshold: 0.1 }
+			);
 
-        const animate = (timestamp: number) => {
-            requestAnimationFrame(animate);
+			observer.observe(canvasContainer);
 
-            const delta = (timestamp - lastTimestamp) / 1000;
-            lastTimestamp = timestamp;
+			canvasContainer.addEventListener('mousedown', onMouseDown);
+			window.addEventListener('mouseup', onMouseUp);
+			canvasContainer.addEventListener('mousemove', onMouseMove);
 
-            //update the camera
-            camera.lookAt(scene.position);
+			canvasContainer.addEventListener('touchstart', onTouchStart, { passive: false });
+			window.addEventListener('touchend', onTouchEnd);
+			canvasContainer.addEventListener('touchmove', onTouchMove, { passive: false });
 
-            //update the mountain mesh
-            if (hover && !isDragging) {
-                mountainMesh.rotation.z += delta * 0.1;
-                sunLight.rotation.z += delta * 0.1;
-            }
+			return () => {
+				observer?.disconnect();
+				cancelAnimationFrame(animationId);
+				window.removeEventListener('mouseup', onMouseUp);
+				window.removeEventListener('touchend', onTouchEnd);
+			};
+		});
 
-            camera.updateProjectionMatrix();
-            render();
-        };
+		const animate = (timestamp: number) => {
+			if (!isVisible || !renderer || !scene || !camera || !mountainMesh || !sunLight) return;
+			animationId = requestAnimationFrame(animate);
 
-        // Functions to handle mouse events
-        function onMouseDown(event: MouseEvent) {
-            isDragging = true;
-            previousMouseX = event.clientX;
-        }
+			const delta = (timestamp - lastTimestamp) / 1000;
+			lastTimestamp = timestamp;
 
-        function onMouseUp() {
-            isDragging = false;
-        }
+			camera.lookAt(scene.position);
 
-        function onMouseMove(event: MouseEvent) {
-            if (isDragging) {
-                const deltaMove = {
-                    x: event.offsetX - previousMouseX,
-                };
+			if (hover && !isDragging) {
+				mountainMesh.rotation.z += delta * 0.1;
+				sunLight.rotation.z += delta * 0.1;
+			}
 
-                if (hover) {
-                    const deltaRotationQuaternion = new THREE.Quaternion()
-                        .setFromEuler(new THREE.Euler(
-                            0,
-                            toRadians(deltaMove.x),
-                            0,
-                            'XYZ'
-                        ));
+			renderer.render(scene, camera);
+		};
 
-                    mountainMesh.quaternion.multiplyQuaternions(deltaRotationQuaternion, mountainMesh.quaternion);
-                }
+		function onMouseDown(event: MouseEvent) {
+			isDragging = true;
+			previousMouseX = event.clientX;
+		}
 
-                previousMouseX = event.offsetX;
-            }
-        }
+		function onMouseUp() {
+			isDragging = false;
+		}
 
-        // Functions to handle touch events
-        function onTouchStart(event: TouchEvent) {
-            isDragging = true;
-            previousMouseX = event.touches[0].clientX;
-            event.preventDefault();
+		function onMouseMove(event: MouseEvent) {
+			if (isDragging && mountainMesh && canvasContainer) {
+				const deltaX = event.clientX - previousMouseX;
+				const deltaRotationQuaternion = new THREE.Quaternion().setFromEuler(
+					new THREE.Euler(0, toRadians(deltaX * 0.5), 0, 'XYZ')
+				);
+				mountainMesh.quaternion.multiplyQuaternions(
+					deltaRotationQuaternion,
+					mountainMesh.quaternion
+				);
+				previousMouseX = event.clientX;
+			}
+		}
 
-        }
+		function onTouchStart(event: TouchEvent) {
+			isDragging = true;
+			previousMouseX = event.touches[0].clientX;
+		}
 
-        function onTouchEnd() {
-            isDragging = false;
-        }
+		function onTouchEnd() {
+			isDragging = false;
+		}
 
-        function onTouchMove(event: TouchEvent) {
-            if (isDragging) {
-                const deltaMove = {
-                    x: event.touches[0].clientX - previousMouseX,
-                };
-
-                if (hover) {
-                    const deltaRotationQuaternion = new THREE.Quaternion()
-                        .setFromEuler(new THREE.Euler(
-                            0,
-                            toRadians(deltaMove.x),
-                            0,
-                            'XYZ'
-                        ));
-
-                    mountainMesh.quaternion.multiplyQuaternions(deltaRotationQuaternion, mountainMesh.quaternion);
-                }
-
-                previousMouseX = event.touches[0].clientX;
-                event.preventDefault();
-            }
-        }
-    }
+		function onTouchMove(event: TouchEvent) {
+			if (isDragging && mountainMesh && canvasContainer) {
+				const deltaX = event.touches[0].clientX - previousMouseX;
+				const deltaRotationQuaternion = new THREE.Quaternion().setFromEuler(
+					new THREE.Euler(0, toRadians(deltaX * 0.5), 0, 'XYZ')
+				);
+				mountainMesh.quaternion.multiplyQuaternions(
+					deltaRotationQuaternion,
+					mountainMesh.quaternion
+				);
+				previousMouseX = event.touches[0].clientX;
+				event.preventDefault();
+			}
+		}
+	}
 </script>
 
-<svelte:window onresize={() => {
-    if (canvasContainer) {
-        camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-        renderer.render(scene, camera);
-    }
-}}/>
+<svelte:window
+	onresize={() => {
+		if (canvasContainer && camera && renderer) {
+			camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+		}
+	}}
+/>
 
-<section bind:this={canvasContainer} onmouseenter={() => { hover = true }}
-         onmouseout={() => { hover = false; isDragging = false }} class="hover:scale-105
-         hover:shadow-2xl
-         transition-all
-         duration-200
-         overflow-hidden w-full h-full rounded-lg bg-slate-100 shadow-md drop-shadow-lg
-         bg-gradient-to-b from-sky-100 to-sky-50"
+<div
+	bind:this={canvasContainer}
+	onmouseenter={() => (hover = true)}
+	onmouseleave={() => {
+		hover = false;
+		isDragging = false;
+	}}
+	onblur={() => {
+		hover = false;
+		isDragging = false;
+	}}
+	class="relative w-full h-full rounded-lg overflow-hidden group transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-grab active:cursor-grabbing"
+	aria-label="3D Interactive Mountains"
+	role="img"
 >
-    <!-- The canvas element will be appended here -->
-</section>
-
-<style>
-    canvas {
-        filter: contrast(2) brightness(1.2);
-    }
-</style>
+	{#if !isLoaded}
+		<div class="absolute inset-0 z-10">
+			<Skeleton className="w-full h-full" />
+		</div>
+	{/if}
+</div>

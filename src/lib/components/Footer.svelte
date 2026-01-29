@@ -39,32 +39,41 @@
 </script>
 
 <footer
-	class="relative z-10 border-t border-white/10 bg-gradient-to-b from-transparent to-black/30"
+	class="relative z-10 border-t border-white/10 bg-gradient-to-b from-transparent via-black/20 to-black/40"
 >
-	<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+	<!-- Subtle top glow accent -->
+	<div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+	
+	<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
 			<!-- Brand Section -->
-			<div class="space-y-4 md:col-span-2 lg:col-span-1">
-				<h3 class="text-2xl font-bold">
+			<div class="space-y-5 md:col-span-2 lg:col-span-1">
+				<h3 class="text-2xl font-bold tracking-tight">
 					<span class="blue-gradient_text">Matthias Bigl</span>
 				</h3>
 				<p class="text-gray-400 text-sm leading-relaxed">
 					{$_('footer.description')}
 				</p>
-				<div class="text-gray-500 text-xs space-y-1">
-					<p>📍 {$_('footer.location')}</p>
-					<p>📞 <a href="tel:+436604596636" class="hover:text-blue-400 transition-colors">+43 660 459 6636</a></p>
+				<div class="text-gray-500 text-sm space-y-2">
+					<p class="flex items-center gap-2">
+						<span>📍</span> 
+						<span>{$_('footer.location')}</span>
+					</p>
+					<p class="flex items-center gap-2">
+						<span>📞</span>
+						<a href="tel:+436604596636" class="hover:text-blue-400 transition-colors duration-300">+43 660 459 6636</a>
+					</p>
 				</div>
 			</div>
 
 			<!-- Quick Links -->
-			<div class="space-y-4">
-				<h4 class="text-lg font-semibold text-white">{$_('footer.navigation')}</h4>
-				<nav class="flex flex-col space-y-2" aria-label="Footer navigation">
+			<div class="space-y-5">
+				<h4 class="text-base font-semibold text-white tracking-tight">{$_('footer.navigation')}</h4>
+				<nav class="flex flex-col space-y-3" aria-label="Footer navigation">
 					{#each quickLinks as link}
 						<a
 							href={link.href}
-							class="text-gray-400 hover:text-blue-400 transition-colors text-sm"
+							class="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm hover:translate-x-1 transform transition-transform"
 							target={link.href.startsWith('http') ? '_blank' : undefined}
 							rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
 						>
@@ -75,13 +84,13 @@
 			</div>
 
 			<!-- Services -->
-			<div class="space-y-4">
-				<h4 class="text-lg font-semibold text-white">{$_('footer.servicesTitle')}</h4>
-				<nav class="flex flex-col space-y-2" aria-label="Services navigation">
+			<div class="space-y-5">
+				<h4 class="text-base font-semibold text-white tracking-tight">{$_('footer.servicesTitle')}</h4>
+				<nav class="flex flex-col space-y-3" aria-label="Services navigation">
 					{#each services as service}
 						<a
 							href={service.href}
-							class="text-gray-400 hover:text-blue-400 transition-colors text-sm"
+							class="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm hover:translate-x-1 transform transition-transform"
 						>
 							{service.name}
 						</a>
@@ -90,20 +99,20 @@
 			</div>
 
 			<!-- Social & Contact -->
-			<div class="space-y-4">
-				<h4 class="text-lg font-semibold text-white">{$_('footer.contactTitle')}</h4>
-				<div class="flex space-x-4">
+			<div class="space-y-5">
+				<h4 class="text-base font-semibold text-white tracking-tight">{$_('footer.contactTitle')}</h4>
+				<div class="flex space-x-3">
 					{#each socialLinks as social}
 						<a
 							href={social.href}
-							class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-all hover:scale-110"
+							class="w-10 h-10 rounded-xl bg-white/5 hover:bg-blue-500/20 border border-white/5 hover:border-blue-500/30 flex items-center justify-center transition-all duration-300 hover:scale-110 group"
 							target="_blank"
 							rel="noopener noreferrer me"
 							aria-label={social.name}
 							title={social.name}
 						>
 							<svg
-								class="w-5 h-5 text-gray-400 hover:text-blue-400 transition-colors"
+								class="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors duration-300"
 								fill="currentColor"
 								viewBox="0 0 24 24"
 							>
@@ -112,12 +121,12 @@
 						</a>
 					{/each}
 				</div>
-				<p class="text-gray-500 text-sm">
-					<a href="mailto:biglmatthias@gmail.com" class="hover:text-blue-400 transition-colors">
+				<p class="text-gray-400 text-sm">
+					<a href="mailto:biglmatthias@gmail.com" class="hover:text-blue-400 transition-colors duration-300">
 						biglmatthias@gmail.com
 					</a>
 				</p>
-				<p class="text-gray-600 text-xs">
+				<p class="text-gray-500 text-xs leading-relaxed">
 					Webdesign Wien • Webentwicklung Korneuburg • Niederösterreich
 				</p>
 			</div>
@@ -125,14 +134,14 @@
 
 		<!-- Bottom Bar -->
 		<div
-			class="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+			class="mt-14 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
 		>
 			<p class="text-gray-500 text-sm">
 				© {currentYear} Matthias Bigl. {$_('footer.copyright')}
 			</p>
-			<div class="flex space-x-6 text-xs text-gray-600">
-				<a href="/humans.txt" class="hover:text-gray-400 transition-colors">humans.txt</a>
-				<a href="/sitemap.xml" class="hover:text-gray-400 transition-colors">Sitemap</a>
+			<div class="flex space-x-6 text-xs text-gray-500">
+				<a href="/humans.txt" class="hover:text-gray-300 transition-colors duration-300">humans.txt</a>
+				<a href="/sitemap.xml" class="hover:text-gray-300 transition-colors duration-300">Sitemap</a>
 			</div>
 		</div>
 	</div>
