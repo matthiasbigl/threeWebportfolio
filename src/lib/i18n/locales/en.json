@@ -457,7 +457,27 @@
 			"hosting": "Hosting & Support"
 		},
 		"copyright": "All rights reserved.",
-		"location": "Korneuburg / Vienna, Austria"
+		"location": "Korneuburg / Vienna, Austria",
+		"imprint": "Legal Notice",
+		"privacy": "Privacy Policy"
+	},
+	"imprint": {
+		"title": "Legal Notice",
+		"owner": "Owner",
+		"address": "Address",
+		"contact": "Contact",
+		"disclaimer": "Small Business Regulation",
+		"disclaimerText": "Exempt from VAT according to the small business regulation (§ 6 Abs. 1 Z 27 UStG).",
+		"content": "Disclaimer",
+		"contentText": "Despite careful control of the content, I assume no liability for the content of external links. The operators of the linked pages are solely responsible for their content."
+	},
+	"privacy": {
+		"title": "Privacy Policy",
+		"intro": "The protection of your personal data is a special concern of mine. I therefore process your data exclusively on the basis of the legal provisions (GDPR, TKG 2003).",
+		"contact": "Contacting me",
+		"contactText": "If you contact me via the form on the website or by email, your data will be stored for six months for the purpose of processing the inquiry and in case of follow-up questions. I will not pass on this data without your consent.",
+		"analytics": "Google Analytics",
+		"analyticsText": "This website uses Google Analytics to analyze user behavior. The data is processed anonymously."
 	},
 	"seo": {
 		"home": {

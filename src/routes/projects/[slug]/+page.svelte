@@ -112,19 +112,19 @@
 			</div>
 
 			<h1
-				class="hero-title font-poppins text-6xl sm:text-8xl lg:text-[10rem] font-black text-white leading-[0.9] tracking-tighter mb-12 text-glow-soft"
+				class="hero-title font-poppins text-5xl sm:text-8xl lg:text-[10rem] font-black text-white leading-[0.9] tracking-tighter mb-12 text-glow-soft break-words"
 			>
 				{$_(`projects.items.${project.slug}.title`)}
 			</h1>
 
 			<p
-				class="hero-tagline text-2xl lg:text-4xl font-poppins font-bold text-blue-400 max-w-3xl mx-auto mb-12 leading-tight tracking-tight italic"
+				class="hero-tagline text-xl lg:text-4xl font-poppins font-bold text-blue-400 max-w-3xl mx-auto mb-12 leading-tight tracking-tight italic px-4"
 			>
 				"{$_(`projects.items.${project.slug}.tagline`)}"
 			</p>
 
 			<p
-				class="hero-description text-xl lg:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-light"
+				class="hero-description text-lg lg:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-light px-4"
 			>
 				{$_(`projects.items.${project.slug}.description`)}
 			</p>
@@ -140,7 +140,7 @@
 				{#if $_(`projects.items.${project.slug}.sections`)}
 					<!-- Large Context Block -->
 					<section
-						class="stagger-card p-10 lg:p-16 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-2xl relative overflow-hidden group"
+						class="stagger-card p-6 sm:p-10 lg:p-16 rounded-[2rem] lg:rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-2xl relative overflow-hidden group"
 					>
 						<div
 							class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity"
@@ -157,7 +157,7 @@
 							<span class="w-12 h-px bg-blue-500/50"></span> Project Vision
 						</h3>
 						<p
-							class="font-poppins text-2xl lg:text-4xl font-medium text-white leading-[1.2] tracking-tight"
+							class="font-poppins text-xl sm:text-2xl lg:text-4xl font-medium text-white leading-[1.2] tracking-tight"
 						>
 							{$_(`projects.items.${project.slug}.sections.context`)}
 						</p>
@@ -166,27 +166,27 @@
 					<!-- Problem & Solution Group -->
 					<div class="grid md:grid-cols-2 gap-12 lg:gap-16">
 						<section
-							class="stagger-card space-y-8 p-10 rounded-[2rem] bg-white/[0.02] border border-white/5"
+							class="stagger-card space-y-8 p-6 sm:p-10 rounded-[1.5rem] lg:rounded-[2rem] bg-white/[0.02] border border-white/5"
 						>
 							<h3
 								class="text-xs font-bold uppercase tracking-[0.3em] text-red-500 flex items-center gap-3"
 							>
 								<span class="w-8 h-px bg-red-500/50"></span> 01. Challenge
 							</h3>
-							<p class="text-2xl font-bold text-gray-100 leading-tight">
+							<p class="text-xl sm:text-2xl font-bold text-gray-100 leading-tight">
 								{$_(`projects.items.${project.slug}.sections.problem`)}
 							</p>
 						</section>
 
 						<section
-							class="stagger-card space-y-8 p-10 rounded-[2rem] bg-white/[0.02] border border-white/5"
+							class="stagger-card space-y-8 p-6 sm:p-10 rounded-[1.5rem] lg:rounded-[2rem] bg-white/[0.02] border border-white/5"
 						>
 							<h3
 								class="text-xs font-bold uppercase tracking-[0.3em] text-green-500 flex items-center gap-3"
 							>
 								<span class="w-8 h-px bg-green-500/50"></span> 02. Execution
 							</h3>
-							<p class="text-xl text-gray-400 leading-relaxed">
+							<p class="text-base sm:text-xl text-gray-400 leading-relaxed">
 								{$_(`projects.items.${project.slug}.sections.solution`)}
 							</p>
 						</section>
@@ -286,7 +286,7 @@
 		<!-- NEW: CINEMATIC IMPACT SECTION (Full Width) -->
 		<section class="stagger-card mb-32 lg:mb-48">
 			<div
-				class="relative p-12 lg:p-24 rounded-[3rem] lg:rounded-[4rem] bg-gradient-to-br from-blue-600/10 to-blue-900/20 border border-blue-500/20 backdrop-blur-3xl overflow-hidden group shadow-2xl"
+				class="relative p-8 lg:p-24 rounded-[2.5rem] lg:rounded-[4rem] bg-gradient-to-br from-blue-600/10 to-blue-900/20 border border-blue-500/20 backdrop-blur-3xl overflow-hidden group shadow-2xl"
 			>
 				<!-- Background motion detail -->
 				<div
@@ -304,7 +304,7 @@
 						Project Results
 					</h3>
 					<p
-						class="font-poppins text-4xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight mb-12"
+						class="font-poppins text-2xl sm:text-4xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight mb-12"
 					>
 						{$_(`projects.items.${project.slug}.sections.impact`)}
 					</p>
@@ -364,6 +364,7 @@
 	.glass-card {
 		background: rgba(255, 255, 255, 0.03);
 		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
 		border: 1px solid rgba(255, 255, 255, 0.05);
 	}
 

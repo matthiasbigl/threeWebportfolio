@@ -388,7 +388,7 @@
 	</section>
 	<!-- Projects Section -->
 	<section
-		class="projects-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-visible"
+		class="projects-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-hidden lg:overflow-visible"
 	>
 		<div class="parallax-bg parallax-bg-1"></div>
 
@@ -409,7 +409,9 @@
 						title={$_(`projects.items.${project.slug}.title`)}
 						description={$_(`projects.items.${project.slug}.description`)}
 						image={project.image}
-						link="/projects/{project.slug}"
+						link={project.isExternal ? project.link : `/projects/${project.slug}`}
+						target={project.isExternal ? '_blank' : ''}
+						rel={project.isExternal ? 'noopener noreferrer' : ''}
 					/>
 				{/each}
 			</div>
@@ -428,7 +430,7 @@
 
 	<!-- Resume Section -->
 	<section
-		class="resume-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-2 overflow-visible"
+		class="resume-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-2 overflow-hidden lg:overflow-visible"
 	>
 		<div class="parallax-bg parallax-bg-2"></div>
 
@@ -448,7 +450,7 @@
 
 	<!-- Hobbies Section -->
 	<section
-		class="hobbies-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-visible"
+		class="hobbies-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-hidden lg:overflow-visible"
 	>
 		<div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex flex-col items-center mb-12 sm:mb-16">

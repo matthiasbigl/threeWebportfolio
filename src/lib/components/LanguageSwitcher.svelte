@@ -56,7 +56,7 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div 
-            class="absolute right-0 mt-2 w-40 rounded-xl overflow-hidden shadow-xl z-50 animate-fadeIn border border-white/10 bg-slate-900/80 backdrop-blur-xl"
+            class="absolute right-0 mt-2 w-40 rounded-xl overflow-hidden shadow-xl z-50 animate-fadeIn border border-white/10 bg-slate-900/80 backdrop-blur-xl dropdown-glass"
             onclick={(e) => e.stopPropagation()}
         >
             <button
@@ -88,6 +88,11 @@
 </div>
 
 <style>
+    .dropdown-glass {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+
     .animate-fadeIn {
         animation: fadeIn 0.2s ease-out;
     }

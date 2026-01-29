@@ -140,6 +140,8 @@
 				© {currentYear} Matthias Bigl. {$_('footer.copyright')}
 			</p>
 			<div class="flex space-x-6 text-xs text-gray-500">
+				<a href="/impressum" class="hover:text-gray-300 transition-colors duration-300">{$_('footer.imprint')}</a>
+				<a href="/datenschutz" class="hover:text-gray-300 transition-colors duration-300">{$_('footer.privacy')}</a>
 				<a href="/humans.txt" class="hover:text-gray-300 transition-colors duration-300">humans.txt</a>
 				<a href="/sitemap.xml" class="hover:text-gray-300 transition-colors duration-300">Sitemap</a>
 			</div>

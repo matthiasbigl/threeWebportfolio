@@ -6,6 +6,8 @@
 		description: string;
 		image?: string;
 		link?: string;
+		target?: string;
+		rel?: string;
 		imageObjectFit?: 'contain' | 'cover';
 		children?: Snippet;
 		className?: string;
@@ -16,6 +18,8 @@
 		description,
 		image = '',
 		link = '',
+		target = '',
+		rel = '',
 		imageObjectFit = 'contain',
 		children,
 		className = ''
@@ -26,11 +30,13 @@
 	{#if link}
 		<a
 			href={link}
+			{target}
+			{rel}
 			class="magnetic-btn card-inset block h-full rounded-2xl p-5 sm:p-6 relative group"
 		>
 			<div class="h-full flex flex-col">
 				<!-- Image area with inset effect and backlight -->
-				<div class="aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-visible">
+				<div class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-visible">
 					<!-- Constant warm backlight glow -->
 					<div class="absolute -inset-3 rounded-2xl bg-gradient-to-t from-amber-200/15 via-white/10 to-white/5 blur-2xl"></div>
 					<!-- Subtle hover enhancement -->
@@ -50,7 +56,7 @@
 					{/if}
 				</div>
 
-				<h3 class="text-base sm:text-lg lg:text-xl font-bold mb-3 flex-shrink-0 tracking-tight blue-gradient_text">
+				<h3 class="text-base sm:text-lg lg:text-xl font-bold mb-3 flex-shrink-0 tracking-tight blue-gradient_text font-poppins">
 					{title}
 				</h3>
 
@@ -65,7 +71,7 @@
 		>
 			<div class="h-full flex flex-col">
 				<!-- Image area with inset effect and backlight -->
-				<div class="aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-visible">
+				<div class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-visible">
 					<!-- Constant warm backlight glow -->
 					<div class="absolute -inset-3 rounded-2xl bg-gradient-to-t from-amber-200/15 via-white/10 to-white/5 blur-2xl"></div>
 					<!-- Subtle hover enhancement -->
@@ -85,7 +91,7 @@
 					{/if}
 				</div>
 
-				<h3 class="text-base sm:text-lg lg:text-xl font-bold mb-3 flex-shrink-0 tracking-tight blue-gradient_text">
+				<h3 class="text-base sm:text-lg lg:text-xl font-bold mb-3 flex-shrink-0 tracking-tight blue-gradient_text font-poppins">
 					{title}
 				</h3>
 
@@ -101,11 +107,20 @@
 	.card-inset {
 		background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6));
 		box-shadow: 
-			inset 4px 4px 8px rgba(0, 0, 0, 0.4),
-			inset -4px -4px 8px rgba(255, 255, 255, 0.02),
+			inset 2px 2px 5px rgba(0, 0, 0, 0.3),
+			inset -2px -2px 5px rgba(255, 255, 255, 0.01),
 			0 4px 20px rgba(0, 0, 0, 0.3);
 		border: 1px solid rgba(255, 255, 255, 0.05);
-		transition: all 0.4s ease;
+		transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+	}
+
+	@media (min-width: 640px) {
+		.card-inset {
+			box-shadow: 
+				inset 4px 4px 8px rgba(0, 0, 0, 0.4),
+				inset -4px -4px 8px rgba(255, 255, 255, 0.02),
+				0 4px 20px rgba(0, 0, 0, 0.3);
+		}
 	}
 
 	.card-inset:hover {
@@ -124,17 +139,21 @@
 			inset 3px 3px 6px rgba(0, 0, 0, 0.5),
 			inset -2px -2px 4px rgba(255, 255, 255, 0.02);
 		padding: 0.75rem;
+		backdrop-filter: blur(5px);
+		-webkit-backdrop-filter: blur(5px);
 	}
 
 	.card-inset {
 		will-change: transform;
 	}
 
-	h3 {
-		font-family: 'Poppins', sans-serif;
-	}
-
 	.stagger-item {
 		transform-style: preserve-3d;
+	}
+
+	@media (max-width: 640px) {
+		.stagger-item {
+			transform-style: flat;
+		}
 	}
 </style>

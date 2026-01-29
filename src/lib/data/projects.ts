@@ -3,6 +3,7 @@ export interface Project {
     image: string;
     link: string;
     imageObjectFit?: 'contain' | 'cover';
+    isExternal?: boolean;
 }
 
 export const projects: Project[] = [
@@ -39,11 +40,13 @@ export const projects: Project[] = [
     {
         slug: "blog",
         image: "https://media.graphassets.com/f0f4hXrHQ2yNB85Dj2ou",
-        link: "https://blog.bigls.net/"
+        link: "https://blog.bigls.net/",
+        isExternal: true
     },
     {
         slug: "github-projects",
         image: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-        link: "https://github.com/matthiasbigl"
+        link: "https://github.com/matthiasbigl",
+        isExternal: true
     }
 ];

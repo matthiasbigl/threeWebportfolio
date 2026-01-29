@@ -211,7 +211,7 @@
 	<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
 		<!-- Hero Section -->
 		<div class="contact-hero text-center mb-16 lg:mb-24">
-			<h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 text-glow">
+			<h1 class="font-poppins text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 text-glow">
 				{$_('contact.title')} <span class="blue-gradient_text">{$_('contact.titleHighlight')}</span>
 			</h1>
 			<p class="text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -222,7 +222,7 @@
 		<div class="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-7xl mx-auto">
 			<!-- Contact Methods -->
 			<div class="space-y-6">
-				<h2 class="text-2xl lg:text-3xl font-bold mb-8 text-gray-300">
+				<h2 class="font-poppins text-2xl lg:text-3xl font-bold mb-8 text-gray-300">
 					{$_('contact.getInTouch')}
 					<span class="blue-gradient_text">{$_('contact.getInTouchHighlight')}</span>
 				</h2>
@@ -297,7 +297,7 @@
 								</div>
 
 								<div class="flex-1">
-									<h3 class="text-lg font-semibold text-white mb-1">{method.title}</h3>
+									<h3 class="font-poppins text-lg font-semibold text-white mb-1">{method.title}</h3>
 									<p class="blue-gradient_text font-medium mb-1">{method.value}</p>
 									<p class="text-sm text-gray-400">{method.description}</p>
 								</div>
@@ -321,7 +321,7 @@
 			<!-- Contact Form -->
 			<div class="contact-form">
 				<div class="glass-card p-8 rounded-2xl">
-					<h2 class="text-2xl lg:text-3xl font-bold mb-8 text-gray-300">
+					<h2 class="font-poppins text-2xl lg:text-3xl font-bold mb-8 text-gray-300">
 						{$_('contact.form.title')}
 						<span class="blue-gradient_text">{$_('contact.form.titleHighlight')}</span>
 					</h2>
@@ -484,7 +484,7 @@
 		<!-- Additional CTA Section -->
 		<div class="text-center mt-16 lg:mt-24">
 			<div class="glass-card p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto">
-				<h3 class="text-2xl lg:text-3xl font-bold mb-4 text-glow">
+				<h3 class="font-poppins text-2xl lg:text-3xl font-bold mb-4 text-glow">
 					{$_('contact.cta.title')}
 					<span class="blue-gradient_text">{$_('contact.cta.titleHighlight')}</span>{$_(
 						'contact.cta.titleEnd'
@@ -537,6 +537,7 @@
 			linear-gradient(#fff 0 0) content-box,
 			linear-gradient(#fff 0 0);
 		mask-composite: exclude;
+		-webkit-mask-composite: destination-out;
 		opacity: 0;
 		transition: opacity 0.3s ease;
 	}

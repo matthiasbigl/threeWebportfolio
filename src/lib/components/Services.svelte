@@ -248,10 +248,10 @@
 		</div>
 
 		<!-- CTA - Bold magnetic button style -->
-		<div class="mt-16 sm:mt-20 text-center">
+		<div class="mt-16 sm:mt-20 text-center px-4">
 			<a
 				href="/contact"
-				class="magnetic-btn cta-magnetic inline-flex items-center gap-3 px-10 py-5 relative overflow-hidden rounded-2xl group"
+				class="magnetic-btn cta-magnetic inline-flex items-center gap-3 px-6 py-4 sm:px-10 sm:py-5 relative overflow-hidden rounded-2xl group max-w-full"
 			>
 				<!-- Gradient background -->
 				<div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_100%] animate-gradient-shift opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -268,9 +268,9 @@
 				<div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-lg opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
 				
 				<!-- Content -->
-				<span class="relative z-10 text-base sm:text-lg font-bold text-white drop-shadow-lg">{$_('services.cta')}</span>
+				<span class="relative z-10 text-base sm:text-lg font-bold text-white drop-shadow-lg text-center leading-tight">{$_('services.cta')}</span>
 				<svg
-					class="relative z-10 w-5 h-5 text-white group-hover:translate-x-2 transition-transform duration-300"
+					class="relative z-10 w-5 h-5 text-white group-hover:translate-x-2 transition-transform duration-300 flex-shrink-0"
 					fill="none"
 					stroke="currentColor"
 					viewBox="0 0 24 24"

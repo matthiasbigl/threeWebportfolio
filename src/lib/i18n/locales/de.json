@@ -458,7 +458,27 @@
 			"hosting": "Hosting & Betreuung"
 		},
 		"copyright": "Alle Rechte vorbehalten.",
-		"location": "Korneuburg / Wien, Österreich"
+		"location": "Korneuburg / Wien, Österreich",
+		"imprint": "Impressum",
+		"privacy": "Datenschutz"
+	},
+	"imprint": {
+		"title": "Impressum",
+		"owner": "Inhaber",
+		"address": "Adresse",
+		"contact": "Kontakt",
+		"disclaimer": "Kleinunternehmerregelung",
+		"disclaimerText": "Umsatzsteuerbefreit aufgrund der Kleinunternehmerregelung gemäß § 6 Abs. 1 Z 27 UStG.",
+		"content": "Haftungsausschluss",
+		"contentText": "Trotz sorgfältiger inhaltlicher Kontrolle übernehme ich keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich."
+	},
+	"privacy": {
+		"title": "Datenschutz",
+		"intro": "Der Schutz Ihrer persönlichen Daten ist mir ein besonderes Anliegen. Ich verarbeite Ihre Daten daher ausschließlich auf Grundlage der gesetzlichen Bestimmungen (DSGVO, TKG 2003).",
+		"contact": "Kontakt mit mir",
+		"contactText": "Wenn Sie per Formular auf der Website oder per E-Mail Kontakt mit mir aufnehmen, werden Ihre angegebenen Daten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen sechs Monate bei mir gespeichert. Diese Daten gebe ich nicht ohne Ihre Einwilligung weiter.",
+		"analytics": "Google Analytics",
+		"analyticsText": "Diese Website nutzt Google Analytics zur Analyse des Nutzerverhaltens. Die Daten werden anonymisiert verarbeitet."
 	},
 	"seo": {
 		"home": {
