@@ -388,6 +388,7 @@
 	"hobbies": {
 		"title": "Meine",
 		"titleHighlight": "Hobbies",
+		"mountainHint": "Ziehen zum Drehen",
 		"items": {
 			"gym": {
 				"title": "GYM",

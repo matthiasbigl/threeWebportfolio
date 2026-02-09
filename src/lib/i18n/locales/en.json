@@ -387,6 +387,7 @@
 	"hobbies": {
 		"title": "My",
 		"titleHighlight": "Hobbies",
+		"mountainHint": "Drag to rotate",
 		"items": {
 			"gym": {
 				"title": "GYM",
