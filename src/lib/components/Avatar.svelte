@@ -1,14 +1,20 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import { onMount, onDestroy } from 'svelte';
-    import * as THREE from 'three';
-    import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+    import Skeleton from './Skeleton.svelte';
+
+    // Use import('three') type for type annotations without bundling
+    type THREE = typeof import('three');
+    type ThreePerspectiveCamera = import('three').PerspectiveCamera;
+    type ThreeScene = import('three').Scene;
+    type ThreeWebGLRenderer = import('three').WebGLRenderer;
+    type ThreeLight = import('three').Light;
 
     // Component state
     let canvasContainer: HTMLDivElement = $state();
-    let camera: THREE.PerspectiveCamera;
-    let scene: THREE.Scene;
-    let renderer: THREE.WebGLRenderer;
+    let camera: ThreePerspectiveCamera;
+    let scene: ThreeScene;
+    let renderer: ThreeWebGLRenderer;
     let isLoading = $state(true);
     let animationId: number;
     let flickerIntervals: number[] = [];
@@ -29,11 +35,12 @@
             }
         }
         
+        // scene cleanup needs THREE, but we can traverse without the import
         if (scene) {
-            scene.traverse((object) => {
-                if (object instanceof THREE.Mesh) {
-                    object.geometry.dispose();
-                    if (object.material instanceof THREE.Material) {
+            scene.traverse((object: any) => {
+                if (object.isMesh) {
+                    object.geometry?.dispose();
+                    if (object.material?.dispose) {
                         object.material.dispose();
                     }
                 }
@@ -46,7 +53,7 @@
 
     // Light flicker effect
     const createFlickerEffect = (
-        light: THREE.Light, 
+        light: ThreeLight, 
         targetIntensity: number, 
         flickerCount: number, 
         startDelay: number
@@ -79,8 +86,14 @@
         renderer.render(scene, camera);
     };
 
-    onMount(() => {
+    onMount(async () => {
         if (!browser) return;
+
+        // Dynamically import Three.js and GLTFLoader to keep them out of the main chunk
+        const [THREE, { GLTFLoader }] = await Promise.all([
+            import('three'),
+            import('three/examples/jsm/loaders/GLTFLoader')
+        ]);
 
         const initializeThreeJS = () => {
             if (!canvasContainer) return;
@@ -191,21 +204,13 @@
 
 <section
         bind:this={canvasContainer}
-        class="w-full aspect-square bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-lg overflow-hidden {isLoading ? 'pulsing-loading' : ''}">
+        class="w-full aspect-square bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-lg overflow-hidden relative">
+    {#if isLoading}
+        <div class="absolute inset-0 z-10 transition-opacity duration-500" class:opacity-0={!isLoading}>
+            <Skeleton className="w-full h-full" shape="circle" />
+        </div>
+    {/if}
     <!-- The canvas element will be appended here -->
 </section>
 
-<style>
-    .pulsing-loading {
-        animation: pulse-brightness 2s ease-in-out infinite;
-    }
 
-    @keyframes pulse-brightness {
-        0%, 100% {
-            filter: brightness(0.7);
-        }
-        50% {
-            filter: brightness(1.1);
-        }
-    }
-</style>

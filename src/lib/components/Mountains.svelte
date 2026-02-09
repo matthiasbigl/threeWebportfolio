@@ -1,8 +1,15 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
-	import * as THREE from 'three';
 	import Skeleton from './Skeleton.svelte';
+
+	// Use import('three') type for type annotations without bundling
+	type THREE = typeof import('three');
+	type ThreePerspectiveCamera = import('three').PerspectiveCamera;
+	type ThreeScene = import('three').Scene;
+	type ThreeWebGLRenderer = import('three').WebGLRenderer;
+	type ThreeMesh = import('three').Mesh;
+	type ThreeDirectionalLight = import('three').DirectionalLight;
 
 	let hover = $state(false);
 	let isDragging = $state(false);
@@ -11,11 +18,11 @@
 	let previousMouseX = 0;
 
 	let canvasContainer: HTMLDivElement | undefined = $state();
-	let camera: THREE.PerspectiveCamera | undefined = $state();
-	let scene: THREE.Scene | undefined = $state();
-	let renderer: THREE.WebGLRenderer | undefined = $state();
-	let mountainMesh: THREE.Mesh | undefined;
-	let sunLight: THREE.DirectionalLight | undefined;
+	let camera: ThreePerspectiveCamera | undefined = $state();
+	let scene: ThreeScene | undefined = $state();
+	let renderer: ThreeWebGLRenderer | undefined = $state();
+	let mountainMesh: ThreeMesh | undefined;
+	let sunLight: ThreeDirectionalLight | undefined;
 	let observer: IntersectionObserver;
 
 	function toRadians(number: number) {
@@ -32,8 +39,11 @@
 			hover = true;
 		}
 
-		onMount(() => {
+		onMount(async () => {
 			if (!canvasContainer) return;
+
+			// Dynamically import Three.js to keep it out of the main chunk
+			const THREE = await import('three');
 
 			scene = new THREE.Scene();
 
@@ -119,6 +129,36 @@
 			window.addEventListener('touchend', onTouchEnd);
 			canvasContainer.addEventListener('touchmove', onTouchMove, { passive: false });
 
+			// Closure-capture THREE for interaction handlers
+			onMouseMoveHandler = (event: MouseEvent) => {
+				if (isDragging && mountainMesh && canvasContainer) {
+					const deltaX = event.clientX - previousMouseX;
+					const deltaRotationQuaternion = new THREE.Quaternion().setFromEuler(
+						new THREE.Euler(0, toRadians(deltaX * 0.5), 0, 'XYZ')
+					);
+					mountainMesh.quaternion.multiplyQuaternions(
+						deltaRotationQuaternion,
+						mountainMesh.quaternion
+					);
+					previousMouseX = event.clientX;
+				}
+			};
+
+			onTouchMoveHandler = (event: TouchEvent) => {
+				if (isDragging && mountainMesh && canvasContainer) {
+					const deltaX = event.touches[0].clientX - previousMouseX;
+					const deltaRotationQuaternion = new THREE.Quaternion().setFromEuler(
+						new THREE.Euler(0, toRadians(deltaX * 0.5), 0, 'XYZ')
+					);
+					mountainMesh.quaternion.multiplyQuaternions(
+						deltaRotationQuaternion,
+						mountainMesh.quaternion
+					);
+					previousMouseX = event.touches[0].clientX;
+					event.preventDefault();
+				}
+			};
+
 			return () => {
 				observer?.disconnect();
 				cancelAnimationFrame(animationId);
@@ -153,18 +193,12 @@
 			isDragging = false;
 		}
 
+		// These will be assigned after THREE is loaded
+		let onMouseMoveHandler: (event: MouseEvent) => void;
+		let onTouchMoveHandler: (event: TouchEvent) => void;
+
 		function onMouseMove(event: MouseEvent) {
-			if (isDragging && mountainMesh && canvasContainer) {
-				const deltaX = event.clientX - previousMouseX;
-				const deltaRotationQuaternion = new THREE.Quaternion().setFromEuler(
-					new THREE.Euler(0, toRadians(deltaX * 0.5), 0, 'XYZ')
-				);
-				mountainMesh.quaternion.multiplyQuaternions(
-					deltaRotationQuaternion,
-					mountainMesh.quaternion
-				);
-				previousMouseX = event.clientX;
-			}
+			onMouseMoveHandler?.(event);
 		}
 
 		function onTouchStart(event: TouchEvent) {
@@ -177,18 +211,7 @@
 		}
 
 		function onTouchMove(event: TouchEvent) {
-			if (isDragging && mountainMesh && canvasContainer) {
-				const deltaX = event.touches[0].clientX - previousMouseX;
-				const deltaRotationQuaternion = new THREE.Quaternion().setFromEuler(
-					new THREE.Euler(0, toRadians(deltaX * 0.5), 0, 'XYZ')
-				);
-				mountainMesh.quaternion.multiplyQuaternions(
-					deltaRotationQuaternion,
-					mountainMesh.quaternion
-				);
-				previousMouseX = event.touches[0].clientX;
-				event.preventDefault();
-			}
+			onTouchMoveHandler?.(event);
 		}
 	}
 </script>
@@ -219,7 +242,7 @@
 	role="img"
 >
 	{#if !isLoaded}
-		<div class="absolute inset-0 z-10">
+		<div class="absolute inset-0 z-10 transition-opacity duration-500" class:opacity-0={isLoaded}>
 			<Skeleton className="w-full h-full" />
 		</div>
 	{/if}
