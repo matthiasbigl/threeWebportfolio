@@ -1,8 +1,11 @@
 import { browser } from '$app/environment';
-import { init, register, getLocaleFromNavigator, locale, _ } from 'svelte-i18n';
+import { init, register, getLocaleFromNavigator, locale, _, addMessages } from 'svelte-i18n';
+import deMessages from './locales/de.json';
 
-// Register translation files
-register('de', () => import('./locales/de.json'));
+// Load default locale synchronously so $_() works immediately (SSR + hydration)
+addMessages('de', deMessages);
+
+// Register English as lazy-loaded
 register('en', () => import('./locales/en.json'));
 
 // Initialize i18n
