@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO.svelte';
+	import deLocale from '$lib/i18n/locales/de.json';
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -145,12 +146,15 @@
 		);
 	});
 
+	// ─── Static German locale data for SEO (avoids duplicate <head> on hydration) ───
+	const deProject = (deLocale.projects.items as Record<string, any>)[project.slug] ?? {};
+
 	// ─── CreativeWork structured data for each project ───
 	const projectSchema = {
 		'@context': 'https://schema.org',
 		'@type': 'CreativeWork',
-		name: $_(`projects.items.${project.slug}.title`),
-		description: $_(`projects.items.${project.slug}.description`),
+		name: deProject.title ?? project.slug,
+		description: deProject.description ?? '',
 		url: `https://bigls.net/projects/${project.slug}`,
 		image: project.image.startsWith('http') ? project.image : `https://bigls.net/${project.image}`,
 		author: {
@@ -165,7 +169,7 @@
 		},
 		dateCreated: project.year,
 		genre: project.category,
-		keywords: (($_(`projects.items.${project.slug}.tags`) as any) ?? []).join(', '),
+		keywords: (deProject.tags ?? []).join(', '),
 		isPartOf: {
 			'@type': 'WebSite',
 			'@id': 'https://bigls.net/#website'
@@ -174,12 +178,12 @@
 </script>
 
 <SEO
-	title="{$_(`projects.items.${project.slug}.title`)} – Case Study | Matthias Bigl"
-	description={$_(`projects.items.${project.slug}.description`) + ' – Ein Projekt von Matthias Bigl, Webdesigner & Full Stack Developer aus Wien/Korneuburg.'}
+	title="{deProject.title ?? project.slug} – Case Study | Matthias Bigl"
+	description={`${deProject.description ?? ''} – Ein Projekt von Matthias Bigl, Webdesigner & Full Stack Developer aus Wien/Korneuburg.`}
 	url="https://bigls.net/projects/{project.slug}"
 	type="article"
 	keywords={[
-		...(($_(`projects.items.${project.slug}.tags`) as any) ?? []),
+		...(deProject.tags ?? []),
 		'Matthias Bigl',
 		'Matthias Bigl Projekt',
 		'Matthias Bigl Portfolio',
@@ -190,7 +194,7 @@
 	breadcrumbs={[
 		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
 		{ name: 'Portfolio', url: 'https://bigls.net/#projects' },
-		{ name: $_(`projects.items.${project.slug}.title`), url: `https://bigls.net/projects/${project.slug}` }
+		{ name: deProject.title ?? project.slug, url: `https://bigls.net/projects/${project.slug}` }
 	]}
 />
 

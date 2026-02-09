@@ -365,8 +365,7 @@
 		sameAs: [
 			'https://github.com/matthiasbigl',
 			'https://blog.bigls.net'
-		],
-		aggregateRating: undefined // Add when you have reviews
+		]
 	};
 
 	// ═══════════════════════════════════════════════════════════

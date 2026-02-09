@@ -6,67 +6,33 @@
 	import { marked } from 'marked';
 	import { onMount } from 'svelte';
 
+	// Static German SEO metadata (avoids duplicate <head> on hydration locale switch)
+	const seoTitle = 'Website Kosten Österreich 2026 | Was kostet eine Website? Matthias Bigl';
+	const seoDescription = 'Was kostet eine Website 2026 in Österreich? Landingpages ab €650, Websites ab €2.000, Webshops ab €3.250. Ehrlicher Preisguide von Matthias Bigl – Webdesigner Wien/Korneuburg. Jetzt lesen!';
+	const seoKeywords = [
+		'Website Kosten Österreich',
+		'Was kostet eine Website',
+		'Was kostet eine Website 2026',
+		'Webdesign Preise 2026',
+		'Homepage Kosten Österreich',
+		'Webdesigner Wien Preise',
+		'Website erstellen lassen Kosten',
+		'Landingpage Kosten',
+		'Webshop Kosten Österreich',
+		'Matthias Bigl Preise',
+		'Webdesign günstig Wien',
+		'Website Preise Vergleich'
+	];
+
 	let content = $state('');
-	let metadata = $state({
-		title: '',
-		description: '',
-		keywords: []
-	});
 
 	async function loadContent(lang: string) {
 		try {
-			// In a real SvelteKit app, you might use a server load function or a vite glob import
-			// For this specific setup, we'll fetch the raw markdown files
-			// Since they are in src/lib/content, they might not be directly fetchable if not served as static
-			// However, for SvelteKit, we can use import.meta.glob
-
 			const modules = import.meta.glob('$lib/content/pricing/*.md', { query: '?raw', import: 'default', eager: true });
 			const rawContent = modules[`/src/lib/content/pricing/${lang}.md`] as string;
 
 			if (rawContent) {
 				content = await marked.parse(rawContent);
-
-				// Basic SEO metadata extraction from the markdown if needed,
-				// but we'll use high-quality defaults for this page
-				if (lang === 'de') {
-					metadata = {
-						title: 'Website Kosten Österreich 2026 | Was kostet eine Website? Matthias Bigl',
-						description:
-							'Was kostet eine Website 2026 in Österreich? Landingpages ab €650, Websites ab €2.000, Webshops ab €3.250. Ehrlicher Preisguide von Matthias Bigl – Webdesigner Wien/Korneuburg. Jetzt lesen!',
-						keywords: [
-							'Website Kosten Österreich',
-							'Was kostet eine Website',
-							'Was kostet eine Website 2026',
-							'Webdesign Preise 2026',
-							'Homepage Kosten Österreich',
-							'Webdesigner Wien Preise',
-							'Website erstellen lassen Kosten',
-							'Landingpage Kosten',
-							'Webshop Kosten Österreich',
-							'Matthias Bigl Preise',
-							'Webdesign günstig Wien',
-							'Website Preise Vergleich'
-						]
-					};
-				} else {
-					metadata = {
-						title: 'Website Costs Austria 2026 | How Much Does a Website Cost? Matthias Bigl',
-						description:
-							'How much does a website cost in Austria in 2026? Landing pages from €650, websites from €2,000, webshops from €3,250. Honest pricing guide by Matthias Bigl – freelance web designer Vienna.',
-						keywords: [
-							'Website Costs Austria',
-							'How much does a website cost',
-							'Web Design Prices 2026',
-							'Homepage Costs Austria',
-							'Web Developer Vienna Prices',
-							'Freelance web designer prices',
-							'Landing page cost',
-							'Webshop cost Austria',
-							'Matthias Bigl pricing',
-							'Affordable web design Vienna'
-						]
-					};
-				}
 			}
 		} catch (e) {
 			console.error('Failed to load pricing content', e);
@@ -79,16 +45,16 @@
 </script>
 
 <SEO
-	title={metadata.title}
-	description={metadata.description}
-	keywords={metadata.keywords}
+	title={seoTitle}
+	description={seoDescription}
+	keywords={seoKeywords}
 	type="article"
 	url="https://bigls.net/pricing"
 	datePublished="2025-12-01"
 	dateModified="2026-02-01"
 	breadcrumbs={[
 		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
-		{ name: metadata.title, url: 'https://bigls.net/pricing' }
+		{ name: seoTitle, url: 'https://bigls.net/pricing' }
 	]}
 />
 

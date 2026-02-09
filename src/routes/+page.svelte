@@ -8,6 +8,7 @@
 	import Services from '$lib/components/Services.svelte';
 	import FAQ from '$lib/components/FAQ.svelte';
 	import SEO from '$lib/components/SEO.svelte';
+	import deLocale from '$lib/i18n/locales/de.json';
 	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -136,8 +137,8 @@
 </script>
 
 <SEO
-	title={$_('seo.home.title')}
-	description={$_('seo.home.description')}
+	title={deLocale.seo.home.title}
+	description={deLocale.seo.home.description}
 	url="https://bigls.net"
 	type="profile"
 	image="https://bigls.net/headshot.png"
