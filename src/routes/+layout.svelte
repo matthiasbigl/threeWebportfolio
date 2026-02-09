@@ -5,7 +5,6 @@
 	import { initLocaleFromStorage } from '$lib/i18n';
 	import Navbar from '$lib/components/navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import SEO from '$lib/components/SEO.svelte';
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -33,8 +32,6 @@
 	});
 </script>
 
-<!-- Default SEO - will be overridden by page-specific SEO components -->
-<SEO />
 <CustomCursor />
 
 {#if $isLoading}
