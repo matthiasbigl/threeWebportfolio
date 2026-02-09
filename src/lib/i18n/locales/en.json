@@ -388,18 +388,22 @@
 		"title": "My",
 		"titleHighlight": "Hobbies",
 		"mountainHint": "Drag to rotate",
+		"mountainAlt": "Interactive 3D mountain landscape with snow particles – drag to rotate",
 		"items": {
 			"gym": {
 				"title": "GYM",
-				"description": "I'm always trying to push my limits in the gym 💪"
+				"description": "I'm always trying to push my limits in the gym 💪",
+				"alt": "Dumbbell representing gym training and fitness"
 			},
 			"skiing": {
 				"title": "Skiing",
-				"description": "Carving down the slopes is one of my favorite things to do in winter 🎿"
+				"description": "Carving down the slopes is one of my favorite things to do in winter 🎿",
+				"alt": "3D mountain scene representing skiing hobby"
 			},
 			"surfing": {
 				"title": "Surfing",
-				"description": "Been surfing since I was 6 years old 🤙"
+				"description": "Been surfing since I was 6 years old 🤙",
+				"alt": "Matthias surfing a wave in the ocean"
 			}
 		}
 	},
@@ -530,6 +534,12 @@
 		"contactText": "If you contact me via the form on the website or by email, your data will be stored for six months for the purpose of processing the inquiry and in case of follow-up questions. I will not pass on this data without your consent.",
 		"analytics": "Google Analytics",
 		"analyticsText": "This website uses Google Analytics to analyze user behavior. The data is processed anonymously."
+	},
+	"a11y": {
+		"avatarAlt": "Portrait photo of Matthias Bigl – Web Designer & Full Stack Developer from Vienna, Austria",
+		"loading": "Loading",
+		"scrollDown": "Scroll down",
+		"projectImageAlt": "Screenshot of the {project} project by Matthias Bigl"
 	},
 	"seo": {
 		"home": {

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { navigating } from '$app/stores';
 	import { fade } from 'svelte/transition';
+	import { _ } from 'svelte-i18n';
 
 	interface Props {
 		/** Show spinner unconditionally (e.g. during i18n load) */
@@ -21,7 +22,7 @@
 		class:fullscreen
 		transition:fade={{ duration: 220 }}
 		aria-live="polite"
-		aria-label="Loading"
+		aria-label={$_('a11y.loading')}
 		role="status"
 	>
 		<div class="spinner-wrapper">

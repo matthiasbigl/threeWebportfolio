@@ -305,7 +305,7 @@
 		isDragging = false;
 	}}
 	class="mountain-canvas relative w-full h-full rounded-lg overflow-hidden group cursor-grab active:cursor-grabbing"
-	aria-label="3D Interactive Mountains"
+	aria-label={$_('hobbies.mountainAlt')}
 	role="img"
 >
 	<!-- Atmospheric overlay gradients -->

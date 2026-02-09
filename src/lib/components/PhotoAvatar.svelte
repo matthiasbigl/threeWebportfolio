@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { _ } from 'svelte-i18n';
 
 	let container: HTMLDivElement = $state();
 	let image: HTMLElement = $state();
@@ -77,7 +78,7 @@
 	<enhanced:img
 		bind:this={image}
 		src="$lib/assets/headshot.png"
-		alt="Matthias Bigl"
+		alt={$_('a11y.avatarAlt')}
 		class="w-full h-full object-cover object-top scale-105 transition-transform duration-700 ease-out"
 	/>
 

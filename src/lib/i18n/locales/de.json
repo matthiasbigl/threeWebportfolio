@@ -389,18 +389,22 @@
 		"title": "Meine",
 		"titleHighlight": "Hobbies",
 		"mountainHint": "Ziehen zum Drehen",
+		"mountainAlt": "Interaktive 3D-Berglandschaft mit Schneepartikeln – ziehen zum Drehen",
 		"items": {
 			"gym": {
 				"title": "GYM",
-				"description": "Ich versuche immer, meine Grenzen im Fitnessstudio zu überschreiten 💪"
+				"description": "Ich versuche immer, meine Grenzen im Fitnessstudio zu überschreiten 💪",
+				"alt": "Hantel als Symbol für Fitnesstraining und Gym"
 			},
 			"skiing": {
 				"title": "Skifahren",
-				"description": "Die Pisten hinunterzucarven ist eines meiner Lieblingsdinge im Winter 🎿"
+				"description": "Die Pisten hinunterzucarven ist eines meiner Lieblingsdinge im Winter 🎿",
+				"alt": "3D-Bergszene als Darstellung des Skifahren-Hobbys"
 			},
 			"surfing": {
 				"title": "Surfen",
-				"description": "Ich surfe seit ich 6 Jahre alt bin 🤙"
+				"description": "Ich surfe seit ich 6 Jahre alt bin 🤙",
+				"alt": "Matthias beim Surfen auf einer Welle im Meer"
 			}
 		}
 	},
@@ -531,6 +535,12 @@
 		"contactText": "Wenn Sie per Formular auf der Website oder per E-Mail Kontakt mit mir aufnehmen, werden Ihre angegebenen Daten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen sechs Monate bei mir gespeichert. Diese Daten gebe ich nicht ohne Ihre Einwilligung weiter.",
 		"analytics": "Google Analytics",
 		"analyticsText": "Diese Website nutzt Google Analytics zur Analyse des Nutzerverhaltens. Die Daten werden anonymisiert verarbeitet."
+	},
+	"a11y": {
+		"avatarAlt": "Porträtfoto von Matthias Bigl – Webdesigner & Full Stack Developer aus Wien, Österreich",
+		"loading": "Wird geladen",
+		"scrollDown": "Nach unten scrollen",
+		"projectImageAlt": "Screenshot des Projekts {project} von Matthias Bigl"
 	},
 	"seo": {
 		"home": {

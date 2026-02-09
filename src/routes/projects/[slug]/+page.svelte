@@ -304,7 +304,7 @@
 				{#if typeof project.image === 'object'}
 					<enhanced:img
 						src={project.image}
-						alt={$_(`projects.items.${project.slug}.title`)}
+						alt={$_('a11y.projectImageAlt', { values: { project: $_(`projects.items.${project.slug}.title`) } })}
 						class="w-full aspect-video object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
 						style="background: var(--bg-inset);"
 						loading="eager"
@@ -312,7 +312,7 @@
 				{:else}
 					<img
 						src={project.image}
-						alt={$_(`projects.items.${project.slug}.title`)}
+						alt={$_('a11y.projectImageAlt', { values: { project: $_(`projects.items.${project.slug}.title`) } })}
 						class="w-full aspect-video object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
 						style="background: var(--bg-inset);"
 						loading="eager"

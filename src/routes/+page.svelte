@@ -25,19 +25,22 @@
 		{
 			title: $_('hobbies.items.gym.title'),
 			description: $_('hobbies.items.gym.description'),
-			image: dumbbellImg
+			image: dumbbellImg,
+			imageAlt: $_('hobbies.items.gym.alt')
 		},
 		{
 			title: $_('hobbies.items.skiing.title'),
 			description: $_('hobbies.items.skiing.description'),
 			image: '',
-			isSpecialComponent: true
+			isSpecialComponent: true,
+			imageAlt: $_('hobbies.items.skiing.alt')
 		},
 		{
 			title: $_('hobbies.items.surfing.title'),
 			description: $_('hobbies.items.surfing.description'),
 			image: surfingImg,
-			imageObjectFit: 'cover' as const
+			imageObjectFit: 'cover' as const,
+			imageAlt: $_('hobbies.items.surfing.alt')
 		}
 	]);
 
@@ -447,6 +450,7 @@
 						title={$_(`projects.items.${project.slug}.title`)}
 						description={$_(`projects.items.${project.slug}.description`)}
 						image={project.image}
+						imageAlt={$_('a11y.projectImageAlt', { values: { project: $_(`projects.items.${project.slug}.title`) } })}
 						link={project.isExternal ? project.link : `/projects/${project.slug}`}
 						target={project.isExternal ? '_blank' : ''}
 						rel={project.isExternal ? 'noopener noreferrer' : ''}
@@ -526,6 +530,7 @@
 							title={hobby.title}
 							description={hobby.description}
 							image={hobby.image}
+							imageAlt={hobby.imageAlt}
 							imageObjectFit={hobby.imageObjectFit || 'contain'}
 						>
 							<Mountains />
@@ -535,6 +540,7 @@
 							title={hobby.title}
 							description={hobby.description}
 							image={hobby.image}
+							imageAlt={hobby.imageAlt}
 							imageObjectFit={hobby.imageObjectFit || 'contain'}
 						/>
 					{/if}
@@ -555,7 +561,7 @@
 				e.key === 'Enter' && window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
 			role="button"
 			tabindex="0"
-			aria-label="Scroll down"
+		aria-label={$_('a11y.scrollDown')}
 		>
 			<span class="text-[9px] font-semibold uppercase tracking-[0.3em] text-gray-500"
 				>Scroll</span
