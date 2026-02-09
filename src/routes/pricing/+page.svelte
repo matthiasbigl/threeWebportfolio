@@ -2,8 +2,6 @@
 	import { locale, _ } from '$lib/i18n';
 	import SEO from '$lib/components/SEO.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
-	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import { marked } from 'marked';
 	import { onMount } from 'svelte';
 
@@ -70,33 +68,8 @@
 	<div class="fixed bottom-[10%] right-[8%] w-[400px] h-[400px] bg-purple-600/[0.06] rounded-full blur-[100px] pointer-events-none animate-float-slow-reverse"></div>
 
 	<!-- ═══════════════════════════════════════════════════════════ -->
-	<!-- PAGE NAV — Fixed top bar with logo, back link & language    -->
+	<!-- PAGE NAV — Now handled by the unified Navbar component     -->
 	<!-- ═══════════════════════════════════════════════════════════ -->
-	<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl" style="background: var(--navbar-bg-scrolled); border-bottom: 1px solid var(--border-primary);">
-		<div class="max-w-4xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-14 sm:h-16">
-			<div class="flex items-center gap-3 sm:gap-4">
-				<a href="/" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 shrink-0" style="background: var(--bg-surface); border: 1px solid var(--border-primary);">
-					<span class="text-sm sm:text-base font-bold blue-gradient_text">MB</span>
-				</a>
-				<div class="w-px h-5" style="background: var(--border-primary);"></div>
-				<a
-					href="/"
-					class="group flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
-					style="color: var(--text-tertiary);"
-				>
-					<svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0l7 7m-7-7l7-7" />
-					</svg>
-					<span class="text-[10px] sm:text-[11px] font-medium tracking-[0.15em] uppercase font-syne">{$_('pricing.backToHome')}</span>
-				</a>
-			</div>
-
-			<div class="flex items-center gap-2">
-				<ThemeToggle />
-				<LanguageSwitcher />
-			</div>
-		</div>
-	</nav>
 
 	<div class="relative z-10 pt-24 pb-20">
 

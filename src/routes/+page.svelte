@@ -422,6 +422,7 @@
 	</section>
 	<!-- Projects Section -->
 	<section
+		id="projects"
 		class="projects-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-hidden"
 	>
 		<div class="parallax-bg parallax-bg-1"></div>

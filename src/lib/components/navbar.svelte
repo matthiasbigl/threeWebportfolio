@@ -6,6 +6,22 @@
     import LanguageSwitcher from './LanguageSwitcher.svelte';
     import ThemeToggle from './ThemeToggle.svelte';
 
+    /**
+     * When backHref is set the center section shows a back-arrow link
+     * instead of the full desktop navigation links. One navbar, one DOM
+     * tree — only the middle swaps.
+     */
+    interface Props {
+        /** URL the back arrow navigates to (e.g. "/" or "/#projects") */
+        backHref?: string;
+        /** Translated label shown next to the back arrow */
+        backLabel?: string;
+    }
+
+    let { backHref, backLabel }: Props = $props();
+
+    const isSubPage = $derived(!!backHref);
+
     // GSAP loaded dynamically to avoid blocking initial render
     let gsapModule: typeof import('gsap') | null = null;
 
@@ -36,7 +52,7 @@
         }
     }
 
-    onMount(async () => {
+    onMount(() => {
         if (!browser || !navbar) return;
 
         // Navbar scroll effect (no GSAP needed — pure DOM)
@@ -53,12 +69,14 @@
         window.addEventListener('scroll', handleScroll);
 
         // Lazy-load GSAP for the entrance animation
-        if (!gsapModule) gsapModule = await import('gsap');
-        const { gsap } = gsapModule;
-        gsap.fromTo(navbar, 
-            { y: -100, opacity: 0 },
-            { y: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 0.2 }
-        );
+        (async () => {
+            if (!gsapModule) gsapModule = await import('gsap');
+            const { gsap } = gsapModule;
+            gsap.fromTo(navbar, 
+                { y: -100, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 0.2 }
+            );
+        })();
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
@@ -68,10 +86,18 @@
 
 <svelte:window onclick={checkIfShouldClose} />
 
-<header bind:this={navbar} class="navbar fixed top-0 left-0 z-50 w-full flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300">
-    <div class="w-full max-w-6xl flex-row flex items-center justify-between">
-        <!-- Logo -->
-        <div class="logo-container magnetic-btn">
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- UNIFIED NAVBAR — One header, center content swaps per route        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<header
+    bind:this={navbar}
+    class="navbar fixed top-0 left-0 z-50 w-full flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300"
+    class:navbar-sub={isSubPage}
+>
+    <div class="w-full max-w-6xl flex items-center justify-between">
+
+        <!-- ── Left: Logo ── -->
+        <div class="logo-container magnetic-btn shrink-0">
             <a 
                 href="/"
                 class="w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl rounded-xl glass-card glass-card-hover items-center justify-center flex font-bold glow-border" 
@@ -81,67 +107,77 @@
             </a>
         </div>
 
-        <!-- Desktop Navigation (centered) -->
-        <nav class="hidden md:flex items-center justify-center text-center glass-card px-6 lg:px-8 py-3 lg:py-4 font-semibold">
-            <a href="/" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
-                {$_('nav.home')}
-            </a>
-            <div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
-            <a href="/#services" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
-                {$_('nav.services')}
-            </a>
-            <div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
-            <a href="/#faq" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
-                {$_('nav.faq')}
-            </a>
-            <div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
-            <a href="/contact" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
-                {$_('nav.contact')}
-            </a>
-        </nav>
-
-        <!-- Desktop: Theme Toggle + Language Switcher (far right) -->
-        <div class="hidden md:flex items-center gap-2">
-            <ThemeToggle />
-            <LanguageSwitcher />
-        </div>
-
-        <!-- Mobile: Theme Toggle + Language Switcher + Hamburger -->
-        <div class="md:hidden flex items-center gap-2">
-            <ThemeToggle />
-            <LanguageSwitcher />
-            
-            <!-- Hamburger Menu Button -->
-            <button 
-                onclick={toggleMenu}
-                class="hamburger-btn w-12 h-12 rounded-xl glass-card glass-card-hover flex flex-col items-center justify-center gap-1.5 transition-all duration-300 border border-[var(--glass-border)]"
-                aria-label="Open menu"
-                aria-expanded={isHamOpen}
+        <!-- ── Center: Nav links OR Back arrow ── -->
+        {#if isSubPage}
+            <a
+                href={backHref}
+                class="back-link group flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
+                style="color: var(--text-tertiary);"
             >
-                <span 
-                    class="hamburger-line w-6 h-0.5 rounded-full transition-all duration-300"
-                    style="background: var(--text-primary);"
-                    class:rotate-45={isHamOpen}
-                    class:translate-y-2={isHamOpen}
-                ></span>
-                <span 
-                    class="hamburger-line w-6 h-0.5 rounded-full transition-all duration-300"
-                    style="background: var(--text-primary);"
-                    class:opacity-0={isHamOpen}
-                ></span>
-                <span 
-                    class="hamburger-line w-6 h-0.5 rounded-full transition-all duration-300"
-                    style="background: var(--text-primary);"
-                    class:-rotate-45={isHamOpen}
-                    class:-translate-y-2={isHamOpen}
-                ></span>
-            </button>
+                <svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0l7 7m-7-7l7-7" />
+                </svg>
+                <span class="text-[10px] sm:text-[11px] font-medium tracking-[0.15em] uppercase font-syne">{backLabel}</span>
+            </a>
+        {:else}
+            <!-- Desktop Navigation (centered) -->
+            <nav class="hidden md:flex items-center justify-center text-center glass-card px-6 lg:px-8 py-3 lg:py-4 font-semibold">
+                <a href="/" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
+                    {$_('nav.home')}
+                </a>
+                <div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
+                <a href="/#services" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
+                    {$_('nav.services')}
+                </a>
+                <div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
+                <a href="/#faq" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
+                    {$_('nav.faq')}
+                </a>
+                <div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
+                <a href="/contact" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
+                    {$_('nav.contact')}
+                </a>
+            </nav>
+        {/if}
+
+        <!-- ── Right: Utilities ── -->
+        <div class="flex items-center gap-2">
+            <ThemeToggle />
+            <LanguageSwitcher />
+
+            <!-- Hamburger — only on mobile when showing full nav -->
+            {#if !isSubPage}
+                <button 
+                    onclick={toggleMenu}
+                    class="hamburger-btn md:hidden w-12 h-12 rounded-xl glass-card glass-card-hover flex flex-col items-center justify-center gap-1.5 transition-all duration-300 border border-[var(--glass-border)]"
+                    aria-label="Open menu"
+                    aria-expanded={isHamOpen}
+                >
+                    <span 
+                        class="hamburger-line w-6 h-0.5 rounded-full transition-all duration-300"
+                        style="background: var(--text-primary);"
+                        class:rotate-45={isHamOpen}
+                        class:translate-y-2={isHamOpen}
+                    ></span>
+                    <span 
+                        class="hamburger-line w-6 h-0.5 rounded-full transition-all duration-300"
+                        style="background: var(--text-primary);"
+                        class:opacity-0={isHamOpen}
+                    ></span>
+                    <span 
+                        class="hamburger-line w-6 h-0.5 rounded-full transition-all duration-300"
+                        style="background: var(--text-primary);"
+                        class:-rotate-45={isHamOpen}
+                        class:-translate-y-2={isHamOpen}
+                    ></span>
+                </button>
+            {/if}
         </div>
     </div>
 </header>
 
-<!-- Mobile Menu -->
-{#if isHamOpen}
+<!-- Mobile Menu (only for full-nav mode) -->
+{#if !isSubPage && isHamOpen}
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <div class="mobile-menu fixed top-0 left-0 w-full h-full backdrop-blur-md flex items-center justify-center z-50"
@@ -227,6 +263,7 @@
 
     .logo-container {
         position: relative;
+        overflow: visible;
     }
 
     .logo-container::after {
@@ -234,13 +271,14 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 100%;
-        height: 100%;
+        width: 150%;
+        height: 150%;
         background: radial-gradient(circle, rgba(0, 198, 255, 0.3) 0%, transparent 70%);
         transform: translate(-50%, -50%) scale(0);
         border-radius: 50%;
         transition: transform 0.3s ease;
         z-index: -1;
+        pointer-events: none;
     }
 
     .logo-container:hover::after {

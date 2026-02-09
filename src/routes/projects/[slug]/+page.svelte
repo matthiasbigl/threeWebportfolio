@@ -4,8 +4,6 @@
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
-	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import { _ } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -40,7 +38,7 @@
 		const heroTl = gsap.timeline({ defaults: { ease: 'expo.out' } });
 
 		heroTl
-			.fromTo('.project-breadcrumb', { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.6 })
+			.fromTo('.navbar-sub', { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.6 })
 			.fromTo('.hero-overline', { opacity: 0, y: 20, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.8 }, '-=0.3')
 			.fromTo('.hero-title-main', { opacity: 0, y: 60, clipPath: 'inset(100% 0 0 0)' }, { opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)', duration: 1.2 }, '-=0.4')
 			.fromTo('.hero-title-sub', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
@@ -212,33 +210,8 @@
 	<div class="fixed inset-0 z-0 pointer-events-none opacity-[0.02] dot-grid"></div>
 
 	<!-- ═══════════════════════════════════════════════════════════ -->
-	<!-- PAGE NAV — Fixed top bar with logo, back link & language    -->
+	<!-- PAGE NAV — Now handled by the unified Navbar component     -->
 	<!-- ═══════════════════════════════════════════════════════════ -->
-	<nav class="project-breadcrumb fixed top-0 left-0 right-0 z-50 backdrop-blur-xl" style="background: var(--navbar-bg-scrolled); border-bottom: 1px solid var(--border-primary);">
-		<div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 lg:px-16 h-14 sm:h-16">
-			<div class="flex items-center gap-3 sm:gap-4">
-				<a href="/" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 shrink-0" style="background: var(--bg-surface); border: 1px solid var(--border-primary);">
-					<span class="text-sm sm:text-base font-bold blue-gradient_text">MB</span>
-				</a>
-				<div class="w-px h-5" style="background: var(--border-primary);"></div>
-				<a
-					href="/#projects"
-					class="group flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
-					style="color: var(--text-tertiary);"
-				>
-					<svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0l7 7m-7-7l7-7" />
-					</svg>
-					<span class="text-[10px] sm:text-[11px] font-medium tracking-[0.15em] uppercase font-syne">{$_('projectDetail.backLabel')}</span>
-				</a>
-			</div>
-
-			<div class="flex items-center gap-2">
-				<ThemeToggle />
-				<LanguageSwitcher />
-			</div>
-		</div>
-	</nav>
 
 	<!-- ═══════════════════════════════════════════════════════════ -->
 	<!-- HERO — Full-viewport editorial opener                       -->
