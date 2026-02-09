@@ -4,66 +4,20 @@
     import { gsap } from 'gsap';
     import { _ } from 'svelte-i18n';
     import Button from './Button.svelte';
+    import deLocale from '$lib/i18n/locales/de.json';
+
+    // Infer FAQ keys directly from the i18n locale file — no hardcoding
+    const faqKeys = Object.keys(deLocale.faq.items);
 
     let openIndex = $state<number | null>(null);
 
-    // Reactive FAQs based on translations
-    const faqs = $derived([
-        {
-            question: $_('faq.items.cost.question'),
-            answer: $_('faq.items.cost.answer')
-        },
-        {
-            question: $_('faq.items.duration.question'),
-            answer: $_('faq.items.duration.answer')
-        },
-        {
-            question: $_('faq.items.hosting.question'),
-            answer: $_('faq.items.hosting.answer')
-        },
-        {
-            question: $_('faq.items.edit.question'),
-            answer: $_('faq.items.edit.answer')
-        },
-        {
-            question: $_('faq.items.remote.question'),
-            answer: $_('faq.items.remote.answer')
-        },
-        {
-            question: $_('faq.items.agency.question'),
-            answer: $_('faq.items.agency.answer')
-        },
-        {
-            question: $_('faq.items.tech.question'),
-            answer: $_('faq.items.tech.answer')
-        },
-        {
-            question: $_('faq.items.process.question'),
-            answer: $_('faq.items.process.answer')
-        },
-        {
-            question: $_('faq.items.seo.question'),
-            answer: $_('faq.items.seo.answer')
-        },
-        {
-            question: $_('faq.items.existing.question'),
-            answer: $_('faq.items.existing.answer')
-        }
-    ]);
-
-    // FAQ Schema for SEO - reactive
-    const faqSchema = $derived({
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: faqs.map(faq => ({
-            '@type': 'Question',
-            name: faq.question,
-            acceptedAnswer: {
-                '@type': 'Answer',
-                text: faq.answer
-            }
+    // Reactive FAQs — dynamically mapped from inferred locale keys
+    const faqs = $derived(
+        faqKeys.map(key => ({
+            question: $_(`faq.items.${key}.question`),
+            answer: $_(`faq.items.${key}.answer`)
         }))
-    });
+    );
 
     function toggleFAQ(index: number) {
         if (openIndex === index) {
@@ -93,10 +47,6 @@
         );
     });
 </script>
-
-<svelte:head>
-    {@html `<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`}
-</svelte:head>
 
 <section id="faq" class="faq-section relative py-20 sm:py-24 lg:py-32">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">

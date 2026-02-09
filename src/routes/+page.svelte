@@ -8,6 +8,7 @@
 	import Services from '$lib/components/Services.svelte';
 	import FAQ from '$lib/components/FAQ.svelte';
 	import SEO from '$lib/components/SEO.svelte';
+	import deLocale from '$lib/i18n/locales/de.json';
 	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -180,18 +181,10 @@
 		'freelance web developer Austria',
 		'web designer Vienna Austria'
 	]}
-	faqItems={[
-		{ question: $_('faq.items.cost.question'), answer: $_('faq.items.cost.answer') },
-		{ question: $_('faq.items.duration.question'), answer: $_('faq.items.duration.answer') },
-		{ question: $_('faq.items.hosting.question'), answer: $_('faq.items.hosting.answer') },
-		{ question: $_('faq.items.edit.question'), answer: $_('faq.items.edit.answer') },
-		{ question: $_('faq.items.remote.question'), answer: $_('faq.items.remote.answer') },
-		{ question: $_('faq.items.agency.question'), answer: $_('faq.items.agency.answer') },
-		{ question: $_('faq.items.tech.question'), answer: $_('faq.items.tech.answer') },
-		{ question: $_('faq.items.process.question'), answer: $_('faq.items.process.answer') },
-		{ question: $_('faq.items.seo.question'), answer: $_('faq.items.seo.answer') },
-		{ question: $_('faq.items.existing.question'), answer: $_('faq.items.existing.answer') }
-	]}
+	faqItems={Object.keys(deLocale.faq.items).map(key => ({
+		question: $_(`faq.items.${key}.question`),
+		answer: $_(`faq.items.${key}.answer`)
+	}))}
 	breadcrumbs={[
 		{ name: 'Matthias Bigl', url: 'https://bigls.net' }
 	]}
