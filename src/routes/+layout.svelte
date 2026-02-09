@@ -7,6 +7,7 @@
 	import Navbar from '$lib/components/navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
@@ -29,16 +30,10 @@
 
 <CustomCursor />
 
-{#if $isLoading}
-	<div
-		class="min-h-screen flex items-center justify-center"
-		style="background: var(--bg-body);"
-	>
-		<div
-			class="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full"
-		></div>
-	</div>
-{:else}
+<!-- Universal loading spinner: shown during i18n init + SvelteKit page navigations -->
+<LoadingSpinner visible={$isLoading} fullscreen />
+
+{#if !$isLoading}
 	<div
 		class="relative min-h-screen flex flex-col transition-colors duration-300"
 		style="background: var(--bg-body);"

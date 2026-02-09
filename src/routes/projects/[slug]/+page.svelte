@@ -45,8 +45,7 @@
 			.fromTo('.hero-title-main', { opacity: 0, y: 60, clipPath: 'inset(100% 0 0 0)' }, { opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)', duration: 1.2 }, '-=0.4')
 			.fromTo('.hero-title-sub', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
 			.fromTo('.hero-tagline', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.9 }, '-=0.4')
-			.fromTo('.hero-meta-item', { opacity: 0, y: 15 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 }, '-=0.5')
-			.fromTo('.hero-scroll-hint', { opacity: 0 }, { opacity: 1, duration: 1 }, '-=0.2');
+			.fromTo('.hero-meta-item', { opacity: 0, y: 15 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 }, '-=0.5');
 
 		// --- Parallax hero background ---
 		if (heroSection) {
@@ -291,11 +290,6 @@
 			</div>
 		</div>
 
-		<!-- Scroll hint -->
-		<div class="hero-scroll-hint absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-blue-500/30">
-			<span class="text-[9px] sm:text-[10px] tracking-[0.25em] sm:tracking-[0.3em] uppercase font-syne">{$_('projectDetail.scrollHint')}</span>
-			<div class="w-px h-6 sm:h-8 bg-gradient-to-b from-blue-500/40 to-transparent animate-pulse"></div>
-		</div>
 	</section>
 
 	<!-- ═══════════════════════════════════════════════════════════ -->
@@ -346,7 +340,7 @@
 			<article class="chapter-block py-16 sm:py-24 lg:py-32" style="border-top: 1px solid var(--border-primary);">
 				<div class="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-16 items-start">
 					<div class="lg:col-span-4 flex lg:flex-col items-center lg:items-start gap-3 sm:gap-4">
-						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none shrink-0" style="color: var(--text-heading); opacity: 0.04;">01</span>
+						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none shrink-0" style="color: var(--text-heading); opacity: 0.10;">01</span>
 						<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne">
 							{$_('projectDetail.chapterVision')}
 						</h3>
@@ -363,7 +357,7 @@
 			<article class="chapter-block py-16 sm:py-24 lg:py-32" style="border-top: 1px solid var(--border-primary);">
 				<div class="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-16 items-start">
 					<div class="lg:col-span-4 lg:order-2 flex lg:flex-col items-center lg:items-end gap-3 sm:gap-4">
-						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none shrink-0" style="color: var(--text-heading); opacity: 0.04;">02</span>
+						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none shrink-0" style="color: var(--text-heading); opacity: 0.10;">02</span>
 						<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne lg:text-right">
 							{$_('projectDetail.chapterChallenge')}
 						</h3>
@@ -380,7 +374,7 @@
 			<article class="chapter-block py-16 sm:py-24 lg:py-32" style="border-top: 1px solid var(--border-primary);">
 				<div class="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-16 items-start">
 					<div class="lg:col-span-4 flex lg:flex-col items-center lg:items-start gap-3 sm:gap-4">
-						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none shrink-0" style="color: var(--text-heading); opacity: 0.04;">03</span>
+						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none shrink-0" style="color: var(--text-heading); opacity: 0.10;">03</span>
 						<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne">
 							{$_('projectDetail.chapterCraft')}
 						</h3>
@@ -403,7 +397,7 @@
 					<div class="relative z-10">
 						<!-- Number + Label -->
 						<div class="flex items-end gap-4 sm:gap-6 mb-6 sm:mb-8">
-							<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none" style="color: var(--text-heading); opacity: 0.06;">04</span>
+							<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none" style="color: var(--text-heading); opacity: 0.12;">04</span>
 							<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne pb-2 sm:pb-3 lg:pb-5">
 								{$_('projectDetail.chapterOutcome')}
 							</h3>
@@ -458,7 +452,7 @@
 						<div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-xl sm:rounded-2xl bg-[radial-gradient(ellipse_at_center,_rgba(59,130,246,0.06)_0%,_transparent_70%)]"></div>
 
 						<!-- Number -->
-						<span class="relative z-10 block text-[9px] sm:text-[10px] font-bold tracking-[0.25em] sm:tracking-[0.3em] uppercase mb-4 sm:mb-6 font-syne text-blue-500/40">
+						<span class="relative z-10 block text-[9px] sm:text-[10px] font-bold tracking-[0.25em] sm:tracking-[0.3em] uppercase mb-4 sm:mb-6 font-syne text-blue-500/70">
 							{String(i + 1).padStart(2, '0')}
 						</span>
 
@@ -530,16 +524,6 @@
 	.feature-card:hover {
 		transform: translateY(-4px);
 		border-color: var(--border-accent) !important;
-	}
-
-	/* Smooth scroll hint pulse */
-	@keyframes gentlePulse {
-		0%, 100% { opacity: 0.3; }
-		50% { opacity: 0.7; }
-	}
-
-	.hero-scroll-hint {
-		animation: gentlePulse 3s ease-in-out infinite;
 	}
 
 	/* Tech pill hover */
