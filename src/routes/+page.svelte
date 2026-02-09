@@ -12,14 +12,10 @@
 	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import { projects } from '$lib/data/projects';
 	import { _, locale } from 'svelte-i18n';
-
-	if (browser) {
-		gsap.registerPlugin(ScrollTrigger);
-	}
+	import dumbbellImg from '$lib/assets/dumbbell.png?enhanced';
+	import surfingImg from '$lib/assets/surfing.JPG?enhanced';
 
 	// Track scroll position for scroll indicator visibility
 	let showScrollIndicator = $state(true);
@@ -29,7 +25,7 @@
 		{
 			title: $_('hobbies.items.gym.title'),
 			description: $_('hobbies.items.gym.description'),
-			image: 'assets/dumbbell.png'
+			image: dumbbellImg
 		},
 		{
 			title: $_('hobbies.items.skiing.title'),
@@ -40,13 +36,18 @@
 		{
 			title: $_('hobbies.items.surfing.title'),
 			description: $_('hobbies.items.surfing.description'),
-			image: 'assets/surfing.JPG',
+			image: surfingImg,
 			imageObjectFit: 'cover' as const
 		}
 	]);
 
-	onMount(() => {
+	onMount(async () => {
 		if (!browser) return;
+
+		// Dynamically import GSAP to reduce initial chunk size
+		const { gsap } = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+		gsap.registerPlugin(ScrollTrigger);
 
 		// Handle scroll indicator visibility
 		const handleScroll = () => {
@@ -503,16 +504,23 @@
 				class="stagger-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto"
 			>
 				{#each hobbies as hobby}
-					<Card
-						title={hobby.title}
-						description={hobby.description}
-						image={hobby.image}
-						imageObjectFit={hobby.imageObjectFit || 'contain'}
-					>
-						{#if hobby.isSpecialComponent && hobby.title === $_('hobbies.items.skiing.title')}
+					{#if hobby.isSpecialComponent && hobby.title === $_('hobbies.items.skiing.title')}
+						<Card
+							title={hobby.title}
+							description={hobby.description}
+							image={hobby.image}
+							imageObjectFit={hobby.imageObjectFit || 'contain'}
+						>
 							<Mountains />
-						{/if}
-					</Card>
+						</Card>
+					{:else}
+						<Card
+							title={hobby.title}
+							description={hobby.description}
+							image={hobby.image}
+							imageObjectFit={hobby.imageObjectFit || 'contain'}
+						/>
+					{/if}
 				{/each}
 			</div>
 		</div>

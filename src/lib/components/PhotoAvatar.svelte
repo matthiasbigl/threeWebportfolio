@@ -4,7 +4,7 @@
 	import { gsap } from 'gsap';
 
 	let container: HTMLDivElement = $state();
-	let image: HTMLImageElement = $state();
+	let image: HTMLElement = $state();
 
 	onMount(() => {
 		if (!browser || !container) return;
@@ -72,9 +72,9 @@
 	></div>
 
 	<!-- The Image -->
-	<img
+	<enhanced:img
 		bind:this={image}
-		src="/headshot.png"
+		src="$lib/assets/headshot.png"
 		alt="Matthias Bigl"
 		class="w-full h-full object-cover object-top scale-105 transition-transform duration-700 ease-out"
 	/>

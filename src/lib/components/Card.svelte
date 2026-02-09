@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import type { Picture } from 'vite-imagetools';
 
 	interface Props {
 		title: string;
 		description: string;
-		image?: string;
+		image?: string | Picture;
 		link?: string;
 		target?: string;
 		rel?: string;
@@ -24,6 +25,10 @@
 		children,
 		className = ''
 	}: Props = $props();
+
+	// Determine if the image is an enhanced image object or a plain URL string
+	const isEnhancedImage = $derived(image && typeof image !== 'string');
+	const isStringImage = $derived(image && typeof image === 'string');
 </script>
 
 <div class="stagger-item h-full {className}">
@@ -46,9 +51,17 @@
 						<div class="relative z-10 w-full h-full flex items-center justify-center">
 							{@render children()}
 						</div>
-					{:else if image}
+					{:else if isEnhancedImage}
+						<enhanced:img
+							src={image as Picture}
+							alt={title}
+							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+							style="object-fit: {imageObjectFit}"
+							loading="lazy"
+						/>
+					{:else if isStringImage}
 						<img
-							src={image}
+							src={image as string}
 							alt={title}
 							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
 							style="object-fit: {imageObjectFit}"
@@ -82,9 +95,17 @@
 						<div class="relative z-10 w-full h-full flex items-center justify-center">
 							{@render children()}
 						</div>
-					{:else if image}
+					{:else if isEnhancedImage}
+						<enhanced:img
+							src={image as Picture}
+							alt={title}
+							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+							style="object-fit: {imageObjectFit}"
+							loading="lazy"
+						/>
+					{:else if isStringImage}
 						<img
-							src={image}
+							src={image as string}
 							alt={title}
 							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
 							style="object-fit: {imageObjectFit}"

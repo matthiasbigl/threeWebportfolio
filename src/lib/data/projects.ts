@@ -1,6 +1,10 @@
+import lovelineImg from '$lib/assets/loveline.png?enhanced';
+import gradingbotImg from '$lib/assets/gradingbot.png?enhanced';
+import svelteImg from '$lib/assets/svelte.png?enhanced';
+
 export interface Project {
     slug: string;
-    image: string;
+    image: string | typeof lovelineImg;
     link: string;
     imageObjectFit?: 'contain' | 'cover';
     isExternal?: boolean;
@@ -13,7 +17,7 @@ export interface Project {
 export const projects: Project[] = [
     {
         slug: "loveline",
-        image: "assets/loveline.png",
+        image: lovelineImg,
         link: "https://loveline.bigls.net",
         year: "2024",
         category: "IoT · Web",
@@ -31,7 +35,7 @@ export const projects: Project[] = [
     },
     {
         slug: "grading-bot",
-        image: "assets/gradingbot.png",
+        image: gradingbotImg,
         link: "https://gradingbot.htl-hl.ac.at",
         year: "2024",
         category: "EdTech · DevOps",
@@ -58,7 +62,7 @@ export const projects: Project[] = [
     },
     {
         slug: "portfolio",
-        image: "/assets/svelte.png",
+        image: svelteImg,
         link: "#",
         year: "2025",
         category: "3D · Creative",

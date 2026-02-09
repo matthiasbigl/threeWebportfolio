@@ -156,7 +156,7 @@
 		name: deProject.title ?? project.slug,
 		description: deProject.description ?? '',
 		url: `https://bigls.net/projects/${project.slug}`,
-		image: project.image.startsWith('http') ? project.image : `https://bigls.net/${project.image}`,
+		image: typeof project.image === 'string' ? (project.image.startsWith('http') ? project.image : `https://bigls.net/${project.image}`) : `https://bigls.net/assets/${project.slug}.png`,
 		author: {
 			'@type': 'Person',
 			'@id': 'https://bigls.net/#person',
@@ -301,12 +301,21 @@
 				<!-- Subtle reflection glow -->
 				<div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent z-10 pointer-events-none opacity-40"></div>
 
-				<img
-					src={project.image}
-					alt={$_(`projects.items.${project.slug}.title`)}
-					class="w-full aspect-video object-contain bg-[#0f0f18] transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-					loading="eager"
-				/>
+				{#if typeof project.image !== 'string'}
+					<enhanced:img
+						src={project.image}
+						alt={$_(`projects.items.${project.slug}.title`)}
+						class="w-full aspect-video object-contain bg-[#0f0f18] transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+						loading="eager"
+					/>
+				{:else}
+					<img
+						src={project.image}
+						alt={$_(`projects.items.${project.slug}.title`)}
+						class="w-full aspect-video object-contain bg-[#0f0f18] transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+						loading="eager"
+					/>
+				{/if}
 
 				<!-- Corner accent -->
 				<div class="absolute top-4 right-4 sm:top-6 sm:right-6 z-20">
