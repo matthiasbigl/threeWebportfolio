@@ -144,19 +144,59 @@
 			}
 		);
 	});
+
+	// ─── CreativeWork structured data for each project ───
+	const projectSchema = {
+		'@context': 'https://schema.org',
+		'@type': 'CreativeWork',
+		name: $_(`projects.items.${project.slug}.title`),
+		description: $_(`projects.items.${project.slug}.description`),
+		url: `https://bigls.net/projects/${project.slug}`,
+		image: project.image.startsWith('http') ? project.image : `https://bigls.net/${project.image}`,
+		author: {
+			'@type': 'Person',
+			'@id': 'https://bigls.net/#person',
+			name: 'Matthias Bigl'
+		},
+		creator: {
+			'@type': 'Person',
+			'@id': 'https://bigls.net/#person',
+			name: 'Matthias Bigl'
+		},
+		dateCreated: project.year,
+		genre: project.category,
+		keywords: (($_(`projects.items.${project.slug}.tags`) as any) ?? []).join(', '),
+		isPartOf: {
+			'@type': 'WebSite',
+			'@id': 'https://bigls.net/#website'
+		}
+	};
 </script>
 
 <SEO
-	title="{$_(`projects.items.${project.slug}.title`)} | Matthias Bigl"
-	description={$_(`projects.items.${project.slug}.description`)}
+	title="{$_(`projects.items.${project.slug}.title`)} – Case Study | Matthias Bigl"
+	description={$_(`projects.items.${project.slug}.description`) + ' – Ein Projekt von Matthias Bigl, Webdesigner & Full Stack Developer aus Wien/Korneuburg.'}
 	url="https://bigls.net/projects/{project.slug}"
 	type="article"
-	keywords={($_(`projects.items.${project.slug}.tags`) as any) ?? [
+	keywords={[
+		...(($_(`projects.items.${project.slug}.tags`) as any) ?? []),
+		'Matthias Bigl',
+		'Matthias Bigl Projekt',
+		'Matthias Bigl Portfolio',
+		'Case Study',
 		project.slug,
-		'Webdesign',
-		'Matthias Bigl'
+		project.category
+	]}
+	breadcrumbs={[
+		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
+		{ name: 'Portfolio', url: 'https://bigls.net/#projects' },
+		{ name: $_(`projects.items.${project.slug}.title`), url: `https://bigls.net/projects/${project.slug}` }
 	]}
 />
+
+<svelte:head>
+	{@html `<script type="application/ld+json">${JSON.stringify(projectSchema)}</script>`}
+</svelte:head>
 
 <CustomCursor />
 <ScrollProgress />

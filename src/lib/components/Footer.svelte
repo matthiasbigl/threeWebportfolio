@@ -128,7 +128,7 @@
 					</a>
 				</p>
 				<p class="text-gray-500 text-xs leading-relaxed">
-					Webdesign Wien • Webentwicklung Korneuburg • Niederösterreich
+					Webdesigner Wien • Webentwicklung Korneuburg • Website erstellen lassen Österreich • Full Stack Developer Niederösterreich
 				</p>
 			</div>
 		</div>

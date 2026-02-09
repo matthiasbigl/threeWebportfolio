@@ -498,7 +498,7 @@
 		}
 	},
 	"footer": {
-		"description": "Ich helfe Unternehmen, online sichtbar zu werden – mit Websites, die nicht nur gut aussehen, sondern auch Kunden bringen. Persönlich, ohne Agentur-Umwege, aus Wien/Korneuburg.",
+		"description": "Matthias Bigl – Freelance Webdesigner & Full Stack Developer aus Wien/Korneuburg. Ich helfe KMU, Startups & Selbstständigen mit professionellen Websites, Webshops & 3D Web-Erlebnissen online sichtbar zu werden. Ohne Agentur-Aufschläge.",
 		"navigation": "Navigation",
 		"servicesTitle": "Leistungen",
 		"contactTitle": "Kontakt",
@@ -533,12 +533,16 @@
 	},
 	"seo": {
 		"home": {
-			"title": "Matthias Bigl | Webdesign & Webentwicklung Wien/Korneuburg",
-			"description": "Matthias Bigl – Ihr Webdesigner aus Wien/Korneuburg. Websites, Webshops & Web-Erlebnisse. Persönlich, ohne Agentur-Preise, in 1-2 Wochen online. Jetzt kostenloses Erstgespräch!"
+			"title": "Matthias Bigl | Webdesigner & Full Stack Developer Wien & Korneuburg",
+			"description": "Matthias Bigl – Ihr Webdesigner & Full Stack Developer aus Wien/Korneuburg. Professionelle Websites, Webshops & interaktive 3D Web-Erlebnisse für KMU & Selbstständige. Keine Agentur-Preise, in 1–2 Wochen online. Jetzt kostenloses Erstgespräch!"
 		},
 		"contact": {
-			"title": "Kontakt | Matthias Bigl - Webdesign Wien/Korneuburg",
-			"description": "Kontaktieren Sie Matthias Bigl für Ihr Webprojekt. 15 Minuten Erstgespräch – kostenlos & unverbindlich. Webdesign aus Wien/Korneuburg. Antwort innerhalb 24h!"
+			"title": "Kontakt Matthias Bigl | Kostenlose Webdesign-Beratung Wien",
+			"description": "Kontaktieren Sie Matthias Bigl für Ihr Webprojekt. 15 Minuten Erstgespräch – kostenlos & unverbindlich. Freelance Webdesign aus Wien & Korneuburg. Antwort innerhalb 24h!"
+		},
+		"pricing": {
+			"title": "Website Kosten Österreich 2026 | Ehrlicher Preisleitfaden von Matthias Bigl",
+			"description": "Was kostet eine Website in Österreich 2026? Landingpages ab €650, Websites ab €2.000, Webshops ab €3.250. Transparente Preise von Matthias Bigl, ohne versteckte Kosten."
 		}
 	},
 	"language": {

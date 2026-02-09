@@ -5,9 +5,10 @@
 </script>
 
 <SEO
-	title="{$_('privacy.title')} | Matthias Bigl"
-	description="Privacy policy and data protection information for Matthias Bigl."
+	title="Datenschutz | Matthias Bigl – Webdesigner Wien/Korneuburg"
+	description="Datenschutzerklärung von Matthias Bigl, Webdesigner & Full Stack Developer aus Korneuburg bei Wien. DSGVO-konforme Informationen zur Datenverarbeitung."
 	url="https://bigls.net/datenschutz"
+	noindex={true}
 />
 
 <CustomCursor />

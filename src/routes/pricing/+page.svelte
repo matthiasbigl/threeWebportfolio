@@ -30,26 +30,40 @@
 				// but we'll use high-quality defaults for this page
 				if (lang === 'de') {
 					metadata = {
-						title: 'Website Kosten Österreich 2026 | Preise & ROI Guide',
+						title: 'Website Kosten Österreich 2026 | Was kostet eine Website? Matthias Bigl',
 						description:
-							'Was kostet eine Website 2026 in Österreich? Ein ehrlicher Guide zu Preisen von Landingpages bis Webshops, Strategie und ROI. Jetzt lesen!',
+							'Was kostet eine Website 2026 in Österreich? Landingpages ab €650, Websites ab €2.000, Webshops ab €3.250. Ehrlicher Preisguide von Matthias Bigl – Webdesigner Wien/Korneuburg. Jetzt lesen!',
 						keywords: [
 							'Website Kosten Österreich',
+							'Was kostet eine Website',
+							'Was kostet eine Website 2026',
 							'Webdesign Preise 2026',
-							'Homepage Kosten',
-							'Webdesigner Wien Preise'
+							'Homepage Kosten Österreich',
+							'Webdesigner Wien Preise',
+							'Website erstellen lassen Kosten',
+							'Landingpage Kosten',
+							'Webshop Kosten Österreich',
+							'Matthias Bigl Preise',
+							'Webdesign günstig Wien',
+							'Website Preise Vergleich'
 						]
 					};
 				} else {
 					metadata = {
-						title: 'Website Costs Austria 2026 | Pricing & ROI Guide',
+						title: 'Website Costs Austria 2026 | How Much Does a Website Cost? Matthias Bigl',
 						description:
-							'How much does a website cost in 2026 in Austria? An honest guide to pricing from landing pages to webshops, strategy and ROI.',
+							'How much does a website cost in Austria in 2026? Landing pages from €650, websites from €2,000, webshops from €3,250. Honest pricing guide by Matthias Bigl – freelance web designer Vienna.',
 						keywords: [
 							'Website Costs Austria',
+							'How much does a website cost',
 							'Web Design Prices 2026',
-							'Homepage Costs',
-							'Web Developer Vienna Prices'
+							'Homepage Costs Austria',
+							'Web Developer Vienna Prices',
+							'Freelance web designer prices',
+							'Landing page cost',
+							'Webshop cost Austria',
+							'Matthias Bigl pricing',
+							'Affordable web design Vienna'
 						]
 					};
 				}
@@ -69,6 +83,13 @@
 	description={metadata.description}
 	keywords={metadata.keywords}
 	type="article"
+	url="https://bigls.net/pricing"
+	datePublished="2025-12-01"
+	dateModified="2026-02-01"
+	breadcrumbs={[
+		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
+		{ name: metadata.title, url: 'https://bigls.net/pricing' }
+	]}
 />
 
 <div class="min-h-screen bg-[#0a0a0f] text-white selection:bg-blue-500/20 relative overflow-hidden">

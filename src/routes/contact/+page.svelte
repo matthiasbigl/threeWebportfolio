@@ -146,16 +146,26 @@
 	description={$_('seo.contact.description')}
 	url="https://bigls.net/contact"
 	keywords={[
-		'Webdesign Anfrage',
+		'Matthias Bigl Kontakt',
+		'Matthias Bigl kontaktieren',
+		'Webdesign Anfrage Wien',
 		'Kontakt Webdesigner Wien',
 		'Website erstellen lassen Angebot',
-		'Webentwickler kontaktieren',
-		'Freelancer Webdesign Wien',
-		'Webshop Anfrage',
-		'Matthias Bigl Kontakt',
-		'Webdesign Korneuburg',
-		'Homepage erstellen Angebot',
-		'Webentwicklung Niederösterreich'
+		'Webentwickler kontaktieren Österreich',
+		'Freelancer Webdesign Wien Angebot',
+		'Freelance Webdesigner anfragen',
+		'Webshop Anfrage Österreich',
+		'Webdesign Korneuburg Kontakt',
+		'Homepage erstellen Angebot Wien',
+		'Webentwicklung Niederösterreich Anfrage',
+		'kostenlose Webdesign Beratung',
+		'Webdesigner in der Nähe kontaktieren',
+		'web developer Vienna contact',
+		'freelance web designer Austria contact'
+	]}
+	breadcrumbs={[
+		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
+		{ name: 'Kontakt', url: 'https://bigls.net/contact' }
 	]}
 />
 

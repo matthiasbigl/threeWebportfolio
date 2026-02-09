@@ -5,9 +5,10 @@
 </script>
 
 <SEO
-	title="{$_('imprint.title')} | Matthias Bigl"
-	description="Legal notice and contact information for Matthias Bigl."
+	title="Impressum | Matthias Bigl – Webdesigner Wien/Korneuburg"
+	description="Impressum und rechtliche Informationen von Matthias Bigl, Webdesigner & Full Stack Developer aus Korneuburg bei Wien, Österreich."
 	url="https://bigls.net/impressum"
+	noindex={true}
 />
 
 <CustomCursor />

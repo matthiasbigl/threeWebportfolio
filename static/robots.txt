@@ -1,17 +1,41 @@
-# Robots.txt for Matthias Bigl Portfolio
+# Robots.txt for Matthias Bigl – Webdesign & Webentwicklung
 # https://bigls.net
 
+# Default: allow everything
 User-agent: *
 Allow: /
-
-# Sitemap
-Sitemap: https://bigls.net/sitemap.xml
-
-# Disallow API routes and internal paths
 Disallow: /api/
 Disallow: /_app/
 
-# AI Crawlers - Allow all for maximum discoverability
+# Sitemap location (critical for crawling)
+Sitemap: https://bigls.net/sitemap.xml
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: msnbot
+Allow: /
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Crawl-delay: 3
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# AI Crawlers — Allow all for maximum discoverability
 User-agent: GPTBot
 Allow: /
 

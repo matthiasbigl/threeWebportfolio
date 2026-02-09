@@ -8,8 +8,8 @@
 	"hero": {
 		"greeting": "Hey, I'm",
 		"name": "Matthias Bigl",
-		"subtitle": "Professional <span class=\"blue-gradient_text font-semibold\">Webdesign & Web Development</span> from Vienna 🇦🇹",
-		"description": "Your <span class=\"blue-gradient_text font-semibold\">digital storefront</span> in Vienna & Korneuburg that wins new customers 24/7 – while you focus on running your business.",
+		"subtitle": "Freelance <span class=\"blue-gradient_text font-semibold\">Web Designer & Full Stack Developer</span> in Vienna, Austria 🇦🇹",
+		"description": "Your <span class=\"blue-gradient_text font-semibold\">professional website</span> from Vienna & Korneuburg that wins new customers 24/7 – while you focus on running your business.",
 		"cta": "Free Consultation",
 		"ctaServices": "My Services"
 	},
@@ -497,7 +497,7 @@
 		}
 	},
 	"footer": {
-		"description": "I help businesses become visible online – with websites that don't just look good, but actually bring in customers. Personal, no agency detours, from Vienna/Korneuburg.",
+		"description": "Matthias Bigl – freelance web designer & developer from Vienna/Korneuburg, Austria. I help SMEs, startups & freelancers get online with professional websites, webshops & 3D experiences. No agency overhead.",
 		"navigation": "Navigation",
 		"servicesTitle": "Services",
 		"contactTitle": "Contact",
@@ -532,12 +532,16 @@
 	},
 	"seo": {
 		"home": {
-			"title": "Matthias Bigl | Web Design & Development Vienna/Korneuburg",
-			"description": "Matthias Bigl – Your web designer from Vienna/Korneuburg, Austria. Websites, webshops & web experiences. Personal, no agency prices, online in 1-2 weeks. Free consultation!"
+			"title": "Matthias Bigl | Freelance Web Designer & Developer · Vienna, Austria",
+			"description": "Matthias Bigl – Freelance web designer & full stack developer in Vienna/Korneuburg, Austria. Professional websites, online shops & interactive 3D experiences for SMEs. No agency overhead, online in 1–2 weeks. Free consultation!"
 		},
 		"contact": {
-			"title": "Contact | Matthias Bigl - Web Design Vienna/Korneuburg",
-			"description": "Contact Matthias Bigl for your web project. 15-minute free consultation – no strings attached. Web design from Vienna/Korneuburg. Response within 24h!"
+			"title": "Contact Matthias Bigl | Free Web Design Consultation Vienna",
+			"description": "Get in touch with Matthias Bigl for your web project. 15-minute free consultation – zero strings attached. Freelance web design from Vienna & Korneuburg, Austria. Response within 24h!"
+		},
+		"pricing": {
+			"title": "Website Costs Austria 2026 | Honest Pricing Guide by Matthias Bigl",
+			"description": "How much does a website cost in Austria in 2026? Landing pages from €650, full websites from €2,000, webshops from €3,250. Transparent pricing, no hidden fees."
 		}
 	},
 	"language": {

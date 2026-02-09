@@ -142,24 +142,58 @@
 	type="profile"
 	image="https://bigls.net/headshot.png"
 	keywords={[
-		'Webdesign Wien',
-		'Webentwicklung Wien',
-		'Webdesign Korneuburg',
-		'Website erstellen lassen',
-		'Webshop erstellen',
-		'Webdesigner Österreich',
-		'Freelancer Webentwicklung',
-		'Homepage erstellen Wien',
-		'Full Stack Developer Wien',
+		// Brand dominance
 		'Matthias Bigl',
-		'Webentwickler Niederösterreich',
-		'Website Wien günstig',
+		'Matthias Bigl Webdesign',
+		'Matthias Bigl Wien',
+		'Matthias Bigl Portfolio',
+		'bigls.net',
+		// Local + transactional
+		'Webdesign Wien',
+		'Webdesigner Wien',
+		'Webentwicklung Wien',
+		'Website erstellen lassen Wien',
+		'Webshop erstellen Österreich',
+		'Homepage erstellen Wien',
+		'Webdesign Korneuburg',
+		'Webdesign Niederösterreich',
+		// Commercial intent
+		'Website Kosten Österreich',
+		'Was kostet eine Website',
+		'Webdesign günstig Wien',
+		'Freelancer Webdesign Wien',
+		'Webdesign ohne Agentur',
+		// Target audience
+		'Website für KMU',
+		'Website für Selbstständige',
+		'Website für kleine Unternehmen',
+		'Website für Startups Wien',
+		// Tech/quality
+		'Full Stack Developer Wien',
+		'SvelteKit Developer',
+		'Three.js Developer',
 		'Responsive Webdesign',
-		'SvelteKit',
-		'React',
-		'TypeScript',
-		'Webdesign Agentur Alternative',
-		'Austrian Developer'
+		'SEO optimierte Website',
+		'moderne Website erstellen',
+		// English
+		'web developer Vienna',
+		'freelance web developer Austria',
+		'web designer Vienna Austria'
+	]}
+	faqItems={[
+		{ question: $_('faq.items.cost.question'), answer: $_('faq.items.cost.answer') },
+		{ question: $_('faq.items.duration.question'), answer: $_('faq.items.duration.answer') },
+		{ question: $_('faq.items.hosting.question'), answer: $_('faq.items.hosting.answer') },
+		{ question: $_('faq.items.edit.question'), answer: $_('faq.items.edit.answer') },
+		{ question: $_('faq.items.remote.question'), answer: $_('faq.items.remote.answer') },
+		{ question: $_('faq.items.agency.question'), answer: $_('faq.items.agency.answer') },
+		{ question: $_('faq.items.tech.question'), answer: $_('faq.items.tech.answer') },
+		{ question: $_('faq.items.process.question'), answer: $_('faq.items.process.answer') },
+		{ question: $_('faq.items.seo.question'), answer: $_('faq.items.seo.answer') },
+		{ question: $_('faq.items.existing.question'), answer: $_('faq.items.existing.answer') }
+	]}
+	breadcrumbs={[
+		{ name: 'Matthias Bigl', url: 'https://bigls.net' }
 	]}
 />
 

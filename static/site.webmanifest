@@ -1,15 +1,15 @@
 {
-  "name": "Matthias Bigl - Full Stack Developer & Designer",
+  "name": "Matthias Bigl – Webdesign & Webentwicklung Wien/Korneuburg",
   "short_name": "Matthias Bigl",
-  "description": "Portfolio of Matthias Bigl - Passionate full stack developer and designer from Austria creating innovative web experiences with SvelteKit, Three.js, and modern technologies.",
+  "description": "Matthias Bigl – Freelance Webdesigner & Full Stack Developer aus Wien/Korneuburg, Österreich. Professionelle Websites, Webshops & interaktive 3D Web-Erlebnisse für KMU und Selbstständige.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0f",
   "theme_color": "#0072ff",
   "orientation": "portrait-primary",
   "scope": "/",
-  "lang": "en",
-  "categories": ["portfolio", "technology", "development"],
+  "lang": "de-AT",
+  "categories": ["business", "web development", "design", "portfolio"],
   "icons": [
     {
       "src": "/favicon.png",

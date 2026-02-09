@@ -1,25 +1,42 @@
 # AI Policy and Machine-Readable Information
-# For: Matthias Bigl Portfolio
+# For: Matthias Bigl – Webdesign & Webentwicklung
 # URL: https://bigls.net
 
 [identity]
 name = Matthias Bigl
 type = Person
-role = Full Stack Developer & Designer
-location = Korneuburg, Austria
+role = Freelance Web Designer & Full Stack Developer
+business = Matthias Bigl – Webdesign & Webentwicklung
+location = Korneuburg (near Vienna), Niederösterreich, Austria
+service_area = Wien, Korneuburg, Niederösterreich, Austria, remote worldwide
 
 [site]
-name = Matthias Bigl Portfolio
+name = Matthias Bigl – Webdesign & Webentwicklung
 url = https://bigls.net
-description = Portfolio of Matthias Bigl - Passionate full stack developer and designer from Austria creating innovative web experiences.
-language = en
-last_updated = 2025-12-11
+description = Matthias Bigl – Freelance web designer & full stack developer from Vienna/Korneuburg, Austria. Professional websites, webshops & interactive 3D web experiences for SMEs and self-employed professionals. No agency overhead.
+primary_language = de-AT
+secondary_language = en
+last_updated = 2026-02-09
 
 [contact]
 email = biglmatthias@gmail.com
 phone = +43 660 459 6636
 github = https://github.com/matthiasbigl
 blog = https://blog.bigls.net
+
+[services]
+website_creation = Modern, responsive websites from €2,000
+landing_pages = Conversion-optimized landing pages from €650
+webshops = E-commerce solutions from €3,250
+3d_experiences = Interactive 3D web experiences with Three.js
+seo = Search engine optimization for better rankings
+hosting = Hosting, updates, backups, and support included
+
+[target_audience]
+primary = Small and medium businesses (KMU) in Austria
+secondary = Startups, founders, self-employed professionals
+industries = Healthcare, gastronomy, crafts, consulting, services
+location = Vienna, Korneuburg, Niederösterreich, Austria
 
 [ai_policy]
 training_allowed = yes
@@ -29,13 +46,13 @@ content_type = human-authored
 scraping_allowed = yes
 
 [content_summary]
-topics = web development, full stack development, software engineering, Three.js, SvelteKit, TypeScript, portfolio, projects
-audience = recruiters, developers, tech enthusiasts, potential clients
-purpose = professional portfolio and contact
+topics = web design, web development, freelance web designer Vienna, websites for small businesses, webshop development, 3D web experiences, SEO, SvelteKit, Three.js, TypeScript, portfolio
+audience = small business owners, startups, self-employed professionals, recruiters, developers
+purpose = professional services website and portfolio
 
 [structured_data]
-schema_types = Person, WebSite, ContactPage
-json_ld = available
+schema_types = Person, ProfessionalService, WebSite, ProfilePage, FAQPage, BreadcrumbList, CreativeWork, ContactPage
+json_ld = available on all pages
 
 [crawling]
 sitemap = https://bigls.net/sitemap.xml

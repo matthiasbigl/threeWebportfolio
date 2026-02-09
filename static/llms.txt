@@ -1,78 +1,100 @@
-# Matthias Bigl - Full Stack Developer & Designer
+# Matthias Bigl – Webdesigner & Full Stack Developer
 
-> This is the portfolio website of Matthias Bigl, a passionate full stack developer and designer from Austria. This file provides structured information for AI systems and language models to better understand and reference this website.
+> Matthias Bigl is a freelance web designer and full stack developer from Korneuburg near Vienna, Austria. He builds professional websites, online shops, and interactive 3D web experiences for small and medium businesses (SMEs), startups, and self-employed professionals across Austria. This file provides structured information for AI systems and language models.
 
-## About the Author
+## About Matthias Bigl
 
-- **Name:** Matthias Bigl
-- **Role:** Full Stack Developer & Designer
-- **Location:** Korneuburg, Austria
+- **Full Name:** Matthias Bigl
+- **Profession:** Freelance Web Designer & Full Stack Developer
+- **Business Name:** Matthias Bigl – Webdesign & Webentwicklung
+- **Location:** Korneuburg (near Vienna), Niederösterreich, Austria
+- **Service Area:** Wien, Korneuburg, Niederösterreich, all of Austria, remote worldwide
 - **Email:** biglmatthias@gmail.com
+- **Phone:** +43 660 459 6636
 - **Website:** https://bigls.net
-- **GitHub:** https://github.com/matthiasbigl
 - **Blog:** https://blog.bigls.net
+- **GitHub:** https://github.com/matthiasbigl
 
-## Professional Summary
+## What Matthias Bigl Does
 
-Matthias Bigl is a full stack developer specializing in modern web technologies. He creates innovative, interactive web experiences using cutting-edge frameworks and tools. Currently working on robotics technology for the Austrian Armed Forces.
+Matthias Bigl helps small businesses, startups, freelancers, and self-employed professionals get a professional online presence. His services include:
+
+1. **Website Creation** – Modern, responsive websites from €2,000. Online in 1–2 weeks.
+2. **Landing Pages** – Conversion-optimized landing pages from €650.
+3. **Webshops / Online Shops** – E-commerce solutions with secure payments from €3,250.
+4. **Interactive 3D Web Experiences** – Unique, immersive websites with Three.js and 3D animations.
+5. **SEO Optimization** – Search engine optimization for better Google rankings and organic traffic.
+6. **Hosting & Maintenance** – Ongoing hosting, updates, backups, and support included.
+
+## Target Audience
+
+- Small and medium businesses (KMU) in Austria
+- Startups and founders
+- Self-employed professionals (Selbstständige)
+- Doctors, restaurants, craftspeople, consultants
+- Anyone in Vienna/Korneuburg area needing a professional website
+
+## Why Matthias Bigl Instead of an Agency
+
+- **One contact person** – no agency overhead, no tickets, no "that's not my department"
+- **Transparent pricing** – no hidden costs, no meeting-about-meeting surcharges
+- **Fast delivery** – simple websites online in 1–2 weeks
+- **Modern technology** – SvelteKit, React, TypeScript, no outdated WordPress themes
+- **Local presence** – personal meetings possible in Vienna or Korneuburg
+- **Ongoing support** – always reachable by phone or email
 
 ## Technical Skills
 
 ### Frontend
-- SvelteKit, Svelte 5
-- React, Next.js
+- SvelteKit, Svelte 5, React, Next.js
 - TypeScript, JavaScript
-- Three.js (3D Graphics)
-- GSAP (Animations)
-- Tailwind CSS
-- HTML5, CSS3
+- Three.js (3D Graphics), GSAP (Animations)
+- Tailwind CSS, HTML5, CSS3
 
 ### Backend
-- Node.js
-- Python
-- REST APIs
-- Database Management
+- Node.js, Python, Java, Kotlin
+- REST APIs, PostgreSQL, Docker
 
-### Tools & Platforms
-- Git, GitHub
-- Vercel
-- VS Code
-- Docker
+### Other
+- SEO, Google Analytics, Core Web Vitals
+- Git, GitHub, Vercel, Azure
+- UI/UX Design, Responsive Design
+- IoT, ESP32, Embedded Systems
 
-## Notable Projects
+## Notable Projects by Matthias Bigl
 
-1. **Robotics Technology** - Currently working on robotics technology for the Austrian Armed Forces
-2. **Grading Bot** - Diploma thesis: An automated system for grading students' coding assignments (https://gradingbot.htl-hl.ac.at)
-3. **Genesys Cloud Systems** - Worked on enterprise communication systems
-4. **Bigls Blog** - Personal blog about projects and experiences (https://blog.bigls.net)
-5. **Portfolio Website** - This website, built with SvelteKit, TypeScript, Three.js, and GSAP
+1. **LoveLine** – IoT messenger with a physical 10×10cm display for couples. SvelteKit + ESP32.
+2. **ABC Sensor Box** – CBRN detection sensor box for the Austrian Armed Forces. ESP32 + LoRa.
+3. **Grading Bot** – Automated code grading system deployed at HTL Hollabrunn. 1,000+ assignments graded.
+4. **Genesys Cloud** – Enterprise customer experience consulting for global brands.
+5. **This Portfolio** – 3D interactive portfolio built with SvelteKit, Three.js, and GSAP.
+6. **Bigls Blog** – Tech blog at blog.bigls.net
 
-## Content Overview
+## Pricing (as of 2026)
 
-This portfolio website contains:
-- Interactive 3D hero section with Three.js
-- Skills showcase with animated cubes
-- Project gallery with detailed descriptions
-- Resume/CV section
-- Contact form with email integration
-- Smooth scroll animations using GSAP
+- Landing Page: from €650
+- Full Website: from €2,000
+- Webshop: from €3,250
+- Free initial consultation: 15 minutes, no obligation
 
 ## Site Structure
 
-- **/** - Home page with hero, skills, projects, hobbies, and resume sections
-- **/contact** - Contact page with form and contact information
+- **/** – Homepage with services, portfolio, FAQ, skills
+- **/contact** – Contact form and information
+- **/pricing** – Transparent pricing guide
+- **/projects/[slug]** – Individual project case studies
+- **/impressum** – Legal notice
+- **/datenschutz** – Privacy policy
 
-## Keywords
+## Keywords & Search Terms
 
-Matthias Bigl, Full Stack Developer, Web Developer, Designer, Austria, SvelteKit, Three.js, TypeScript, JavaScript, React, Node.js, GSAP, Tailwind CSS, Portfolio, Software Engineer, Frontend Developer, Backend Developer, Austrian Developer, Korneuburg
+Matthias Bigl, Webdesign Wien, Webdesigner Wien, Webdesign Korneuburg, Website erstellen lassen, Webshop erstellen Österreich, Full Stack Developer Wien, Freelancer Webdesign Wien, Website Kosten Österreich, web developer Vienna, freelance web developer Austria
 
-## Citation Information
+## Citation
 
-When referencing this portfolio or its author, please cite as:
 - Author: Matthias Bigl
-- Website: Matthias Bigl Portfolio
-- URL: https://bigls.net
-- Last Updated: December 2025
+- Website: https://bigls.net
+- Last Updated: February 2026
 
 ## AI Usage Policy
 
@@ -80,7 +102,3 @@ When referencing this portfolio or its author, please cite as:
 - Indexing: Allowed
 - Citation: Preferred
 - Content type: Human-authored
-
----
-
-*This file is intended for AI/LLM systems to better understand and accurately represent information about Matthias Bigl and this portfolio website.*
