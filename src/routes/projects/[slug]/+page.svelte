@@ -2,6 +2,8 @@
 	import SEO from '$lib/components/SEO.svelte';
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
 	import { _ } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
@@ -16,41 +18,136 @@
 	let { data }: Props = $props();
 	const project = data.project;
 
+	let heroSection: HTMLElement | undefined = $state();
+	let chapterIndex = $state(0);
+
+	const statusKey = $derived(
+		$_(`projects.items.${project.slug}.status`) === 'live'
+			? 'statusLive'
+			: $_(`projects.items.${project.slug}.status`) === 'prototype'
+				? 'statusPrototype'
+				: 'statusDevelopment'
+	);
+
 	onMount(() => {
 		if (!browser) return;
 		gsap.registerPlugin(ScrollTrigger);
 
-		// Entry animations
-		const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+		// --- HERO entrance choreography ---
+		const heroTl = gsap.timeline({ defaults: { ease: 'expo.out' } });
 
-		tl.fromTo('.hero-title', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1 })
-			.fromTo('.hero-tagline', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.7')
-			.fromTo(
-				'.hero-description',
-				{ opacity: 0, y: 20 },
-				{ opacity: 1, y: 0, duration: 0.8 },
-				'-=0.6'
-			)
-			.fromTo(
-				'.stagger-card',
-				{ opacity: 0, y: 40 },
+		heroTl
+			.fromTo('.project-breadcrumb', { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.6 })
+			.fromTo('.hero-overline', { opacity: 0, y: 20, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.8 }, '-=0.3')
+			.fromTo('.hero-title-main', { opacity: 0, y: 60, clipPath: 'inset(100% 0 0 0)' }, { opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)', duration: 1.2 }, '-=0.4')
+			.fromTo('.hero-title-sub', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
+			.fromTo('.hero-tagline', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.9 }, '-=0.4')
+			.fromTo('.hero-meta-item', { opacity: 0, y: 15 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 }, '-=0.5')
+			.fromTo('.hero-scroll-hint', { opacity: 0 }, { opacity: 1, duration: 1 }, '-=0.2');
+
+		// --- Parallax hero background ---
+		if (heroSection) {
+			gsap.to('.hero-accent-orb', {
+				y: -80,
+				scrollTrigger: {
+					trigger: heroSection,
+					start: 'top top',
+					end: 'bottom top',
+					scrub: 1.5
+				}
+			});
+		}
+
+		// --- Chapter reveals ---
+		gsap.utils.toArray<HTMLElement>('.chapter-block').forEach((el, i) => {
+			gsap.fromTo(
+				el,
+				{ opacity: 0, y: 50 },
 				{
 					opacity: 1,
 					y: 0,
-					stagger: 0.1,
-					duration: 0.8,
+					duration: 1,
+					ease: 'power3.out',
 					scrollTrigger: {
-						trigger: '.technical-narrative',
-						start: 'top 85%'
+						trigger: el,
+						start: 'top 85%',
+						end: 'top 45%',
+						toggleActions: 'play none none reverse',
+						onEnter: () => (chapterIndex = i + 1)
 					}
-				},
-				'-=0.2'
+				}
 			);
+		});
+
+		// --- Feature cards stagger ---
+		gsap.fromTo(
+			'.feature-card',
+			{ opacity: 0, y: 40, rotateX: 5 },
+			{
+				opacity: 1,
+				y: 0,
+				rotateX: 0,
+				stagger: 0.1,
+				duration: 0.8,
+				ease: 'back.out(1.4)',
+				scrollTrigger: {
+					trigger: '.features-grid',
+					start: 'top 85%'
+				}
+			}
+		);
+
+		// --- Tech stack entrance ---
+		gsap.fromTo(
+			'.tech-pill',
+			{ opacity: 0, scale: 0.8 },
+			{
+				opacity: 1,
+				scale: 1,
+				stagger: 0.06,
+				duration: 0.5,
+				ease: 'back.out(2)',
+				scrollTrigger: {
+					trigger: '.tech-stack-row',
+					start: 'top 90%'
+				}
+			}
+		);
+
+		// --- CTA section ---
+		gsap.fromTo(
+			'.cta-block',
+			{ opacity: 0, y: 30 },
+			{
+				opacity: 1,
+				y: 0,
+				duration: 1,
+				ease: 'power3.out',
+				scrollTrigger: { trigger: '.cta-block', start: 'top 88%' }
+			}
+		);
+
+		// --- Project image reveal ---
+		gsap.fromTo(
+			'.project-image-section',
+			{ opacity: 0, y: 40, scale: 0.98 },
+			{
+				opacity: 1,
+				y: 0,
+				scale: 1,
+				duration: 1.2,
+				ease: 'power3.out',
+				scrollTrigger: {
+					trigger: '.project-image-section',
+					start: 'top 90%'
+				}
+			}
+		);
 	});
 </script>
 
 <SEO
-	title="{$_(`projects.items.${project.slug}.title`)} | Matthias Bigl Portfolio"
+	title="{$_(`projects.items.${project.slug}.title`)} | Matthias Bigl"
 	description={$_(`projects.items.${project.slug}.description`)}
 	url="https://bigls.net/projects/{project.slug}"
 	type="article"
@@ -64,330 +161,336 @@
 <CustomCursor />
 <ScrollProgress />
 
-<div
-	class="relative min-h-screen pt-32 pb-32 overflow-hidden selection:bg-blue-500/20 bg-[#0a0a0f]"
->
-	<!-- UI Layers -->
-	<div class="fixed inset-0 z-0 opacity-10 pointer-events-none grain-overlay"></div>
-	<div class="fixed inset-0 z-0 opacity-20 pointer-events-none">
-		<div class="aurora-bg w-full h-full"></div>
-	</div>
-	<div class="fixed inset-0 z-0 opacity-[0.03] pointer-events-none grid-lines"></div>
+<div class="project-detail-page relative min-h-screen overflow-hidden bg-[#0a0a0f] selection:bg-blue-500/20">
+	<!-- Atmospheric layers -->
+	<div class="fixed inset-0 z-0 pointer-events-none page-grain"></div>
+	<div class="fixed inset-0 z-0 pointer-events-none opacity-[0.02] dot-grid"></div>
 
-	<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-		<!-- Navigation Header -->
-		<nav class="flex justify-between items-center mb-16 lg:mb-24 px-4">
-			<a
-				href="/#projects"
-				class="group flex items-center gap-3 text-gray-400 hover:text-white transition-all font-medium"
-			>
-				<div
-					class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-blue-500/50 transition-colors"
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	<!-- PAGE NAV — Fixed top bar with logo, back link & language    -->
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	<nav class="project-breadcrumb fixed top-0 left-0 right-0 z-50 bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/[0.04]">
+		<div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 lg:px-16 h-14 sm:h-16">
+			<div class="flex items-center gap-3 sm:gap-4">
+				<a href="/" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-blue-500/30 flex items-center justify-center transition-all duration-300 shrink-0">
+					<span class="text-sm sm:text-base font-bold blue-gradient_text">MB</span>
+				</a>
+				<div class="w-px h-5 bg-white/[0.08]"></div>
+				<a
+					href="/#projects"
+					class="group flex items-center gap-2 text-gray-500 hover:text-blue-400 transition-colors duration-300"
 				>
-					<svg
-						class="w-4 h-4 transition-transform group-hover:-translate-x-1"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M15 19l-7-7 7-7"
-						/>
+					<svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0l7 7m-7-7l7-7" />
 					</svg>
-				</div>
-				<span class="text-sm tracking-widest uppercase">All Projects</span>
-			</a>
-		</nav>
-
-		<!-- CENTERED HERO SECTION -->
-		<header class="text-center max-w-5xl mx-auto mb-20 lg:mb-32">
-			<div
-				class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold tracking-[0.3em] uppercase mb-12"
-			>
-				<span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-				Case Study — {project.slug}
+					<span class="text-[10px] sm:text-[11px] font-medium tracking-[0.15em] uppercase font-syne">{$_('projectDetail.backLabel')}</span>
+				</a>
 			</div>
 
-			<h1
-				class="hero-title font-poppins text-5xl sm:text-8xl lg:text-[10rem] font-black text-white leading-[0.9] tracking-tighter mb-12 text-glow-soft break-words"
-			>
+			<LanguageSwitcher />
+		</div>
+	</nav>
+
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	<!-- HERO — Full-viewport editorial opener                       -->
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	<section bind:this={heroSection} class="relative flex flex-col px-5 sm:px-8 lg:px-16 pb-10 sm:pb-16 lg:pb-24 pt-24 sm:pt-32 lg:pt-40">
+		<!-- Accent orbs — site blue + project tint -->
+		<div class="hero-accent-orb absolute -top-32 -right-32 sm:-top-40 sm:-right-40 w-[400px] sm:w-[600px] lg:w-[700px] h-[400px] sm:h-[600px] lg:h-[700px] rounded-full blur-[120px] sm:blur-[180px] opacity-20 pointer-events-none bg-gradient-to-br from-blue-500/30 via-blue-600/15 to-indigo-500/10"></div>
+		<div class="hero-accent-orb absolute -bottom-20 -left-32 sm:-left-60 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] rounded-full blur-[100px] sm:blur-[160px] opacity-10 pointer-events-none bg-gradient-to-tr from-blue-400/20 to-purple-500/10"></div>
+
+		<!-- Hero content -->
+		<div class="relative z-10 max-w-6xl mx-auto w-full">
+			<!-- Overline -->
+			<div class="hero-overline flex flex-wrap items-center gap-3 sm:gap-4 mb-5 sm:mb-8">
+				<span class="hidden sm:inline-block w-10 sm:w-12 h-px bg-blue-500/30"></span>
+				<span class="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] sm:tracking-[0.3em] uppercase text-blue-400/60 font-syne">{project.category}</span>
+				<span class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold tracking-wider uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20">
+					<span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+					{$_(`projectDetail.${statusKey}`)}
+				</span>
+			</div>
+
+			<!-- Title cluster -->
+			<h1 class="hero-title-main font-syne text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold text-white leading-[0.9] tracking-[-0.03em] mb-1 sm:mb-2 break-words">
 				{$_(`projects.items.${project.slug}.title`)}
 			</h1>
+			<h2 class="hero-title-sub font-syne text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-light text-blue-400/40 tracking-[-0.02em] mb-6 sm:mb-10">
+				{$_(`projects.items.${project.slug}.subtitle`)}
+			</h2>
 
-			<p
-				class="hero-tagline text-xl lg:text-4xl font-poppins font-bold text-blue-400 max-w-3xl mx-auto mb-12 leading-tight tracking-tight italic px-4"
-			>
-				"{$_(`projects.items.${project.slug}.tagline`)}"
+			<!-- Tagline -->
+			<p class="hero-tagline max-w-2xl text-base sm:text-lg lg:text-xl text-gray-400 leading-relaxed font-light mb-8 sm:mb-12 lg:mb-16">
+				{$_(`projects.items.${project.slug}.tagline`)}
 			</p>
 
-			<p
-				class="hero-description text-lg lg:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-light px-4"
-			>
-				{$_(`projects.items.${project.slug}.description`)}
-			</p>
-		</header>
-
-		<!-- STRUCTURED NARRATIVE GRID -->
-		<div
-			class="technical-narrative grid lg:grid-cols-12 gap-12 lg:gap-24 items-start mb-32 lg:mb-48"
-		>
-			<!-- Left Pillar: The Technical Truth (Problem/Solution) -->
-			<div class="lg:col-span-8 space-y-20 lg:space-y-32">
-				<!-- Structured Narrative Section -->
-				{#if $_(`projects.items.${project.slug}.sections`)}
-					<!-- Large Context Block -->
-					<section
-						class="stagger-card p-6 sm:p-10 lg:p-16 rounded-[2rem] lg:rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-2xl relative overflow-hidden group"
-					>
-						<div
-							class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity"
-						>
-							<svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24">
-								<path
-									d="M14.017 21L14.017 18C14.017 16.8954 14.9125 16 16.0171 16H19.0171V14.0171C19.0171 11.8023 17.2148 10 15 10V8C18.3137 8 21 10.6863 21 14V21H14.017ZM3 21V14C3 10.6863 5.68629 8 9 8V10C6.78528 10 4.98292 11.8023 4.98292 14.0171V16H7.98292C9.08749 16 9.98292 16.8954 9.98292 18V21H3Z"
-								/>
-							</svg>
-						</div>
-						<h3
-							class="text-xs font-bold uppercase tracking-[0.3em] text-blue-500 flex items-center gap-3 mb-10"
-						>
-							<span class="w-12 h-px bg-blue-500/50"></span> Project Vision
-						</h3>
-						<p
-							class="font-poppins text-xl sm:text-2xl lg:text-4xl font-medium text-white leading-[1.2] tracking-tight"
-						>
-							{$_(`projects.items.${project.slug}.sections.context`)}
-						</p>
-					</section>
-
-					<!-- Problem & Solution Group -->
-					<div class="grid md:grid-cols-2 gap-12 lg:gap-16">
-						<section
-							class="stagger-card space-y-8 p-6 sm:p-10 rounded-[1.5rem] lg:rounded-[2rem] bg-white/[0.02] border border-white/5"
-						>
-							<h3
-								class="text-xs font-bold uppercase tracking-[0.3em] text-red-500 flex items-center gap-3"
-							>
-								<span class="w-8 h-px bg-red-500/50"></span> 01. Challenge
-							</h3>
-							<p class="text-xl sm:text-2xl font-bold text-gray-100 leading-tight">
-								{$_(`projects.items.${project.slug}.sections.problem`)}
-							</p>
-						</section>
-
-						<section
-							class="stagger-card space-y-8 p-6 sm:p-10 rounded-[1.5rem] lg:rounded-[2rem] bg-white/[0.02] border border-white/5"
-						>
-							<h3
-								class="text-xs font-bold uppercase tracking-[0.3em] text-green-500 flex items-center gap-3"
-							>
-								<span class="w-8 h-px bg-green-500/50"></span> 02. Execution
-							</h3>
-							<p class="text-base sm:text-xl text-gray-400 leading-relaxed">
-								{$_(`projects.items.${project.slug}.sections.solution`)}
-							</p>
-						</section>
-					</div>
-				{/if}
+			<!-- Meta row -->
+			<div class="flex flex-wrap gap-x-6 sm:gap-x-10 lg:gap-x-12 gap-y-4 border-t border-white/[0.06] pt-6 sm:pt-8">
+				<div class="hero-meta-item min-w-0">
+					<span class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-blue-500/40 mb-1 sm:mb-1.5 font-syne">{$_('projectDetail.metaRole')}</span>
+					<span class="text-xs sm:text-sm text-gray-300 font-medium">{$_(`projects.items.${project.slug}.role`)}</span>
+				</div>
+				<div class="hero-meta-item">
+					<span class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-blue-500/40 mb-1 sm:mb-1.5 font-syne">{$_('projectDetail.metaTimeline')}</span>
+					<span class="text-xs sm:text-sm text-gray-300 font-medium">{$_(`projects.items.${project.slug}.timeline`)}</span>
+				</div>
+				<div class="hero-meta-item">
+					<span class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-blue-500/40 mb-1 sm:mb-1.5 font-syne">{$_('projectDetail.metaType')}</span>
+					<span class="text-xs sm:text-sm text-gray-300 font-medium">{$_(`projects.items.${project.slug}.type`)}</span>
+				</div>
 			</div>
-
-			<!-- Right Pillar: The Technical Stack & Meta -->
-			<aside class="lg:col-span-4 space-y-16 lg:sticky lg:top-32">
-				<!-- Tag Cloud -->
-				<div class="stagger-card space-y-8 px-6">
-					<h3 class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
-						Technologies Used
-					</h3>
-					<div class="flex flex-wrap gap-3">
-						{#each ($_(`projects.items.${project.slug}.technologies`) as any) ?? [] as tech}
-							<span
-									class="px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.06] text-gray-400 text-sm font-medium hover:border-blue-500/25 hover:text-blue-400 hover:shadow-[0_0_16px_rgba(59,130,246,0.1)] transition-all duration-300 cursor-default hover:-translate-y-0.5"
-							>
-								{tech}
-							</span>
-						{/each}
-					</div>
-				</div>
-
-				<!-- Quick Specs -->
-				<div class="stagger-card glass-card p-6 sm:p-8 rounded-2xl sm:rounded-3xl border-white/[0.04] font-poppins">
-					<div class="space-y-6">
-						<div class="flex justify-between items-center py-5 border-b border-white/5">
-							<span class="text-xs uppercase tracking-widest text-gray-500">Type</span>
-							<span class="text-sm font-bold text-gray-200"
-								>{project.slug === 'robotics'
-									? 'Public Safety / Defence'
-									: 'Software Engineering'}</span
-							>
-						</div>
-						<div class="flex justify-between items-center py-5 border-b border-white/5">
-							<span class="text-xs uppercase tracking-widest text-gray-500">Timeline</span>
-							<span class="text-sm font-bold text-gray-200">2024 — Present</span>
-						</div>
-						<div class="flex justify-between items-center py-5">
-							<span class="text-xs uppercase tracking-widest text-gray-500">Role</span>
-							<span class="text-sm font-bold text-gray-200">Lead Architect</span>
-						</div>
-					</div>
-				</div>
-			</aside>
 		</div>
 
-		<!-- INNOVATIONS SECTION (Full Width) -->
-		{#if $_(`projects.items.${project.slug}.features`)}
-			<section class="mb-32 lg:mb-48 space-y-16">
-				<div class="flex flex-col items-center text-center space-y-4 px-4">
-					<h2 class="text-4xl lg:text-7xl font-black text-white tracking-tighter">
-						Key Innovations
-					</h2>
-					<div class="h-1 w-24 bg-blue-500 rounded-full"></div>
-				</div>
+		<!-- Scroll hint -->
+		<div class="hero-scroll-hint absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-blue-500/30">
+			<span class="text-[9px] sm:text-[10px] tracking-[0.25em] sm:tracking-[0.3em] uppercase font-syne">{$_('projectDetail.scrollHint')}</span>
+			<div class="w-px h-6 sm:h-8 bg-gradient-to-b from-blue-500/40 to-transparent animate-pulse"></div>
+		</div>
+	</section>
 
-				<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-					{#each ($_(`projects.items.${project.slug}.features`) as any) ?? [] as feature}
-						<div
-							class="stagger-card group p-8 lg:p-10 rounded-[2rem] bg-white/[0.025] border border-white/[0.05] hover:bg-blue-500/[0.04] hover:border-blue-500/15 transition-all duration-500 relative overflow-hidden"
-						>
-							<div
-								class="absolute -right-8 -top-8 w-24 h-24 bg-blue-500/5 blur-2xl rounded-full group-hover:bg-blue-500/10 transition-colors"
-							></div>
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	<!-- PROJECT IMAGE — Cinematic visual showcase                      -->
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	{#if project.image}
+		<section class="project-image-section relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 py-8 sm:py-12 lg:py-16">
+			<div class="relative group rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden border border-white/[0.06] bg-white/[0.02]">
+				<!-- Subtle reflection glow -->
+				<div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent z-10 pointer-events-none opacity-40"></div>
 
-							<div
-								class="w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-8 transition-transform group-hover:scale-110 group-hover:rotate-3 shadow-lg"
-							>
-								<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
-										d="M13 10V3L4 14h7v7l9-11h-7z"
-									/>
-								</svg>
-							</div>
+				<img
+					src={project.image}
+					alt={$_(`projects.items.${project.slug}.title`)}
+					class="w-full aspect-video object-contain bg-[#0f0f18] transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+					loading="eager"
+				/>
 
-							<h4
-								class="text-2xl font-bold text-gray-100 mb-6 group-hover:text-blue-400 transition-colors leading-tight"
-							>
-								{feature}
-							</h4>
-
-							<div
-								class="h-px w-12 bg-blue-500/30 group-hover:w-full group-hover:bg-blue-500 transition-all duration-1000 ease-expo"
-							></div>
-						</div>
-					{/each}
-				</div>
-			</section>
-		{/if}
-
-		<!-- NEW: CINEMATIC IMPACT SECTION (Full Width) -->
-		<section class="stagger-card mb-32 lg:mb-48">
-			<div
-				class="relative p-8 lg:p-24 rounded-[2.5rem] lg:rounded-[4rem] bg-gradient-to-br from-blue-600/10 to-blue-900/20 border border-blue-500/20 backdrop-blur-3xl overflow-hidden group shadow-2xl"
-			>
-				<!-- Background motion detail -->
-				<div
-					class="absolute -right-20 -bottom-20 w-80 h-80 bg-blue-500/10 blur-[120px] rounded-full group-hover:bg-blue-500/20 transition-all duration-700"
-				></div>
-				<div
-					class="absolute -left-20 -top-20 w-80 h-80 bg-purple-500/5 blur-[120px] rounded-full"
-				></div>
-
-				<div class="relative z-10 max-w-4xl">
-					<h3
-						class="text-xs font-bold uppercase tracking-[0.5em] text-blue-400 mb-12 flex items-center gap-4"
-					>
-						<span class="w-12 h-px bg-blue-500/50"></span>
-						Project Results
-					</h3>
-					<p
-						class="font-poppins text-2xl sm:text-4xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight mb-12"
-					>
-						{$_(`projects.items.${project.slug}.sections.impact`)}
-					</p>
-
-					<div class="flex flex-wrap gap-8 items-center">
-						<div class="flex items-center gap-3">
-							<div class="w-2 h-2 rounded-full bg-blue-500"></div>
-							<span class="text-sm font-bold uppercase tracking-widest text-gray-400"
-								>Technical Result</span
-							>
-						</div>
-						<div class="flex items-center gap-3">
-							<div class="w-2 h-2 rounded-full bg-blue-500"></div>
-							<span class="text-sm font-bold uppercase tracking-widest text-gray-400"
-								>Production Ready</span
-							>
-						</div>
+				<!-- Corner accent -->
+				<div class="absolute top-4 right-4 sm:top-6 sm:right-6 z-20">
+					<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg border border-white/10 bg-[#0a0a0f]/60 backdrop-blur-md flex items-center justify-center">
+						<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" />
+						</svg>
 					</div>
 				</div>
 			</div>
 		</section>
+	{/if}
 
-		<!-- BALANCED CTA SECTION -->
-		<footer class="text-center max-w-4xl mx-auto pt-32 lg:pt-48 border-t border-white/5">
-			<h2 class="text-4xl lg:text-6xl font-black text-white mb-12">Impressed by the depth?</h2>
-			<div class="flex flex-col sm:flex-row gap-6 justify-center">
-				{#if project.link && project.link !== '#'}
-					<a
-						href={project.link}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="magnetic-btn px-12 py-6 bg-blue-600 hover:bg-blue-500 text-xl font-bold text-white rounded-2xl shadow-xl shadow-blue-500/20 transition-all"
-					>
-						Launch Live Application
-					</a>
-				{/if}
-				<a
-					href="/contact"
-					class="magnetic-btn px-12 py-6 glass-card border-white/10 hover:border-white/30 text-xl font-bold text-white rounded-2xl transition-all"
-				>
-					Start Your Project
-				</a>
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	<!-- NARRATIVE CHAPTERS — Alternating editorial layout            -->
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	{#if $_(`projects.items.${project.slug}.sections`)}
+		<div class="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16">
+			<!-- Chapter 01 — Vision -->
+			<article class="chapter-block py-16 sm:py-24 lg:py-32 border-t border-white/[0.04]">
+				<div class="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-16 items-start">
+					<div class="lg:col-span-4 flex lg:flex-col items-center lg:items-start gap-3 sm:gap-4">
+						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black text-white/[0.04] leading-none select-none shrink-0">01</span>
+						<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne">
+							{$_('projectDetail.chapterVision')}
+						</h3>
+					</div>
+					<div class="lg:col-span-8">
+						<p class="font-syne text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold text-white/90 leading-[1.25] tracking-tight">
+							{$_(`projects.items.${project.slug}.sections.context`)}
+						</p>
+					</div>
+				</div>
+			</article>
+
+			<!-- Chapter 02 — Challenge -->
+			<article class="chapter-block py-16 sm:py-24 lg:py-32 border-t border-white/[0.04]">
+				<div class="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-16 items-start">
+					<div class="lg:col-span-4 lg:order-2 flex lg:flex-col items-center lg:items-end gap-3 sm:gap-4">
+						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black text-white/[0.04] leading-none select-none shrink-0">02</span>
+						<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne lg:text-right">
+							{$_('projectDetail.chapterChallenge')}
+						</h3>
+					</div>
+					<div class="lg:col-span-8 lg:order-1">
+						<p class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white/80 leading-snug tracking-tight">
+							{$_(`projects.items.${project.slug}.sections.problem`)}
+						</p>
+					</div>
+				</div>
+			</article>
+
+			<!-- Chapter 03 — Craft -->
+			<article class="chapter-block py-16 sm:py-24 lg:py-32 border-t border-white/[0.04]">
+				<div class="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-16 items-start">
+					<div class="lg:col-span-4 flex lg:flex-col items-center lg:items-start gap-3 sm:gap-4">
+						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black text-white/[0.04] leading-none select-none shrink-0">03</span>
+						<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne">
+							{$_('projectDetail.chapterCraft')}
+						</h3>
+					</div>
+					<div class="lg:col-span-8">
+						<p class="text-base sm:text-lg lg:text-xl xl:text-2xl text-gray-400 leading-relaxed">
+							{$_(`projects.items.${project.slug}.sections.solution`)}
+						</p>
+					</div>
+				</div>
+			</article>
+
+			<!-- Chapter 04 — Outcome (cinematic full-width) -->
+			<article class="chapter-block py-20 sm:py-28 lg:py-36 border-t border-white/[0.04]">
+				<div class="relative p-8 sm:p-12 lg:p-20 xl:p-28 rounded-2xl sm:rounded-[2rem] lg:rounded-[3rem] overflow-hidden bg-gradient-to-br from-blue-600/[0.08] via-blue-500/[0.04] to-indigo-600/[0.06] border border-blue-500/10">
+					<!-- Glow -->
+					<div class="absolute -right-16 -bottom-16 sm:-right-24 sm:-bottom-24 w-60 sm:w-96 h-60 sm:h-96 rounded-full blur-[100px] sm:blur-[160px] opacity-25 pointer-events-none bg-blue-500"></div>
+					<div class="absolute -left-16 -top-16 sm:-left-24 sm:-top-24 w-48 sm:w-72 h-48 sm:h-72 rounded-full blur-[80px] sm:blur-[130px] opacity-15 pointer-events-none bg-indigo-500"></div>
+
+					<div class="relative z-10">
+						<!-- Number + Label -->
+						<div class="flex items-end gap-4 sm:gap-6 mb-6 sm:mb-8">
+							<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black text-blue-500/[0.08] leading-none select-none">04</span>
+							<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne pb-2 sm:pb-3 lg:pb-5">
+								{$_('projectDetail.chapterOutcome')}
+							</h3>
+						</div>
+
+						<!-- Divider -->
+						<div class="w-16 sm:w-24 h-px bg-gradient-to-r from-blue-500/40 to-transparent mb-8 sm:mb-12 lg:mb-16"></div>
+
+						<!-- Impact text -->
+						<p class="font-syne text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium text-white/90 leading-[1.35] sm:leading-[1.3] tracking-tight max-w-4xl">
+							{$_(`projects.items.${project.slug}.sections.impact`)}
+						</p>
+					</div>
+				</div>
+			</article>
+		</div>
+	{/if}
+
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	<!-- TECH STACK — Horizontal ribbon                              -->
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	<section class="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 py-12 sm:py-16 lg:py-24 border-t border-white/[0.04]">
+		<div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 lg:gap-16">
+			<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-gray-500 font-syne whitespace-nowrap shrink-0">{$_('projectDetail.techStackLabel')}</h3>
+			<div class="tech-stack-row flex flex-wrap gap-2 sm:gap-3">
+				{#each ($_(`projects.items.${project.slug}.technologies`) as any) ?? [] as tech}
+					<span class="tech-pill px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-blue-500/[0.06] text-blue-400/80 border border-blue-500/10 transition-all duration-300 cursor-default hover:-translate-y-0.5 hover:border-blue-500/25 hover:text-blue-400 hover:shadow-[0_0_16px_rgba(59,130,246,0.1)]">
+						{tech}
+					</span>
+				{/each}
 			</div>
-		</footer>
-	</div>
+		</div>
+	</section>
+
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	<!-- FEATURES — Cards grid                                       -->
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	{#if $_(`projects.items.${project.slug}.features`)}
+		<section class="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 pb-20 sm:pb-32 lg:pb-40">
+			<div class="mb-10 sm:mb-16 lg:mb-20">
+				<h2 class="font-syne text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-white tracking-tight">{$_('projectDetail.featuresTitle')}</h2>
+			</div>
+
+			<div class="features-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
+				{#each ($_(`projects.items.${project.slug}.features`) as any) ?? [] as feature, i}
+					<div
+						class="feature-card group relative p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl transition-all duration-500 overflow-hidden bg-white/[0.02] border border-white/[0.04]"
+						class:sm:row-span-2={i === 0}
+					>
+						<!-- Hover glow -->
+						<div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-xl sm:rounded-2xl bg-[radial-gradient(ellipse_at_center,_rgba(59,130,246,0.06)_0%,_transparent_70%)]"></div>
+
+						<!-- Number -->
+						<span class="relative z-10 block text-[9px] sm:text-[10px] font-bold tracking-[0.25em] sm:tracking-[0.3em] uppercase mb-4 sm:mb-6 font-syne text-blue-500/40">
+							{String(i + 1).padStart(2, '0')}
+						</span>
+
+						<h4 class="relative z-10 text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-white/80 group-hover:text-white leading-tight transition-colors duration-300 mb-4 sm:mb-6">
+							{feature}
+						</h4>
+
+						<!-- Animated bar -->
+						<div class="relative z-10 h-px w-8 bg-blue-500/40 group-hover:w-full group-hover:bg-blue-500 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"></div>
+					</div>
+				{/each}
+			</div>
+		</section>
+	{/if}
+
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	<!-- CTA FOOTER                                                  -->
+	<!-- ═══════════════════════════════════════════════════════════ -->
+	<footer class="cta-block relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 pb-20 sm:pb-32 lg:pb-40">
+		<div class="border-t border-white/[0.06] pt-12 sm:pt-16 lg:pt-24">
+			<div class="flex flex-col lg:flex-row gap-8 sm:gap-10 lg:gap-16 lg:items-end lg:justify-between">
+				<div class="max-w-xl">
+					<h2 class="font-syne text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1] mb-4 sm:mb-6">
+						{$_('projectDetail.ctaTitle')}
+					</h2>
+				</div>
+				<div class="flex flex-col sm:flex-row gap-3 sm:gap-4 shrink-0">
+					{#if project.link && project.link !== '#'}
+						<Button
+							href={project.link}
+							external
+							variant="primary"
+							className="!px-6 sm:!px-8 !py-3.5 sm:!py-4 !text-sm sm:!text-base !rounded-full !font-syne !tracking-wide"
+						>
+							{$_('projectDetail.ctaLaunch')} →
+						</Button>
+					{/if}
+					<Button
+						href="/contact"
+						variant="secondary"
+						className="!px-6 sm:!px-8 !py-3.5 sm:!py-4 !text-sm sm:!text-base !rounded-full !font-syne !tracking-wide !border-white/10 hover:!border-blue-500/30"
+					>
+						{$_('projectDetail.ctaContact')}
+					</Button>
+				</div>
+			</div>
+		</div>
+	</footer>
 </div>
 
 <style>
-	:global(.font-poppins) {
-		font-family: 'Poppins', sans-serif;
+	.page-grain {
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+		opacity: 0.035;
+		mix-blend-mode: overlay;
 	}
 
-	.text-glow-soft {
-		text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+	.dot-grid {
+		background-image: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0.5px, transparent 0.5px);
+		background-size: 32px 32px;
 	}
 
-	.glass-card {
-		background: rgba(255, 255, 255, 0.03);
-		backdrop-filter: blur(20px) saturate(150%);
-		-webkit-backdrop-filter: blur(20px) saturate(150%);
-		border: 1px solid rgba(255, 255, 255, 0.06);
+	/* Chapter number watermark effect */
+	.chapter-block {
+		perspective: 800px;
 	}
 
-	.aurora-bg {
-		background: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
-			radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.08) 0%, transparent 40%);
-		filter: blur(80px);
+	/* Feature card hover lift */
+	.feature-card:hover {
+		transform: translateY(-4px);
+		border-color: rgba(59, 130, 246, 0.12) !important;
 	}
 
-	.grain-overlay {
-		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-		filter: contrast(120%) brightness(100%);
+	/* Smooth scroll hint pulse */
+	@keyframes gentlePulse {
+		0%, 100% { opacity: 0.3; }
+		50% { opacity: 0.7; }
 	}
 
-	.grid-lines {
-		background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-			linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-		background-size: 50px 50px;
+	.hero-scroll-hint {
+		animation: gentlePulse 3s ease-in-out infinite;
 	}
 
-	@media (max-width: 640px) {
-		.hero-title {
-			font-size: 15vw;
-		}
+	/* Tech pill hover */
+	.tech-pill:hover {
+		filter: brightness(1.2);
+	}
+
+	/* Project image cinematic frame */
+	.project-image-section img {
+		transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.project-image-section:hover img {
+		transform: scale(1.02);
 	}
 </style>

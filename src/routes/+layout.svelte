@@ -13,6 +13,12 @@
 	/** @type {{children?: import('svelte').Snippet}} */
 	let { children } = $props();
 
+	// Hide main navbar + footer on immersive pages — they have their own chrome
+	const isImmersivePage = $derived(
+		$page.url.pathname.match(/^\/projects\/.+/) !== null ||
+		$page.url.pathname === '/pricing'
+	);
+
 	onMount(() => {
 		if (browser) {
 			// Initialize locale from localStorage
@@ -43,11 +49,15 @@
 	<div
 		class="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex flex-col"
 	>
-		<Navbar />
+		{#if !isImmersivePage}
+			<Navbar />
+		{/if}
 		<main class="flex-grow">
 			{@render children?.()}
 		</main>
-		<Footer />
+		{#if !isImmersivePage}
+			<Footer />
+		{/if}
 	</div>
 {/if}
 

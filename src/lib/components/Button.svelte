@@ -4,7 +4,7 @@
 
 	interface Props {
 		href?: string;
-		variant?: 'primary' | 'secondary';
+		variant?: 'primary' | 'secondary' | 'inverted';
 		type?: 'button' | 'submit' | 'reset';
 		className?: string;
 		onclick?: (event: MouseEvent) => void;
@@ -67,12 +67,13 @@
 	});
 
 	const baseClasses =
-		'magnetic-btn glass-card px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg font-bold text-white text-center rounded-2xl transition-all duration-300 inline-flex items-center justify-center gap-2';
+		'magnetic-btn px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg font-bold text-center rounded-2xl transition-all duration-300 inline-flex items-center justify-center gap-2';
 
-	const variants = {
+	const variants: Record<string, string> = {
 		primary:
-			'shadow-lg shadow-blue-500/10 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-500/25 hover:border-blue-500/40 hover:shadow-blue-500/20',
-		secondary: 'glass-card-hover border border-white/[0.08] hover:border-white/15'
+			'glass-card text-white shadow-lg shadow-blue-500/10 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-500/25 hover:border-blue-500/40 hover:shadow-blue-500/20',
+		secondary: 'glass-card glass-card-hover text-white border border-white/[0.08] hover:border-white/15',
+		inverted: 'bg-white text-slate-900 shadow-xl shadow-black/15 hover:bg-blue-50 hover:shadow-2xl hover:-translate-y-0.5'
 	};
 </script>
 

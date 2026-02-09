@@ -90,7 +90,7 @@
 				"description": "You call, I pick up. No tickets, no 'your request has been forwarded'. Fast responses, faster solutions."
 			}
 		},
-		"cta": "Get Free Webdesign Consultation →",
+		"cta": "Get Free Webdesign Consultation ",
 		"ctaSubtext": "No strings attached • Free Consult • No hidden costs"
 	},
 	"skills": {
@@ -106,27 +106,53 @@
 		"languagesAriaLabel": "Interactive 3D cube showcasing programming languages: Python, Java, Svelte, TypeScript, and Kotlin. Drag to rotate.",
 		"strengthsAriaLabel": "Interactive 3D cube showcasing professional strengths: Backend Development, UI/UX Design, Graphic Design, Teamwork, and Project Management. Drag to rotate."
 	},
+	"projectDetail": {
+		"backLabel": "All Work",
+		"caseStudy": "Case Study",
+		"chapterVision": "The Vision",
+		"chapterChallenge": "The Challenge",
+		"chapterCraft": "The Craft",
+		"chapterOutcome": "The Outcome",
+		"techStackLabel": "Built With",
+		"metaRole": "Role",
+		"metaTimeline": "Timeline",
+		"metaType": "Type",
+		"metaStatus": "Status",
+		"featuresTitle": "What Makes It Special",
+		"ctaTitle": "Like what you see?",
+		"ctaLaunch": "See It Live",
+		"ctaContact": "Let's Build Yours",
+		"statusLive": "Live",
+		"statusPrototype": "Prototype",
+		"statusDevelopment": "In Development",
+		"scrollHint": "Scroll to explore"
+	},
 	"projects": {
 		"title": "Portfolio &",
 		"titleHighlight": "Case Studies",
 		"moreOnGithub": "See more open source code on",
 		"items": {
 			"loveline": {
-				"title": "LoveLine - Relationship OS",
-				"tagline": "Connecting partners through subtle technology. A private digital bridge for couples in the age of constant distraction.",
-				"description": "Private digital space for couples featuring IoT interaction and integrated date planning.",
+				"title": "LoveLine",
+				"subtitle": "Digital Picture Frame Messenger",
+				"tagline": "A tiny 10×10cm screen that lights up when your partner is thinking of you. Messages that live on your nightstand, not in your notification drawer.",
+				"description": "A personal messenger with a physical 10cm display — like a tiny picture frame that shows messages from your loved one.",
+				"role": "Full-Stack Engineer & Hardware Lead",
+				"timeline": "2024 — Present",
+				"type": "IoT · Messenger · Hardware",
+				"status": "live",
 				"sections": {
-					"context": "LoveLine is a specialized communication tool designed to bridge the gap between digital interaction and physical presence. It provides a private connection between homes, serving as a permanent link regardless of distance.",
-					"problem": "Standard messaging often feels impersonal. Long-distance partners lack the tactile atmosphere that dedicated hardware can provide. Existing tools focus on productivity rather than personal connection.",
-					"solution": "A real-time IoT ecosystem where SvelteKit meets ESP32. When a moment is sent, a physical frame in the partner's home responds instantly. Synchronous presence designed for focused, personal interaction.",
-					"impact": "Managed decision-making through an integrated date-engine. Successful bridging of distance with low-latency hardware, making physical separation feel more manageable."
+					"context": "LoveLine is a messenger, but not the kind that lives on your phone. It's a small physical picture frame — 10 by 10 centimeters — that sits on your desk or nightstand. When your partner sends you a message, it just appears. No notifications, no apps to open. Just a quiet little screen letting you know someone's thinking of you.",
+					"problem": "Texting feels throwaway. Messages disappear in a feed between work chats and group notifications. There's nothing physical, nothing that stays. Couples in long-distance relationships especially lack that sense of presence — the feeling of being in the same room.",
+					"solution": "A SvelteKit web app paired with an ESP32-powered display. You send a message or photo through the app, and it shows up instantly on the physical frame at your partner's place. Server-Sent Events keep everything real-time. An AI-powered date planner suggests things to do together, even from a distance.",
+					"impact": "A message that doesn't get buried. A screen you actually glance at because it only shows what matters. LoveLine turns a digital message into something that feels closer to a handwritten note left on the kitchen counter."
 				},
 				"features": [
-					"ESP32 Hardware Pulsing",
+					"10×10cm Physical Display Frame",
 					"AI-Driven 'Spark' Date Planner",
 					"End-to-End Privacy Architecture",
-					"Interactive Photo Streams",
-					"Dynamic Relationship Goals"
+					"Real-Time Photo & Message Streams",
+					"ESP32-Powered Hardware"
 				],
 				"technologies": [
 					"SvelteKit",
@@ -146,21 +172,26 @@
 				]
 			},
 			"robotics": {
-				"title": "CBRN Prewarning - Robotics",
-				"tagline": "Reliable data where standard systems fail. Specialized CBRN detection with a 2km LoRa heartbeat.",
-				"description": "Functional ABC/CBRN detection demonstrator and handheld monitoring system for technical safety evaluation.",
+				"title": "ABC Sensor Box",
+				"subtitle": "Defence Embedded Systems",
+				"tagline": "A universally mountable sensor box for the 1. ABC Umweltmessstelle — detecting radiation, gas, and oxygen levels in real-time over LoRa.",
+				"description": "Universally mountable CBRN sensor box built for the ABC Abwehr Korneuburg with Geiger-Müller counter, MQ gas sensors, and O₂ monitoring.",
+				"role": "Embedded Systems Engineer",
+				"timeline": "2024",
+				"type": "Defence · Embedded Systems",
+				"status": "prototype",
 				"sections": {
-					"context": "Commissioned for the Austrian Armed Forces, this project serves as a technical demonstrator. The goal was to build a mobile CBRN detection unit using cost-effective, off-the-shelf components to provide a digital early-warning lifeline.",
-					"problem": "Hazardous environments require rapid deployment, but professional grade hardware is often expensive or proprietary. A solution was needed that combined reliability with accessible hardware components.",
-					"solution": "An ESP32-based ecosystem utilizing LoRa for a 2km heartbeat. By integrating standard sensors and modular electronics, the robot detects Radiation, O2, and CO in real-time, streaming high-integrity data to a terminal.",
-					"impact": "A functional production-ready prototype demonstrating 100% telemetry reliability. Proven that specialized safety tools can be built effectively on modern microcontrollers."
+					"context": "Built as part of the 1. ABC Umweltmessstelle — a special unit of the ABC Abwehr Korneuburg within the Austrian Armed Forces. The idea: a small, self-contained sensor box that can be mounted on virtually anything. A vehicle, a tripod, a robot — doesn't matter. It just measures and reports.",
+					"problem": "Professional CBRN detection equipment is expensive, bulky, and often locked into proprietary ecosystems. Field units need something they can deploy quickly, mount anywhere, and trust to deliver accurate readings without requiring specialized training.",
+					"solution": "A compact ESP32-based sensor box packing a Geiger-Müller counter for radiation detection, a full suite of MQ gas sensors, and an O₂ sensor. The box communicates over LoRa with a 2km range, streaming measurements to a handheld terminal. Universally mountable — it goes where the mission needs it.",
+					"impact": "A working prototype that proved off-the-shelf components can deliver reliable CBRN detection in the field. The universally mountable design means one box fits every deployment scenario the unit runs into."
 				},
 				"features": [
-					"Industrial-Grade Sensor Fusion",
-					"2km Long-Range LoRa Heartbeat",
-					"Custom High-Integrity Protocol",
-					"unphone-Native Terminal UI",
-					"Autonomous ABC Warning Logic"
+					"Geiger-Müller Radiation Detection",
+					"MQ Gas Sensor Suite",
+					"O₂ Level Monitoring",
+					"2km Long-Range LoRa Link",
+					"Universally Mountable Design"
 				],
 				"technologies": [
 					"ESP32",
@@ -180,21 +211,26 @@
 				]
 			},
 			"grading-bot": {
-				"title": "Grading Bot - EdTech Automation",
-				"tagline": "Optimizing evaluation, streamlining feedback. High-performance engine for automated code assessment.",
-				"description": "Professional-grade automated system for evaluating student coding assignments, used at HTL Hollabrunn.",
+				"title": "Grading Bot",
+				"subtitle": "Diploma Thesis",
+				"tagline": "Submit your code, get your grade in 30 seconds. Live automated evaluation for Java, TypeScript, JavaScript, Bash, and PowerShell.",
+				"description": "Automated code evaluation system supporting 5 languages with ~30s live grading — my diploma thesis, deployed at HTL Hollabrunn.",
+				"role": "Lead Architect & Developer",
+				"timeline": "2024 — Present",
+				"type": "Diploma Thesis · EdTech",
+				"status": "live",
 				"sections": {
-					"context": "Grading Bot is a flagship diploma project, designed to handle the practical requirements of 1000+ student submissions. It is the automated engine powering code evaluation at HTL Hollabrunn, making the process significantly more efficient.",
-					"problem": "Manual code reviews were slow and could be inconsistent. A faster, fairer, and strictly sandboxed system was required to handle high volumes of submissions effectively.",
-					"solution": "High-performance evaluation system using Docker for secure, isolated execution. Integration with Azure AD and MS Teams creates a seamless workflow that evaluates student code in seconds.",
-					"impact": "More than 1,000 assignments successfully evaluated. Reliable security and significant time savings for instructors. Students receive immediate feedback during their workflow."
+					"context": "This is my diploma thesis. Grading Bot is an automated code evaluation system running at HTL Hollabrunn. Students submit their assignments, and within about 30 seconds they get a grade and detailed feedback. It supports Java, TypeScript, JavaScript, Bash, and PowerShell — basically everything taught at the school.",
+					"problem": "Teachers were grading code by hand. Hundreds of submissions per assignment, multiple classes, every week. It was slow, inconsistent, and nobody enjoyed it. Students waited days for feedback that was often just a grade and a comment.",
+					"solution": "Each submission runs in its own Docker container — completely isolated, no way for student code to break anything. The system hooks into Azure AD for authentication and MS Teams for notifications. A teacher sets up the assignment once, and the bot handles the rest. About 30 seconds from submission to result.",
+					"impact": "Over 1,000 assignments graded automatically. Students get feedback while the code is still fresh in their heads. Teachers get their evenings back. It's live, it's fast, and it hasn't broken yet."
 				},
 				"features": [
+					"5-Language Support (Java, TS, JS, Bash, PS)",
+					"~30 Second Live Evaluation",
 					"Dockerized Sandbox Execution",
 					"Azure AD & MS Teams Integration",
-					"Live Evaluation Dashboard",
-					"Automated Feedback System",
-					"High-Scalability Architecture"
+					"Automated Feedback Reports"
 				],
 				"technologies": [
 					"SvelteKit",
@@ -212,21 +248,26 @@
 				]
 			},
 			"unleashed": {
-				"title": "Unleashed - Privacy-First Social Media",
-				"tagline": "Privacy by design. A digital platform for connection without data compromises.",
-				"description": "Social network concept focused on user privacy and direct interaction.",
+				"title": "Unleashed",
+				"subtitle": "Privacy-First Social (Discontinued)",
+				"tagline": "A privacy-first social platform built as a PWA. Shut down due to infrastructure costs, but the concept proved the idea works.",
+				"description": "A PWA social network experiment focused on privacy-first interaction — discontinued due to running costs.",
+				"role": "Developer & Architect",
+				"timeline": "2025",
+				"type": "PWA · Social Platform",
+				"status": "prototype",
 				"sections": {
-					"context": "Unleashed is a proof of concept for privacy-focused social media. A mobile-first platform built to demonstrate that human connection can be achieved without typical tracking mechanisms.",
-					"problem": "Modern social media often compromises user data for monetization. Privacy is frequently secondary to advertising interests and complex algorithms.",
-					"solution": "Privacy-centered architecture where user control is the default. No tracking or manipulative algorithms—just direct, user-focused interaction built on a foundation of reliability.",
-					"impact": "A functional model for ethical social media. High levels of engagement maintained while prioritizing data privacy and user control."
+					"context": "Unleashed was a social platform built as a Progressive Web App. The idea was simple: social media without the tracking, without the algorithmic manipulation, without selling your data. Just people connecting with people.",
+					"problem": "Every major social platform monetizes user data. Privacy settings are buried, algorithms decide what you see, and opting out means opting out of the platform entirely. There's no middle ground.",
+					"solution": "A PWA with zero-tracking architecture and end-to-end encryption. No algorithmic feed — you see posts chronologically from people you actually follow. Built with Kotlin and Jetpack Compose on the frontend, Supabase and Clerk on the backend.",
+					"impact": "The platform worked and proved the concept, but the infrastructure costs were too high to sustain as a solo project. It's been shut down, but the lessons learned about privacy-first architecture carry forward into every project I build."
 				},
 				"features": [
+					"Progressive Web App",
 					"Zero-Tracking Architecture",
 					"End-to-End Encrypted Messaging",
-					"User-Controlled Content Feed",
-					"No Algorithmic Manipulation",
-					"Decentralized Data Storage"
+					"Chronological Feed (No Algorithm)",
+					"Privacy-First by Design"
 				],
 				"technologies": [
 					"Kotlin",
@@ -244,9 +285,14 @@
 				]
 			},
 			"genesys": {
-				"title": "Genesys Cloud Systems",
+				"title": "Genesys Cloud",
+				"subtitle": "Enterprise CX",
 				"tagline": "Orchestrating global conversations. High-availability CX engineering for the enterprise.",
 				"description": "Enterprise-grade customer experience solutions for global brands.",
+				"role": "CX Consultant & Engineer",
+				"timeline": "2025 — Present",
+				"type": "Enterprise Software",
+				"status": "live",
 				"sections": {
 					"context": "Consulting at the intersection of psychology and scale. Managing complex communication architecture that powers customer experience for global household names.",
 					"problem": "Massive contact centers are often fragmented by legacy tools. Latency hinders empathy, and disconnected channels frustrate both agents and customers.",
@@ -275,9 +321,14 @@
 				]
 			},
 			"portfolio": {
-				"title": "Bigls Portfolio - 3D Experience",
+				"title": "This Portfolio",
+				"subtitle": "3D Web Experience",
 				"tagline": "Technical excellence and performance. High-performance 3D experiment in modern web engineering.",
 				"description": "Interactive 3D portfolio exploring modern web technologies.",
+				"role": "Designer & Developer",
+				"timeline": "2025 — Present",
+				"type": "Creative Development",
+				"status": "live",
 				"sections": {
 					"context": "A project demonstrating that 3D graphics, animations, and SEO performance can be effectively integrated into a single package.",
 					"problem": "3D on the web can often be slow or difficult for search engines to index. Cinematic portfolios frequently compromise on mobile performance or accessibility.",

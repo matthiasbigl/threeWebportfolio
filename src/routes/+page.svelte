@@ -210,20 +210,20 @@
 				<!-- Hero Text -->
 				<div class="text-center lg:text-left max-w-3xl px-4">
 					<p
-						class="hero-intro font-poppins text-base sm:text-lg font-semibold text-blue-400 mb-6 tracking-wider uppercase"
+						class="hero-intro font-poppins text-xs sm:text-sm font-semibold text-blue-400/80 mb-6 tracking-[0.15em] uppercase"
 					>
 						{$_('hero.greeting')}
-						<span class="text-white">{$_('hero.name')}</span>
+						<span class="text-white/90">{$_('hero.name')}</span>
 					</p>
 
 					<h1
-						class="hero-title font-poppins font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-8 text-white leading-[1.1] tracking-tight text-glow-soft"
+						class="hero-title font-poppins font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-8 text-white leading-[1.1] tracking-tight"
 					>
 						{@html $_('hero.subtitle')}
 					</h1>
 
 					<p
-						class="hero-description text-lg sm:text-xl lg:text-2xl text-gray-300 mb-12 leading-relaxed font-light max-w-2xl"
+						class="hero-description text-base sm:text-lg lg:text-xl text-gray-400 mb-12 leading-relaxed font-light max-w-2xl"
 					>
 						{@html $_('hero.description')}
 					</p>
@@ -245,10 +245,6 @@
 
 	<!-- Services Section -->
 	<section class="services-wrapper reveal-section glass-section relative gradient-bg-1">
-		<!-- Subtle top divider -->
-		<div
-			class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"
-		></div>
 		<Services />
 	</section>
 
@@ -262,13 +258,18 @@
 
 		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex flex-col items-center mb-14 lg:mb-20">
+				<div class="flex items-center gap-3 mb-5">
+					<div class="h-px w-8 bg-blue-500/40"></div>
+					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]">{$_('skills.title')}</span>
+					<div class="h-px w-8 bg-blue-500/40"></div>
+				</div>
 				<h2
 					id="skills-heading"
-					class="section-title font-poppins text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-6 text-white tracking-tight"
+					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 text-white tracking-tight"
 				>
-					{$_('skills.title')} <span class="blue-gradient_text">{$_('skills.titleHighlight')}</span>
+					{$_('skills.titleHighlight')}
 				</h2>
-				<div class="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
 
 			<div class="grid lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-24 relative">
@@ -390,13 +391,17 @@
 
 		<div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex flex-col items-center mb-14 lg:mb-20">
+				<div class="flex items-center gap-3 mb-5">
+					<div class="h-px w-8 bg-blue-500/40"></div>
+					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]">{$_('projects.title')}</span>
+					<div class="h-px w-8 bg-blue-500/40"></div>
+				</div>
 				<h2
-					class="section-title font-poppins text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-6 text-white tracking-tight"
+					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 text-white tracking-tight"
 				>
-					{$_('projects.title')}
-					<span class="blue-gradient_text">{$_('projects.titleHighlight')}</span>
+					{$_('projects.titleHighlight')}
 				</h2>
-				<div class="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
 
 			<div
@@ -434,12 +439,17 @@
 
 		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex flex-col items-center mb-12 sm:mb-14">
+				<div class="flex items-center gap-3 mb-5">
+					<div class="h-px w-8 bg-blue-500/40"></div>
+					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]">{$_('resume.title')}</span>
+					<div class="h-px w-8 bg-blue-500/40"></div>
+				</div>
 				<h2
-					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-6 text-glow tracking-tight"
+					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 text-white tracking-tight"
 				>
-					{$_('resume.title')} <span class="blue-gradient_text">{$_('resume.titleHighlight')}</span>
+					{$_('resume.titleHighlight')}
 				</h2>
-				<div class="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
 
 			<Resume />
@@ -452,13 +462,17 @@
 	>
 		<div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex flex-col items-center mb-12 sm:mb-16">
+				<div class="flex items-center gap-3 mb-5">
+					<div class="h-px w-8 bg-blue-500/40"></div>
+					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]">{$_('hobbies.title')}</span>
+					<div class="h-px w-8 bg-blue-500/40"></div>
+				</div>
 				<h2
-					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-6 text-glow tracking-tight"
+					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 text-white tracking-tight"
 				>
-					{$_('hobbies.title')}
-					<span class="blue-gradient_text">{$_('hobbies.titleHighlight')}</span>
+					{$_('hobbies.titleHighlight')}
 				</h2>
-				<div class="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
 
 			<div
@@ -486,12 +500,12 @@
 		<FAQ />
 	</section>
 
-	<!-- Scroll Down Indicator - Only visible near top -->
+	<!-- Scroll Down Indicator -->
 	{#if showScrollIndicator}
 		<div
-			class="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 hidden md:flex transition-all duration-500"
+			class="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 cursor-pointer z-20 hidden md:flex transition-all duration-500"
 			style="opacity: {showScrollIndicator
-				? 0.5
+				? 0.4
 				: 0}; transform: translateX(-50%) translateY({showScrollIndicator ? 0 : 20}px);"
 			onclick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
 			onkeydown={(e) =>
@@ -500,13 +514,13 @@
 			tabindex="0"
 			aria-label="Scroll down"
 		>
-			<span class="text-[10px] font-semibold uppercase tracking-[0.3em] text-blue-400/80"
+			<span class="text-[9px] font-semibold uppercase tracking-[0.3em] text-gray-500"
 				>Scroll</span
 			>
 			<div
-				class="w-5 h-8 rounded-full border border-blue-500/30 flex items-start justify-center p-1"
+				class="w-4 h-7 rounded-full border border-white/15 flex items-start justify-center p-1"
 			>
-				<div class="w-1 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+				<div class="w-0.5 h-1.5 bg-white/40 rounded-full animate-bounce"></div>
 			</div>
 		</div>
 	{/if}

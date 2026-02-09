@@ -410,7 +410,7 @@
 
 						<Button
 							type="submit"
-							{disabled}
+							disabled={isSubmitting}
 							className="w-full relative group overflow-hidden"
 							variant="secondary"
 						>

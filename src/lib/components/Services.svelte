@@ -41,7 +41,7 @@
 			features: $_('services.items.seo.features') as unknown as string[],
 			gradient: 'from-blue-500/10 via-cyan-500/10 to-blue-600/10',
 			border: 'group-hover:border-blue-500/50',
-			colSpan: 'col-span-2',
+			colSpan: 'md:col-span-2',
 			delay: 0.2
 		},
 		{
@@ -52,7 +52,7 @@
 			features: $_('services.items.webshops.features') as unknown as string[],
 			gradient: 'from-purple-500/10 via-pink-500/10 to-purple-600/10',
 			border: 'group-hover:border-purple-500/50',
-			colSpan: 'col-span-4',
+			colSpan: 'md:col-span-4',
 			delay: 0.3
 		}
 	]);
@@ -219,8 +219,8 @@
 
 	<div class="container mx-auto px-4 sm:px-6 relative z-10">
 		<!-- Section Header -->
-		<div class="max-w-3xl mb-16 sm:mb-20">
-			<div class="flex items-center gap-3 mb-6">
+		<div class="max-w-3xl mb-10 sm:mb-16 lg:mb-20">
+			<div class="flex items-center gap-3 mb-4 sm:mb-6">
 				<div class="h-px w-8 bg-blue-500"></div>
 				<span class="text-blue-400 text-xs font-bold uppercase tracking-[0.2em]">
 					{$_('services.title')}
@@ -228,35 +228,35 @@
 			</div>
 
 			<h2
-				class="text-4xl sm:text-5xl lg:text-7xl font-bold mb-8 text-white tracking-tight leading-[0.9]"
+				class="text-3xl sm:text-5xl lg:text-7xl font-bold mb-5 sm:mb-8 text-white tracking-tight leading-[0.95] sm:leading-[0.9]"
 			>
 				{$_('services.titleHighlight')}
 			</h2>
 
 			<p
-				class="text-lg sm:text-xl text-gray-400 font-light leading-relaxed max-w-2xl border-l-2 border-white/10 pl-6"
+				class="text-base sm:text-xl text-gray-400 font-light leading-relaxed max-w-2xl border-l-2 border-white/10 pl-4 sm:pl-6"
 			>
 				{@html $_('services.subtitle')}
 			</p>
 		</div>
 
 		<!-- Bento Grid Layout -->
-		<div class="bento-grid grid grid-cols-1 md:grid-cols-6 gap-5 lg:gap-6 mb-12">
+		<div class="bento-grid grid grid-cols-1 md:grid-cols-6 gap-3 md:gap-4 lg:gap-5 mb-10 sm:mb-12">
 			{#each services as service}
 				<div
-					class="bento-item group relative {service.colSpan} rounded-[2rem] overflow-hidden border border-white/5 isolate backdrop-blur-md"
+					class="bento-item group relative {service.colSpan} rounded-xl sm:rounded-2xl overflow-hidden border border-white/[0.05] isolate backdrop-blur-md"
 				>
-					<!-- Consistent Slate/Blue Background (Matching Card.svelte) -->
+					<!-- Consistent Slate/Blue Background -->
 					<div
 						class="absolute inset-0 bg-gradient-to-br from-slate-800/40 to-slate-900/60 transition-colors duration-500"
 					></div>
 					<div
-						class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-50 pointer-events-none"
+						class="absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none"
 					></div>
 
 					<!-- Holographic Gradient Accents -->
 					<div
-						class="absolute inset-0 bg-gradient-to-br {service.gradient} opacity-30 transition-opacity duration-500 group-hover:opacity-60"
+						class="absolute inset-0 bg-gradient-to-br {service.gradient} opacity-20 transition-opacity duration-500 group-hover:opacity-50"
 					></div>
 
 					<!-- Spotlight Overlay -->
@@ -266,23 +266,23 @@
 
 					<!-- Animated Border Gradient -->
 					<div
-						class="absolute inset-0 rounded-[2rem] border border-transparent {service.border} transition-colors duration-500"
+						class="absolute inset-0 rounded-2xl border border-transparent {service.border} transition-colors duration-500"
 					></div>
 
 					<!-- Content Container -->
 					<div
-						class="relative z-10 h-full p-5 sm:p-6 lg:p-8 flex flex-col justify-between min-h-[280px] sm:min-h-[320px] transition-transform duration-500 group-hover:scale-[1.01]"
+						class="relative z-10 h-full p-4 sm:p-6 lg:p-8 flex flex-col justify-between min-h-[220px] sm:min-h-[300px] transition-transform duration-500 group-hover:scale-[1.01]"
 					>
 						<!-- Header -->
 						<div>
 							<div
-								class="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-xl sm:rounded-2xl bg-slate-800/50 border border-white/10 flex items-center justify-center text-2xl sm:text-3xl mb-6 sm:mb-8 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg shadow-black/20"
+								class="w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl bg-slate-800/60 border border-white/[0.08] flex items-center justify-center text-xl sm:text-2xl mb-5 sm:mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg shadow-black/20"
 							>
 								{service.icon}
 							</div>
 
 							<h3
-								class="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-3 sm:mb-4 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-blue-200 transition-all duration-300"
+								class="text-[15px] sm:text-lg lg:text-xl font-bold text-white mb-1.5 sm:mb-3 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-blue-200 transition-all duration-300"
 							>
 								{service.title}
 							</h3>
@@ -291,18 +291,18 @@
 						<!-- Description & Features -->
 						<div class="flex flex-col h-full justify-between">
 							<p
-								class="text-slate-300 text-sm sm:text-base font-light leading-relaxed mb-6 border-l border-white/10 pl-4 group-hover:border-white/30 transition-colors duration-500"
+								class="text-slate-400 text-xs sm:text-sm font-light leading-relaxed mb-3 sm:mb-5 border-l border-white/[0.08] pl-3 sm:pl-4 group-hover:border-white/20 group-hover:text-slate-300 transition-colors duration-500"
 							>
 								{service.description}
 							</p>
 
-							<!-- Features List (Scrollable & Tiny) -->
+							<!-- Features List -->
 							<ul
-								class="flex flex-nowrap gap-2 mb-6 overflow-x-auto scrollbar-hide mask-fade-right"
+								class="flex flex-wrap sm:flex-nowrap gap-1.5 mb-2 sm:mb-4 sm:overflow-x-auto sm:scrollbar-hide sm:mask-fade-right"
 							>
 								{#each service.features as feature}
 									<li
-										class="flex-shrink-0 px-2.5 py-1 text-[10px] sm:text-xs font-medium text-slate-300 bg-white/5 border border-white/10 rounded-full whitespace-nowrap group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-300"
+										class="flex-shrink-0 px-2.5 py-1 text-[10px] sm:text-[11px] font-medium text-slate-400 bg-white/[0.04] border border-white/[0.06] rounded-full whitespace-nowrap group-hover:bg-white/[0.08] group-hover:border-white/[0.12] group-hover:text-slate-300 transition-all duration-300"
 									>
 										{feature}
 									</li>
@@ -314,63 +314,64 @@
 			{/each}
 		</div>
 
-		<!-- Holographic Benefits & Pricing Stack (Reordered) -->
-		<div class="flex flex-col gap-10 lg:gap-14">
-			<!-- Quick Benefits Stack (Now on Top) -->
-			<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+		<!-- Benefits & Pricing Stack -->
+		<div class="flex flex-col gap-10 lg:gap-12">
+			<!-- Quick Benefits -->
+			<div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
 				{#each benefits as benefit}
 					<div
-						class="bg-white/[0.04] border border-white/[0.06] rounded-2xl p-4 sm:p-5 flex flex-col items-center justify-center text-center gap-2.5 sm:gap-3 hover:bg-white/[0.08] transition-all duration-300 group hover:scale-[1.03] hover:shadow-lg hover:shadow-blue-500/5 hover:border-white/10"
+						class="bg-white/[0.03] border border-white/[0.05] rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col items-center justify-center text-center gap-1.5 sm:gap-2.5 hover:bg-white/[0.06] transition-all duration-300 group hover:scale-[1.02] hover:border-white/[0.08]"
 					>
 						<span
-							class="text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300 filter drop-shadow-lg"
+							class="text-lg sm:text-2xl group-hover:scale-110 transition-transform duration-300"
 							>{benefit.icon}</span
 						>
 						<span
-							class="text-xs sm:text-sm font-medium text-gray-300 group-hover:text-white transition-colors leading-tight"
+							class="text-[10px] sm:text-xs font-medium text-gray-400 group-hover:text-gray-300 transition-colors leading-tight"
 							>{benefit.title}</span
 						>
 					</div>
 				{/each}
 			</div>
 
-			<!-- Pricing Banner (Now Below) -->
+			<!-- Pricing Banner -->
 			<div
-				class="relative group rounded-[2.5rem] p-1 bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/10 overflow-hidden"
+				class="relative group rounded-2xl overflow-hidden border border-white/[0.06]"
 			>
-				<div
-					class="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-blue-600/10 opacity-50 blur-xl"
-				></div>
+				<!-- Glass background -->
+				<div class="absolute inset-0 bg-gradient-to-br from-slate-800/50 to-slate-900/60"></div>
+				<div class="absolute inset-0 bg-gradient-to-r from-blue-600/[0.06] via-purple-600/[0.04] to-blue-600/[0.06]"></div>
 
 				<div
-					class="relative h-full bg-slate-900/60 rounded-[2.3rem] p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden backdrop-blur-xl"
+					class="relative h-full p-5 sm:p-10 lg:p-12 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8"
 				>
 					<!-- Animated sheen -->
 					<div
-						class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"
+						class="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"
 					></div>
 
 					<div class="relative z-10 max-w-xl text-center md:text-left">
 						<h3
-							class="text-2xl sm:text-3xl font-bold text-white mb-3 flex items-center justify-center md:justify-start gap-3"
+							class="text-xl sm:text-2xl font-bold text-white mb-2 flex items-center justify-center md:justify-start gap-2.5"
 						>
-							<span class="text-3xl">💎</span>
+							<span class="text-2xl">💎</span>
 							{$locale === 'de' ? 'Transparente Preise' : 'Transparent Pricing'}
 						</h3>
-						<p class="text-gray-400 font-light leading-relaxed text-base sm:text-lg">
+						<p class="text-gray-400 font-light leading-relaxed text-sm sm:text-base">
 							{$locale === 'de'
 								? 'Laden Sie meinen vollständigen Preisführer 2026 herunter.'
 								: 'Download my complete 2026 pricing guide.'}
 						</p>
 					</div>
 
-					<a
+					<Button
 						href="/pricing"
-						class="relative z-10 px-8 py-4 sm:px-10 sm:py-5 bg-white text-blue-900 font-bold rounded-xl shadow-xl shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-95 transition-all flex items-center gap-2 group/btn"
+						variant="inverted"
+						className="relative z-10 !text-sm sm:!text-base !px-7 !py-3.5 sm:!px-8 sm:!py-4"
 					>
 						<span>{$_('pricing.navTitle')}</span>
 						<svg
-							class="w-5 h-5 group-hover/btn:translate-x-1 transition-transform"
+							class="w-4 h-4 group-hover:translate-x-1 transition-transform"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -382,12 +383,10 @@
 								d="M17 8l4 4m0 0l-4 4m4-4H3"
 							/>
 						</svg>
-					</a>
+					</Button>
 				</div>
 			</div>
-		</div>
-
-		<!-- Final CTA - Matched to Hero Style -->
+		</div><!-- Final CTA - Matched to Hero Style -->
 		<div class="mt-24 text-center">
 			<Button href="/contact">
 				{$_('services.cta')} &rarr;

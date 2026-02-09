@@ -37,8 +37,9 @@
 			<div class="h-full flex flex-col">
 				<!-- Image area with inset effect and backlight -->
 				<div class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-hidden">
-					<!-- Contained backlight glow -->
-					<div class="absolute inset-0 rounded-xl bg-gradient-to-t from-amber-200/12 via-white/8 to-white/3 blur-xl"></div>
+					<!-- Ambient backlight glow - always visible -->
+					<div class="absolute inset-0 rounded-xl bg-gradient-to-t from-blue-400/10 via-white/8 to-white/5 blur-xl"></div>
+					<div class="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/5 to-purple-500/5"></div>
 					<!-- Subtle hover enhancement -->
 					<div class="absolute inset-0 rounded-xl bg-white/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 					{#if children}
@@ -49,7 +50,7 @@
 						<img
 							src={image}
 							alt={title}
-							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03]"
+							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
 							style="object-fit: {imageObjectFit}"
 							loading="lazy"
 						/>
@@ -72,8 +73,9 @@
 			<div class="h-full flex flex-col">
 				<!-- Image area with inset effect and backlight -->
 				<div class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-hidden">
-					<!-- Contained backlight glow -->
-					<div class="absolute inset-0 rounded-xl bg-gradient-to-t from-amber-200/12 via-white/8 to-white/3 blur-xl"></div>
+					<!-- Ambient backlight glow - always visible -->
+					<div class="absolute inset-0 rounded-xl bg-gradient-to-t from-blue-400/10 via-white/8 to-white/5 blur-xl"></div>
+					<div class="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/5 to-purple-500/5"></div>
 					<!-- Subtle hover enhancement -->
 					<div class="absolute inset-0 rounded-xl bg-white/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 					{#if children}
@@ -84,7 +86,7 @@
 						<img
 							src={image}
 							alt={title}
-							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03]"
+							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
 							style="object-fit: {imageObjectFit}"
 							loading="lazy"
 						/>
@@ -134,13 +136,16 @@
 	}
 
 	.image-inset {
-		background: rgba(0, 0, 0, 0.25);
+		background: linear-gradient(145deg, rgba(30, 41, 59, 0.35), rgba(15, 23, 42, 0.5));
 		box-shadow: 
-			inset 2px 2px 6px rgba(0, 0, 0, 0.4),
-			inset -1px -1px 3px rgba(255, 255, 255, 0.02);
+			inset 2px 2px 6px rgba(0, 0, 0, 0.3),
+			inset -1px -1px 3px rgba(255, 255, 255, 0.03),
+			0 2px 8px rgba(0, 0, 0, 0.2),
+			0 0 20px rgba(59, 130, 246, 0.04);
 		padding: 0.625rem;
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
+		border: 1px solid rgba(255, 255, 255, 0.04);
 	}
 
 	@media (min-width: 640px) {
