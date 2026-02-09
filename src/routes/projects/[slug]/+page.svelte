@@ -5,6 +5,7 @@
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
+	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import { _ } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -206,7 +207,7 @@
 <CustomCursor />
 <ScrollProgress />
 
-<div class="project-detail-page relative min-h-screen overflow-hidden bg-[#0a0a0f] selection:bg-blue-500/20">
+<div class="project-detail-page relative min-h-screen overflow-hidden selection:bg-blue-500/20" style="background: var(--bg-body); color: var(--text-primary);">
 	<!-- Atmospheric layers -->
 	<div class="fixed inset-0 z-0 pointer-events-none page-grain"></div>
 	<div class="fixed inset-0 z-0 pointer-events-none opacity-[0.02] dot-grid"></div>
@@ -214,16 +215,17 @@
 	<!-- ═══════════════════════════════════════════════════════════ -->
 	<!-- PAGE NAV — Fixed top bar with logo, back link & language    -->
 	<!-- ═══════════════════════════════════════════════════════════ -->
-	<nav class="project-breadcrumb fixed top-0 left-0 right-0 z-50 bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/[0.04]">
+	<nav class="project-breadcrumb fixed top-0 left-0 right-0 z-50 backdrop-blur-xl" style="background: var(--navbar-bg-scrolled); border-bottom: 1px solid var(--border-primary);">
 		<div class="max-w-6xl mx-auto flex items-center justify-between px-5 sm:px-8 lg:px-16 h-14 sm:h-16">
 			<div class="flex items-center gap-3 sm:gap-4">
-				<a href="/" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-blue-500/30 flex items-center justify-center transition-all duration-300 shrink-0">
+				<a href="/" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 shrink-0" style="background: var(--bg-surface); border: 1px solid var(--border-primary);">
 					<span class="text-sm sm:text-base font-bold blue-gradient_text">MB</span>
 				</a>
-				<div class="w-px h-5 bg-white/[0.08]"></div>
+				<div class="w-px h-5" style="background: var(--border-primary);"></div>
 				<a
 					href="/#projects"
-					class="group flex items-center gap-2 text-gray-500 hover:text-blue-400 transition-colors duration-300"
+					class="group flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
+					style="color: var(--text-tertiary);"
 				>
 					<svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0l7 7m-7-7l7-7" />
@@ -232,7 +234,10 @@
 				</a>
 			</div>
 
-			<LanguageSwitcher />
+			<div class="flex items-center gap-2">
+				<ThemeToggle />
+				<LanguageSwitcher />
+			</div>
 		</div>
 	</nav>
 
@@ -257,7 +262,7 @@
 			</div>
 
 			<!-- Title cluster -->
-			<h1 class="hero-title-main font-syne text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold text-white leading-[0.9] tracking-[-0.03em] mb-1 sm:mb-2 break-words">
+			<h1 class="hero-title-main font-syne text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold leading-[0.9] tracking-[-0.03em] mb-1 sm:mb-2 break-words" style="color: var(--text-heading);">
 				{$_(`projects.items.${project.slug}.title`)}
 			</h1>
 			<h2 class="hero-title-sub font-syne text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-light text-blue-400/40 tracking-[-0.02em] mb-6 sm:mb-10">
@@ -265,23 +270,23 @@
 			</h2>
 
 			<!-- Tagline -->
-			<p class="hero-tagline max-w-2xl text-base sm:text-lg lg:text-xl text-gray-400 leading-relaxed font-light mb-8 sm:mb-12 lg:mb-16">
+			<p class="hero-tagline max-w-2xl text-base sm:text-lg lg:text-xl leading-relaxed font-light mb-8 sm:mb-12 lg:mb-16" style="color: var(--text-secondary);">
 				{$_(`projects.items.${project.slug}.tagline`)}
 			</p>
 
 			<!-- Meta row -->
-			<div class="flex flex-wrap gap-x-6 sm:gap-x-10 lg:gap-x-12 gap-y-4 border-t border-white/[0.06] pt-6 sm:pt-8">
+			<div class="flex flex-wrap gap-x-6 sm:gap-x-10 lg:gap-x-12 gap-y-4 pt-6 sm:pt-8" style="border-top: 1px solid var(--border-primary);">
 				<div class="hero-meta-item min-w-0">
 					<span class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-blue-500/40 mb-1 sm:mb-1.5 font-syne">{$_('projectDetail.metaRole')}</span>
-					<span class="text-xs sm:text-sm text-gray-300 font-medium">{$_(`projects.items.${project.slug}.role`)}</span>
+					<span class="text-xs sm:text-sm font-medium" style="color: var(--text-secondary);">{$_(`projects.items.${project.slug}.role`)}</span>
 				</div>
 				<div class="hero-meta-item">
 					<span class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-blue-500/40 mb-1 sm:mb-1.5 font-syne">{$_('projectDetail.metaTimeline')}</span>
-					<span class="text-xs sm:text-sm text-gray-300 font-medium">{$_(`projects.items.${project.slug}.timeline`)}</span>
+					<span class="text-xs sm:text-sm font-medium" style="color: var(--text-secondary);">{$_(`projects.items.${project.slug}.timeline`)}</span>
 				</div>
 				<div class="hero-meta-item">
 					<span class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-blue-500/40 mb-1 sm:mb-1.5 font-syne">{$_('projectDetail.metaType')}</span>
-					<span class="text-xs sm:text-sm text-gray-300 font-medium">{$_(`projects.items.${project.slug}.type`)}</span>
+					<span class="text-xs sm:text-sm font-medium" style="color: var(--text-secondary);">{$_(`projects.items.${project.slug}.type`)}</span>
 				</div>
 			</div>
 		</div>
@@ -298,30 +303,32 @@
 	<!-- ═══════════════════════════════════════════════════════════ -->
 	{#if project.image}
 		<section class="project-image-section relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 py-8 sm:py-12 lg:py-16">
-			<div class="relative group rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden border border-white/[0.06] bg-white/[0.02]">
+			<div class="relative group rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden" style="border: 1px solid var(--border-primary); background: var(--bg-surface);">
 				<!-- Subtle reflection glow -->
-				<div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent z-10 pointer-events-none opacity-40"></div>
+				<div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-body)] via-transparent to-transparent z-10 pointer-events-none opacity-40"></div>
 
 				{#if typeof project.image === 'object'}
 					<enhanced:img
 						src={project.image}
 						alt={$_(`projects.items.${project.slug}.title`)}
-						class="w-full aspect-video object-contain bg-[#0f0f18] transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+						class="w-full aspect-video object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+						style="background: var(--bg-inset);"
 						loading="eager"
 					/>
 				{:else}
 					<img
 						src={project.image}
 						alt={$_(`projects.items.${project.slug}.title`)}
-						class="w-full aspect-video object-contain bg-[#0f0f18] transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+						class="w-full aspect-video object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+						style="background: var(--bg-inset);"
 						loading="eager"
 					/>
 				{/if}
 
 				<!-- Corner accent -->
 				<div class="absolute top-4 right-4 sm:top-6 sm:right-6 z-20">
-					<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg border border-white/10 bg-[#0a0a0f]/60 backdrop-blur-md flex items-center justify-center">
-						<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+					<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center backdrop-blur-md" style="border: 1px solid var(--border-primary); background: var(--glass-bg);">
+						<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" style="color: var(--text-tertiary);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" />
 						</svg>
 					</div>
@@ -336,16 +343,16 @@
 	{#if $_(`projects.items.${project.slug}.sections`)}
 		<div class="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16">
 			<!-- Chapter 01 — Vision -->
-			<article class="chapter-block py-16 sm:py-24 lg:py-32 border-t border-white/[0.04]">
+			<article class="chapter-block py-16 sm:py-24 lg:py-32" style="border-top: 1px solid var(--border-primary);">
 				<div class="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-16 items-start">
 					<div class="lg:col-span-4 flex lg:flex-col items-center lg:items-start gap-3 sm:gap-4">
-						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black text-white/[0.04] leading-none select-none shrink-0">01</span>
+						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none shrink-0" style="color: var(--text-heading); opacity: 0.04;">01</span>
 						<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne">
 							{$_('projectDetail.chapterVision')}
 						</h3>
 					</div>
 					<div class="lg:col-span-8">
-						<p class="font-syne text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold text-white/90 leading-[1.25] tracking-tight">
+						<p class="font-syne text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold leading-[1.25] tracking-tight" style="color: var(--text-heading); opacity: 0.9;">
 							{$_(`projects.items.${project.slug}.sections.context`)}
 						</p>
 					</div>
@@ -353,16 +360,16 @@
 			</article>
 
 			<!-- Chapter 02 — Challenge -->
-			<article class="chapter-block py-16 sm:py-24 lg:py-32 border-t border-white/[0.04]">
+			<article class="chapter-block py-16 sm:py-24 lg:py-32" style="border-top: 1px solid var(--border-primary);">
 				<div class="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-16 items-start">
 					<div class="lg:col-span-4 lg:order-2 flex lg:flex-col items-center lg:items-end gap-3 sm:gap-4">
-						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black text-white/[0.04] leading-none select-none shrink-0">02</span>
+						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none shrink-0" style="color: var(--text-heading); opacity: 0.04;">02</span>
 						<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne lg:text-right">
 							{$_('projectDetail.chapterChallenge')}
 						</h3>
 					</div>
 					<div class="lg:col-span-8 lg:order-1">
-						<p class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white/80 leading-snug tracking-tight">
+						<p class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold leading-snug tracking-tight" style="color: var(--text-heading); opacity: 0.8;">
 							{$_(`projects.items.${project.slug}.sections.problem`)}
 						</p>
 					</div>
@@ -370,16 +377,16 @@
 			</article>
 
 			<!-- Chapter 03 — Craft -->
-			<article class="chapter-block py-16 sm:py-24 lg:py-32 border-t border-white/[0.04]">
+			<article class="chapter-block py-16 sm:py-24 lg:py-32" style="border-top: 1px solid var(--border-primary);">
 				<div class="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-16 items-start">
 					<div class="lg:col-span-4 flex lg:flex-col items-center lg:items-start gap-3 sm:gap-4">
-						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black text-white/[0.04] leading-none select-none shrink-0">03</span>
+						<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none shrink-0" style="color: var(--text-heading); opacity: 0.04;">03</span>
 						<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne">
 							{$_('projectDetail.chapterCraft')}
 						</h3>
 					</div>
 					<div class="lg:col-span-8">
-						<p class="text-base sm:text-lg lg:text-xl xl:text-2xl text-gray-400 leading-relaxed">
+						<p class="text-base sm:text-lg lg:text-xl xl:text-2xl leading-relaxed" style="color: var(--text-secondary);">
 							{$_(`projects.items.${project.slug}.sections.solution`)}
 						</p>
 					</div>
@@ -387,7 +394,7 @@
 			</article>
 
 			<!-- Chapter 04 — Outcome (cinematic full-width) -->
-			<article class="chapter-block py-20 sm:py-28 lg:py-36 border-t border-white/[0.04]">
+			<article class="chapter-block py-20 sm:py-28 lg:py-36" style="border-top: 1px solid var(--border-primary);">
 				<div class="relative p-8 sm:p-12 lg:p-20 xl:p-28 rounded-2xl sm:rounded-[2rem] lg:rounded-[3rem] overflow-hidden bg-gradient-to-br from-blue-600/[0.08] via-blue-500/[0.04] to-indigo-600/[0.06] border border-blue-500/10">
 					<!-- Glow -->
 					<div class="absolute -right-16 -bottom-16 sm:-right-24 sm:-bottom-24 w-60 sm:w-96 h-60 sm:h-96 rounded-full blur-[100px] sm:blur-[160px] opacity-25 pointer-events-none bg-blue-500"></div>
@@ -396,7 +403,7 @@
 					<div class="relative z-10">
 						<!-- Number + Label -->
 						<div class="flex items-end gap-4 sm:gap-6 mb-6 sm:mb-8">
-							<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black text-blue-500/[0.08] leading-none select-none">04</span>
+							<span class="text-5xl sm:text-7xl lg:text-[100px] font-syne font-black leading-none select-none" style="color: var(--text-heading); opacity: 0.06;">04</span>
 							<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne pb-2 sm:pb-3 lg:pb-5">
 								{$_('projectDetail.chapterOutcome')}
 							</h3>
@@ -406,7 +413,7 @@
 						<div class="w-16 sm:w-24 h-px bg-gradient-to-r from-blue-500/40 to-transparent mb-8 sm:mb-12 lg:mb-16"></div>
 
 						<!-- Impact text -->
-						<p class="font-syne text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium text-white/90 leading-[1.35] sm:leading-[1.3] tracking-tight max-w-4xl">
+						<p class="font-syne text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium leading-[1.35] sm:leading-[1.3] tracking-tight max-w-4xl" style="color: var(--text-heading); opacity: 0.9;">
 							{$_(`projects.items.${project.slug}.sections.impact`)}
 						</p>
 					</div>
@@ -418,9 +425,9 @@
 	<!-- ═══════════════════════════════════════════════════════════ -->
 	<!-- TECH STACK — Horizontal ribbon                              -->
 	<!-- ═══════════════════════════════════════════════════════════ -->
-	<section class="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 py-12 sm:py-16 lg:py-24 border-t border-white/[0.04]">
+	<section class="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 py-12 sm:py-16 lg:py-24" style="border-top: 1px solid var(--border-primary);">
 		<div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 lg:gap-16">
-			<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-gray-500 font-syne whitespace-nowrap shrink-0">{$_('projectDetail.techStackLabel')}</h3>
+			<h3 class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] font-syne whitespace-nowrap shrink-0" style="color: var(--text-tertiary);">{$_('projectDetail.techStackLabel')}</h3>
 			<div class="tech-stack-row flex flex-wrap gap-2 sm:gap-3">
 				{#each ($_(`projects.items.${project.slug}.technologies`) as any) ?? [] as tech}
 					<span class="tech-pill px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-blue-500/[0.06] text-blue-400/80 border border-blue-500/10 transition-all duration-300 cursor-default hover:-translate-y-0.5 hover:border-blue-500/25 hover:text-blue-400 hover:shadow-[0_0_16px_rgba(59,130,246,0.1)]">
@@ -437,13 +444,14 @@
 	{#if $_(`projects.items.${project.slug}.features`)}
 		<section class="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 pb-20 sm:pb-32 lg:pb-40">
 			<div class="mb-10 sm:mb-16 lg:mb-20">
-				<h2 class="font-syne text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-white tracking-tight">{$_('projectDetail.featuresTitle')}</h2>
+				<h2 class="font-syne text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tight" style="color: var(--text-heading);">{$_('projectDetail.featuresTitle')}</h2>
 			</div>
 
 			<div class="features-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
 				{#each ($_(`projects.items.${project.slug}.features`) as any) ?? [] as feature, i}
 					<div
-						class="feature-card group relative p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl transition-all duration-500 overflow-hidden bg-white/[0.02] border border-white/[0.04]"
+						class="feature-card group relative p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl transition-all duration-500 overflow-hidden"
+						style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
 						class:sm:row-span-2={i === 0}
 					>
 						<!-- Hover glow -->
@@ -454,7 +462,7 @@
 							{String(i + 1).padStart(2, '0')}
 						</span>
 
-						<h4 class="relative z-10 text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-white/80 group-hover:text-white leading-tight transition-colors duration-300 mb-4 sm:mb-6">
+						<h4 class="relative z-10 text-base sm:text-lg lg:text-xl xl:text-2xl font-bold group-hover:text-blue-400 leading-tight transition-colors duration-300 mb-4 sm:mb-6" style="color: var(--text-heading); opacity: 0.8;">
 							{feature}
 						</h4>
 
@@ -470,10 +478,10 @@
 	<!-- CTA FOOTER                                                  -->
 	<!-- ═══════════════════════════════════════════════════════════ -->
 	<footer class="cta-block relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 pb-20 sm:pb-32 lg:pb-40">
-		<div class="border-t border-white/[0.06] pt-12 sm:pt-16 lg:pt-24">
+		<div style="border-top: 1px solid var(--border-primary);" class="pt-12 sm:pt-16 lg:pt-24">
 			<div class="flex flex-col lg:flex-row gap-8 sm:gap-10 lg:gap-16 lg:items-end lg:justify-between">
 				<div class="max-w-xl">
-					<h2 class="font-syne text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1] mb-4 sm:mb-6">
+					<h2 class="font-syne text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-[1] mb-4 sm:mb-6" style="color: var(--text-heading);">
 						{$_('projectDetail.ctaTitle')}
 					</h2>
 				</div>
@@ -491,7 +499,7 @@
 					<Button
 						href="/contact"
 						variant="secondary"
-						className="!px-6 sm:!px-8 !py-3.5 sm:!py-4 !text-sm sm:!text-base !rounded-full !font-syne !tracking-wide !border-white/10 hover:!border-blue-500/30"
+						className="!px-6 sm:!px-8 !py-3.5 sm:!py-4 !text-sm sm:!text-base !rounded-full !font-syne !tracking-wide hover:!border-blue-500/30"
 					>
 						{$_('projectDetail.ctaContact')}
 					</Button>
@@ -509,7 +517,7 @@
 	}
 
 	.dot-grid {
-		background-image: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0.5px, transparent 0.5px);
+		background-image: radial-gradient(circle, var(--grid-dot-color, rgba(255, 255, 255, 0.4)) 0.5px, transparent 0.5px);
 		background-size: 32px 32px;
 	}
 
@@ -521,7 +529,7 @@
 	/* Feature card hover lift */
 	.feature-card:hover {
 		transform: translateY(-4px);
-		border-color: rgba(59, 130, 246, 0.12) !important;
+		border-color: var(--border-accent) !important;
 	}
 
 	/* Smooth scroll hint pulse */

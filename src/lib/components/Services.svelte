@@ -228,13 +228,15 @@
 			</div>
 
 			<h2
-				class="text-3xl sm:text-5xl lg:text-7xl font-bold mb-5 sm:mb-8 text-white tracking-tight leading-[0.95] sm:leading-[0.9]"
+				class="text-3xl sm:text-5xl lg:text-7xl font-bold mb-5 sm:mb-8 tracking-tight leading-[0.95] sm:leading-[0.9]"
+				style="color: var(--text-heading);"
 			>
 				{$_('services.titleHighlight')}
 			</h2>
 
 			<p
-				class="text-base sm:text-xl text-gray-400 font-light leading-relaxed max-w-2xl border-l-2 border-white/10 pl-4 sm:pl-6"
+				class="text-base sm:text-xl font-light leading-relaxed max-w-2xl pl-4 sm:pl-6"
+				style="color: var(--text-secondary); border-left: 2px solid var(--border-primary);"
 			>
 				{@html $_('services.subtitle')}
 			</p>
@@ -244,14 +246,16 @@
 		<div class="bento-grid grid grid-cols-1 md:grid-cols-6 gap-3 md:gap-4 lg:gap-5 mb-10 sm:mb-12">
 			{#each services as service}
 				<div
-					class="bento-item group relative {service.colSpan} rounded-xl sm:rounded-2xl overflow-hidden border border-white/[0.05] isolate backdrop-blur-md"
+					class="bento-item group relative {service.colSpan} rounded-xl sm:rounded-2xl overflow-hidden border isolate backdrop-blur-md"
+					style="border-color: var(--glass-border);"
 				>
-					<!-- Consistent Slate/Blue Background -->
+					<!-- Consistent Background -->
 					<div
-						class="absolute inset-0 bg-gradient-to-br from-slate-800/40 to-slate-900/60 transition-colors duration-500"
+						class="absolute inset-0 transition-colors duration-500"
+						style="background: var(--glass-bg);"
 					></div>
 					<div
-						class="absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none"
+						class="absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none dark:from-white/[0.04] from-black/[0.02]"
 					></div>
 
 					<!-- Holographic Gradient Accents -->
@@ -276,13 +280,15 @@
 						<!-- Header -->
 						<div>
 							<div
-								class="w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl bg-slate-800/60 border border-white/[0.08] flex items-center justify-center text-xl sm:text-2xl mb-5 sm:mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg shadow-black/20"
+								class="w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center text-xl sm:text-2xl mb-5 sm:mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg"
+								style="background: var(--bg-inset); border: 1px solid var(--border-primary);"
 							>
 								{service.icon}
 							</div>
 
 							<h3
-								class="text-[15px] sm:text-lg lg:text-xl font-bold text-white mb-1.5 sm:mb-3 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-blue-200 transition-all duration-300"
+								class="text-[15px] sm:text-lg lg:text-xl font-bold mb-1.5 sm:mb-3 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-300 transition-all duration-300"
+								style="color: var(--text-heading);"
 							>
 								{service.title}
 							</h3>
@@ -291,7 +297,8 @@
 						<!-- Description & Features -->
 						<div class="flex flex-col h-full justify-between">
 							<p
-								class="text-slate-400 text-xs sm:text-sm font-light leading-relaxed mb-3 sm:mb-5 border-l border-white/[0.08] pl-3 sm:pl-4 group-hover:border-white/20 group-hover:text-slate-300 transition-colors duration-500"
+								class="text-xs sm:text-sm font-light leading-relaxed mb-3 sm:mb-5 pl-3 sm:pl-4 transition-colors duration-500"
+								style="color: var(--text-secondary); border-left: 1px solid var(--border-primary);"
 							>
 								{service.description}
 							</p>
@@ -302,7 +309,8 @@
 							>
 								{#each service.features as feature}
 									<li
-										class="flex-shrink-0 px-2.5 py-1 text-[10px] sm:text-[11px] font-medium text-slate-400 bg-white/[0.04] border border-white/[0.06] rounded-full whitespace-nowrap group-hover:bg-white/[0.08] group-hover:border-white/[0.12] group-hover:text-slate-300 transition-all duration-300"
+										class="flex-shrink-0 px-2.5 py-1 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
+										style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
 									>
 										{feature}
 									</li>
@@ -320,14 +328,16 @@
 			<div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
 				{#each benefits as benefit}
 					<div
-						class="bg-white/[0.03] border border-white/[0.05] rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col items-center justify-center text-center gap-1.5 sm:gap-2.5 hover:bg-white/[0.06] transition-all duration-300 group hover:scale-[1.02] hover:border-white/[0.08]"
+						class="rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col items-center justify-center text-center gap-1.5 sm:gap-2.5 transition-all duration-300 group hover:scale-[1.02]"
+						style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
 					>
 						<span
 							class="text-lg sm:text-2xl group-hover:scale-110 transition-transform duration-300"
 							>{benefit.icon}</span
 						>
 						<span
-							class="text-[10px] sm:text-xs font-medium text-gray-400 group-hover:text-gray-300 transition-colors leading-tight"
+							class="text-[10px] sm:text-xs font-medium transition-colors leading-tight"
+							style="color: var(--text-secondary);"
 							>{benefit.title}</span
 						>
 					</div>
@@ -336,10 +346,11 @@
 
 			<!-- Pricing Banner -->
 			<div
-				class="relative group rounded-2xl overflow-hidden border border-white/[0.06]"
+				class="relative group rounded-2xl overflow-hidden"
+				style="border: 1px solid var(--glass-border);"
 			>
 				<!-- Glass background -->
-				<div class="absolute inset-0 bg-gradient-to-br from-slate-800/50 to-slate-900/60"></div>
+				<div class="absolute inset-0" style="background: var(--glass-bg);"></div>
 				<div class="absolute inset-0 bg-gradient-to-r from-blue-600/[0.06] via-purple-600/[0.04] to-blue-600/[0.06]"></div>
 
 				<div
@@ -352,12 +363,13 @@
 
 					<div class="relative z-10 max-w-xl text-center md:text-left">
 						<h3
-							class="text-xl sm:text-2xl font-bold text-white mb-2 flex items-center justify-center md:justify-start gap-2.5"
-						>
-							<span class="text-2xl">💎</span>
-							{$locale === 'de' ? 'Transparente Preise' : 'Transparent Pricing'}
-						</h3>
-						<p class="text-gray-400 font-light leading-relaxed text-sm sm:text-base">
+								class="text-xl sm:text-2xl font-bold mb-2 flex items-center justify-center md:justify-start gap-2.5"
+								style="color: var(--text-heading);"
+							>
+								<span class="text-2xl">💎</span>
+								{$locale === 'de' ? 'Transparente Preise' : 'Transparent Pricing'}
+							</h3>
+							<p class="font-light leading-relaxed text-sm sm:text-base" style="color: var(--text-secondary);">
 							{$locale === 'de'
 								? 'Laden Sie meinen vollständigen Preisführer 2026 herunter.'
 								: 'Download my complete 2026 pricing guide.'}

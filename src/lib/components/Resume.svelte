@@ -54,15 +54,16 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white">Resume</h3>
-                    <p class="text-xs sm:text-sm text-gray-400">PDF Document</p>
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold" style="color: var(--text-heading);">Resume</h3>
+                    <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">PDF Document</p>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="flex items-center gap-2 ml-auto">
                     <button
                         onclick={openInNewTab}
-                        class="p-2.5 text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-xl border border-white/10 transition-all"
+                        class="p-2.5 hover:text-white backdrop-blur-sm rounded-xl transition-all"
+                        style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
                         title="Open in New Tab"
                         aria-label="Open resume in new tab"
                     >
@@ -93,14 +94,15 @@
                 </div>
 
                 <!-- Fallback CTA in case Google Viewer also has issues -->
-                <div class="mt-3 flex flex-col sm:flex-row items-center justify-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
-                    <p class="text-sm text-gray-300 text-center">
+                <div class="mt-3 flex flex-col sm:flex-row items-center justify-center gap-3 p-4 rounded-xl" style="background: var(--bg-surface); border: 1px solid var(--border-primary);">
+                    <p class="text-sm text-center" style="color: var(--text-secondary);">
                         Having trouble viewing? Open the PDF directly or download it.
                     </p>
                     <div class="flex gap-2">
                         <button
                             onclick={openInNewTab}
-                            class="px-4 py-2 text-sm font-medium text-white bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 transition-all"
+                            class="px-4 py-2 text-sm font-medium rounded-lg transition-all"
+                            style="color: var(--text-heading); background: var(--bg-surface); border: 1px solid var(--border-primary);"
                         >
                             Open PDF
                         </button>
@@ -128,12 +130,9 @@
 
 <style>
     .pdf-viewer-card {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.015) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow:
-            0 20px 48px -12px rgba(0, 0, 0, 0.5),
-            0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-            0 -16px 32px -16px rgba(59, 130, 246, 0.08) inset;
+        background: var(--card-bg);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--card-shadow);
     }
 
     .pdf-container {

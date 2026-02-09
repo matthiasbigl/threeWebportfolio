@@ -3,6 +3,7 @@
 	import SEO from '$lib/components/SEO.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
+	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import { marked } from 'marked';
 	import { onMount } from 'svelte';
 
@@ -58,9 +59,9 @@
 	]}
 />
 
-<div class="min-h-screen bg-[#0a0a0f] text-white selection:bg-blue-500/20 relative overflow-hidden">
+<div class="min-h-screen selection:bg-blue-500/20 relative overflow-hidden" style="background: var(--bg-body); color: var(--text-primary);">
 	<!-- Background Effects -->
-	<div class="fixed inset-0 z-0 opacity-[0.04] pointer-events-none grid-lines"></div>
+	<div class="fixed inset-0 z-0 pointer-events-none grid-lines" style="opacity: var(--grid-opacity);"></div>
 	<div class="fixed inset-0 z-0 pointer-events-none">
 		<div class="pricing-aurora w-full h-full"></div>
 	</div>
@@ -71,16 +72,17 @@
 	<!-- ═══════════════════════════════════════════════════════════ -->
 	<!-- PAGE NAV — Fixed top bar with logo, back link & language    -->
 	<!-- ═══════════════════════════════════════════════════════════ -->
-	<nav class="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/[0.04]">
+	<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl" style="background: var(--navbar-bg-scrolled); border-bottom: 1px solid var(--border-primary);">
 		<div class="max-w-4xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-14 sm:h-16">
 			<div class="flex items-center gap-3 sm:gap-4">
-				<a href="/" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-blue-500/30 flex items-center justify-center transition-all duration-300 shrink-0">
+				<a href="/" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 shrink-0" style="background: var(--bg-surface); border: 1px solid var(--border-primary);">
 					<span class="text-sm sm:text-base font-bold blue-gradient_text">MB</span>
 				</a>
-				<div class="w-px h-5 bg-white/[0.08]"></div>
+				<div class="w-px h-5" style="background: var(--border-primary);"></div>
 				<a
 					href="/"
-					class="group flex items-center gap-2 text-gray-500 hover:text-blue-400 transition-colors duration-300"
+					class="group flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
+					style="color: var(--text-tertiary);"
 				>
 					<svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0l7 7m-7-7l7-7" />
@@ -89,7 +91,10 @@
 				</a>
 			</div>
 
-			<LanguageSwitcher />
+			<div class="flex items-center gap-2">
+				<ThemeToggle />
+				<LanguageSwitcher />
+			</div>
 		</div>
 	</nav>
 
@@ -98,7 +103,8 @@
 		<article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 			<!-- Glass card only on sm+ screens; on mobile, content flows openly -->
 			<div
-				class="pricing-card relative sm:rounded-[2rem] sm:border sm:border-white/[0.06] sm:shadow-2xl overflow-hidden"
+				class="pricing-card relative sm:rounded-[2rem] sm:shadow-2xl overflow-hidden"
+				style="border: 1px solid var(--glass-border);"
 			>
 				<!-- Top accent gradient line (sm+ only) -->
 				<div class="hidden sm:block absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
@@ -113,10 +119,11 @@
 
 					<!-- CTA Block — Glass style matching site aesthetic -->
 					<div
-						class="mt-12 sm:mt-20 relative rounded-xl sm:rounded-2xl overflow-hidden group border border-white/[0.06]"
+						class="mt-12 sm:mt-20 relative rounded-xl sm:rounded-2xl overflow-hidden group"
+						style="border: 1px solid var(--glass-border);"
 					>
 						<!-- Glass background -->
-						<div class="absolute inset-0 bg-gradient-to-br from-slate-800/60 to-slate-900/70"></div>
+						<div class="absolute inset-0" style="background: var(--glass-bg);"></div>
 						<div class="absolute inset-0 bg-gradient-to-r from-blue-600/[0.06] via-purple-600/[0.04] to-blue-600/[0.06]"></div>
 						<!-- Top accent line -->
 						<div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
@@ -128,10 +135,10 @@
 						<div class="relative z-10 p-6 sm:p-10 lg:p-14">
 							<div class="flex flex-col md:flex-row items-center gap-6 md:gap-12">
 								<div class="flex-1 text-center md:text-left">
-									<h2 class="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold mb-3 sm:mb-4 !text-white !mt-0 !bg-none tracking-tight">
+									<h2 class="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold mb-3 sm:mb-4 !mt-0 !bg-none tracking-tight" style="color: var(--text-heading);">
 										{$locale === 'de' ? 'Bereit für Ihr Projekt?' : 'Ready for your project?'}
 									</h2>
-									<p class="text-sm sm:text-base lg:text-lg text-gray-400 font-light leading-relaxed max-w-lg">
+									<p class="text-sm sm:text-base lg:text-lg font-light leading-relaxed max-w-lg" style="color: var(--text-secondary);">
 										{$locale === 'de'
 											? 'Lassen Sie uns gemeinsam herausfinden, wie wir Ihre Ziele erreichen können.'
 											: "Let's find out together how we can achieve your goals."}
@@ -166,8 +173,8 @@
 	}
 
 	.grid-lines {
-		background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-			linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+		background-image: linear-gradient(var(--grid-color) 1px, transparent 1px),
+			linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
 		background-size: 60px 60px;
 	}
 
@@ -180,7 +187,7 @@
 
 	@media (min-width: 640px) {
 		.pricing-card {
-			background: rgba(13, 17, 23, 0.7);
+			background: var(--glass-bg);
 			backdrop-filter: blur(40px) saturate(150%);
 			-webkit-backdrop-filter: blur(40px) saturate(150%);
 		}
@@ -204,7 +211,7 @@
 
 	/* ─── MARKDOWN CONTENT STYLING ─── */
 	:global(.pricing-content) {
-		color: #94a3b8;
+		color: var(--text-secondary);
 		font-family: 'Work Sans', sans-serif;
 		line-height: 1.85;
 		font-size: 1.05rem;
@@ -216,14 +223,10 @@
 		font-weight: 800;
 		font-size: clamp(2rem, 5vw, 3.25rem);
 		letter-spacing: -0.03em;
-		color: white;
+		color: var(--text-heading);
 		margin-top: 0;
 		margin-bottom: 1.25rem;
 		line-height: 1.1;
-		background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 40%, #94a3b8 100%);
-		-webkit-background-clip: text;
-		background-clip: text;
-		-webkit-text-fill-color: transparent;
 	}
 
 	:global(.pricing-content h2) {
@@ -231,7 +234,7 @@
 		font-weight: 700;
 		font-size: clamp(1.5rem, 3.5vw, 2rem);
 		letter-spacing: -0.02em;
-		color: white;
+		color: var(--text-heading);
 		margin-top: 4rem;
 		margin-bottom: 1.5rem;
 		line-height: 1.2;
@@ -255,7 +258,7 @@
 		font-weight: 600;
 		font-size: clamp(1.125rem, 2.5vw, 1.375rem);
 		letter-spacing: -0.01em;
-		color: #e2e8f0;
+		color: var(--text-heading);
 		margin-top: 2.5rem;
 		margin-bottom: 1rem;
 		line-height: 1.3;
@@ -264,7 +267,7 @@
 	/* ── PARAGRAPHS ── */
 	:global(.pricing-content p) {
 		margin-bottom: 1.5rem;
-		color: #94a3b8;
+		color: var(--text-secondary);
 	}
 
 	/* ── BOLD/STRONG – Gradient accent ── */
@@ -294,7 +297,7 @@
 	:global(.pricing-content hr) {
 		border: none;
 		height: 1px;
-		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+		background: linear-gradient(90deg, transparent, var(--border-primary), transparent);
 		margin: 3rem 0;
 	}
 
@@ -308,7 +311,7 @@
 		position: relative;
 		padding-left: 1.75rem;
 		margin-bottom: 0.75rem;
-		color: #94a3b8;
+		color: var(--text-secondary);
 	}
 	:global(.pricing-content ul li::before) {
 		content: '';
@@ -332,7 +335,7 @@
 		position: relative;
 		padding-left: 2.5rem;
 		margin-bottom: 1rem;
-		color: #94a3b8;
+		color: var(--text-secondary);
 	}
 	:global(.pricing-content ol li::before) {
 		content: counter(pricing-counter) '.';
@@ -354,13 +357,11 @@
 		border-collapse: separate;
 		border-spacing: 0;
 		margin: 2.5rem 0;
-		background: rgba(255, 255, 255, 0.02);
+		background: var(--bg-surface);
 		backdrop-filter: blur(20px);
 		border-radius: 1rem;
-		border: 1px solid rgba(255, 255, 255, 0.06);
-		box-shadow: 
-			0 8px 32px rgba(0, 0, 0, 0.25),
-			inset 0 1px 0 rgba(255, 255, 255, 0.04);
+		border: 1px solid var(--glass-border);
+		box-shadow: var(--card-shadow);
 		overflow: hidden;
 	}
 
@@ -371,20 +372,20 @@
 	:global(.pricing-content th) {
 		text-align: left;
 		padding: 1rem 1.25rem;
-		color: #e2e8f0;
+		color: var(--text-heading);
 		font-family: 'Poppins', sans-serif;
 		font-weight: 600;
 		text-transform: uppercase;
 		font-size: 0.7rem;
 		letter-spacing: 0.1em;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		border-bottom: 1px solid var(--border-primary);
 		white-space: nowrap;
 	}
 
 	:global(.pricing-content td) {
 		padding: 1rem 1.25rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-		color: #94a3b8;
+		border-bottom: 1px solid var(--border-secondary);
+		color: var(--text-secondary);
 		font-size: 0.95rem;
 	}
 
@@ -398,12 +399,12 @@
 
 	:global(.pricing-content tbody tr:hover td) {
 		background: rgba(59, 130, 246, 0.04);
-		color: #e2e8f0;
+		color: var(--text-heading);
 	}
 
 	/* First column in tables - the category/type */
 	:global(.pricing-content td:first-child) {
-		color: #e2e8f0;
+		color: var(--text-heading);
 		font-weight: 500;
 	}
 
@@ -427,13 +428,13 @@
 		margin: 2rem 0;
 		background: rgba(59, 130, 246, 0.04);
 		border-radius: 0 0.75rem 0.75rem 0;
-		color: #cbd5e1;
+		color: var(--text-secondary);
 		font-style: italic;
 	}
 
 	/* ── EMPHASIS ── */
 	:global(.pricing-content em) {
-		color: #cbd5e1;
+		color: var(--text-secondary);
 		font-style: italic;
 	}
 

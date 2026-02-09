@@ -205,7 +205,8 @@
 		<!-- Enhanced Hero Background -->
 		<div class="absolute inset-0 z-0">
 			<div
-				class="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-black/80 to-purple-900/10"
+				class="absolute inset-0"
+				style="background: linear-gradient(135deg, rgba(59,130,246,0.06) 0%, var(--bg-body) 50%, rgba(139,92,246,0.06) 100%);"
 			></div>
 
 			<!-- Floating geometric shapes -->
@@ -238,17 +239,19 @@
 						class="hero-intro font-poppins text-xs sm:text-sm font-semibold text-blue-400/80 mb-6 tracking-[0.15em] uppercase"
 					>
 						{$_('hero.greeting')}
-						<span class="text-white/90">{$_('hero.name')}</span>
+						<span style="color: var(--text-primary); opacity: 0.9;">{$_('hero.name')}</span>
 					</p>
 
 					<h1
-						class="hero-title font-poppins font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-8 text-white leading-[1.1] tracking-tight"
+						class="hero-title font-poppins font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-8 leading-[1.1] tracking-tight"
+						style="color: var(--text-heading);"
 					>
 						{@html $_('hero.subtitle')}
 					</h1>
 
 					<p
-						class="hero-description text-base sm:text-lg lg:text-xl text-gray-400 mb-12 leading-relaxed font-light max-w-2xl"
+						class="hero-description text-base sm:text-lg lg:text-xl mb-12 leading-relaxed font-light max-w-2xl"
+						style="color: var(--text-secondary);"
 					>
 						{@html $_('hero.description')}
 					</p>
@@ -290,7 +293,8 @@
 				</div>
 				<h2
 					id="skills-heading"
-					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 text-white tracking-tight"
+					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
+					style="color: var(--text-heading);"
 				>
 					{$_('skills.titleHighlight')}
 				</h2>
@@ -307,7 +311,8 @@
 						class="w-px h-16 bg-gradient-to-b from-transparent via-blue-500/30 to-transparent"
 					></div>
 					<p
-						class="text-gray-500 text-xs whitespace-nowrap opacity-60 hover:opacity-100 transition-opacity duration-300 px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-sm border border-white/5"
+						class="text-gray-500 text-xs whitespace-nowrap opacity-60 hover:opacity-100 transition-opacity duration-300 px-3 py-1.5 rounded-full backdrop-blur-sm border"
+						style="background: var(--bg-inset); border-color: var(--border-secondary);"
 					>
 						{$_('skills.hint')}
 					</p>
@@ -320,7 +325,8 @@
 				<div class="text-center">
 					<h3
 						id="skills-languages"
-						class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 text-gray-300 uppercase tracking-wider"
+						class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 uppercase tracking-wider"
+						style="color: var(--text-secondary);"
 					>
 						{$_('skills.languages')}
 					</h3>
@@ -357,7 +363,8 @@
 					<div class="mt-4 flex justify-center gap-2 flex-wrap">
 						{#each $_('skills.languagesList').split(',') as skill}
 							<span
-								class="text-xs px-3 py-1.5 rounded-full bg-white/5 text-gray-400 border border-white/10 hover:border-blue-500/30 hover:text-gray-300 transition-all duration-200"
+								class="text-xs px-3 py-1.5 rounded-full border hover:border-blue-500/30 transition-all duration-200"
+								style="background: var(--bg-surface); color: var(--text-secondary); border-color: var(--border-primary);"
 								>{skill.trim()}</span
 							>
 						{/each}
@@ -368,7 +375,8 @@
 				<div class="text-center">
 					<h3
 						id="skills-strengths"
-						class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 text-gray-300 uppercase tracking-wider"
+						class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 uppercase tracking-wider"
+						style="color: var(--text-secondary);"
 					>
 						{$_('skills.strengths')}
 					</h3>
@@ -399,7 +407,8 @@
 					<div class="mt-4 flex justify-center gap-2 flex-wrap">
 						{#each $_('skills.strengthsList').split(',') as skill}
 							<span
-								class="text-xs px-3 py-1.5 rounded-full bg-white/5 text-gray-400 border border-white/10 hover:border-purple-500/30 hover:text-gray-300 transition-all duration-200"
+								class="text-xs px-3 py-1.5 rounded-full border hover:border-purple-500/30 transition-all duration-200"
+								style="background: var(--bg-surface); color: var(--text-secondary); border-color: var(--border-primary);"
 								>{skill.trim()}</span
 							>
 						{/each}
@@ -422,7 +431,8 @@
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
 				<h2
-					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 text-white tracking-tight"
+					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
+					style="color: var(--text-heading);"
 				>
 					{$_('projects.titleHighlight')}
 				</h2>
@@ -444,7 +454,7 @@
 				{/each}
 			</div>
 
-			<p class="text-center text-gray-400 mt-10 text-base sm:text-lg">
+			<p class="text-center mt-10 text-base sm:text-lg" style="color: var(--text-secondary);">
 				{$_('projects.moreOnGithub')}
 				<a
 					href="https://github.com/matthiasbigl"
@@ -470,7 +480,8 @@
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
 				<h2
-					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 text-white tracking-tight"
+					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
+					style="color: var(--text-heading);"
 				>
 					{$_('resume.titleHighlight')}
 				</h2>
@@ -498,7 +509,8 @@
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
 				<h2
-					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 text-white tracking-tight"
+					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
+					style="color: var(--text-heading);"
 				>
 					{$_('hobbies.titleHighlight')}
 				</h2>
@@ -549,9 +561,10 @@
 				>Scroll</span
 			>
 			<div
-				class="w-4 h-7 rounded-full border border-white/15 flex items-start justify-center p-1"
+				class="w-4 h-7 rounded-full flex items-start justify-center p-1"
+				style="border: 1px solid var(--border-primary);"
 			>
-				<div class="w-0.5 h-1.5 bg-white/40 rounded-full animate-bounce"></div>
+				<div class="w-0.5 h-1.5 rounded-full animate-bounce" style="background: var(--text-tertiary);"></div>
 			</div>
 		</div>
 	{/if}

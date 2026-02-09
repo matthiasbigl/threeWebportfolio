@@ -106,7 +106,7 @@
 		left: 0;
 		width: 8px;
 		height: 8px;
-		background: rgba(255, 255, 255, 0.9);
+		background: var(--cursor-dot);
 		border-radius: 50%;
 		pointer-events: none;
 		z-index: 9999;
@@ -120,7 +120,7 @@
 		left: 0;
 		width: 30px;
 		height: 30px;
-		border: 2px solid rgba(255, 255, 255, 0.3);
+		border: 2px solid var(--cursor-follower-border);
 		border-radius: 50%;
 		pointer-events: none;
 		z-index: 9998;

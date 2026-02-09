@@ -3,6 +3,7 @@
 	import '$lib/i18n';
 	import { isLoading } from 'svelte-i18n';
 	import { initLocaleFromStorage } from '$lib/i18n';
+	import { initTheme } from '$lib/theme';
 	import Navbar from '$lib/components/navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
@@ -21,6 +22,7 @@
 	onMount(() => {
 		if (browser) {
 			initLocaleFromStorage();
+			initTheme();
 		}
 	});
 </script>
@@ -29,7 +31,8 @@
 
 {#if $isLoading}
 	<div
-		class="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center"
+		class="min-h-screen flex items-center justify-center"
+		style="background: var(--bg-body);"
 	>
 		<div
 			class="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full"
@@ -37,7 +40,8 @@
 	</div>
 {:else}
 	<div
-		class="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex flex-col"
+		class="relative min-h-screen flex flex-col transition-colors duration-300"
+		style="background: var(--bg-body);"
 	>
 		{#if !isImmersivePage}
 			<Navbar />
@@ -63,7 +67,7 @@
 
 	:global(*) {
 		scrollbar-width: thin;
-		scrollbar-color: rgba(59, 130, 246, 0.35) rgba(255, 255, 255, 0.05);
+		scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 	}
 
 	:global(::-webkit-scrollbar) {
@@ -71,7 +75,7 @@
 	}
 
 	:global(::-webkit-scrollbar-track) {
-		background: rgba(255, 255, 255, 0.03);
+		background: var(--scrollbar-track);
 		border-radius: 3px;
 	}
 

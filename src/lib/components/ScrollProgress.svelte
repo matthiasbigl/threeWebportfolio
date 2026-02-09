@@ -36,7 +36,7 @@
         left: 0;
         width: 100%;
         height: 3px;
-        background: rgba(255, 255, 255, 0.04);
+        background: var(--scrollbar-track);
         z-index: 1000;
     }
 

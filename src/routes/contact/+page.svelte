@@ -183,7 +183,8 @@
 	<div class="fixed inset-0 z-0">
 		<div class="aurora-bg w-full h-full"></div>
 		<div
-			class="absolute inset-0 bg-gradient-to-br from-gray-900/50 via-black/70 to-gray-900/50"
+			class="absolute inset-0"
+			style="background: linear-gradient(135deg, var(--overlay-bg) 0%, var(--overlay-strong) 50%, var(--overlay-bg) 100%);"
 		></div>
 
 		<!-- Floating geometric shapes -->
@@ -204,7 +205,7 @@
 			<h1 class="font-poppins text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 text-glow">
 				{$_('contact.title')} <span class="blue-gradient_text">{$_('contact.titleHighlight')}</span>
 			</h1>
-			<p class="text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+			<p class="text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed" style="color: var(--text-secondary);">
 				{$_('contact.subtitle')}
 			</p>
 		</div>
@@ -212,7 +213,7 @@
 		<div class="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-7xl mx-auto">
 			<!-- Contact Methods -->
 			<div class="space-y-6">
-				<h2 class="font-poppins text-2xl lg:text-3xl font-bold mb-8 text-gray-300">
+				<h2 class="font-poppins text-2xl lg:text-3xl font-bold mb-8" style="color: var(--text-secondary);">
 					{$_('contact.getInTouch')}
 					<span class="blue-gradient_text">{$_('contact.getInTouchHighlight')}</span>
 				</h2>
@@ -287,12 +288,12 @@
 								</div>
 
 								<div class="flex-1">
-									<h3 class="font-poppins text-lg font-semibold text-white mb-1">{method.title}</h3>
+									<h3 class="font-poppins text-lg font-semibold mb-1" style="color: var(--text-heading);">{method.title}</h3>
 									<p class="blue-gradient_text font-medium mb-1">{method.value}</p>
-									<p class="text-sm text-gray-400">{method.description}</p>
+									<p class="text-sm" style="color: var(--text-secondary);">{method.description}</p>
 								</div>
 
-								<div class="text-gray-400 group-hover:text-blue-400 transition-colors duration-300">
+								<div class="group-hover:text-blue-400 transition-colors duration-300" style="color: var(--text-secondary);">
 									<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 										<path
 											stroke-linecap="round"
@@ -311,7 +312,7 @@
 			<!-- Contact Form -->
 			<div class="contact-form">
 				<div class="glass-card p-6 sm:p-8 rounded-2xl">
-					<h2 class="font-poppins text-2xl lg:text-3xl font-bold mb-8 text-gray-300">
+					<h2 class="font-poppins text-2xl lg:text-3xl font-bold mb-8" style="color: var(--text-secondary);">
 						{$_('contact.form.title')}
 						<span class="blue-gradient_text">{$_('contact.form.titleHighlight')}</span>
 					</h2>
@@ -345,7 +346,7 @@
 						<input type="hidden" name="_timestamp" value={formLoadTime} />
 
 						<div class="form-field">
-							<label for="name" class="block text-sm font-medium text-gray-300 mb-2">
+							<label for="name" class="block text-sm font-medium mb-2" style="color: var(--text-secondary);">
 								{$_('contact.form.name')}
 							</label>
 							<div class="relative">
@@ -356,7 +357,8 @@
 									value={form?.name ?? ''}
 									required
 									maxlength="100"
-									class="form-input w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all duration-300"
+										class="form-input w-full px-4 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:bg-white/10 transition-all duration-300"
+										style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
 									placeholder={$_('contact.form.namePlaceholder')}
 									class:border-red-500={form?.errors?.name}
 								/>
@@ -370,7 +372,7 @@
 						</div>
 
 						<div class="form-field">
-							<label for="email" class="block text-sm font-medium text-gray-300 mb-2">
+							<label for="email" class="block text-sm font-medium mb-2" style="color: var(--text-secondary);">
 								{$_('contact.form.email')}
 							</label>
 							<div class="relative">
@@ -381,7 +383,8 @@
 									value={form?.email ?? ''}
 									required
 									maxlength="254"
-									class="form-input w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all duration-300"
+									class="form-input w-full px-4 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:bg-white/10 transition-all duration-300"
+									style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
 									placeholder={$_('contact.form.emailPlaceholder')}
 									class:border-red-500={form?.errors?.email}
 								/>
@@ -395,7 +398,7 @@
 						</div>
 
 						<div class="form-field">
-							<label for="message" class="block text-sm font-medium text-gray-300 mb-2">
+							<label for="message" class="block text-sm font-medium mb-2" style="color: var(--text-secondary);">
 								{$_('contact.form.message')}
 							</label>
 							<div class="relative">
@@ -406,7 +409,8 @@
 									required
 									maxlength="2000"
 									rows="6"
-									class="form-input w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all duration-300 resize-none"
+										class="form-input w-full px-4 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:bg-white/10 transition-all duration-300 resize-none"
+										style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
 									placeholder={$_('contact.form.messagePlaceholder')}
 									class:border-red-500={form?.errors?.message}
 								></textarea>
@@ -481,7 +485,7 @@
 						'contact.cta.titleEnd'
 					)}
 				</h3>
-				<p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+				<p class="text-lg mb-8 max-w-2xl mx-auto" style="color: var(--text-secondary);">
 					{$_('contact.cta.subtitle')}
 				</p>
 				<div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -504,7 +508,7 @@
 
 	.form-field:hover .form-input {
 		border-color: rgba(59, 130, 246, 0.25);
-		background: rgba(255, 255, 255, 0.06);
+		background: var(--bg-surface-hover);
 	}
 
 	.contact-card::before {

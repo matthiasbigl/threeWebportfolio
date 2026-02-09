@@ -8,20 +8,209 @@
    Google serves correct, versioned @font-face + woff2 URLs.
    ────────────────────────────────────────────────── */
 
+/* ──────────────────────────────────────────────────
+   LIGHT MODE (default root) — warm, airy, professional
+   ────────────────────────────────────────────────── */
 :root {
     --blue-rgb: 237 245 255;
     --green-rgb: 125 161 35;
+
+    /* Surface */
+    --bg-body: #f8f9fc;
+    --bg-surface: #ffffff;
+    --bg-surface-hover: #f0f2f8;
+    --bg-elevated: #ffffff;
+    --bg-inset: #f0f2f8;
+
+    /* Glass */
+    --glass-bg: rgba(255, 255, 255, 0.65);
+    --glass-bg-hover: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-border-hover: rgba(0, 0, 0, 0.12);
+    --glass-shadow: rgba(0, 0, 0, 0.08);
+    --glass-shadow-hover: rgba(0, 0, 0, 0.12);
+    --glass-inset-highlight: rgba(255, 255, 255, 0.8);
+
+    /* Text */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #94a3b8;
+    --text-inverted: #ffffff;
+    --text-heading: #0f172a;
+
+    /* Borders */
+    --border-primary: rgba(0, 0, 0, 0.08);
+    --border-secondary: rgba(0, 0, 0, 0.05);
+    --border-accent: rgba(59, 130, 246, 0.3);
+
+    /* Overlays */
+    --overlay-bg: rgba(255, 255, 255, 0.6);
+    --overlay-strong: rgba(255, 255, 255, 0.85);
+
+    /* Grid / decorative */
+    --grid-opacity: 0.04;
+    --grid-color: rgba(0, 0, 0, 0.06);
+    --grid-dot-color: rgba(0, 0, 0, 0.15);
+    --aurora-intensity: 0.08;
+    --noise-invert: 0;
+
+    /* Scrollbar */
+    --scrollbar-track: rgba(0, 0, 0, 0.04);
+    --scrollbar-thumb: rgba(59, 130, 246, 0.3);
+    --scrollbar-thumb-hover: rgba(59, 130, 246, 0.5);
+
+    /* Sections */
+    --section-gradient-1: linear-gradient(145deg, rgba(248, 250, 255, 0.95) 0%, rgba(240, 245, 255, 0.9) 50%, rgba(245, 248, 255, 0.95) 100%);
+    --section-gradient-2: linear-gradient(145deg, rgba(245, 248, 255, 0.95) 0%, rgba(240, 242, 255, 0.9) 50%, rgba(248, 250, 255, 0.95) 100%);
+    --section-gradient-3: linear-gradient(145deg, rgba(242, 245, 255, 0.95) 0%, rgba(238, 240, 252, 0.9) 50%, rgba(245, 248, 255, 0.95) 100%);
+
+    /* Hero */
+    --hero-bg: linear-gradient(135deg, #f0f5ff 0%, #e8eef8 50%, #f5f8ff 100%);
+    --hero-glow: rgba(59, 130, 246, 0.08);
+
+    /* Cards */
+    --card-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(248, 250, 255, 0.9));
+    --card-bg-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(245, 248, 255, 1));
+    --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+    --card-shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06);
+    --card-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+    /* FAQ */
+    --faq-bg: rgba(255, 255, 255, 0.5);
+    --faq-bg-hover: rgba(255, 255, 255, 0.7);
+    --faq-border: rgba(0, 0, 0, 0.06);
+    --faq-open-bg: rgba(59, 130, 246, 0.04);
+    --faq-open-border: rgba(59, 130, 246, 0.15);
+
+    /* Navbar */
+    --navbar-bg: rgba(255, 255, 255, 0.75);
+    --navbar-bg-scrolled: rgba(255, 255, 255, 0.92);
+    --navbar-border: rgba(0, 0, 0, 0.06);
+    --navbar-border-scrolled: rgba(0, 0, 0, 0.1);
+
+    /* Footer */
+    --footer-border: rgba(0, 0, 0, 0.06);
+    --footer-gradient: linear-gradient(to bottom, transparent, rgba(248, 250, 255, 0.5), rgba(240, 245, 255, 0.7));
+
+    /* Forms */
+    --input-bg: rgba(255, 255, 255, 0.8);
+    --input-border: rgba(0, 0, 0, 0.1);
+    --input-focus-border: rgba(59, 130, 246, 0.5);
+
+    /* Misc */
+    --blue-glow: rgba(59, 130, 246, 0.15);
+    --cursor-dot: rgba(0, 0, 0, 0.85);
+    --cursor-follower-border: rgba(0, 0, 0, 0.2);
+
+    /* Mobile menu */
+    --mobile-menu-bg: rgba(255, 255, 255, 0.85);
+}
+
+/* ──────────────────────────────────────────────────
+   DARK MODE — original luxe dark theme
+   ────────────────────────────────────────────────── */
+.dark {
+    /* Surface */
+    --bg-body: #0a0a0f;
+    --bg-surface: rgba(255, 255, 255, 0.025);
+    --bg-surface-hover: rgba(255, 255, 255, 0.04);
+    --bg-elevated: rgba(255, 255, 255, 0.04);
+    --bg-inset: rgba(255, 255, 255, 0.015);
+
+    /* Glass */
+    --glass-bg: rgba(255, 255, 255, 0.025);
+    --glass-bg-hover: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-border-hover: rgba(255, 255, 255, 0.08);
+    --glass-shadow: rgba(0, 0, 0, 0.15);
+    --glass-shadow-hover: rgba(0, 0, 0, 0.25);
+    --glass-inset-highlight: rgba(255, 255, 255, 0.03);
+
+    /* Text */
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-tertiary: #6b7280;
+    --text-inverted: #0f172a;
+    --text-heading: #ffffff;
+
+    /* Borders */
+    --border-primary: rgba(255, 255, 255, 0.05);
+    --border-secondary: rgba(255, 255, 255, 0.03);
+    --border-accent: rgba(59, 130, 246, 0.3);
+
+    /* Overlays */
+    --overlay-bg: rgba(0, 0, 0, 0.6);
+    --overlay-strong: rgba(0, 0, 0, 0.8);
+
+    /* Grid / decorative */
+    --grid-opacity: 0.05;
+    --grid-color: rgba(255, 255, 255, 0.02);
+    --grid-dot-color: rgba(255, 255, 255, 0.4);
+    --aurora-intensity: 0.2;
+    --noise-invert: 1;
+
+    /* Scrollbar */
+    --scrollbar-track: rgba(255, 255, 255, 0.05);
+    --scrollbar-thumb: rgba(59, 130, 246, 0.35);
+    --scrollbar-thumb-hover: rgba(59, 130, 246, 0.6);
+
+    /* Sections */
+    --section-gradient-1: linear-gradient(145deg, rgba(12, 12, 24, 0.9) 0%, rgba(18, 12, 36, 0.8) 50%, rgba(12, 20, 40, 0.9) 100%);
+    --section-gradient-2: linear-gradient(145deg, rgba(14, 12, 30, 0.9) 0%, rgba(24, 14, 50, 0.8) 50%, rgba(14, 26, 52, 0.9) 100%);
+    --section-gradient-3: linear-gradient(145deg, rgba(18, 14, 36, 0.9) 0%, rgba(30, 18, 60, 0.8) 50%, rgba(18, 32, 64, 0.9) 100%);
+
+    /* Hero */
+    --hero-bg: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+    --hero-glow: rgba(0, 198, 255, 0.1);
+
+    /* Cards */
+    --card-bg: linear-gradient(145deg, rgba(30, 41, 59, 0.45), rgba(15, 23, 42, 0.65));
+    --card-bg-hover: linear-gradient(145deg, rgba(30, 41, 59, 0.55), rgba(15, 23, 42, 0.75));
+    --card-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    --card-shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.4), 0 0 30px rgba(59, 130, 246, 0.06);
+    --card-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+
+    /* FAQ */
+    --faq-bg: rgba(255, 255, 255, 0.015);
+    --faq-bg-hover: rgba(255, 255, 255, 0.025);
+    --faq-border: rgba(255, 255, 255, 0.04);
+    --faq-open-bg: rgba(59, 130, 246, 0.03);
+    --faq-open-border: rgba(59, 130, 246, 0.12);
+
+    /* Navbar */
+    --navbar-bg: rgba(10, 10, 15, 0.75);
+    --navbar-bg-scrolled: rgba(10, 10, 15, 0.92);
+    --navbar-border: rgba(255, 255, 255, 0.08);
+    --navbar-border-scrolled: rgba(255, 255, 255, 0.12);
+
+    /* Footer */
+    --footer-border: rgba(255, 255, 255, 0.06);
+    --footer-gradient: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+
+    /* Forms */
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --input-border: rgba(255, 255, 255, 0.1);
+    --input-focus-border: rgba(59, 130, 246, 0.5);
+
+    /* Misc */
+    --blue-glow: rgba(59, 130, 246, 0.25);
+    --cursor-dot: rgba(255, 255, 255, 0.9);
+    --cursor-follower-border: rgba(255, 255, 255, 0.3);
+
+    /* Mobile menu */
+    --mobile-menu-bg: rgba(0, 0, 0, 0.8);
 }
 
 body {
     font-family: "Instrument Sans", "Work Sans", sans-serif;
-    background: #0a0a0f;
-    color: white;
+    background: var(--bg-body);
+    color: var(--text-primary);
     overflow-x: hidden;
     position: relative;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    transition: background-color 0.4s ease, color 0.3s ease;
 }
 
 @layer components {
@@ -30,11 +219,12 @@ body {
     }
 
     .glass-card-luxe {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+        background: var(--glass-bg);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 25px 50px -12px var(--glass-shadow);
+        transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
 }
 
@@ -76,17 +266,23 @@ body:has(.card[data-color="green"]:hover) {
     }
 
     .grid-lines {
-        background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-image: linear-gradient(var(--grid-color) 1px, transparent 1px),
+            linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
         background-size: 50px 50px;
     }
 
     .input {
-        @apply bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2.5 font-normal shadow-lg;
+        @apply text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2.5 font-normal shadow-lg;
+        background: var(--input-bg);
+        border: 1px solid var(--input-border);
+        color: var(--text-primary);
     }
 
     .textarea {
-        @apply block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-200 focus:ring-blue-500 focus:border-blue-500 mt-2.5 font-normal shadow-lg;
+        @apply block p-2.5 w-full text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 mt-2.5 font-normal shadow-lg;
+        background: var(--input-bg);
+        border: 1px solid var(--input-border);
+        color: var(--text-primary);
     }
 
     .btn {
@@ -122,38 +318,38 @@ body:has(.card[data-color="green"]:hover) {
     }
 
     .glassmorphism {
-        background: rgba(8, 116, 239, 0.07);
+        background: var(--glass-bg);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
+        border: 1px solid var(--glass-border);
     }
 
-    /* Dark Glassmorphic Styles */
+    /* Glass Styles — theme aware */
     .glass-card {
-        background: rgba(255, 255, 255, 0.025);
+        background: var(--glass-bg);
         backdrop-filter: blur(20px) saturate(140%);
         -webkit-backdrop-filter: blur(20px) saturate(140%);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--glass-border);
         border-radius: 1rem;
         box-shadow:
-            0 4px 16px rgba(0, 0, 0, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            0 4px 16px var(--glass-shadow),
+            var(--card-inset-shadow);
         transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .glass-card-hover:hover {
-        background: rgba(255, 255, 255, 0.04);
-        border-color: rgba(255, 255, 255, 0.08);
+        background: var(--glass-bg-hover);
+        border-color: var(--glass-border-hover);
         transform: translateY(-4px);
         box-shadow:
-            0 12px 32px rgba(0, 0, 0, 0.25),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            0 12px 32px var(--glass-shadow-hover),
+            var(--card-inset-shadow);
     }
 
     .grid-lines {
-        background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-image: linear-gradient(var(--grid-color) 1px, transparent 1px),
+            linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
         background-size: 50px 50px;
     }
 
@@ -162,11 +358,11 @@ body:has(.card[data-color="green"]:hover) {
     }
 
     .glass-section {
-        background: rgba(255, 255, 255, 0.008);
+        background: var(--bg-inset);
         backdrop-filter: blur(24px) saturate(130%);
         -webkit-backdrop-filter: blur(24px) saturate(130%);
-        border-top: 1px solid rgba(255, 255, 255, 0.025);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.025);
+        border-top: 1px solid var(--border-secondary);
+        border-bottom: 1px solid var(--border-secondary);
         position: relative;
         overflow: hidden;
     }
@@ -192,24 +388,15 @@ body:has(.card[data-color="green"]:hover) {
 
 
 .gradient-bg-1 {
-    background: linear-gradient(145deg,
-            rgba(12, 12, 24, 0.9) 0%,
-            rgba(18, 12, 36, 0.8) 50%,
-            rgba(12, 20, 40, 0.9) 100%);
+    background: var(--section-gradient-1);
 }
 
 .gradient-bg-2 {
-    background: linear-gradient(145deg,
-            rgba(14, 12, 30, 0.9) 0%,
-            rgba(24, 14, 50, 0.8) 50%,
-            rgba(14, 26, 52, 0.9) 100%);
+    background: var(--section-gradient-2);
 }
 
 .gradient-bg-3 {
-    background: linear-gradient(145deg,
-            rgba(18, 14, 36, 0.9) 0%,
-            rgba(30, 18, 60, 0.8) 50%,
-            rgba(18, 32, 64, 0.9) 100%);
+    background: var(--section-gradient-3);
 }
 
 .magnetic-btn {
@@ -226,7 +413,7 @@ body:has(.card[data-color="green"]:hover) {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.06), transparent);
     transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -396,8 +583,8 @@ body:has(.card[data-color="green"]:hover) {
 .hero-section {
     min-height: 100vh;
     background:
-        radial-gradient(ellipse at center, rgba(0, 198, 255, 0.1) 0%, transparent 70%),
-        linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+        radial-gradient(ellipse at center, var(--hero-glow) 0%, transparent 70%),
+        var(--hero-bg);
     position: relative;
     overflow: hidden;
 }
@@ -410,7 +597,7 @@ body:has(.card[data-color="green"]:hover) {
     right: 0;
     bottom: 0;
     background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M30 30c0-16.569 13.431-30 30-30v60c-16.569 0-30-13.431-30-30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
-    opacity: 0.3;
+    opacity: var(--grid-opacity);
     animation: backgroundMove 20s linear infinite;
 }
 
@@ -539,7 +726,7 @@ body:has(.card[data-color="green"]:hover) {
 
     .glass-card-hover:active {
         transform: translateY(-2px);
-        background: rgba(255, 255, 255, 0.06);
+        background: var(--glass-bg-hover);
     }
 }
 

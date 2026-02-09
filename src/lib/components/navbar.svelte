@@ -4,6 +4,7 @@
     import { browser } from '$app/environment';
     import { _ } from 'svelte-i18n';
     import LanguageSwitcher from './LanguageSwitcher.svelte';
+    import ThemeToggle from './ThemeToggle.svelte';
 
     // GSAP loaded dynamically to avoid blocking initial render
     let gsapModule: typeof import('gsap') | null = null;
@@ -73,7 +74,8 @@
         <div class="logo-container magnetic-btn">
             <a 
                 href="/"
-                class="w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl rounded-xl glass-card glass-card-hover items-center justify-center flex font-bold text-white glow-border" 
+                class="w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl rounded-xl glass-card glass-card-hover items-center justify-center flex font-bold glow-border" 
+                style="color: var(--text-primary);"
             >
                 <span class="blue-gradient_text">MB</span>
             </a>
@@ -81,50 +83,55 @@
 
         <!-- Desktop Navigation (centered) -->
         <nav class="hidden md:flex items-center justify-center text-center glass-card px-6 lg:px-8 py-3 lg:py-4 font-semibold">
-            <a href="/" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base">
+            <a href="/" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
                 {$_('nav.home')}
             </a>
-            <div class="w-px h-6 bg-white/20 mx-2"></div>
-            <a href="/#services" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base">
+            <div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
+            <a href="/#services" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
                 {$_('nav.services')}
             </a>
-            <div class="w-px h-6 bg-white/20 mx-2"></div>
-            <a href="/#faq" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base">
+            <div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
+            <a href="/#faq" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
                 {$_('nav.faq')}
             </a>
-            <div class="w-px h-6 bg-white/20 mx-2"></div>
-            <a href="/contact" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base">
+            <div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
+            <a href="/contact" class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base" style="color: var(--text-primary);">
                 {$_('nav.contact')}
             </a>
         </nav>
 
-        <!-- Language Switcher (far right - desktop) -->
-        <div class="hidden md:block">
+        <!-- Desktop: Theme Toggle + Language Switcher (far right) -->
+        <div class="hidden md:flex items-center gap-2">
+            <ThemeToggle />
             <LanguageSwitcher />
         </div>
 
-        <!-- Mobile: Language Switcher + Hamburger -->
-        <div class="md:hidden flex items-center gap-3">
+        <!-- Mobile: Theme Toggle + Language Switcher + Hamburger -->
+        <div class="md:hidden flex items-center gap-2">
+            <ThemeToggle />
             <LanguageSwitcher />
             
             <!-- Hamburger Menu Button -->
             <button 
                 onclick={toggleMenu}
-                class="hamburger-btn w-12 h-12 rounded-xl glass-card glass-card-hover flex flex-col items-center justify-center gap-1.5 transition-all duration-300 border border-white/10"
+                class="hamburger-btn w-12 h-12 rounded-xl glass-card glass-card-hover flex flex-col items-center justify-center gap-1.5 transition-all duration-300 border border-[var(--glass-border)]"
                 aria-label="Open menu"
                 aria-expanded={isHamOpen}
             >
                 <span 
-                    class="hamburger-line w-6 h-0.5 bg-white rounded-full transition-all duration-300"
+                    class="hamburger-line w-6 h-0.5 rounded-full transition-all duration-300"
+                    style="background: var(--text-primary);"
                     class:rotate-45={isHamOpen}
                     class:translate-y-2={isHamOpen}
                 ></span>
                 <span 
-                    class="hamburger-line w-6 h-0.5 bg-white rounded-full transition-all duration-300"
+                    class="hamburger-line w-6 h-0.5 rounded-full transition-all duration-300"
+                    style="background: var(--text-primary);"
                     class:opacity-0={isHamOpen}
                 ></span>
                 <span 
-                    class="hamburger-line w-6 h-0.5 bg-white rounded-full transition-all duration-300"
+                    class="hamburger-line w-6 h-0.5 rounded-full transition-all duration-300"
+                    style="background: var(--text-primary);"
                     class:-rotate-45={isHamOpen}
                     class:-translate-y-2={isHamOpen}
                 ></span>
@@ -137,13 +144,15 @@
 {#if isHamOpen}
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <div class="mobile-menu fixed top-0 left-0 w-full h-full bg-black/80 backdrop-blur-md flex items-center justify-center z-50"
+    <div class="mobile-menu fixed top-0 left-0 w-full h-full backdrop-blur-md flex items-center justify-center z-50"
+         style="background: var(--mobile-menu-bg);"
          onclick={() => (isHamOpen = false)}
     >        
         <div class="glass-card p-6 sm:p-8 rounded-2xl m-4 sm:m-6 max-w-sm w-full">
             <div class="flex flex-col space-y-4 sm:space-y-6">
                 <button
-                    class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
+                    class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
+                    style="color: var(--text-primary);"
                     onclick={() => {
                         goto("/");
                         isHamOpen = false;
@@ -153,21 +162,24 @@
                 </button>
                 
                 <a href="/#services" 
-                   class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
+                   class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
+                   style="color: var(--text-primary);"
                    onclick={() => (isHamOpen = false)}
                 >
                     {$_('nav.services')}
                 </a>
                 
                 <a href="/#faq" 
-                   class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
+                   class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
+                   style="color: var(--text-primary);"
                    onclick={() => (isHamOpen = false)}
                 >
                     {$_('nav.faq')}
                 </a>
                 
                 <button
-                    class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold text-white hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
+                    class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
+                    style="color: var(--text-primary);"
                     onclick={() => {
                         goto("/contact");
                         isHamOpen = false;
@@ -182,18 +194,19 @@
 
 <style>
     .navbar {
-        background: rgba(10, 10, 15, 0.75);
+        background: var(--navbar-bg);
         backdrop-filter: blur(24px) saturate(180%);
         -webkit-backdrop-filter: blur(24px) saturate(180%);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid var(--navbar-border);
+        transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     :global(.navbar-scrolled) {
-        background: rgba(10, 10, 15, 0.92);
+        background: var(--navbar-bg-scrolled) !important;
         backdrop-filter: blur(32px) saturate(180%);
         -webkit-backdrop-filter: blur(32px) saturate(180%);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        border-bottom: 1px solid var(--navbar-border-scrolled) !important;
+        box-shadow: 0 4px 24px var(--glass-shadow);
     }
 
     .nav-link::before {

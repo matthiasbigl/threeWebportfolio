@@ -95,13 +95,11 @@
 
 <style>
 	.glass-card-premium {
-		background: rgba(255, 255, 255, 0.03);
+		background: var(--glass-bg);
 		backdrop-filter: blur(12px);
 		-webkit-backdrop-filter: blur(12px);
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		box-shadow:
-			0 20px 50px 0 rgba(0, 0, 0, 0.5),
-			inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+		border: 1px solid var(--glass-border);
+		box-shadow: var(--card-shadow);
 	}
 
 	.photo-avatar-container {

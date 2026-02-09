@@ -60,10 +60,10 @@
                 <span class="text-blue-400 text-xs font-bold uppercase tracking-[0.2em]">FAQ</span>
                 <div class="h-px w-8 bg-blue-500/50"></div>
             </div>
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5 sm:mb-6 text-white tracking-tight font-poppins">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5 sm:mb-6 tracking-tight font-poppins" style="color: var(--text-heading);">
                 {$_('faq.title')} <span class="blue-gradient_text">{$_('faq.titleHighlight')}</span>
             </h2>
-            <p class="text-sm sm:text-base text-gray-500 max-w-xl mx-auto leading-relaxed">
+            <p class="text-sm sm:text-base max-w-xl mx-auto leading-relaxed" style="color: var(--text-tertiary);">
                 {$_('faq.subtitle')}
             </p>
         </div>
@@ -80,10 +80,11 @@
                     >
                         <div class="flex items-center gap-3 sm:gap-4 min-w-0">
                             <span class="text-xs font-bold text-blue-500/60 font-poppins flex-shrink-0 tabular-nums w-6 text-right">{String(index + 1).padStart(2, '0')}</span>
-                            <span class="text-sm sm:text-base font-medium text-gray-300 leading-snug">{faq.question}</span>
+                            <span class="text-sm sm:text-base font-medium leading-snug" style="color: var(--text-secondary);">{faq.question}</span>
                         </div>
                         <span 
-                            class="w-7 h-7 rounded-lg flex items-center justify-center text-blue-400/80 transition-all duration-300 flex-shrink-0 {openIndex === index ? 'bg-blue-500/15 rotate-45' : 'bg-white/[0.04]'}"
+                            class="w-7 h-7 rounded-lg flex items-center justify-center text-blue-400/80 transition-all duration-300 flex-shrink-0 {openIndex === index ? 'bg-blue-500/15 rotate-45' : ''}"
+                            style="background: {openIndex === index ? '' : 'var(--bg-surface)'};"
                         >
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m6-6H6"></path>
@@ -94,7 +95,8 @@
                     {#if openIndex === index}
                         <div 
                             id={`faq-answer-${index}`}
-                            class="px-5 sm:px-6 pb-5 sm:pb-6 pl-[3.25rem] sm:pl-[3.75rem] text-gray-500 text-sm leading-relaxed animate-fadeIn"
+                            class="px-5 sm:px-6 pb-5 sm:pb-6 pl-[3.25rem] sm:pl-[3.75rem] text-sm leading-relaxed animate-fadeIn"
+                            style="color: var(--text-tertiary);"
                         >
                             {faq.answer}
                         </div>
@@ -105,7 +107,7 @@
 
         <!-- CTA -->
         <div class="text-center mt-14 sm:mt-16">
-            <p class="text-gray-600 mb-5 text-sm">{$_('faq.moreQuestions')}</p>
+            <p class="mb-5 text-sm" style="color: var(--text-tertiary);">{$_('faq.moreQuestions')}</p>
             <Button href="/contact" variant="secondary" className="!px-6 !py-3 !text-sm !rounded-xl">
                 <span class="font-semibold">{$_('faq.cta')}</span>
                 <svg
@@ -147,18 +149,18 @@
     }
 
     .faq-item {
-        background: rgba(255, 255, 255, 0.015);
-        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: var(--faq-bg);
+        border: 1px solid var(--faq-border);
         transition: border-color 0.3s ease, background 0.3s ease;
     }
 
     .faq-item:hover {
-        background: rgba(255, 255, 255, 0.025);
-        border-color: rgba(255, 255, 255, 0.06);
+        background: var(--faq-bg-hover);
+        border-color: var(--glass-border-hover);
     }
 
     .faq-item-open {
-        border-color: rgba(59, 130, 246, 0.12);
-        background: rgba(59, 130, 246, 0.03);
+        border-color: var(--faq-open-border);
+        background: var(--faq-open-bg);
     }
 </style>

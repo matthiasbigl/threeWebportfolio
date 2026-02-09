@@ -64,6 +64,20 @@
 		</script>
 	</head>
 	<body data-sveltekit-preload-data="hover" class="antialiased">
+		<!-- Prevent FOUC: apply dark class immediately before paint -->
+		<script>
+			(function() {
+				var t = localStorage.getItem('theme');
+				if (!t) {
+					t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+				}
+				if (t === 'light') {
+					document.documentElement.classList.remove('dark');
+				} else {
+					document.documentElement.classList.add('dark');
+				}
+			})();
+		</script>
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>

@@ -20,28 +20,28 @@
 
 	<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
 		<header class="mb-12">
-			<h1 class="font-poppins text-4xl sm:text-5xl font-bold text-white mb-4">
+			<h1 class="font-poppins text-4xl sm:text-5xl font-bold mb-4" style="color: var(--text-heading);">
 				{$_('privacy.title')}
 			</h1>
 			<div class="h-1 w-20 bg-blue-500 rounded-full"></div>
 		</header>
 
-		<div class="glass-card p-8 sm:p-12 rounded-[2rem] space-y-10 text-gray-300 leading-relaxed">
+		<div class="glass-card p-8 sm:p-12 rounded-[2rem] space-y-10 leading-relaxed" style="color: var(--text-secondary);">
 			<section>
 				<p>{$_('privacy.intro')}</p>
 			</section>
 
 			<section>
-				<h2 class="text-white font-bold text-xl mb-4">{$_('privacy.contact')}</h2>
+				<h2 class="font-bold text-xl mb-4" style="color: var(--text-heading);">{$_('privacy.contact')}</h2>
 				<p>{$_('privacy.contactText')}</p>
 			</section>
 
 			<section>
-				<h2 class="text-white font-bold text-xl mb-4">{$_('privacy.analytics')}</h2>
+				<h2 class="font-bold text-xl mb-4" style="color: var(--text-heading);">{$_('privacy.analytics')}</h2>
 				<p>{$_('privacy.analyticsText')}</p>
 			</section>
 
-			<section class="pt-6 border-t border-white/10">
+			<section class="pt-6" style="border-top: 1px solid var(--border-primary);">
 				<p class="text-sm opacity-80">Stand: Jänner 2026</p>
 			</section>
 		</div>
@@ -56,9 +56,9 @@
 	}
 
 	.glass-card {
-		background: rgba(255, 255, 255, 0.03);
+		background: var(--glass-bg);
 		backdrop-filter: blur(20px) saturate(150%);
 		-webkit-backdrop-filter: blur(20px) saturate(150%);
-		border: 1px solid rgba(255, 255, 255, 0.07);
+		border: 1px solid var(--glass-border);
 	}
 </style>

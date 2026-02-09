@@ -40,7 +40,8 @@
 </script>
 
 <footer
-	class="relative z-10 border-t border-white/[0.06] bg-gradient-to-b from-transparent via-black/30 to-black/50"
+	class="relative z-10"
+	style="border-top: 1px solid var(--footer-border); background: var(--footer-gradient);"
 >
 	<!-- Subtle top glow accent -->
 	<div class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
@@ -52,10 +53,10 @@
 				<h3 class="text-2xl font-bold tracking-tight">
 					<span class="blue-gradient_text">Matthias Bigl</span>
 				</h3>
-				<p class="text-gray-400 text-sm leading-relaxed">
+				<p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
 					{$_('footer.description')}
 				</p>
-				<div class="text-gray-500 text-sm space-y-2">
+				<div class="text-sm space-y-2" style="color: var(--text-tertiary);">
 					<p class="flex items-center gap-2">
 						<span>📍</span> 
 						<span>{$_('footer.location')}</span>
@@ -69,12 +70,13 @@
 
 			<!-- Quick Links -->
 			<div class="space-y-5">
-				<h4 class="text-base font-semibold text-white tracking-tight">{$_('footer.navigation')}</h4>
+				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">{$_('footer.navigation')}</h4>
 				<nav class="flex flex-col space-y-3" aria-label="Footer navigation">
 					{#each quickLinks as link}
 						<a
 							href={link.href}
-							class="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm hover:translate-x-1 transform transition-transform"
+							class="hover:text-blue-400 transition-colors duration-300 text-sm hover:translate-x-1 transform transition-transform"
+							style="color: var(--text-secondary);"
 							target={link.href.startsWith('http') ? '_blank' : undefined}
 							rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
 						>
@@ -86,12 +88,13 @@
 
 			<!-- Services -->
 			<div class="space-y-5">
-				<h4 class="text-base font-semibold text-white tracking-tight">{$_('footer.servicesTitle')}</h4>
+				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">{$_('footer.servicesTitle')}</h4>
 				<nav class="flex flex-col space-y-3" aria-label="Services navigation">
 					{#each services as service}
 						<a
 							href={service.href}
-							class="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm hover:translate-x-1 transform transition-transform"
+							class="hover:text-blue-400 transition-colors duration-300 text-sm hover:translate-x-1 transform transition-transform"
+							style="color: var(--text-secondary);"
 						>
 							{service.name}
 						</a>
@@ -101,19 +104,21 @@
 
 			<!-- Social & Contact -->
 			<div class="space-y-5">
-				<h4 class="text-base font-semibold text-white tracking-tight">{$_('footer.contactTitle')}</h4>
+				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">{$_('footer.contactTitle')}</h4>
 				<div class="flex space-x-3">
 					{#each socialLinks as social}
 						<a
 							href={social.href}
-							class="w-10 h-10 rounded-xl bg-white/5 hover:bg-blue-500/20 border border-white/5 hover:border-blue-500/30 flex items-center justify-center transition-all duration-300 hover:scale-110 group"
+							class="w-10 h-10 rounded-xl hover:bg-blue-500/20 hover:border-blue-500/30 flex items-center justify-center transition-all duration-300 hover:scale-110 group"
+							style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
 							target="_blank"
 							rel="noopener noreferrer me"
 							aria-label={social.name}
 							title={social.name}
 						>
 							<svg
-								class="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors duration-300"
+								class="w-5 h-5 group-hover:text-blue-400 transition-colors duration-300"
+								style="color: var(--text-secondary);"
 								fill="currentColor"
 								viewBox="0 0 24 24"
 							>
@@ -122,12 +127,12 @@
 						</a>
 					{/each}
 				</div>
-				<p class="text-gray-400 text-sm">
+				<p class="text-sm" style="color: var(--text-secondary);">
 					<a href="mailto:biglmatthias@gmail.com" class="hover:text-blue-400 transition-colors duration-300">
 						biglmatthias@gmail.com
 					</a>
 				</p>
-				<p class="text-gray-500 text-xs leading-relaxed">
+				<p class="text-xs leading-relaxed" style="color: var(--text-tertiary);">
 					Webdesigner Wien • Webentwicklung Korneuburg • Website erstellen lassen Österreich • Full Stack Developer Niederösterreich
 				</p>
 			</div>
@@ -135,12 +140,13 @@
 
 		<!-- Bottom Bar -->
 		<div
-			class="mt-14 pt-8 border-t border-white/[0.04] flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+			class="mt-14 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+			style="border-top: 1px solid var(--border-secondary);"
 		>
-			<p class="text-gray-500 text-sm">
+			<p class="text-sm" style="color: var(--text-tertiary);">
 				© {currentYear} Matthias Bigl. {$_('footer.copyright')}
 			</p>
-			<div class="flex space-x-6 text-xs text-gray-500">
+			<div class="flex space-x-6 text-xs" style="color: var(--text-tertiary);">
 				<a href="/impressum" class="hover:text-gray-300 transition-colors duration-300">{$_('footer.imprint')}</a>
 				<a href="/datenschutz" class="hover:text-gray-300 transition-colors duration-300">{$_('footer.privacy')}</a>
 				<a href="/humans.txt" class="hover:text-gray-300 transition-colors duration-300">humans.txt</a>

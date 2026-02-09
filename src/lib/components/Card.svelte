@@ -72,7 +72,7 @@
 					{title}
 				</h3>
 
-				<p class="text-gray-400 text-[13px] sm:text-sm leading-relaxed flex-grow group-hover:text-gray-300 transition-colors duration-300">
+				<p class="text-[13px] sm:text-sm leading-relaxed flex-grow transition-colors duration-300" style="color: var(--text-secondary);">
 					{description}
 				</p>
 			</div>
@@ -116,7 +116,7 @@
 					{title}
 				</h3>
 
-				<p class="text-gray-400 text-[13px] sm:text-sm leading-relaxed flex-grow group-hover:text-gray-300 transition-colors duration-300">
+				<p class="text-[13px] sm:text-sm leading-relaxed flex-grow transition-colors duration-300" style="color: var(--text-secondary);">
 					{description}
 				</p>
 			</div>
@@ -126,45 +126,34 @@
 
 <style>
 	.card-inset {
-		background: linear-gradient(145deg, rgba(30, 41, 59, 0.45), rgba(15, 23, 42, 0.65));
-		box-shadow: 
-			inset 2px 2px 5px rgba(0, 0, 0, 0.25),
-			inset -1px -1px 3px rgba(255, 255, 255, 0.02),
-			0 4px 16px rgba(0, 0, 0, 0.25);
-		border: 1px solid rgba(255, 255, 255, 0.06);
-		transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s ease;
+		background: var(--card-bg);
+		box-shadow: var(--card-shadow), var(--card-inset-shadow);
+		border: 1px solid var(--glass-border);
+		transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s ease, background 0.3s ease;
 	}
 
 	@media (min-width: 640px) {
 		.card-inset {
-			box-shadow: 
-				inset 3px 3px 8px rgba(0, 0, 0, 0.35),
-				inset -2px -2px 6px rgba(255, 255, 255, 0.02),
-				0 6px 24px rgba(0, 0, 0, 0.3);
+			box-shadow: var(--card-shadow), var(--card-inset-shadow);
 		}
 	}
 
 	.card-inset:hover {
-		background: linear-gradient(145deg, rgba(30, 41, 59, 0.55), rgba(15, 23, 42, 0.75));
-		box-shadow: 
-			inset 2px 2px 4px rgba(0, 0, 0, 0.2),
-			inset -1px -1px 3px rgba(255, 255, 255, 0.04),
-			0 12px 36px rgba(0, 0, 0, 0.4),
-			0 0 30px rgba(59, 130, 246, 0.06);
-		border-color: rgba(59, 130, 246, 0.2);
+		background: var(--card-bg-hover);
+		box-shadow: var(--card-shadow-hover);
+		border-color: var(--border-accent);
 	}
 
 	.image-inset {
-		background: linear-gradient(145deg, rgba(30, 41, 59, 0.35), rgba(15, 23, 42, 0.5));
+		background: var(--bg-inset);
 		box-shadow: 
-			inset 2px 2px 6px rgba(0, 0, 0, 0.3),
-			inset -1px -1px 3px rgba(255, 255, 255, 0.03),
-			0 2px 8px rgba(0, 0, 0, 0.2),
+			inset 1px 1px 4px var(--glass-shadow),
+			0 2px 8px var(--glass-shadow),
 			0 0 20px rgba(59, 130, 246, 0.04);
 		padding: 0.625rem;
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
-		border: 1px solid rgba(255, 255, 255, 0.04);
+		border: 1px solid var(--border-secondary);
 	}
 
 	@media (min-width: 640px) {

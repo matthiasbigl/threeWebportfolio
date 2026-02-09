@@ -31,7 +31,8 @@
 <div class="relative">
     <button
         onclick={(e) => { e.stopPropagation(); toggleDropdown(); }}
-        class="flex items-center gap-2 px-3 py-2 rounded-lg glass-card glass-card-hover text-white text-sm font-medium transition-all duration-300 hover:scale-105 border border-white/10"
+        class="flex items-center gap-2 px-3 py-2 rounded-lg glass-card glass-card-hover text-sm font-medium transition-all duration-300 hover:scale-105"
+        style="color: var(--text-primary); border: 1px solid var(--border-primary);"
         aria-label="Change language"
         title="Change language"
     >
@@ -56,12 +57,14 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div 
-            class="absolute right-0 mt-2 w-40 rounded-xl overflow-hidden shadow-xl z-50 animate-fadeIn border border-white/10 bg-slate-900/80 backdrop-blur-xl dropdown-glass"
+            class="absolute right-0 mt-2 w-40 rounded-xl overflow-hidden shadow-xl z-50 animate-fadeIn dropdown-glass"
+            style="border: 1px solid var(--border-primary); background: var(--navbar-bg-scrolled);"
             onclick={(e) => e.stopPropagation()}
         >
             <button
                 onclick={() => handleLocaleChange('de')}
-                class="w-full flex items-center gap-3 px-4 py-3 text-left text-white hover:bg-white/10 transition-colors duration-200 {currentLocale === 'de' ? 'bg-white/10' : ''}"
+                class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-blue-500/10 transition-colors duration-200 {currentLocale === 'de' ? 'bg-blue-500/10' : ''}"
+                style="color: var(--text-primary);"
             >
                 <span class="text-lg">🇩🇪</span>
                 <span>{$_('language.de')}</span>
@@ -73,7 +76,8 @@
             </button>
             <button
                 onclick={() => handleLocaleChange('en')}
-                class="w-full flex items-center gap-3 px-4 py-3 text-left text-white hover:bg-white/10 transition-colors duration-200 {currentLocale === 'en' ? 'bg-white/10' : ''}"
+                class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-blue-500/10 transition-colors duration-200 {currentLocale === 'en' ? 'bg-blue-500/10' : ''}"
+                style="color: var(--text-primary);"
             >
                 <span class="text-lg">🇬🇧</span>
                 <span>{$_('language.en')}</span>
