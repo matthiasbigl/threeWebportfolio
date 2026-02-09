@@ -104,7 +104,6 @@
 			<!-- Glass card only on sm+ screens; on mobile, content flows openly -->
 			<div
 				class="pricing-card relative sm:rounded-[2rem] sm:shadow-2xl overflow-hidden"
-				style="border: 1px solid var(--glass-border);"
 			>
 				<!-- Top accent gradient line (sm+ only) -->
 				<div class="hidden sm:block absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
@@ -119,8 +118,7 @@
 
 					<!-- CTA Block — Glass style matching site aesthetic -->
 					<div
-						class="mt-12 sm:mt-20 relative rounded-xl sm:rounded-2xl overflow-hidden group"
-						style="border: 1px solid var(--glass-border);"
+						class="pricing-cta mt-12 sm:mt-20 relative rounded-xl sm:rounded-2xl overflow-hidden group"
 					>
 						<!-- Glass background -->
 						<div class="absolute inset-0" style="background: var(--glass-bg);"></div>
@@ -190,6 +188,10 @@
 			background: var(--glass-bg);
 			backdrop-filter: blur(40px) saturate(150%);
 			-webkit-backdrop-filter: blur(40px) saturate(150%);
+			border: 1px solid var(--glass-border);
+		}
+		.pricing-cta {
+			border: 1px solid var(--glass-border);
 		}
 	}
 
@@ -413,6 +415,7 @@
 			display: block;
 			overflow-x: auto;
 			-webkit-overflow-scrolling: touch;
+			border: none;
 		}
 		:global(.pricing-content th),
 		:global(.pricing-content td) {
