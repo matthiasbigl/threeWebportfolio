@@ -1,10 +1,11 @@
 import lovelineImg from '$lib/assets/loveline.png?enhanced';
 import gradingbotImg from '$lib/assets/gradingbot.png?enhanced';
 import svelteImg from '$lib/assets/svelte.png?enhanced';
+import type { Picture } from 'vite-imagetools';
 
 export interface Project {
     slug: string;
-    image: string | typeof lovelineImg;
+    image: string | Picture;
     link: string;
     imageObjectFit?: 'contain' | 'cover';
     isExternal?: boolean;

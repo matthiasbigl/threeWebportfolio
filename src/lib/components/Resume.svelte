@@ -7,6 +7,17 @@
 
     let { pdfUrl = '/assets/resume.pdf' }: Props = $props();
 
+    // Detect iOS (iPhone, iPad, iPod) — Safari on iOS cannot scroll iframes with PDFs
+    let isIOS = $state(false);
+
+    $effect(() => {
+        if (browser) {
+            const ua = navigator.userAgent;
+            isIOS = /iPad|iPhone|iPod/.test(ua) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        }
+    });
+
     const downloadPDF = () => {
         const link = document.createElement('a');
         link.href = pdfUrl;
@@ -17,6 +28,13 @@
     const openInNewTab = () => {
         window.open(pdfUrl, '_blank');
     };
+
+    /** Build a full absolute URL for the PDF (needed for Google Docs Viewer) */
+    function getAbsolutePdfUrl(): string {
+        if (!browser) return pdfUrl;
+        if (pdfUrl.startsWith('http')) return pdfUrl;
+        return `${window.location.origin}${pdfUrl}`;
+    }
 </script>
 
 <div class="w-full max-w-5xl mx-auto">
@@ -64,14 +82,46 @@
                 </div>
             </div>
 
-            <!-- PDF iframe -->
-            <div class="pdf-container rounded-xl overflow-hidden">
-                <iframe
-                    src={`${pdfUrl}#view=FitH`}
-                    title="Resume PDF"
-                    class="w-full h-full border-0 bg-white rounded-lg"
-                ></iframe>
-            </div>
+            {#if isIOS}
+                <!-- iOS Fallback: use Google Docs Viewer which renders all pages as images -->
+                <div class="pdf-container rounded-xl overflow-hidden">
+                    <iframe
+                        src={`https://docs.google.com/gview?url=${encodeURIComponent(getAbsolutePdfUrl())}&embedded=true`}
+                        title="Resume PDF"
+                        class="w-full h-full border-0 bg-white rounded-lg"
+                    ></iframe>
+                </div>
+
+                <!-- Fallback CTA in case Google Viewer also has issues -->
+                <div class="mt-3 flex flex-col sm:flex-row items-center justify-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
+                    <p class="text-sm text-gray-300 text-center">
+                        Having trouble viewing? Open the PDF directly or download it.
+                    </p>
+                    <div class="flex gap-2">
+                        <button
+                            onclick={openInNewTab}
+                            class="px-4 py-2 text-sm font-medium text-white bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 transition-all"
+                        >
+                            Open PDF
+                        </button>
+                        <button
+                            onclick={downloadPDF}
+                            class="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg shadow-lg shadow-blue-500/25 transition-all"
+                        >
+                            Download
+                        </button>
+                    </div>
+                </div>
+            {:else}
+                <!-- Standard PDF iframe for desktop & Android -->
+                <div class="pdf-container rounded-xl overflow-hidden">
+                    <iframe
+                        src={`${pdfUrl}#view=FitH`}
+                        title="Resume PDF"
+                        class="w-full h-full border-0 bg-white rounded-lg"
+                    ></iframe>
+                </div>
+            {/if}
         </div>
     </div>
 </div>

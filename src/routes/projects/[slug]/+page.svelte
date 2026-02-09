@@ -301,7 +301,7 @@
 				<!-- Subtle reflection glow -->
 				<div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent z-10 pointer-events-none opacity-40"></div>
 
-				{#if typeof project.image !== 'string'}
+				{#if typeof project.image === 'object'}
 					<enhanced:img
 						src={project.image}
 						alt={$_(`projects.items.${project.slug}.title`)}
