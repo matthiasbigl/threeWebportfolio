@@ -1,4 +1,6 @@
 <script lang="ts">
+	import deLocale from '$lib/i18n/locales/de.json';
+
 	interface SEOProps {
 		title?: string;
 		description?: string;
@@ -7,8 +9,8 @@
 		type?: 'website' | 'article' | 'profile';
 		keywords?: string[];
 		noindex?: boolean;
-		/** FAQ items for FAQPage schema — pass array of {question, answer} */
-		faqItems?: { question: string; answer: string }[];
+		/** Whether to include FAQPage schema (inferred from i18n locale) */
+		showFaq?: boolean;
 		/** Breadcrumbs for BreadcrumbList schema — pass array of {name, url} */
 		breadcrumbs?: { name: string; url: string }[];
 		/** Article date for article schema */
@@ -135,7 +137,7 @@
 			'full stack developer Austria'
 		],
 		noindex = false,
-		faqItems = [],
+		showFaq = false,
 		breadcrumbs = [],
 		datePublished = '',
 		dateModified = ''
@@ -409,13 +411,14 @@
 	};
 
 	// ═══════════════════════════════════════════════════════════
-	// Structured Data — FAQPage Schema (if faqItems provided)
+	// Structured Data — FAQPage Schema (static from German locale)
+	// Built from static import to avoid duplicate rendering on locale switch
 	// ═══════════════════════════════════════════════════════════
-	const faqSchema = faqItems.length > 0
+	const faqSchema = showFaq
 		? {
 				'@context': 'https://schema.org',
 				'@type': 'FAQPage',
-				mainEntity: faqItems.map((item) => ({
+				mainEntity: Object.values(deLocale.faq.items).map((item) => ({
 					'@type': 'Question',
 					name: item.question,
 					acceptedAnswer: {
