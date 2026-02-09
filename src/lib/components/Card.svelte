@@ -36,11 +36,11 @@
 		>
 			<div class="h-full flex flex-col">
 				<!-- Image area with inset effect and backlight -->
-				<div class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-visible">
-					<!-- Constant warm backlight glow -->
-					<div class="absolute -inset-3 rounded-2xl bg-gradient-to-t from-amber-200/15 via-white/10 to-white/5 blur-2xl"></div>
+				<div class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-hidden">
+					<!-- Contained backlight glow -->
+					<div class="absolute inset-0 rounded-xl bg-gradient-to-t from-amber-200/12 via-white/8 to-white/3 blur-xl"></div>
 					<!-- Subtle hover enhancement -->
-					<div class="absolute -inset-2 rounded-2xl bg-white/5 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div class="absolute inset-0 rounded-xl bg-white/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 					{#if children}
 						<div class="relative z-10 w-full h-full flex items-center justify-center">
 							{@render children()}
@@ -49,18 +49,18 @@
 						<img
 							src={image}
 							alt={title}
-							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-105"
+							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03]"
 							style="object-fit: {imageObjectFit}"
 							loading="lazy"
 						/>
 					{/if}
 				</div>
 
-				<h3 class="text-base sm:text-lg lg:text-xl font-bold mb-3 flex-shrink-0 tracking-tight blue-gradient_text font-poppins">
+				<h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2.5 flex-shrink-0 tracking-tight blue-gradient_text font-poppins">
 					{title}
 				</h3>
 
-				<p class="text-gray-400 text-sm sm:text-base leading-relaxed flex-grow group-hover:text-gray-300 transition-colors duration-300">
+				<p class="text-gray-400 text-[13px] sm:text-sm leading-relaxed flex-grow group-hover:text-gray-300 transition-colors duration-300">
 					{description}
 				</p>
 			</div>
@@ -71,11 +71,11 @@
 		>
 			<div class="h-full flex flex-col">
 				<!-- Image area with inset effect and backlight -->
-				<div class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-visible">
-					<!-- Constant warm backlight glow -->
-					<div class="absolute -inset-3 rounded-2xl bg-gradient-to-t from-amber-200/15 via-white/10 to-white/5 blur-2xl"></div>
+				<div class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-hidden">
+					<!-- Contained backlight glow -->
+					<div class="absolute inset-0 rounded-xl bg-gradient-to-t from-amber-200/12 via-white/8 to-white/3 blur-xl"></div>
 					<!-- Subtle hover enhancement -->
-					<div class="absolute -inset-2 rounded-2xl bg-white/5 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div class="absolute inset-0 rounded-xl bg-white/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 					{#if children}
 						<div class="relative z-10 w-full h-full flex items-center justify-center">
 							{@render children()}
@@ -84,18 +84,18 @@
 						<img
 							src={image}
 							alt={title}
-							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-105"
+							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03]"
 							style="object-fit: {imageObjectFit}"
 							loading="lazy"
 						/>
 					{/if}
 				</div>
 
-				<h3 class="text-base sm:text-lg lg:text-xl font-bold mb-3 flex-shrink-0 tracking-tight blue-gradient_text font-poppins">
+				<h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2.5 flex-shrink-0 tracking-tight blue-gradient_text font-poppins">
 					{title}
 				</h3>
 
-				<p class="text-gray-400 text-sm sm:text-base leading-relaxed flex-grow group-hover:text-gray-300 transition-colors duration-300">
+				<p class="text-gray-400 text-[13px] sm:text-sm leading-relaxed flex-grow group-hover:text-gray-300 transition-colors duration-300">
 					{description}
 				</p>
 			</div>
@@ -105,42 +105,48 @@
 
 <style>
 	.card-inset {
-		background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6));
+		background: linear-gradient(145deg, rgba(30, 41, 59, 0.45), rgba(15, 23, 42, 0.65));
 		box-shadow: 
-			inset 2px 2px 5px rgba(0, 0, 0, 0.3),
-			inset -2px -2px 5px rgba(255, 255, 255, 0.01),
-			0 4px 20px rgba(0, 0, 0, 0.3);
-		border: 1px solid rgba(255, 255, 255, 0.05);
-		transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+			inset 2px 2px 5px rgba(0, 0, 0, 0.25),
+			inset -1px -1px 3px rgba(255, 255, 255, 0.02),
+			0 4px 16px rgba(0, 0, 0, 0.25);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s ease;
 	}
 
 	@media (min-width: 640px) {
 		.card-inset {
 			box-shadow: 
-				inset 4px 4px 8px rgba(0, 0, 0, 0.4),
-				inset -4px -4px 8px rgba(255, 255, 255, 0.02),
-				0 4px 20px rgba(0, 0, 0, 0.3);
+				inset 3px 3px 8px rgba(0, 0, 0, 0.35),
+				inset -2px -2px 6px rgba(255, 255, 255, 0.02),
+				0 6px 24px rgba(0, 0, 0, 0.3);
 		}
 	}
 
 	.card-inset:hover {
-		background: linear-gradient(145deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.7));
+		background: linear-gradient(145deg, rgba(30, 41, 59, 0.55), rgba(15, 23, 42, 0.75));
 		box-shadow: 
-			inset 2px 2px 4px rgba(0, 0, 0, 0.3),
-			inset -2px -2px 4px rgba(255, 255, 255, 0.03),
-			0 8px 30px rgba(0, 0, 0, 0.4),
-			0 0 20px rgba(59, 130, 246, 0.08);
-		border-color: rgba(59, 130, 246, 0.15);
+			inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+			inset -1px -1px 3px rgba(255, 255, 255, 0.04),
+			0 12px 36px rgba(0, 0, 0, 0.4),
+			0 0 30px rgba(59, 130, 246, 0.06);
+		border-color: rgba(59, 130, 246, 0.2);
 	}
 
 	.image-inset {
-		background: rgba(0, 0, 0, 0.3);
+		background: rgba(0, 0, 0, 0.25);
 		box-shadow: 
-			inset 3px 3px 6px rgba(0, 0, 0, 0.5),
-			inset -2px -2px 4px rgba(255, 255, 255, 0.02);
-		padding: 0.75rem;
-		backdrop-filter: blur(5px);
-		-webkit-backdrop-filter: blur(5px);
+			inset 2px 2px 6px rgba(0, 0, 0, 0.4),
+			inset -1px -1px 3px rgba(255, 255, 255, 0.02);
+		padding: 0.625rem;
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+	}
+
+	@media (min-width: 640px) {
+		.image-inset {
+			padding: 0.75rem;
+		}
 	}
 
 	.card-inset {

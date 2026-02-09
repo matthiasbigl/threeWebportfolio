@@ -188,15 +188,16 @@
     }
 
     .faq-item {
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        transition: border-color 0.3s ease, background 0.3s ease;
     }
 
     .faq-item:hover {
-        border-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.08);
     }
 
     .faq-item-open {
-        border-color: rgba(0, 198, 255, 0.2);
+        border-color: rgba(0, 198, 255, 0.15);
         background: rgba(255, 255, 255, 0.02);
     }
 </style>

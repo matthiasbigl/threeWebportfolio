@@ -25,6 +25,7 @@
 	const quickLinks = $derived([
 		{ name: $_('nav.home'), href: '/' },
 		{ name: $_('nav.services'), href: '/#services' },
+		{ name: $_('pricing.navTitle') || ($_('language.de') === 'Deutsch' ? 'Preis-Leitfaden' : 'Pricing Guide'), href: '/pricing' },
 		{ name: $_('nav.contact'), href: '/contact' },
 		{ name: $_('nav.faq'), href: '/#faq' },
 		{ name: 'Blog', href: 'https://blog.bigls.net' }
@@ -39,10 +40,10 @@
 </script>
 
 <footer
-	class="relative z-10 border-t border-white/10 bg-gradient-to-b from-transparent via-black/20 to-black/40"
+	class="relative z-10 border-t border-white/[0.06] bg-gradient-to-b from-transparent via-black/30 to-black/50"
 >
 	<!-- Subtle top glow accent -->
-	<div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+	<div class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
 	
 	<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
@@ -134,7 +135,7 @@
 
 		<!-- Bottom Bar -->
 		<div
-			class="mt-14 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+			class="mt-14 pt-8 border-t border-white/[0.04] flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
 		>
 			<p class="text-gray-500 text-sm">
 				© {currentYear} Matthias Bigl. {$_('footer.copyright')}

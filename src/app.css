@@ -17,11 +17,14 @@ body {
     position: relative;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 @layer components {
-    .font-syne { font-family: 'Syne', sans-serif; }
-    
+    .font-syne {
+        font-family: 'Syne', sans-serif;
+    }
+
     .glass-card-luxe {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
         backdrop-filter: blur(20px);
@@ -125,23 +128,23 @@ body:has(.card[data-color="green"]:hover) {
     /* Dark Glassmorphic Styles */
     .glass-card {
         background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px) saturate(150%);
+        -webkit-backdrop-filter: blur(20px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 1.5rem;
         box-shadow:
-            0 10px 30px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            0 8px 24px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .glass-card-hover:hover {
         background: rgba(255, 255, 255, 0.05);
         border-color: rgba(255, 255, 255, 0.1);
-        transform: translateY(-8px);
+        transform: translateY(-6px);
         box-shadow:
-            0 20px 40px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            0 16px 40px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
     .grid-lines {
@@ -155,9 +158,9 @@ body:has(.card[data-color="green"]:hover) {
     }
 
     .glass-section {
-        background: rgba(255, 255, 255, 0.015);
-        backdrop-filter: blur(40px);
-        -webkit-backdrop-filter: blur(40px);
+        background: rgba(255, 255, 255, 0.012);
+        backdrop-filter: blur(32px) saturate(140%);
+        -webkit-backdrop-filter: blur(32px) saturate(140%);
         border-top: 1px solid rgba(255, 255, 255, 0.03);
         border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         position: relative;
@@ -185,29 +188,29 @@ body:has(.card[data-color="green"]:hover) {
 
 
 .gradient-bg-1 {
-    background: linear-gradient(135deg,
-            rgba(16, 16, 30, 0.9) 0%,
-            rgba(30, 16, 60, 0.8) 50%,
-            rgba(16, 30, 60, 0.9) 100%);
+    background: linear-gradient(145deg,
+            rgba(14, 14, 28, 0.92) 0%,
+            rgba(24, 14, 48, 0.85) 50%,
+            rgba(14, 24, 48, 0.92) 100%);
 }
 
 .gradient-bg-2 {
-    background: linear-gradient(135deg,
-            rgba(20, 16, 40, 0.9) 0%,
-            rgba(40, 20, 80, 0.8) 50%,
-            rgba(20, 40, 80, 0.9) 100%);
+    background: linear-gradient(145deg,
+            rgba(18, 14, 36, 0.92) 0%,
+            rgba(32, 18, 64, 0.85) 50%,
+            rgba(18, 32, 64, 0.92) 100%);
 }
 
 .gradient-bg-3 {
-    background: linear-gradient(135deg,
-            rgba(30, 20, 50, 0.9) 0%,
-            rgba(50, 30, 100, 0.8) 50%,
-            rgba(30, 50, 100, 0.9) 100%);
+    background: linear-gradient(145deg,
+            rgba(24, 18, 44, 0.92) 0%,
+            rgba(40, 24, 80, 0.85) 50%,
+            rgba(24, 40, 80, 0.92) 100%);
 }
 
 .magnetic-btn {
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
 }
@@ -219,8 +222,8 @@ body:has(.card[data-color="green"]:hover) {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .magnetic-btn:hover::before {
@@ -339,7 +342,7 @@ body:has(.card[data-color="green"]:hover) {
 }
 
 .floating {
-    animation: float 6s ease-in-out infinite;
+    animation: float 7s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -350,7 +353,7 @@ body:has(.card[data-color="green"]:hover) {
     }
 
     50% {
-        transform: translateY(-20px);
+        transform: translateY(-14px);
     }
 }
 
@@ -470,31 +473,30 @@ body:has(.card[data-color="green"]:hover) {
     }
 
     .glass-card {
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
+        backdrop-filter: blur(12px) saturate(130%);
+        -webkit-backdrop-filter: blur(12px) saturate(130%);
     }
 
     .text-glow {
-        text-shadow: 0 0 15px rgba(0, 198, 255, 0.2);
+        text-shadow: 0 0 12px rgba(0, 198, 255, 0.15);
     }
 
     .blue-gradient_text {
-        text-shadow: 0 0 20px rgba(0, 198, 255, 0.2);
+        text-shadow: 0 0 16px rgba(0, 198, 255, 0.15);
     }
 
     .aurora-bg {
         background:
-            radial-gradient(ellipse at top left, rgba(120, 119, 198, 0.15) 0%, transparent 60%),
-            radial-gradient(ellipse at top right, rgba(255, 119, 198, 0.15) 0%, transparent 60%);
+            radial-gradient(ellipse at top left, rgba(120, 119, 198, 0.12) 0%, transparent 60%),
+            radial-gradient(ellipse at top right, rgba(255, 119, 198, 0.12) 0%, transparent 60%);
         animation: none;
-        /* Disable expensive animation on mobile */
     }
 
     .glassmorphism,
     .glass-card,
     .glass-section {
-        backdrop-filter: blur(10px) saturate(150%);
-        -webkit-backdrop-filter: blur(10px) saturate(150%);
+        backdrop-filter: blur(10px) saturate(130%);
+        -webkit-backdrop-filter: blur(10px) saturate(130%);
     }
 }
 
@@ -523,7 +525,8 @@ body:has(.card[data-color="green"]:hover) {
     }
 
     .magnetic-btn:active {
-        transform: scale(0.95) !important;
+        transform: scale(0.97) !important;
+        transition: transform 0.15s ease;
     }
 
     .glass-card-hover:hover {
@@ -531,8 +534,8 @@ body:has(.card[data-color="green"]:hover) {
     }
 
     .glass-card-hover:active {
-        transform: translateY(-4px);
-        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.06);
     }
 }
 
@@ -551,4 +554,20 @@ body:has(.card[data-color="green"]:hover) {
     .hero-subtitle {
         font-size: 1rem;
     }
+}
+
+/* Scrollbar Utilities */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Mask Utilities */
+.mask-fade-right {
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
 }

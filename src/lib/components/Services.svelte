@@ -3,8 +3,8 @@
 	import { browser } from '$app/environment';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { _ } from 'svelte-i18n';
-	import Card from './Card.svelte';
+	import { _, locale } from 'svelte-i18n';
+	import Button from './Button.svelte';
 
 	if (browser) {
 		gsap.registerPlugin(ScrollTrigger);
@@ -12,63 +12,67 @@
 
 	const services = $derived([
 		{
-			icon: '🌐',
-			title: $_('services.items.websites.title'),
-			description: $_('services.items.websites.description'),
-			color: 'from-blue-500/20 to-cyan-500/20'
-		},
-		{
-			icon: '🛒',
-			title: $_('services.items.webshops.title'),
-			description: $_('services.items.webshops.description'),
-			color: 'from-purple-500/20 to-pink-500/20'
-		},
-		{
+			id: 'experiences',
 			icon: '✨',
 			title: $_('services.items.experiences.title'),
 			description: $_('services.items.experiences.description'),
-			color: 'from-emerald-500/20 to-teal-500/20'
+			features: $_('services.items.experiences.features') as unknown as string[],
+			gradient: 'from-emerald-500/10 via-teal-500/10 to-emerald-600/10',
+			border: 'group-hover:border-emerald-500/50',
+			colSpan: 'md:col-span-3 lg:col-span-3',
+			delay: 0
 		},
 		{
+			id: 'fullstack',
 			icon: '🔧',
 			title: $_('services.items.fullstack.title'),
 			description: $_('services.items.fullstack.description'),
-			color: 'from-orange-500/20 to-yellow-500/20'
+			features: $_('services.items.fullstack.features') as unknown as string[],
+			gradient: 'from-orange-500/10 via-amber-500/10 to-orange-600/10',
+			border: 'group-hover:border-orange-500/50',
+			colSpan: 'md:col-span-3 lg:col-span-3',
+			delay: 0.1
+		},
+		{
+			id: 'seo',
+			icon: '🌐',
+			title: $_('services.items.seo.title'),
+			description: $_('services.items.seo.description'),
+			features: $_('services.items.seo.features') as unknown as string[],
+			gradient: 'from-blue-500/10 via-cyan-500/10 to-blue-600/10',
+			border: 'group-hover:border-blue-500/50',
+			colSpan: 'col-span-2',
+			delay: 0.2
+		},
+		{
+			id: 'webshops',
+			icon: '🛒',
+			title: $_('services.items.webshops.title'),
+			description: $_('services.items.webshops.description'),
+			features: $_('services.items.webshops.features') as unknown as string[],
+			gradient: 'from-purple-500/10 via-pink-500/10 to-purple-600/10',
+			border: 'group-hover:border-purple-500/50',
+			colSpan: 'col-span-4',
+			delay: 0.3
 		}
 	]);
 
-	const benefits = $derived([
-		{
-			icon: '🤝',
-			title: $_('services.benefits.personal.title'),
-			description: $_('services.benefits.personal.description')
-		},
-		{
-			icon: '📍',
-			title: $_('services.benefits.local.title'),
-			description: $_('services.benefits.local.description')
-		},
-		{
-			icon: '💰',
-			title: $_('services.benefits.prices.title'),
-			description: $_('services.benefits.prices.description')
-		},
-		{
-			icon: '🎯',
-			title: $_('services.benefits.detail.title'),
-			description: $_('services.benefits.detail.description')
-		},
-		{
-			icon: '⚡',
-			title: $_('services.benefits.tech.title'),
-			description: $_('services.benefits.tech.description')
-		},
-		{
-			icon: '🛡️',
-			title: $_('services.benefits.allInOne.title'),
-			description: $_('services.benefits.allInOne.description')
-		}
-	]);
+	const benefitIcons: Record<string, string> = {
+		personal: '🤝',
+		local: '📍',
+		prices: '💰',
+		detail: '🎯',
+		tech: '⚡',
+		allInOne: '🛡️'
+	};
+
+	// Generate benefits list dynamically preserving JSON order
+	const benefits = $derived(
+		Object.keys($_('services.benefits')).map((key) => ({
+			icon: benefitIcons[key] || '⭐',
+			title: $_(`services.benefits.${key}.title`)
+		}))
+	);
 
 	onMount(() => {
 		if (!browser) return;
@@ -76,82 +80,115 @@
 		const mm = gsap.matchMedia();
 
 		mm.add('(min-width: 768px)', () => {
-			// ScrollReveal for service cards
+			// Bento Grid Entrance
 			gsap.fromTo(
-				'.service-card',
+				'.bento-item',
 				{
 					opacity: 0,
-					y: 40,
-					rotationX: -5,
-					scale: 0.98
+					y: 50,
+					scale: 0.9,
+					filter: 'blur(10px)'
 				},
 				{
 					opacity: 1,
 					y: 0,
-					rotationX: 0,
 					scale: 1,
-					duration: 0.8,
-					stagger: 0.08,
-					ease: 'power2.out',
+					filter: 'blur(0px)',
+					duration: 1,
+					stagger: 0.1,
+					ease: 'power3.out',
 					scrollTrigger: {
-						trigger: '.services-grid',
-						start: 'top 90%'
+						trigger: '.bento-grid',
+						start: 'top 85%'
 					}
 				}
 			);
 
-			// Mouse follow light effect
-			const cards = document.querySelectorAll('.service-card');
+			// Holographic tilt effect
+			const cards = document.querySelectorAll('.bento-item');
 			cards.forEach((card: any) => {
-				const light = card.querySelector('.card-light');
-
 				card.addEventListener('mousemove', (e: MouseEvent) => {
 					const rect = card.getBoundingClientRect();
 					const x = e.clientX - rect.left;
 					const y = e.clientY - rect.top;
 
-					gsap.to(light, {
-						x: x - 100,
-						y: y - 100,
-						opacity: 1,
-						duration: 0.4,
-						ease: 'power1.out'
-					});
-
-					// Subtle 3D tilt
 					const centerX = rect.width / 2;
 					const centerY = rect.height / 2;
-					const rotateX = (y - centerY) / 30;
-					const rotateY = (centerX - x) / 30;
+
+					const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg tilt
+					const rotateY = ((x - centerX) / centerX) * 5;
 
 					gsap.to(card, {
 						rotationX: rotateX,
 						rotationY: rotateY,
 						duration: 0.4,
-						ease: 'power1.out'
+						ease: 'power2.out',
+						transformPerspective: 1000
 					});
+
+					// Spotlight effect
+					const spotlight = card.querySelector('.card-spotlight');
+					if (spotlight) {
+						gsap.to(spotlight, {
+							background: `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 40%)`,
+							duration: 0.3
+						});
+					}
 				});
 
 				card.addEventListener('mouseleave', () => {
-					gsap.to(light, { opacity: 0, duration: 0.4 });
-					gsap.to(card, { rotationX: 0, rotationY: 0, duration: 0.8, ease: 'power2.out' });
+					gsap.to(card, {
+						rotationX: 0,
+						rotationY: 0,
+						duration: 0.7,
+						ease: 'elastic.out(1, 0.5)'
+					});
+					const spotlight = card.querySelector('.card-spotlight');
+					if (spotlight) {
+						gsap.to(spotlight, {
+							background: `radial-gradient(600px circle at 50% 50%, rgba(255,255,255,0), transparent 40%)`,
+							duration: 0.3
+						});
+					}
 				});
 			});
+
+			// Magnetic effect for refined CTA
+			const cta = document.querySelector('.cta-magnetic');
+			if (cta) {
+				cta.addEventListener('mouseenter', () => {
+					gsap.to(cta, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
+				});
+				cta.addEventListener('mouseleave', () => {
+					gsap.to(cta, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+				});
+				(cta as HTMLElement).addEventListener('mousemove', (e: MouseEvent) => {
+					const rect = cta.getBoundingClientRect();
+					const x = e.clientX - rect.left - rect.width / 2;
+					const y = e.clientY - rect.top - rect.height / 2;
+					gsap.to(cta, {
+						x: x * 0.3,
+						y: y * 0.3,
+						duration: 0.3,
+						ease: 'power2.out'
+					});
+				});
+			}
 		});
 
 		mm.add('(max-width: 767px)', () => {
 			gsap.fromTo(
-				'.service-card',
-				{ opacity: 0, y: 30 },
+				'.bento-item',
+				{ opacity: 0, x: -20 },
 				{
 					opacity: 1,
-					y: 0,
-					duration: 0.6,
-					stagger: 0.05,
-					ease: 'power1.out',
+					x: 0,
+					duration: 0.8,
+					stagger: 0.1,
+					ease: 'power2.out',
 					scrollTrigger: {
-						trigger: '.services-grid',
-						start: 'top 95%'
+						trigger: '.bento-grid',
+						start: 'top 90%'
 					}
 				}
 			);
@@ -161,177 +198,223 @@
 	});
 </script>
 
-<section id="services" class="relative py-16 sm:py-20 lg:py-28 overflow-hidden">
-	<!-- Background glow - enhanced with subtle gradient -->
-	<div
-		class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-blue-500/8 to-purple-500/5 blur-[120px] rounded-full pointer-events-none"
-	></div>
+<section
+	id="services"
+	class="relative py-20 lg:py-32 overflow-hidden selection:bg-blue-500/30 selection:text-white"
+>
+	<!-- Background Ambiance -->
+	<div class="absolute inset-0 pointer-events-none">
+		<div
+			class="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-blue-600/10 blur-[150px] rounded-full animate-blob"
+		></div>
+		<div
+			class="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-purple-600/10 blur-[130px] rounded-full animate-blob animation-delay-2000"
+		></div>
 
-	<div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-		<!-- Section Header - Enhanced with better spacing -->
-		<div class="max-w-4xl mb-10 sm:mb-14">
-			<span
-				class="inline-block text-blue-400 text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] mb-4"
+		<!-- Noise texture for premium feel -->
+		<div
+			class="absolute inset-0 opacity-[0.03] bg-[url('/noise.svg')] invert filter contrast-125"
+		></div>
+	</div>
+
+	<div class="container mx-auto px-4 sm:px-6 relative z-10">
+		<!-- Section Header -->
+		<div class="max-w-3xl mb-16 sm:mb-20">
+			<div class="flex items-center gap-3 mb-6">
+				<div class="h-px w-8 bg-blue-500"></div>
+				<span class="text-blue-400 text-xs font-bold uppercase tracking-[0.2em]">
+					{$_('services.title')}
+				</span>
+			</div>
+
+			<h2
+				class="text-4xl sm:text-5xl lg:text-7xl font-bold mb-8 text-white tracking-tight leading-[0.9]"
 			>
-				{$_('services.title')}
-			</span>
-			<h2 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-5 leading-tight tracking-tight text-white">
 				{$_('services.titleHighlight')}
 			</h2>
-			<p class="text-base sm:text-lg lg:text-xl text-gray-400 leading-relaxed font-light max-w-2xl">
+
+			<p
+				class="text-lg sm:text-xl text-gray-400 font-light leading-relaxed max-w-2xl border-l-2 border-white/10 pl-6"
+			>
 				{@html $_('services.subtitle')}
 			</p>
 		</div>
 
-		<!-- Services Grid - Improved spacing and visual hierarchy -->
-		<div class="services-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-16 sm:mb-24">
+		<!-- Bento Grid Layout -->
+		<div class="bento-grid grid grid-cols-1 md:grid-cols-6 gap-5 lg:gap-6 mb-12">
 			{#each services as service}
-				<div class="service-card group relative">
-					<!-- Custom Light follow inside Card's area -->
+				<div
+					class="bento-item group relative {service.colSpan} rounded-[2rem] overflow-hidden border border-white/5 isolate backdrop-blur-md"
+				>
+					<!-- Consistent Slate/Blue Background (Matching Card.svelte) -->
 					<div
-						class="card-light absolute w-[200px] h-[200px] bg-blue-500/15 blur-[60px] rounded-full opacity-0 pointer-events-none z-20"
+						class="absolute inset-0 bg-gradient-to-br from-slate-800/40 to-slate-900/60 transition-colors duration-500"
+					></div>
+					<div
+						class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-50 pointer-events-none"
 					></div>
 
-					<Card title={service.title} description={service.description} className="h-full">
-						<div
-							class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br {service.color} flex items-center justify-center text-2xl sm:text-3xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg"
-						>
-							{service.icon}
+					<!-- Holographic Gradient Accents -->
+					<div
+						class="absolute inset-0 bg-gradient-to-br {service.gradient} opacity-30 transition-opacity duration-500 group-hover:opacity-60"
+					></div>
+
+					<!-- Spotlight Overlay -->
+					<div
+						class="card-spotlight absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-soft-light"
+					></div>
+
+					<!-- Animated Border Gradient -->
+					<div
+						class="absolute inset-0 rounded-[2rem] border border-transparent {service.border} transition-colors duration-500"
+					></div>
+
+					<!-- Content Container -->
+					<div
+						class="relative z-10 h-full p-5 sm:p-6 lg:p-8 flex flex-col justify-between min-h-[280px] sm:min-h-[320px] transition-transform duration-500 group-hover:scale-[1.01]"
+					>
+						<!-- Header -->
+						<div>
+							<div
+								class="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-xl sm:rounded-2xl bg-slate-800/50 border border-white/10 flex items-center justify-center text-2xl sm:text-3xl mb-6 sm:mb-8 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg shadow-black/20"
+							>
+								{service.icon}
+							</div>
+
+							<h3
+								class="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-3 sm:mb-4 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-blue-200 transition-all duration-300"
+							>
+								{service.title}
+							</h3>
 						</div>
-					</Card>
+
+						<!-- Description & Features -->
+						<div class="flex flex-col h-full justify-between">
+							<p
+								class="text-slate-300 text-sm sm:text-base font-light leading-relaxed mb-6 border-l border-white/10 pl-4 group-hover:border-white/30 transition-colors duration-500"
+							>
+								{service.description}
+							</p>
+
+							<!-- Features List (Scrollable & Tiny) -->
+							<ul
+								class="flex flex-nowrap gap-2 mb-6 overflow-x-auto scrollbar-hide mask-fade-right"
+							>
+								{#each service.features as feature}
+									<li
+										class="flex-shrink-0 px-2.5 py-1 text-[10px] sm:text-xs font-medium text-slate-300 bg-white/5 border border-white/10 rounded-full whitespace-nowrap group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-300"
+									>
+										{feature}
+									</li>
+								{/each}
+							</ul>
+						</div>
+					</div>
 				</div>
 			{/each}
 		</div>
 
-		<!-- Benefits Section - Bold with depth -->
-		<div class="border-t border-white/10 pt-16 sm:pt-20">
-			<div class="text-center mb-10 sm:mb-12">
-				<h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-white tracking-tight">
-					{$_('services.whyMe.title')}
-				</h3>
-				<p class="text-sm sm:text-base text-gray-400 font-light leading-relaxed max-w-xl mx-auto">
-					{$_('services.whyMe.subtitle')}
-				</p>
-			</div>
-
-			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-				{#each benefits as benefit, i}
+		<!-- Holographic Benefits & Pricing Stack (Reordered) -->
+		<div class="flex flex-col gap-10 lg:gap-14">
+			<!-- Quick Benefits Stack (Now on Top) -->
+			<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+				{#each benefits as benefit}
 					<div
-						class="benefit-item group p-5 sm:p-6 rounded-2xl relative overflow-hidden transition-all duration-500 hover:scale-[1.02]"
-						style="transform-style: preserve-3d;"
+						class="bg-white/[0.04] border border-white/[0.06] rounded-2xl p-4 sm:p-5 flex flex-col items-center justify-center text-center gap-2.5 sm:gap-3 hover:bg-white/[0.08] transition-all duration-300 group hover:scale-[1.03] hover:shadow-lg hover:shadow-blue-500/5 hover:border-white/10"
 					>
-						<!-- Gradient border effect -->
-						<div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 via-white/5 to-transparent p-px pointer-events-none">
-							<div class="absolute inset-px rounded-2xl bg-gradient-to-br from-slate-900/95 to-slate-950/95"></div>
-						</div>
-						
-						<!-- Hover glow -->
-						<div class="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/5 group-hover:to-purple-500/5 rounded-2xl transition-all duration-500"></div>
-						
-						<!-- Content -->
-						<div class="relative z-10">
-							<div class="flex items-center gap-3 mb-3">
-								<span class="text-2xl sm:text-3xl group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">{benefit.icon}</span>
-								<h4 class="text-sm sm:text-base font-semibold text-white tracking-tight group-hover:text-blue-300 transition-colors duration-300">
-									{benefit.title}
-								</h4>
-							</div>
-							<p class="text-xs sm:text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">{benefit.description}</p>
-						</div>
-						
-						<!-- Corner accents -->
-						<div class="absolute top-3 right-3 w-2 h-2 border-r border-t border-blue-500/0 group-hover:border-blue-400/40 rounded-tr transition-all duration-500"></div>
-						<div class="absolute bottom-3 left-3 w-2 h-2 border-l border-b border-blue-500/0 group-hover:border-blue-400/40 rounded-bl transition-all duration-500"></div>
+						<span
+							class="text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300 filter drop-shadow-lg"
+							>{benefit.icon}</span
+						>
+						<span
+							class="text-xs sm:text-sm font-medium text-gray-300 group-hover:text-white transition-colors leading-tight"
+							>{benefit.title}</span
+						>
 					</div>
 				{/each}
 			</div>
+
+			<!-- Pricing Banner (Now Below) -->
+			<div
+				class="relative group rounded-[2.5rem] p-1 bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/10 overflow-hidden"
+			>
+				<div
+					class="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-blue-600/10 opacity-50 blur-xl"
+				></div>
+
+				<div
+					class="relative h-full bg-slate-900/60 rounded-[2.3rem] p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden backdrop-blur-xl"
+				>
+					<!-- Animated sheen -->
+					<div
+						class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"
+					></div>
+
+					<div class="relative z-10 max-w-xl text-center md:text-left">
+						<h3
+							class="text-2xl sm:text-3xl font-bold text-white mb-3 flex items-center justify-center md:justify-start gap-3"
+						>
+							<span class="text-3xl">💎</span>
+							{$locale === 'de' ? 'Transparente Preise' : 'Transparent Pricing'}
+						</h3>
+						<p class="text-gray-400 font-light leading-relaxed text-base sm:text-lg">
+							{$locale === 'de'
+								? 'Laden Sie meinen vollständigen Preisführer 2026 herunter.'
+								: 'Download my complete 2026 pricing guide.'}
+						</p>
+					</div>
+
+					<a
+						href="/pricing"
+						class="relative z-10 px-8 py-4 sm:px-10 sm:py-5 bg-white text-blue-900 font-bold rounded-xl shadow-xl shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-95 transition-all flex items-center gap-2 group/btn"
+					>
+						<span>{$_('pricing.navTitle')}</span>
+						<svg
+							class="w-5 h-5 group-hover/btn:translate-x-1 transition-transform"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2.5"
+								d="M17 8l4 4m0 0l-4 4m4-4H3"
+							/>
+						</svg>
+					</a>
+				</div>
+			</div>
 		</div>
 
-		<!-- CTA - Bold magnetic button style -->
-		<div class="mt-16 sm:mt-20 text-center px-4">
-			<a
-				href="/contact"
-				class="magnetic-btn cta-magnetic inline-flex items-center gap-3 px-6 py-4 sm:px-10 sm:py-5 relative overflow-hidden rounded-2xl group max-w-full"
-			>
-				<!-- Gradient background -->
-				<div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_100%] animate-gradient-shift opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
-				
-				<!-- Glass overlay -->
-				<div class="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
-				
-				<!-- Shimmer on hover -->
-				<div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-					<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-				</div>
-				
-				<!-- Glow effect -->
-				<div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-lg opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
-				
-				<!-- Content -->
-				<span class="relative z-10 text-base sm:text-lg font-bold text-white drop-shadow-lg text-center leading-tight">{$_('services.cta')}</span>
-				<svg
-					class="relative z-10 w-5 h-5 text-white group-hover:translate-x-2 transition-transform duration-300 flex-shrink-0"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2.5"
-						d="M17 8l4 4m0 0l-4 4m4-4H3"
-					></path>
-				</svg>
-			</a>
+		<!-- Final CTA - Matched to Hero Style -->
+		<div class="mt-24 text-center">
+			<Button href="/contact">
+				{$_('services.cta')} &rarr;
+			</Button>
 		</div>
 	</div>
 </section>
 
 <style>
-	#services {
-		perspective: 1500px;
+	.animate-blob {
+		animation: blob 10s infinite;
 	}
-
-	.service-card {
-		transform-style: preserve-3d;
-		will-change: transform;
+	.animation-delay-2000 {
+		animation-delay: 2s;
 	}
-
-	.cta-magnetic {
-		box-shadow: 
-			0 0 0 1px rgba(59, 130, 246, 0.2),
-			0 10px 40px -10px rgba(59, 130, 246, 0.4),
-			0 30px 60px -20px rgba(147, 51, 234, 0.3);
-		transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-	}
-
-	.cta-magnetic:hover {
-		transform: translateY(-4px) scale(1.02);
-		box-shadow: 
-			0 0 0 1px rgba(59, 130, 246, 0.4),
-			0 20px 50px -10px rgba(59, 130, 246, 0.5),
-			0 40px 80px -20px rgba(147, 51, 234, 0.4);
-	}
-
-	@keyframes gradient-shift {
-		0%, 100% { background-position: 0% 50%; }
-		50% { background-position: 100% 50%; }
-	}
-
-	.animate-gradient-shift {
-		animation: gradient-shift 3s ease-in-out infinite;
-	}
-
-	.benefit-item {
-		box-shadow: 
-			0 4px 20px -5px rgba(0, 0, 0, 0.3),
-			inset 0 1px 0 rgba(255, 255, 255, 0.03);
-	}
-
-	.benefit-item:hover {
-		box-shadow: 
-			0 8px 30px -5px rgba(0, 0, 0, 0.4),
-			0 0 30px -10px rgba(59, 130, 246, 0.15),
-			inset 0 1px 0 rgba(255, 255, 255, 0.05);
+	@keyframes blob {
+		0% {
+			transform: translate(0px, 0px) scale(1);
+		}
+		33% {
+			transform: translate(30px, -50px) scale(1.1);
+		}
+		66% {
+			transform: translate(-20px, 20px) scale(0.9);
+		}
+		100% {
+			transform: translate(0px, 0px) scale(1);
+		}
 	}
 </style>

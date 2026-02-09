@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { init, register, getLocaleFromNavigator, locale } from 'svelte-i18n';
+import { init, register, getLocaleFromNavigator, locale, _ } from 'svelte-i18n';
 
 // Register translation files
 register('de', () => import('./locales/de.json'));
@@ -12,7 +12,7 @@ init({
 });
 
 // Export locale for use in components
-export { locale };
+export { locale, _ };
 
 // Helper function to switch locale
 export function setLocale(lang: 'de' | 'en') {

@@ -77,12 +77,12 @@
 
 <style>
     .pdf-viewer-card {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.015) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         box-shadow:
-            0 25px 50px -12px rgba(0, 0, 0, 0.5),
-            0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-            0 -20px 40px -20px rgba(59, 130, 246, 0.1) inset;
+            0 20px 48px -12px rgba(0, 0, 0, 0.5),
+            0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+            0 -16px 32px -16px rgba(59, 130, 246, 0.08) inset;
     }
 
     .pdf-container {

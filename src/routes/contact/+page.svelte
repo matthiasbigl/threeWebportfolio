@@ -2,6 +2,7 @@
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import SEO from '$lib/components/SEO.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { gsap } from 'gsap';
@@ -113,29 +114,7 @@
 				{ opacity: 1, x: 0, scale: 1, duration: 1, ease: 'power2.out', delay: 1.2 }
 			);
 
-			// Magnetic effect for contact cards
-			document.querySelectorAll('.contact-card').forEach((card: any) => {
-				card.addEventListener('mouseenter', () => {
-					gsap.to(card, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
-				});
-
-				card.addEventListener('mouseleave', () => {
-					gsap.to(card, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
-				});
-
-				card.addEventListener('mousemove', (e: MouseEvent) => {
-					const rect = card.getBoundingClientRect();
-					const x = e.clientX - rect.left - rect.width / 2;
-					const y = e.clientY - rect.top - rect.height / 2;
-
-					gsap.to(card, {
-						x: x * 0.2,
-						y: y * 0.2,
-						duration: 0.3,
-						ease: 'power2.out'
-					});
-				});
-			});
+			// Magnetic effect handles by Button component now
 		});
 
 		mm.add('(max-width: 767px)', () => {
@@ -320,7 +299,7 @@
 
 			<!-- Contact Form -->
 			<div class="contact-form">
-				<div class="glass-card p-8 rounded-2xl">
+				<div class="glass-card p-6 sm:p-8 rounded-2xl">
 					<h2 class="font-poppins text-2xl lg:text-3xl font-bold mb-8 text-gray-300">
 						{$_('contact.form.title')}
 						<span class="blue-gradient_text">{$_('contact.form.titleHighlight')}</span>
@@ -429,12 +408,13 @@
 							{/if}
 						</div>
 
-						<button
+						<Button
 							type="submit"
-							disabled={isSubmitting}
-							class="w-full magnetic-btn glass-card glass-card-hover px-8 py-4 text-lg font-semibold text-white rounded-xl transition-all duration-300 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
+							{disabled}
+							className="w-full relative group overflow-hidden"
+							variant="secondary"
 						>
-							<span class="relative z-10">
+							<span class="relative z-10 flex items-center justify-center">
 								{#if isSubmitting}
 									<svg
 										class="animate-spin w-5 h-5 inline-block mr-2"
@@ -463,7 +443,7 @@
 							<div
 								class="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
 							></div>
-						</button>
+						</Button>
 
 						{#if form?.success}
 							<div class="text-center p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
@@ -494,19 +474,12 @@
 					{$_('contact.cta.subtitle')}
 				</p>
 				<div class="flex flex-col sm:flex-row gap-4 justify-center">
-					<a
-						href="mailto:biglmatthias@gmail.com"
-						class="magnetic-btn glass-card glass-card-hover px-8 py-4 text-lg font-semibold text-white text-center rounded-xl border border-white/20"
-					>
+					<Button href="mailto:biglmatthias@gmail.com" variant="secondary">
 						{$_('contact.cta.emailMe')}
-					</a>
-					<a
-						href="/assets/resume.pdf"
-						download="MatthiasBigl-Resume.pdf"
-						class="magnetic-btn glass-card glass-card-hover px-8 py-4 text-lg font-semibold text-white text-center rounded-xl"
-					>
+					</Button>
+					<Button href="/assets/resume.pdf" external={true} variant="secondary">
 						{$_('contact.cta.downloadResume')}
-					</a>
+					</Button>
 				</div>
 			</div>
 		</div>
@@ -519,8 +492,8 @@
 	}
 
 	.form-field:hover .form-input {
-		border-color: rgba(59, 130, 246, 0.3);
-		background: rgba(255, 255, 255, 0.08);
+		border-color: rgba(59, 130, 246, 0.25);
+		background: rgba(255, 255, 255, 0.06);
 	}
 
 	.contact-card::before {
@@ -532,14 +505,14 @@
 		bottom: 0;
 		border-radius: inherit;
 		padding: 1px;
-		background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+		background: linear-gradient(135deg, transparent 30%, rgba(59, 130, 246, 0.2), transparent 70%);
 		mask:
 			linear-gradient(#fff 0 0) content-box,
 			linear-gradient(#fff 0 0);
 		mask-composite: exclude;
 		-webkit-mask-composite: destination-out;
 		opacity: 0;
-		transition: opacity 0.3s ease;
+		transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	.contact-card:hover::before {

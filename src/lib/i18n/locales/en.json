@@ -18,26 +18,6 @@
 		"titleHighlight": "Less Hassle",
 		"subtitle": "Want to be visible online but don't want to waste weeks on tech? <span class=\"blue-gradient_text\">I'll handle it for you</span> – personally, no agency chaos, fair pricing.",
 		"items": {
-			"websites": {
-				"title": "SEO-Optimized Websites",
-				"description": "Modern, responsive web design that generates leads – even at 3 AM. Professional, trust-building, and built for maximum Google visibility.",
-				"features": [
-					"Responsive Webdesign",
-					"Found on Google",
-					"Lightning Fast",
-					"Trust at first sight"
-				]
-			},
-			"webshops": {
-				"title": "E-Commerce & Online Shops",
-				"description": "Your own webshop taking orders while you sleep. Easy to manage, secure payments, and optimized for higher conversion rates.",
-				"features": [
-					"Dead-simple management",
-					"Secure payments",
-					"Automatic orders",
-					"Know what works"
-				]
-			},
 			"experiences": {
 				"title": "Interactive Web Experiences",
 				"description": "Stand out from competitors. Custom 3D websites and interactive experiences that stick in memory and make your brand unforgettable.",
@@ -57,6 +37,26 @@
 					"Updates included",
 					"Always reachable"
 				]
+			},
+			"seo": {
+				"title": "SEO-Optimization",
+				"description": "Rank higher, get found. Data-driven SEO strategies to drive organic traffic and visibility.",
+				"features": [
+					"Keyword Strategy",
+					"Technical Audit",
+					"Performance Boost",
+					"Google Ranking"
+				]
+			},
+			"webshops": {
+				"title": "E-Commerce & Online Shops",
+				"description": "Your own webshop taking orders while you sleep. Easy to manage, secure payments, and optimized for higher conversion rates.",
+				"features": [
+					"Dead-simple management",
+					"Secure payments",
+					"Automatic orders",
+					"Know what works"
+				]
 			}
 		},
 		"whyMe": {
@@ -65,29 +65,29 @@
 			"subtitle": "Why pay for 10 people when one experienced developer can deliver? Direct, personal, no middlemen."
 		},
 		"benefits": {
-			"personal": {
-				"title": "Direct Communication",
-				"description": "You call, I pick up. No tickets, no 'your request has been forwarded'. Fast responses, faster solutions."
-			},
-			"local": {
-				"title": "Local in Vienna & Korneuburg",
-				"description": "Personal meetings possible in Vienna or Korneuburg. Sometimes face-to-face beats any video call."
-			},
-			"prices": {
-				"title": "Transparent Pricing",
-				"description": "No agency surcharges for meetings about meetings. You pay for results, not overhead costs."
-			},
-			"detail": {
-				"title": "Dedicated to Your Success",
-				"description": "Every detail matters. I work as if it were my own website – because my reputation depends on your satisfaction."
+			"allInOne": {
+				"title": "Hosting & Maintenance Included",
+				"description": "Hosting, updates, security – all handled. You focus on your business, I focus on keeping your website running perfectly."
 			},
 			"tech": {
 				"title": "Modern Technology Stack",
 				"description": "No outdated WordPress themes. Modern frameworks like SvelteKit and React that scale with your business."
 			},
-			"allInOne": {
-				"title": "Hosting & Maintenance Included",
-				"description": "Hosting, updates, security – all handled. You focus on your business, I focus on keeping your website running perfectly."
+			"detail": {
+				"title": "Dedicated to Your Success",
+				"description": "Every detail matters. I work as if it were my own website – because my reputation depends on your satisfaction."
+			},
+			"prices": {
+				"title": "Transparent Pricing",
+				"description": "No agency surcharges for meetings about meetings. You pay for results, not overhead costs."
+			},
+			"local": {
+				"title": "Local in Vienna & Korneuburg",
+				"description": "Personal meetings possible in Vienna or Korneuburg. Sometimes face-to-face beats any video call."
+			},
+			"personal": {
+				"title": "Direct Communication",
+				"description": "You call, I pick up. No tickets, no 'your request has been forwarded'. Fast responses, faster solutions."
 			}
 		},
 		"cta": "Get Free Webdesign Consultation →",
@@ -492,5 +492,9 @@
 	"language": {
 		"de": "Deutsch",
 		"en": "English"
+	},
+	"pricing": {
+		"navTitle": "Pricing Guide 2026",
+		"backToHome": "Back to Home"
 	}
 }

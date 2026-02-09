@@ -204,7 +204,7 @@
 					<div class="flex flex-wrap gap-3">
 						{#each ($_(`projects.items.${project.slug}.technologies`) as any) ?? [] as tech}
 							<span
-								class="px-5 py-2.5 rounded-xl bg-white/5 border border-white/5 text-gray-400 text-sm font-medium hover:border-blue-500/30 hover:text-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] transition-all ease-expo cursor-default translate-y-0 hover:-translate-y-1"
+									class="px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.06] text-gray-400 text-sm font-medium hover:border-blue-500/25 hover:text-blue-400 hover:shadow-[0_0_16px_rgba(59,130,246,0.1)] transition-all duration-300 cursor-default hover:-translate-y-0.5"
 							>
 								{tech}
 							</span>
@@ -213,7 +213,7 @@
 				</div>
 
 				<!-- Quick Specs -->
-				<div class="stagger-card glass-card p-8 rounded-3xl border-white/5 font-poppins">
+				<div class="stagger-card glass-card p-6 sm:p-8 rounded-2xl sm:rounded-3xl border-white/[0.04] font-poppins">
 					<div class="space-y-6">
 						<div class="flex justify-between items-center py-5 border-b border-white/5">
 							<span class="text-xs uppercase tracking-widest text-gray-500">Type</span>
@@ -249,7 +249,7 @@
 				<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
 					{#each ($_(`projects.items.${project.slug}.features`) as any) ?? [] as feature}
 						<div
-							class="stagger-card group p-8 lg:p-12 rounded-[2.5rem] bg-white/[0.03] border border-white/5 hover:bg-blue-500/5 hover:border-blue-500/20 transition-all duration-700 ease-expo relative overflow-hidden"
+							class="stagger-card group p-8 lg:p-10 rounded-[2rem] bg-white/[0.025] border border-white/[0.05] hover:bg-blue-500/[0.04] hover:border-blue-500/15 transition-all duration-500 relative overflow-hidden"
 						>
 							<div
 								class="absolute -right-8 -top-8 w-24 h-24 bg-blue-500/5 blur-2xl rounded-full group-hover:bg-blue-500/10 transition-colors"
@@ -363,20 +363,20 @@
 
 	.glass-card {
 		background: rgba(255, 255, 255, 0.03);
-		backdrop-filter: blur(20px);
-		-webkit-backdrop-filter: blur(20px);
-		border: 1px solid rgba(255, 255, 255, 0.05);
+		backdrop-filter: blur(20px) saturate(150%);
+		-webkit-backdrop-filter: blur(20px) saturate(150%);
+		border: 1px solid rgba(255, 255, 255, 0.06);
 	}
 
 	.aurora-bg {
-		background: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
-			radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 40%);
+		background: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
+			radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.08) 0%, transparent 40%);
 		filter: blur(80px);
 	}
 
 	.grain-overlay {
 		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-		filter: contrast(150%) brightness(100%);
+		filter: contrast(120%) brightness(100%);
 	}
 
 	.grid-lines {

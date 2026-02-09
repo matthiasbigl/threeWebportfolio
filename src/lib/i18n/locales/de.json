@@ -18,26 +18,6 @@
 		"titleHighlight": "weniger Stress",
 		"subtitle": "Sie wollen online sichtbar sein, aber nicht Wochen mit Technik verschwenden? <span class=\"blue-gradient_text\">Ich übernehme das für Sie</span> – persönlich, ohne Agentur-Chaos, zum fairen Preis.",
 		"items": {
-			"websites": {
-				"title": "SEO-optimierte Websites",
-				"description": "Modernes Webdesign, das für Sie arbeitet – auch um 3 Uhr nachts. Professionell, vertrauensbildend und für maximale Sichtbarkeit optimiert.",
-				"features": [
-					"Responsive Webdesign",
-					"Auf Google gefunden werden",
-					"Blitzschnelle Ladezeiten",
-					"Vertrauen auf den ersten Blick"
-				]
-			},
-			"webshops": {
-				"title": "Online verkaufen, einfach gemacht",
-				"description": "Ihr eigener Shop, der Bestellungen annimmt während Sie schlafen. Einfach zu verwalten, sicher für Ihre Kunden, optimiert für mehr Verkäufe.",
-				"features": [
-					"Kinderleichte Verwaltung",
-					"Sichere Zahlungen",
-					"Automatische Bestellungen",
-					"Wissen, was funktioniert"
-				]
-			},
 			"experiences": {
 				"title": "Wow-Effekt garantiert",
 				"description": "Heben Sie sich von der Masse ab. Interaktive Erlebnisse, die im Gedächtnis bleiben und Ihre Marke unvergesslich machen.",
@@ -57,6 +37,26 @@
 					"Updates & Wartung inklusive",
 					"Immer für Sie erreichbar"
 				]
+			},
+			"seo": {
+				"title": "SEO-optimierung",
+				"description": "Besser ranken, gefunden werden. Datenbasierte SEO-Strategien für mehr Sichtbarkeit und Traffic.",
+				"features": [
+					"Keyword-Strategie",
+					"Technisches Audit",
+					"Performance-Boost",
+					"Google Ranking"
+				]
+			},
+			"webshops": {
+				"title": "Online verkaufen, einfach gemacht",
+				"description": "Ihr eigener Shop, der Bestellungen annimmt während Sie schlafen. Einfach zu verwalten, sicher für Ihre Kunden, optimiert für mehr Verkäufe.",
+				"features": [
+					"Kinderleichte Verwaltung",
+					"Sichere Zahlungen",
+					"Automatische Bestellungen",
+					"Wissen, was funktioniert"
+				]
 			}
 		},
 		"whyMe": {
@@ -65,29 +65,29 @@
 			"subtitle": "Warum für 10 Leute zahlen, wenn einer alles kann? Direkt, persönlich, ohne Umwege."
 		},
 		"benefits": {
-			"personal": {
-				"title": "Keine Warteschleifen",
-				"description": "Sie rufen an, ich hebe ab. Keine Tickets, keine 'Ihr Anliegen wurde weitergeleitet'. Direkte Kommunikation, schnelle Lösungen."
-			},
-			"local": {
-				"title": "Kaffee statt Videocall",
-				"description": "Persönliche Treffen in Wien oder Korneuburg möglich. Manchmal ist ein Gespräch von Angesicht zu Angesicht einfach besser."
-			},
-			"prices": {
-				"title": "Mehr Website, weniger Rechnung",
-				"description": "Keine Agentur-Aufschläge für Meetings über Meetings. Sie zahlen für Ergebnisse, nicht für Overhead."
-			},
-			"detail": {
-				"title": "Ihr Projekt = Mein Projekt",
-				"description": "Jedes Detail zählt. Ich arbeite, als wäre es meine eigene Website – denn mein Ruf hängt an Ihrer Zufriedenheit."
+			"allInOne": {
+				"title": "Sie können sich zurücklehnen",
+				"description": "Hosting, Updates, Sicherheit – das läuft im Hintergrund. Sie konzentrieren sich auf Ihr Business, ich auf Ihre Website."
 			},
 			"tech": {
 				"title": "Zukunftssicher gebaut",
 				"description": "Keine veralteten Systeme, die in 2 Jahren Probleme machen. Moderne Technik, die mit Ihrem Business wächst."
 			},
-			"allInOne": {
-				"title": "Sie können sich zurücklehnen",
-				"description": "Hosting, Updates, Sicherheit – das läuft im Hintergrund. Sie konzentrieren sich auf Ihr Business, ich auf Ihre Website."
+			"detail": {
+				"title": "Ihr Projekt = Mein Projekt",
+				"description": "Jedes Detail zählt. Ich arbeite, als wäre es meine eigene Website – denn mein Ruf hängt an Ihrer Zufriedenheit."
+			},
+			"prices": {
+				"title": "Mehr Website, weniger Rechnung",
+				"description": "Keine Agentur-Aufschläge für Meetings über Meetings. Sie zahlen für Ergebnisse, nicht für Overhead."
+			},
+			"local": {
+				"title": "Kaffee statt Videocall",
+				"description": "Persönliche Treffen in Wien oder Korneuburg möglich. Manchmal ist ein Gespräch von Angesicht zu Angesicht einfach besser."
+			},
+			"personal": {
+				"title": "Keine Warteschleifen",
+				"description": "Sie rufen an, ich hebe ab. Keine Tickets, keine 'Ihr Anliegen wurde weitergeleitet'. Direkte Kommunikation, schnelle Lösungen."
 			}
 		},
 		"cta": "Jetzt gratis Webdesign-Beratung →",
@@ -493,5 +493,9 @@
 	"language": {
 		"de": "Deutsch",
 		"en": "English"
+	},
+	"pricing": {
+		"navTitle": "Preis-Guide 2026",
+		"backToHome": "Zurück zur Übersicht"
 	}
 }

@@ -56,8 +56,8 @@
 
 	.glass-card {
 		background: rgba(255, 255, 255, 0.03);
-		backdrop-filter: blur(20px);
-		-webkit-backdrop-filter: blur(20px);
-		border: 1px solid rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(20px) saturate(150%);
+		-webkit-backdrop-filter: blur(20px) saturate(150%);
+		border: 1px solid rgba(255, 255, 255, 0.07);
 	}
 </style>

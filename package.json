@@ -17,6 +17,7 @@
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/kit": "^2.5.27",
     "@sveltejs/vite-plugin-svelte": "^4.0.0",
+    "@tailwindcss/typography": "^0.5.19",
     "@threlte/core": "^7.0.12",
     "@threlte/extras": "^8.1.1",
     "@threlte/rapier": "^1.1.4",
@@ -44,6 +45,7 @@
     "@emailjs/nodejs": "^5.0.2",
     "@embedpdf/svelte-pdf-viewer": "^2.3.0",
     "gsap": "^3.13.0",
+    "marked": "^17.0.1",
     "svelte-i18n": "^4.0.1",
     "zod": "^3.25.67"
   }

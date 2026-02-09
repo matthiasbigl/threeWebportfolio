@@ -76,24 +76,24 @@
 
 	:global(*) {
 		scrollbar-width: thin;
-		scrollbar-color: rgba(0, 198, 255, 0.5) rgba(255, 255, 255, 0.1);
+		scrollbar-color: rgba(59, 130, 246, 0.35) rgba(255, 255, 255, 0.05);
 	}
 
 	:global(::-webkit-scrollbar) {
-		width: 8px;
+		width: 6px;
 	}
 
 	:global(::-webkit-scrollbar-track) {
-		background: rgba(255, 255, 255, 0.1);
-		border-radius: 4px;
+		background: rgba(255, 255, 255, 0.03);
+		border-radius: 3px;
 	}
 
 	:global(::-webkit-scrollbar-thumb) {
-		background: linear-gradient(45deg, #00c6ff, #0072ff);
-		border-radius: 4px;
+		background: linear-gradient(180deg, rgba(59, 130, 246, 0.4), rgba(99, 102, 241, 0.4));
+		border-radius: 3px;
 	}
 
 	:global(::-webkit-scrollbar-thumb:hover) {
-		background: linear-gradient(45deg, #0072ff, #7b68ee);
+		background: linear-gradient(180deg, rgba(59, 130, 246, 0.6), rgba(99, 102, 241, 0.6));
 	}
 </style>

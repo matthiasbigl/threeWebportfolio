@@ -41,22 +41,20 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: 4px;
-        background: rgba(255, 255, 255, 0.1);
+        height: 3px;
+        background: rgba(255, 255, 255, 0.04);
         z-index: 1000;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
     }
 
     .scroll-progress-bar {
         height: 100%;
-        background: linear-gradient(90deg, #00c6ff, #0072ff, #7b68ee, #ff6b6b);
+        background: linear-gradient(90deg, #00c6ff, #0072ff, #7b68ee);
         background-size: 200% 100%;
-        animation: gradient-flow 3s ease-in-out infinite;
+        animation: gradient-flow 4s ease-in-out infinite;
         transform-origin: left;
         transform: scaleX(0);
-        border-radius: 0 2px 2px 0;
-        box-shadow: 0 0 20px rgba(0, 198, 255, 0.5);
+        border-radius: 0 1.5px 1.5px 0;
+        box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
     }
 
     @keyframes gradient-flow {

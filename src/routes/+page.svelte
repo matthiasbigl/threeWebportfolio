@@ -8,6 +8,7 @@
 	import Services from '$lib/components/Services.svelte';
 	import FAQ from '$lib/components/FAQ.svelte';
 	import SEO from '$lib/components/SEO.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { gsap } from 'gsap';
@@ -113,29 +114,7 @@
 				);
 			});
 
-			// Magnetic effect for buttons
-			document.querySelectorAll('.magnetic-btn').forEach((btn: any) => {
-				btn.addEventListener('mouseenter', () => {
-					gsap.to(btn, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
-				});
-
-				btn.addEventListener('mouseleave', () => {
-					gsap.to(btn, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
-				});
-
-				btn.addEventListener('mousemove', (e: MouseEvent) => {
-					const rect = btn.getBoundingClientRect();
-					const x = e.clientX - rect.left - rect.width / 2;
-					const y = e.clientY - rect.top - rect.height / 2;
-
-					gsap.to(btn, {
-						x: x * 0.3,
-						y: y * 0.3,
-						duration: 0.3,
-						ease: 'power2.out'
-					});
-				});
-			});
+			// Magnetic effect handles by Button component now
 		});
 
 		mm.add('(max-width: 767px)', () => {
@@ -196,7 +175,7 @@
 	<!-- Hero Section -->
 	<section
 		id="hero"
-		class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-24 sm:pb-32"
+		class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-20 sm:pb-28"
 	>
 		<!-- Enhanced Hero Background -->
 		<div class="absolute inset-0 z-0">
@@ -223,7 +202,7 @@
 			<div class="flex flex-col lg:flex-row items-center justify-between gap-12 sm:gap-16">
 				<!-- Avatar -->
 				<div class="hero-avatar floating-avatar relative">
-					<div class="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 floating">
+					<div class="w-56 h-56 sm:w-72 sm:h-72 lg:w-[22rem] lg:h-[22rem] floating">
 						<PhotoAvatar />
 					</div>
 				</div>
@@ -252,18 +231,12 @@
 					<div
 						class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center lg:justify-start px-4 sm:px-0"
 					>
-						<a
-							href="/contact"
-							class="magnetic-btn glass-card px-10 py-5 text-lg font-bold text-white text-center rounded-2xl shadow-xl shadow-blue-500/15 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-500/30 hover:border-blue-500/50 hover:shadow-blue-500/25 transition-all duration-300"
-						>
+						<Button href="/contact" variant="primary">
 							{$_('hero.cta')}
-						</a>
-						<a
-							href="#services"
-							class="magnetic-btn glass-card glass-card-hover px-10 py-5 text-lg font-bold text-white text-center border border-white/10 rounded-2xl hover:border-white/20 transition-all duration-300"
-						>
+						</Button>
+						<Button href="#services" variant="secondary">
 							{$_('hero.ctaServices')}
-						</a>
+						</Button>
 					</div>
 				</div>
 			</div>
@@ -273,7 +246,9 @@
 	<!-- Services Section -->
 	<section class="services-wrapper reveal-section glass-section relative gradient-bg-1">
 		<!-- Subtle top divider -->
-		<div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
+		<div
+			class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"
+		></div>
 		<Services />
 	</section>
 
@@ -298,12 +273,23 @@
 
 			<div class="grid lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-24 relative">
 				<!-- Visual divider with hint between cubes (desktop only) -->
-				<div class="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 z-10" aria-hidden="true">
-					<div class="w-px h-16 bg-gradient-to-b from-transparent via-blue-500/30 to-transparent"></div>
-					<p class="text-gray-500 text-xs whitespace-nowrap opacity-60 hover:opacity-100 transition-opacity duration-300 px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-sm border border-white/5">{$_('skills.hint')}</p>
-					<div class="w-px h-16 bg-gradient-to-b from-transparent via-blue-500/30 to-transparent"></div>
+				<div
+					class="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 z-10"
+					aria-hidden="true"
+				>
+					<div
+						class="w-px h-16 bg-gradient-to-b from-transparent via-blue-500/30 to-transparent"
+					></div>
+					<p
+						class="text-gray-500 text-xs whitespace-nowrap opacity-60 hover:opacity-100 transition-opacity duration-300 px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-sm border border-white/5"
+					>
+						{$_('skills.hint')}
+					</p>
+					<div
+						class="w-px h-16 bg-gradient-to-b from-transparent via-blue-500/30 to-transparent"
+					></div>
 				</div>
-				
+
 				<!-- Languages -->
 				<div class="text-center">
 					<h3
@@ -335,12 +321,19 @@
 						/>
 					</div>
 					<!-- Mobile hint (shown below first cube on mobile) -->
-					<p class="lg:hidden text-gray-500 text-xs sm:text-sm mt-4 opacity-60 hover:opacity-100 transition-opacity duration-300">{$_('skills.hint')}</p>
-					
+					<p
+						class="lg:hidden text-gray-500 text-xs sm:text-sm mt-4 opacity-60 hover:opacity-100 transition-opacity duration-300"
+					>
+						{$_('skills.hint')}
+					</p>
+
 					<!-- Skill labels -->
 					<div class="mt-4 flex justify-center gap-2 flex-wrap">
 						{#each $_('skills.languagesList').split(',') as skill}
-							<span class="text-xs px-3 py-1.5 rounded-full bg-white/5 text-gray-400 border border-white/10 hover:border-blue-500/30 hover:text-gray-300 transition-all duration-200">{skill.trim()}</span>
+							<span
+								class="text-xs px-3 py-1.5 rounded-full bg-white/5 text-gray-400 border border-white/10 hover:border-blue-500/30 hover:text-gray-300 transition-all duration-200"
+								>{skill.trim()}</span
+							>
 						{/each}
 					</div>
 				</div>
@@ -375,11 +368,14 @@
 							ariaLabel={$_('skills.strengthsAriaLabel')}
 						/>
 					</div>
-					
+
 					<!-- Skill labels -->
 					<div class="mt-4 flex justify-center gap-2 flex-wrap">
 						{#each $_('skills.strengthsList').split(',') as skill}
-							<span class="text-xs px-3 py-1.5 rounded-full bg-white/5 text-gray-400 border border-white/10 hover:border-purple-500/30 hover:text-gray-300 transition-all duration-200">{skill.trim()}</span>
+							<span
+								class="text-xs px-3 py-1.5 rounded-full bg-white/5 text-gray-400 border border-white/10 hover:border-purple-500/30 hover:text-gray-300 transition-all duration-200"
+								>{skill.trim()}</span
+							>
 						{/each}
 					</div>
 				</div>
@@ -388,11 +384,11 @@
 	</section>
 	<!-- Projects Section -->
 	<section
-		class="projects-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-hidden lg:overflow-visible"
+		class="projects-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-hidden"
 	>
 		<div class="parallax-bg parallax-bg-1"></div>
 
-		<div class="relative container mx-auto px-4 lg:px-6">
+		<div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex flex-col items-center mb-14 lg:mb-20">
 				<h2
 					class="section-title font-poppins text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-6 text-white tracking-tight"
@@ -403,7 +399,9 @@
 				<div class="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
 
-			<div class="stagger-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 overflow-visible">
+			<div
+				class="stagger-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+			>
 				{#each projects as project}
 					<Card
 						title={$_(`projects.items.${project.slug}.title`)}
@@ -430,7 +428,7 @@
 
 	<!-- Resume Section -->
 	<section
-		class="resume-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-2 overflow-hidden lg:overflow-visible"
+		class="resume-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-2 overflow-hidden"
 	>
 		<div class="parallax-bg parallax-bg-2"></div>
 
@@ -450,20 +448,21 @@
 
 	<!-- Hobbies Section -->
 	<section
-		class="hobbies-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-hidden lg:overflow-visible"
+		class="hobbies-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-hidden"
 	>
 		<div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex flex-col items-center mb-12 sm:mb-16">
 				<h2
 					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-6 text-glow tracking-tight"
 				>
-					{$_('hobbies.title')} <span class="blue-gradient_text">{$_('hobbies.titleHighlight')}</span>
+					{$_('hobbies.title')}
+					<span class="blue-gradient_text">{$_('hobbies.titleHighlight')}</span>
 				</h2>
 				<div class="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
 
 			<div
-				class="stagger-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto p-4 overflow-visible"
+				class="stagger-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto"
 			>
 				{#each hobbies as hobby}
 					<Card
@@ -491,15 +490,22 @@
 	{#if showScrollIndicator}
 		<div
 			class="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 hidden md:flex transition-all duration-500"
-			style="opacity: {showScrollIndicator ? 0.5 : 0}; transform: translateX(-50%) translateY({showScrollIndicator ? 0 : 20}px);"
+			style="opacity: {showScrollIndicator
+				? 0.5
+				: 0}; transform: translateX(-50%) translateY({showScrollIndicator ? 0 : 20}px);"
 			onclick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-			onkeydown={(e) => e.key === 'Enter' && window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+			onkeydown={(e) =>
+				e.key === 'Enter' && window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
 			role="button"
 			tabindex="0"
 			aria-label="Scroll down"
 		>
-			<span class="text-[10px] font-semibold uppercase tracking-[0.3em] text-blue-400/80">Scroll</span>
-			<div class="w-5 h-8 rounded-full border border-blue-500/30 flex items-start justify-center p-1">
+			<span class="text-[10px] font-semibold uppercase tracking-[0.3em] text-blue-400/80"
+				>Scroll</span
+			>
+			<div
+				class="w-5 h-8 rounded-full border border-blue-500/30 flex items-start justify-center p-1"
+			>
 				<div class="w-1 h-2 bg-blue-400 rounded-full animate-bounce"></div>
 			</div>
 		</div>
