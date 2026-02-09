@@ -1,14 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import { _, locale } from 'svelte-i18n';
 	import Button from './Button.svelte';
 
-	if (browser) {
-		gsap.registerPlugin(ScrollTrigger);
-	}
+	// GSAP is dynamically imported in onMount to avoid blocking initial render
 
 	const services = $derived([
 		{
@@ -74,8 +70,12 @@
 		}))
 	);
 
-	onMount(() => {
+	onMount(async () => {
 		if (!browser) return;
+
+		const { gsap } = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+		gsap.registerPlugin(ScrollTrigger);
 
 		const mm = gsap.matchMedia();
 

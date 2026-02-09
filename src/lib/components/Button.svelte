@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount, type Snippet } from 'svelte';
-	import { gsap } from 'gsap';
 
 	interface Props {
 		href?: string;
@@ -26,8 +25,11 @@
 
 	let element = $state<HTMLElement>();
 
-	onMount(() => {
+	onMount(async () => {
 		if (!element) return;
+
+		// Lazy-load GSAP for magnetic hover effect
+		const { gsap } = await import('gsap');
 
 		const handleMouseEnter = (e: Event) => {
 			const target = e.currentTarget as HTMLElement;

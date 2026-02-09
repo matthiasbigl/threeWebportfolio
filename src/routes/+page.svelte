@@ -481,7 +481,12 @@
 		</div>
 	</section>
 
-	<!-- Hobbies Section -->
+	<!-- FAQ Section -->
+	<section class="faq-wrapper reveal-section glass-section relative gradient-bg-2">
+		<div class="parallax-bg parallax-bg-2"></div>
+		<FAQ />
+	</section>
+		<!-- Hobbies Section -->
 	<section
 		class="hobbies-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-hidden"
 	>
@@ -524,12 +529,6 @@
 				{/each}
 			</div>
 		</div>
-	</section>
-
-	<!-- FAQ Section -->
-	<section class="faq-wrapper reveal-section glass-section relative gradient-bg-2">
-		<div class="parallax-bg parallax-bg-2"></div>
-		<FAQ />
 	</section>
 
 	<!-- Scroll Down Indicator -->

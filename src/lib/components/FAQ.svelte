@@ -1,7 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
-    import { gsap } from 'gsap';
     import { _ } from 'svelte-i18n';
     import Button from './Button.svelte';
     import deLocale from '$lib/i18n/locales/de.json';
@@ -27,8 +26,12 @@
         }
     }
 
-    onMount(() => {
+    onMount(async () => {
         if (!browser) return;
+
+        const { gsap } = await import('gsap');
+        const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+        gsap.registerPlugin(ScrollTrigger);
 
         gsap.fromTo(
             '.faq-item',

@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { gsap } from 'gsap';
 
 	let container: HTMLDivElement = $state();
 	let image: HTMLElement = $state();
 
-	onMount(() => {
+	onMount(async () => {
 		if (!browser || !container) return;
+
+		// Lazy-load GSAP for hover animations
+		const { gsap } = await import('gsap');
 
 		// Subtle hover interaction
 		const handleMouseEnter = () => {

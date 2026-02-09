@@ -2,9 +2,11 @@
     import { onDestroy, onMount } from "svelte";
     import { goto } from '$app/navigation';
     import { browser } from '$app/environment';
-    import { gsap } from 'gsap';
     import { _ } from 'svelte-i18n';
     import LanguageSwitcher from './LanguageSwitcher.svelte';
+
+    // GSAP loaded dynamically to avoid blocking initial render
+    let gsapModule: typeof import('gsap') | null = null;
 
     let isHamOpen = $state(false);
     let navbar: HTMLElement | undefined = $state();
@@ -16,27 +18,27 @@
         }
     }
 
-    function toggleMenu() {
+    async function toggleMenu() {
         isHamOpen = !isHamOpen;
         
-        if (browser) {
-            if (isHamOpen) {
-                gsap.fromTo(".mobile-menu", 
-                    { opacity: 0, scale: 0.8, y: -20 },
-                    { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "back.out(1.7)" }
-                );
-                gsap.fromTo(".mobile-menu-item", 
-                    { opacity: 0, y: 20 },
-                    { opacity: 1, y: 0, duration: 0.3, stagger: 0.1, ease: "power2.out", delay: 0.1 }
-                );
-            }
+        if (browser && isHamOpen) {
+            if (!gsapModule) gsapModule = await import('gsap');
+            const { gsap } = gsapModule;
+            gsap.fromTo(".mobile-menu", 
+                { opacity: 0, scale: 0.8, y: -20 },
+                { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "back.out(1.7)" }
+            );
+            gsap.fromTo(".mobile-menu-item", 
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.3, stagger: 0.1, ease: "power2.out", delay: 0.1 }
+            );
         }
     }
 
-    onMount(() => {
+    onMount(async () => {
         if (!browser || !navbar) return;
 
-        // Navbar scroll effect
+        // Navbar scroll effect (no GSAP needed — pure DOM)
         const handleScroll = () => {
             if (!navbar) return;
             const scrolled = window.scrollY > 50;
@@ -48,8 +50,10 @@
         };
 
         window.addEventListener('scroll', handleScroll);
-        
-        // Initial navbar animation
+
+        // Lazy-load GSAP for the entrance animation
+        if (!gsapModule) gsapModule = await import('gsap');
+        const { gsap } = gsapModule;
         gsap.fromTo(navbar, 
             { y: -100, opacity: 0 },
             { y: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 0.2 }

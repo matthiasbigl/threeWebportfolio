@@ -6,7 +6,6 @@
 	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { gsap } from 'gsap';
 	import { enhance } from '$app/forms';
 	import { _ } from 'svelte-i18n';
 	import type { PageData, ActionData } from './$types';
@@ -77,12 +76,13 @@
 		}
 	]);
 
-	onMount(() => {
+	onMount(async () => {
 		if (!browser) return;
 
 		// Record form load time for bot detection
 		formLoadTime = Date.now();
 
+		const { gsap } = await import('gsap');
 		const mm = gsap.matchMedia();
 
 		mm.add('(min-width: 768px)', () => {

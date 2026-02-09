@@ -42,6 +42,9 @@
     "vite": "^6.3.0"
   },
   "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@emailjs/nodejs": "^5.0.2",
     "@embedpdf/svelte-pdf-viewer": "^2.3.0",

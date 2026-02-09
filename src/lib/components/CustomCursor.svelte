@@ -1,20 +1,22 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { gsap } from 'gsap';
 
 	let cursor: HTMLDivElement = $state();
 	let follower: HTMLDivElement = $state();
 	let isMobile = $state(false);
 
 	if (browser) {
-		onMount(() => {
+		onMount(async () => {
 			// Check if device is mobile/touch
 			isMobile =
 				window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
 				window.innerWidth <= 768;
 
 			if (isMobile) return;
+
+			// Lazy-load GSAP — cursor is non-critical
+			const { gsap } = await import('gsap');
 
 			const handleMouseMove = (e: MouseEvent) => {
 				gsap.to(cursor, {

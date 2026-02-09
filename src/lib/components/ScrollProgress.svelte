@@ -1,31 +1,25 @@
 <script lang="ts">
     import { onMount, onDestroy } from 'svelte';
     import { browser } from '$app/environment';
-    import { gsap } from 'gsap';
 
     let progressBar: HTMLDivElement = $state();
-    let scrollTween: gsap.core.Tween;
 
     if (browser) {
         onMount(() => {
+            // Use plain JS for scroll progress — no need for GSAP here
             const updateProgress = () => {
+                if (!progressBar) return;
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const progress = (scrollTop / scrollHeight) * 100;
-                
-                gsap.to(progressBar, {
-                    scaleX: progress / 100,
-                    duration: 0.1,
-                    ease: "none"
-                });
+                const progress = scrollTop / scrollHeight;
+                progressBar.style.transform = `scaleX(${progress})`;
             };
 
-            window.addEventListener('scroll', updateProgress);
+            window.addEventListener('scroll', updateProgress, { passive: true });
             updateProgress();
 
             return () => {
                 window.removeEventListener('scroll', updateProgress);
-                if (scrollTween) scrollTween.kill();
             };
         });
     }

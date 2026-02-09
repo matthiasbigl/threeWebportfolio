@@ -1,7 +1,13 @@
 import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
-    const response = await resolve(event);
+    const response = await resolve(event, {
+        // Preload critical assets via Link headers
+        preload: ({ type }) => {
+            // Only preload JS, CSS, and fonts — skip images (lazy-loaded)
+            return type === 'js' || type === 'css' || type === 'font';
+        }
+    });
     
     // Security headers
     response.headers.set('X-Content-Type-Options', 'nosniff');

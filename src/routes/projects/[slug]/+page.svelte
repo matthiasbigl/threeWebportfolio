@@ -7,8 +7,6 @@
 	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
 	import { _ } from 'svelte-i18n';
 	import { onMount } from 'svelte';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 
@@ -30,8 +28,11 @@
 				: 'statusDevelopment'
 	);
 
-	onMount(() => {
+	onMount(async () => {
 		if (!browser) return;
+
+		const { gsap } = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
 		gsap.registerPlugin(ScrollTrigger);
 
 		// --- HERO entrance choreography ---

@@ -20,14 +20,7 @@
 
 	onMount(() => {
 		if (browser) {
-			// Initialize locale from localStorage
 			initLocaleFromStorage();
-
-			// Smooth scrolling behavior
-			document.documentElement.style.scrollBehavior = 'smooth';
-
-			// Add loading animation
-			document.body.classList.add('loaded');
 		}
 	});
 </script>
@@ -63,22 +56,9 @@
 		scroll-behavior: smooth;
 	}
 
+	/* Avoid opacity:0 flash — show body immediately, use class for initial fade */
 	:global(body) {
-		opacity: 0;
-		animation: fadeIn 1s ease-out forwards;
-	}
-
-	:global(body.loaded) {
 		opacity: 1;
-	}
-
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
 	}
 
 	:global(*) {
@@ -102,5 +82,10 @@
 
 	:global(::-webkit-scrollbar-thumb:hover) {
 		background: linear-gradient(180deg, rgba(59, 130, 246, 0.6), rgba(99, 102, 241, 0.6));
+	}
+
+	/* Contain layout shifts in main sections */
+	:global(section) {
+		contain: layout style;
 	}
 </style>
