@@ -73,6 +73,7 @@
 
 		// Lazy-load GSAP for the entrance animation
 		(async () => {
+			if ($reducedMotion) return;
 			if (!gsapModule) gsapModule = await import('gsap');
 			const { gsap } = gsapModule;
 			gsap.fromTo(

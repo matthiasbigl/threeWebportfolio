@@ -21,6 +21,7 @@
 				const { gsap } = await import('gsap');
 
 				const handleMouseMove = (e: MouseEvent) => {
+					if (!cursor || !follower) return;
 					gsap.to(cursor, {
 						x: e.clientX,
 						y: e.clientY,
@@ -37,6 +38,7 @@
 				};
 
 				const handleMouseEnter = () => {
+					if (!cursor || !follower) return;
 					gsap.to(cursor, {
 						scale: 1.5,
 						duration: 0.3,
@@ -50,6 +52,7 @@
 				};
 
 				const handleMouseLeave = () => {
+					if (!cursor || !follower) return;
 					gsap.to(cursor, {
 						scale: 1,
 						duration: 0.3,
