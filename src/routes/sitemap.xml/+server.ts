@@ -3,6 +3,11 @@ import { projects } from '$lib/data/projects';
 
 const siteUrl = 'https://bigls.net';
 
+/** Escape special XML characters in text content */
+function escXml(s: string): string {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+}
+
 export const GET: RequestHandler = async () => {
     const lastmod = new Date().toISOString().split('T')[0];
 
@@ -29,7 +34,7 @@ export const GET: RequestHandler = async () => {
         <priority>0.7</priority>
         <image:image>
             <image:loc>${imageUrl}</image:loc>
-            <image:title>${project.slug.charAt(0).toUpperCase() + project.slug.slice(1)} – Matthias Bigl Portfolio</image:title>
+            <image:title>${escXml(project.slug.charAt(0).toUpperCase() + project.slug.slice(1))} – Matthias Bigl Portfolio</image:title>
         </image:image>
     </url>`;
         }).join('');
@@ -50,7 +55,7 @@ export const GET: RequestHandler = async () => {
         <priority>1.0</priority>
         <image:image>
             <image:loc>${siteUrl}/headshot.png</image:loc>
-            <image:title>Matthias Bigl – Webdesigner & Full Stack Developer Wien Korneuburg</image:title>
+            <image:title>Matthias Bigl – Webdesigner &amp; Full Stack Developer Wien Korneuburg</image:title>
             <image:caption>Matthias Bigl – Professionelle Webentwicklung, Websites, Webshops und interaktive Web-Erlebnisse aus Wien und Korneuburg, Österreich</image:caption>
         </image:image>
     </url>
