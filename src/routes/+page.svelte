@@ -14,6 +14,7 @@
 	import { browser } from '$app/environment';
 	import { projects } from '$lib/data/projects';
 	import { _, locale } from 'svelte-i18n';
+	import { reducedMotion } from '$lib/stores/reducedMotion';
 	import dumbbellImg from '$lib/assets/dumbbell.png?enhanced';
 	import surfingImg from '$lib/assets/surfing.JPG?enhanced';
 
@@ -60,78 +61,96 @@
 
 		const mm = gsap.matchMedia();
 
-		mm.add('(min-width: 768px)', () => {
-			// Hero section animations
-			gsap.fromTo(
-				'.hero-title',
-				{ opacity: 0, y: 100, scale: 0.8 },
-				{ opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'back.out(1.7)', delay: 0.5 }
-			);
+		mm.add(
+			{
+				isDesktop: '(min-width: 768px)',
+				isMobile: '(max-width: 767px)',
+				reduceMotion: '(prefers-reduced-motion: reduce)'
+			},
+			(context) => {
+				const { isDesktop, isMobile, reduceMotion } = context.conditions!;
 
-			gsap.fromTo(
-				'.hero-subtitle',
-				{ opacity: 0, y: 50 },
-				{ opacity: 1, y: 0, duration: 1, ease: 'power2.out', delay: 0.8 }
-			);
+				if (reduceMotion) return;
 
-			gsap.fromTo(
-				'.hero-avatar',
-				{ opacity: 0, x: -100, rotation: -10 },
-				{ opacity: 1, x: 0, rotation: 0, duration: 1.5, ease: 'back.out(1.7)', delay: 0.3 }
-			);
+				if (isDesktop) {
+					// Hero section animations
+					gsap.fromTo(
+						'.hero-title',
+						{ opacity: 0, y: 100, scale: 0.8 },
+						{ opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'back.out(1.7)', delay: 0.5 }
+					);
 
-			// Section reveal animations
-			gsap.utils.toArray('.reveal-section').forEach((section: any) => {
-				gsap.fromTo(
-					section.querySelector('.section-title'),
-					{ opacity: 0, y: 60 },
-					{
-						opacity: 1,
-						y: 0,
-						duration: 1,
-						ease: 'power2.out',
-						scrollTrigger: {
-							trigger: section,
-							start: 'top 80%'
-						}
-					}
-				);
-			});
+					gsap.fromTo(
+						'.hero-subtitle',
+						{ opacity: 0, y: 50 },
+						{ opacity: 1, y: 0, duration: 1, ease: 'power2.out', delay: 0.8 }
+					);
 
-			// Staggered card animations
-			gsap.utils.toArray('.stagger-cards').forEach((container: any) => {
-				const cards = container.querySelectorAll('.stagger-item');
-				gsap.fromTo(
-					cards,
-					{ opacity: 0, y: 60, scale: 0.8 },
-					{
-						opacity: 1,
-						y: 0,
-						scale: 1,
-						duration: 0.8,
-						ease: 'back.out(1.7)',
-						stagger: 0.1,
-						scrollTrigger: {
-							trigger: container,
-							start: 'top 85%'
-						}
-					}
-				);
-			});
+					gsap.fromTo(
+						'.hero-avatar',
+						{ opacity: 0, x: -100, rotation: -10 },
+						{ opacity: 1, x: 0, rotation: 0, duration: 1.5, ease: 'back.out(1.7)', delay: 0.3 }
+					);
 
-			// Magnetic effect handles by Button component now
-		});
+					// Section reveal animations
+					gsap.utils.toArray('.reveal-section').forEach((section: any) => {
+						gsap.fromTo(
+							section.querySelector('.section-title'),
+							{ opacity: 0, y: 60 },
+							{
+								opacity: 1,
+								y: 0,
+								duration: 1,
+								ease: 'power2.out',
+								scrollTrigger: {
+									trigger: section,
+									start: 'top 80%'
+								}
+							}
+						);
+					});
 
-		mm.add('(max-width: 767px)', () => {
-			// Simpler reveals for mobile
-			gsap.utils.toArray('.reveal-section').forEach((section: any) => {
-				gsap.fromTo(
-					section,
-					{ opacity: 0, y: 20 },
-					{ opacity: 1, y: 0, duration: 0.8, scrollTrigger: { trigger: section, start: 'top 90%' } }
-				);
-			});
-		});
+					// Staggered card animations
+					gsap.utils.toArray('.stagger-cards').forEach((container: any) => {
+						const cards = container.querySelectorAll('.stagger-item');
+						gsap.fromTo(
+							cards,
+							{ opacity: 0, y: 60, scale: 0.8 },
+							{
+								opacity: 1,
+								y: 0,
+								scale: 1,
+								duration: 0.8,
+								ease: 'back.out(1.7)',
+								stagger: 0.1,
+								scrollTrigger: {
+									trigger: container,
+									start: 'top 85%'
+								}
+							}
+						);
+					});
+
+					// Magnetic effect handles by Button component now
+				}
+
+				if (isMobile) {
+					// Simpler reveals for mobile
+					gsap.utils.toArray('.reveal-section').forEach((section: any) => {
+						gsap.fromTo(
+							section,
+							{ opacity: 0, y: 20 },
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.8,
+								scrollTrigger: { trigger: section, start: 'top 90%' }
+							}
+						);
+					});
+				}
+			}
+		);
 
 		return () => {
 			mm.revert();
@@ -186,9 +205,7 @@
 		'web designer Vienna Austria'
 	]}
 	showFaq={true}
-	breadcrumbs={[
-		{ name: 'Matthias Bigl', url: 'https://bigls.net' }
-	]}
+	breadcrumbs={[{ name: 'Matthias Bigl', url: 'https://bigls.net' }]}
 />
 
 <ScrollProgress />
@@ -291,7 +308,9 @@
 			<div class="flex flex-col items-center mb-14 lg:mb-20">
 				<div class="flex items-center gap-3 mb-5">
 					<div class="h-px w-8 bg-blue-500/40"></div>
-					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]">{$_('skills.title')}</span>
+					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
+						>{$_('skills.title')}</span
+					>
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
 				<h2
@@ -431,7 +450,9 @@
 			<div class="flex flex-col items-center mb-14 lg:mb-20">
 				<div class="flex items-center gap-3 mb-5">
 					<div class="h-px w-8 bg-blue-500/40"></div>
-					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]">{$_('projects.title')}</span>
+					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
+						>{$_('projects.title')}</span
+					>
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
 				<h2
@@ -443,16 +464,16 @@
 				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
 
-			<div
-				class="stagger-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
-			>
+			<div class="stagger-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
 				{#each projects as project}
 					<Card
 						tag="article"
 						title={$_(`projects.items.${project.slug}.title`)}
 						description={$_(`projects.items.${project.slug}.description`)}
 						image={project.image}
-						imageAlt={$_('a11y.projectImageAlt', { values: { project: $_(`projects.items.${project.slug}.title`) } })}
+						imageAlt={$_('a11y.projectImageAlt', {
+							values: { project: $_(`projects.items.${project.slug}.title`) }
+						})}
 						link={project.isExternal ? project.link : `/projects/${project.slug}`}
 						target={project.isExternal ? '_blank' : ''}
 						rel={project.isExternal ? 'noopener noreferrer' : ''}
@@ -482,7 +503,9 @@
 			<div class="flex flex-col items-center mb-12 sm:mb-14">
 				<div class="flex items-center gap-3 mb-5">
 					<div class="h-px w-8 bg-blue-500/40"></div>
-					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]">{$_('resume.title')}</span>
+					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
+						>{$_('resume.title')}</span
+					>
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
 				<h2
@@ -503,7 +526,7 @@
 		<div class="parallax-bg parallax-bg-2"></div>
 		<FAQ />
 	</section>
-		<!-- Hobbies Section -->
+	<!-- Hobbies Section -->
 	<section
 		class="hobbies-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-hidden"
 	>
@@ -511,7 +534,9 @@
 			<div class="flex flex-col items-center mb-12 sm:mb-16">
 				<div class="flex items-center gap-3 mb-5">
 					<div class="h-px w-8 bg-blue-500/40"></div>
-					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]">{$_('hobbies.title')}</span>
+					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
+						>{$_('hobbies.title')}</span
+					>
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
 				<h2
@@ -563,16 +588,17 @@
 				e.key === 'Enter' && window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
 			role="button"
 			tabindex="0"
-		aria-label={$_('a11y.scrollDown')}
+			aria-label={$_('a11y.scrollDown')}
 		>
-			<span class="text-[9px] font-semibold uppercase tracking-[0.3em] text-gray-500"
-				>Scroll</span
-			>
+			<span class="text-[9px] font-semibold uppercase tracking-[0.3em] text-gray-500">Scroll</span>
 			<div
 				class="w-4 h-7 rounded-full flex items-start justify-center p-1"
 				style="border: 1px solid var(--border-primary);"
 			>
-				<div class="w-0.5 h-1.5 rounded-full animate-bounce" style="background: var(--text-tertiary);"></div>
+				<div
+					class="w-0.5 h-1.5 rounded-full animate-bounce"
+					style="background: var(--text-tertiary);"
+				></div>
 			</div>
 		</div>
 	{/if}
@@ -584,7 +610,8 @@
 	}
 
 	.aurora-bg {
-		background: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+		background:
+			radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
 			radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 40%);
 		filter: blur(80px);
 	}
