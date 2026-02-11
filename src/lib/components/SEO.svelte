@@ -206,11 +206,7 @@
 			'@type': 'EducationalOrganization',
 			name: 'HTL Hollabrunn'
 		},
-		sameAs: [
-			'https://github.com/matthiasbigl',
-			'https://blog.bigls.net',
-			'https://bigls.net'
-		],
+		sameAs: ['https://github.com/matthiasbigl', 'https://blog.bigls.net', 'https://bigls.net'],
 		knowsAbout: [
 			'Webdesign',
 			'Web Design',
@@ -250,7 +246,8 @@
 			'@type': 'Occupation',
 			name: 'Web Developer & Designer',
 			occupationalCategory: '15-1254',
-			description: 'Freelance Webdesigner und Full Stack Developer spezialisiert auf moderne Websites, Webshops und interaktive Web-Erlebnisse',
+			description:
+				'Freelance Webdesigner und Full Stack Developer spezialisiert auf moderne Websites, Webshops und interaktive Web-Erlebnisse',
 			skills: 'SvelteKit, React, TypeScript, Three.js, Node.js, Python, SEO, UI/UX Design'
 		}
 	};
@@ -310,7 +307,8 @@
 					itemOffered: {
 						'@type': 'Service',
 						name: 'Website erstellen lassen',
-						description: 'Professionelle, moderne Websites die Ihre Marke perfekt präsentieren und Kunden gewinnen. Ab €2.000.',
+						description:
+							'Professionelle, moderne Websites die Ihre Marke perfekt präsentieren und Kunden gewinnen. Ab €2.000.',
 						provider: { '@id': `${siteUrl}/#person` }
 					}
 				},
@@ -328,7 +326,8 @@
 					itemOffered: {
 						'@type': 'Service',
 						name: 'Webshop & Online Shop Entwicklung',
-						description: 'Maßgeschneiderte E-Commerce Lösungen mit sicherer Zahlung und einfacher Verwaltung. Ab €3.250.',
+						description:
+							'Maßgeschneiderte E-Commerce Lösungen mit sicherer Zahlung und einfacher Verwaltung. Ab €3.250.',
 						provider: { '@id': `${siteUrl}/#person` }
 					}
 				},
@@ -337,7 +336,8 @@
 					itemOffered: {
 						'@type': 'Service',
 						name: 'Interaktive 3D Web-Erlebnisse',
-						description: 'Einzigartige, interaktive Web-Experiences mit Three.js und 3D-Animationen die im Gedächtnis bleiben.',
+						description:
+							'Einzigartige, interaktive Web-Experiences mit Three.js und 3D-Animationen die im Gedächtnis bleiben.',
 						provider: { '@id': `${siteUrl}/#person` }
 					}
 				},
@@ -346,7 +346,8 @@
 					itemOffered: {
 						'@type': 'Service',
 						name: 'SEO Optimierung',
-						description: 'Datenbasierte SEO-Strategien für bessere Google Rankings und mehr organischen Traffic.',
+						description:
+							'Datenbasierte SEO-Strategien für bessere Google Rankings und mehr organischen Traffic.',
 						provider: { '@id': `${siteUrl}/#person` }
 					}
 				},
@@ -355,17 +356,15 @@
 					itemOffered: {
 						'@type': 'Service',
 						name: 'Hosting & Wartung',
-						description: 'Rundum-Sorglos-Paket mit schnellem Hosting, Updates, Backups und Support.',
+						description:
+							'Rundum-Sorglos-Paket mit schnellem Hosting, Updates, Backups und Support.',
 						provider: { '@id': `${siteUrl}/#person` }
 					}
 				}
 			]
 		},
 		founder: { '@id': `${siteUrl}/#person` },
-		sameAs: [
-			'https://github.com/matthiasbigl',
-			'https://blog.bigls.net'
-		]
+		sameAs: ['https://github.com/matthiasbigl', 'https://blog.bigls.net']
 	};
 
 	// ═══════════════════════════════════════════════════════════
@@ -378,7 +377,8 @@
 		name: siteName,
 		alternateName: ['Bigls Webdesign Wien', 'Matthias Bigl Portfolio', 'bigls.net'],
 		url: siteUrl,
-		description: 'Matthias Bigl – Webdesigner & Full Stack Developer aus Wien/Korneuburg. Professionelle Websites, Webshops & interaktive Web-Erlebnisse für KMU und Selbstständige.',
+		description:
+			'Matthias Bigl – Webdesigner & Full Stack Developer aus Wien/Korneuburg. Professionelle Websites, Webshops & interaktive Web-Erlebnisse für KMU und Selbstständige.',
 		author: { '@id': `${siteUrl}/#person` },
 		publisher: { '@id': `${siteUrl}/#person` },
 		inLanguage: ['de-AT', 'en'],
@@ -431,18 +431,19 @@
 	// ═══════════════════════════════════════════════════════════
 	// Structured Data — BreadcrumbList Schema
 	// ═══════════════════════════════════════════════════════════
-	const breadcrumbSchema = breadcrumbs.length > 0
-		? {
-				'@context': 'https://schema.org',
-				'@type': 'BreadcrumbList',
-				itemListElement: breadcrumbs.map((crumb, i) => ({
-					'@type': 'ListItem',
-					position: i + 1,
-					name: crumb.name,
-					item: crumb.url
-				}))
-			}
-		: null;
+	const breadcrumbSchema =
+		breadcrumbs.length > 0
+			? {
+					'@context': 'https://schema.org',
+					'@type': 'BreadcrumbList',
+					itemListElement: breadcrumbs.map((crumb, i) => ({
+						'@type': 'ListItem',
+						position: i + 1,
+						name: crumb.name,
+						item: crumb.url
+					}))
+				}
+			: null;
 </script>
 
 <svelte:head>
@@ -462,10 +463,9 @@
 	/>
 	<link rel="canonical" href={url} />
 
-	<!-- Hreflang for international SEO -->
-	<link rel="alternate" hreflang="de" href={url} />
-	<link rel="alternate" hreflang="en" href={url} />
-	<link rel="alternate" hreflang="x-default" href={url} />
+	<!-- Hreflang omitted: site uses client-side i18n with a single URL per page.
+	     Hreflang requires distinct URLs per language (e.g. /de/... /en/...).
+	     Will be re-added after migrating to URL-based i18n (Paraglide). -->
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content={type} />
@@ -475,7 +475,10 @@
 	<meta property="og:image" content={image} />
 	<meta property="og:image:width" content="1000" />
 	<meta property="og:image:height" content="1000" />
-	<meta property="og:image:alt" content="Matthias Bigl – Webdesigner & Full Stack Developer aus Wien, Österreich" />
+	<meta
+		property="og:image:alt"
+		content="Matthias Bigl – Webdesigner & Full Stack Developer aus Wien, Österreich"
+	/>
 	<meta property="og:site_name" content={siteName} />
 	<meta property="og:locale" content="de_AT" />
 	<meta property="og:locale:alternate" content="en_US" />

@@ -8,25 +8,37 @@ export const GET: RequestHandler = async () => {
 
     const projectUrls = projects
         .filter(p => !p.isExternal)
-        .map(project => `
+        .map(project => {
+            // Resolve image URL: enhanced imports are Picture objects, others are plain strings
+            let imageUrl: string;
+            if (typeof project.image === 'string') {
+                imageUrl = project.image.startsWith('http') ? project.image : `${siteUrl}/${project.image}`;
+            } else {
+                // Picture object from ?enhanced — grab the first source fallback
+                const src = (project.image as any)?.sources?.avif?.[0]?.src
+                    ?? (project.image as any)?.sources?.webp?.[0]?.src
+                    ?? (project.image as any)?.img?.src
+                    ?? `${siteUrl}/favicon.png`;
+                imageUrl = src.startsWith('http') ? src : `${siteUrl}${src}`;
+            }
+            return `
     <url>
         <loc>${siteUrl}/projects/${project.slug}</loc>
         <lastmod>${lastmod}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="de" href="${siteUrl}/projects/${project.slug}" />
-        <xhtml:link rel="alternate" hreflang="en" href="${siteUrl}/projects/${project.slug}" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}/projects/${project.slug}" />
         <image:image>
-            <image:loc>${project.image.startsWith('http') ? project.image : `${siteUrl}/${project.image}`}</image:loc>
+            <image:loc>${imageUrl}</image:loc>
             <image:title>${project.slug.charAt(0).toUpperCase() + project.slug.slice(1)} – Matthias Bigl Portfolio</image:title>
         </image:image>
-    </url>`).join('');
+    </url>`;
+        }).join('');
 
+    // Hreflang omitted: site uses client-side i18n with a single URL per page.
+    // Will be re-added after migrating to URL-based i18n (Paraglide).
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
@@ -36,9 +48,6 @@ export const GET: RequestHandler = async () => {
         <lastmod>${lastmod}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
-        <xhtml:link rel="alternate" hreflang="de" href="${siteUrl}/" />
-        <xhtml:link rel="alternate" hreflang="en" href="${siteUrl}/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}/" />
         <image:image>
             <image:loc>${siteUrl}/headshot.png</image:loc>
             <image:title>Matthias Bigl – Webdesigner & Full Stack Developer Wien Korneuburg</image:title>
@@ -51,9 +60,6 @@ export const GET: RequestHandler = async () => {
         <lastmod>${lastmod}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
-        <xhtml:link rel="alternate" hreflang="de" href="${siteUrl}/contact" />
-        <xhtml:link rel="alternate" hreflang="en" href="${siteUrl}/contact" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}/contact" />
     </url>
     <!-- Pricing Guide -->
     <url>
@@ -61,9 +67,6 @@ export const GET: RequestHandler = async () => {
         <lastmod>${lastmod}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
-        <xhtml:link rel="alternate" hreflang="de" href="${siteUrl}/pricing" />
-        <xhtml:link rel="alternate" hreflang="en" href="${siteUrl}/pricing" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}/pricing" />
     </url>
     <!-- Legal / Impressum -->
     <url>
