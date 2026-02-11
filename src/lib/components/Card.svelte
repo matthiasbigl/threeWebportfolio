@@ -62,7 +62,7 @@
 						</div>
 					{:else if isEnhanced}
 						<enhanced:img
-							src={image as Picture}
+							src={image}
 							alt={altText}
 							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
 							style="object-fit: {imageObjectFit}"
@@ -117,7 +117,7 @@
 						</div>
 					{:else if isEnhanced}
 						<enhanced:img
-							src={image as Picture}
+							src={image}
 							alt={altText}
 							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
 							style="object-fit: {imageObjectFit}"
