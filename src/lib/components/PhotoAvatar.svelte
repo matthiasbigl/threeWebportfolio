@@ -3,68 +3,76 @@
 	import { browser } from '$app/environment';
 	import { _ } from 'svelte-i18n';
 
-	let container: HTMLDivElement = $state();
+	let container: HTMLElement = $state();
 	let image: HTMLElement = $state();
 
-	onMount(async () => {
-		if (!browser || !container) return;
+	onMount(() => {
+		if (!browser) return;
 
-		// Lazy-load GSAP for hover animations
-		const { gsap } = await import('gsap');
+		const init = async () => {
+			const { gsap } = await import('gsap');
 
-		// Subtle hover interaction
-		const handleMouseEnter = () => {
-			gsap.to(container, {
-				scale: 1.02,
-				duration: 0.4,
-				ease: 'power2.out'
-			});
-			gsap.to(image, {
-				scale: 1.1,
-				duration: 0.6,
-				ease: 'power2.out'
-			});
+			if (!container || !image) return;
+
+			// Subtle hover interaction
+			const handleMouseEnter = () => {
+				gsap.to(container, {
+					scale: 1.02,
+					duration: 0.4,
+					ease: 'power2.out'
+				});
+				gsap.to(image, {
+					scale: 1.1,
+					duration: 0.6,
+					ease: 'power2.out'
+				});
+			};
+
+			const handleMouseLeave = () => {
+				gsap.to(container, {
+					scale: 1,
+					duration: 0.4,
+					ease: 'power2.out'
+				});
+				gsap.to(image, {
+					scale: 1.05,
+					duration: 0.6,
+					ease: 'power2.out'
+				});
+			};
+
+			const handleMouseMove = (e: MouseEvent) => {
+				const rect = container.getBoundingClientRect();
+				const x = (e.clientX - rect.left) / rect.width - 0.5;
+				const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+				gsap.to(container, {
+					rotationY: x * 10,
+					rotationX: -y * 10,
+					duration: 0.5,
+					ease: 'power2.out'
+				});
+			};
+
+			container.addEventListener('mouseenter', handleMouseEnter);
+			container.addEventListener('mouseleave', handleMouseLeave);
+			container.addEventListener('mousemove', handleMouseMove);
+
+			return () => {
+				container?.removeEventListener('mouseenter', handleMouseEnter);
+				container?.removeEventListener('mouseleave', handleMouseLeave);
+				container?.removeEventListener('mousemove', handleMouseMove);
+			};
 		};
 
-		const handleMouseLeave = () => {
-			gsap.to(container, {
-				scale: 1,
-				duration: 0.4,
-				ease: 'power2.out'
-			});
-			gsap.to(image, {
-				scale: 1.05,
-				duration: 0.6,
-				ease: 'power2.out'
-			});
-		};
+		let cleanup: (() => void) | undefined;
+		init().then((cb) => (cleanup = cb));
 
-		const handleMouseMove = (e: MouseEvent) => {
-			const rect = container.getBoundingClientRect();
-			const x = (e.clientX - rect.left) / rect.width - 0.5;
-			const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-			gsap.to(container, {
-				rotationY: x * 10,
-				rotationX: -y * 10,
-				duration: 0.5,
-				ease: 'power2.out'
-			});
-		};
-
-		container.addEventListener('mouseenter', handleMouseEnter);
-		container.addEventListener('mouseleave', handleMouseLeave);
-		container.addEventListener('mousemove', handleMouseMove);
-
-		return () => {
-			container?.removeEventListener('mouseenter', handleMouseEnter);
-			container?.removeEventListener('mouseleave', handleMouseLeave);
-			container?.removeEventListener('mousemove', handleMouseMove);
-		};
+		return () => cleanup?.();
 	});
 </script>
 
-<div
+<figure
 	bind:this={container}
 	class="photo-avatar-container relative w-full h-full rounded-3xl overflow-hidden glass-card-premium shadow-2xl"
 	style="perspective: 1000px;"
@@ -92,7 +100,7 @@
 	<div
 		class="glint-effect absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full pointer-events-none"
 	></div>
-</div>
+</figure>
 
 <style>
 	.glass-card-premium {

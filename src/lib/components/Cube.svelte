@@ -16,7 +16,11 @@
 		ariaLabel?: string;
 	}
 
-	let { images = $bindable([]), normalMaps = $bindable([]), ariaLabel = '3D Interactive Cube' }: Props = $props();
+	let {
+		images = $bindable([]),
+		normalMaps = $bindable([]),
+		ariaLabel = '3D Interactive Cube'
+	}: Props = $props();
 
 	let hover = $state(false);
 	let isDragging = $state(false);
@@ -25,7 +29,7 @@
 	let threeLoaded = $state(false);
 	let previousMouseX = 0;
 
-	let canvasContainer: HTMLDivElement | undefined = $state();
+	let canvasContainer: HTMLElement | undefined = $state();
 	let camera: ThreeCamera | undefined = $state();
 	let scene: ThreeScene | undefined = $state();
 	let renderer: ThreeRenderer | undefined = $state();
@@ -111,7 +115,7 @@
 			// If only 5 images provided, insert a dark material for bottom face (index 3)
 			let imagesToUse = [...images];
 			let normalMapsToUse = [...normalMaps];
-			
+
 			if (imagesToUse.length === 5) {
 				// Insert bottom face placeholder at index 3
 				imagesToUse = [...imagesToUse.slice(0, 3), '', ...imagesToUse.slice(3)];
@@ -263,7 +267,7 @@
 
 <svelte:window onresize={handleResize} />
 
-<div
+<figure
 	bind:this={canvasContainer}
 	onmouseenter={() => (hover = true)}
 	onmouseleave={() => {
@@ -283,7 +287,7 @@
 			<Skeleton className="w-full h-full" />
 		</div>
 	{/if}
-</div>
+</figure>
 
 <style>
 	div {

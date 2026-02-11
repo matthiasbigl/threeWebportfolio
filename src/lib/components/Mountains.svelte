@@ -20,7 +20,7 @@
 	let hasInteracted = $state(false);
 	let previousMouseX = 0;
 
-	let canvasContainer: HTMLDivElement | undefined = $state();
+	let canvasContainer: HTMLElement | undefined = $state();
 	let camera: ThreePerspectiveCamera | undefined = $state();
 	let scene: ThreeScene | undefined = $state();
 	let renderer: ThreeWebGLRenderer | undefined = $state();
@@ -234,7 +234,7 @@
 			if (snowParticles) {
 				const positions = snowParticles.geometry.attributes.position.array as Float32Array;
 				for (let i = 0; i < positions.length; i += 3) {
-					positions[i + 1] -= delta * (0.5 + Math.sin(i) * 0.3);     // fall speed
+					positions[i + 1] -= delta * (0.5 + Math.sin(i) * 0.3); // fall speed
 					positions[i] += Math.sin(timestamp * 0.001 + i) * delta * 0.15; // drift
 					// Reset when below terrain
 					if (positions[i + 1] < -2) {
@@ -293,7 +293,7 @@
 	}}
 />
 
-<div
+<figure
 	bind:this={canvasContainer}
 	onmouseenter={() => (hover = true)}
 	onmouseleave={() => {
@@ -322,20 +322,35 @@
 
 	<!-- Interactive hint -->
 	{#if isLoaded && !hasInteracted}
-		<div class="mountain-hint absolute bottom-2 left-1/2 -translate-x-1/2 z-[2] flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-sm border border-white/10">
-			<svg class="w-3.5 h-3.5 text-white/60 mountain-hint-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" />
+		<div
+			class="mountain-hint absolute bottom-2 left-1/2 -translate-x-1/2 z-[2] flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-sm border border-white/10"
+		>
+			<svg
+				class="w-3.5 h-3.5 text-white/60 mountain-hint-icon"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				stroke-width="2"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"
+				/>
 			</svg>
-			<span class="text-[10px] text-white/50 font-medium tracking-wide whitespace-nowrap">{$_('hobbies.mountainHint')}</span>
+			<span class="text-[10px] text-white/50 font-medium tracking-wide whitespace-nowrap"
+				>{$_('hobbies.mountainHint')}</span
+			>
 		</div>
 	{/if}
-</div>
+</figure>
 
 <style>
 	.mountain-canvas {
-		transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-		             box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-		             filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+		transition:
+			transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+			box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+			filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	.mountain-canvas:hover {
@@ -378,10 +393,21 @@
 	}
 
 	@keyframes mountain-hint-wiggle {
-		0%, 100% { transform: rotate(0deg); }
-		20% { transform: rotate(-12deg); }
-		40% { transform: rotate(10deg); }
-		60% { transform: rotate(-6deg); }
-		80% { transform: rotate(4deg); }
+		0%,
+		100% {
+			transform: rotate(0deg);
+		}
+		20% {
+			transform: rotate(-12deg);
+		}
+		40% {
+			transform: rotate(10deg);
+		}
+		60% {
+			transform: rotate(-6deg);
+		}
+		80% {
+			transform: rotate(4deg);
+		}
 	}
 </style>

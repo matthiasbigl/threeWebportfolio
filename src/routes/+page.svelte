@@ -448,6 +448,7 @@
 			>
 				{#each projects as project}
 					<Card
+						tag="article"
 						title={$_(`projects.items.${project.slug}.title`)}
 						description={$_(`projects.items.${project.slug}.description`)}
 						image={project.image}

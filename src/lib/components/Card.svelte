@@ -42,25 +42,33 @@
 		>
 			<div class="h-full flex flex-col">
 				<!-- Image area with inset effect and backlight -->
-				<div class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-hidden">
-					<!-- Ambient backlight glow - always visible -->
-					<div class="absolute inset-0 rounded-xl bg-gradient-to-t from-blue-400/10 via-white/8 to-white/5 blur-xl"></div>
-					<div class="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/5 to-purple-500/5"></div>
+				<div
+					class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-hidden"
+				>
+					<!-- Ambient backlight glow -->
+					<div
+						class="absolute inset-0 rounded-xl bg-gradient-to-t from-blue-400/10 via-white/8 to-white/5 blur-xl"
+					></div>
+					<div
+						class="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/5 to-purple-500/5"
+					></div>
 					<!-- Subtle hover enhancement -->
-					<div class="absolute inset-0 rounded-xl bg-white/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div
+						class="absolute inset-0 rounded-xl bg-white/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+					></div>
 					{#if children}
 						<div class="relative z-10 w-full h-full flex items-center justify-center">
 							{@render children()}
 						</div>
 					{:else if isEnhanced}
 						<enhanced:img
-							src={image}
+							src={image as Picture}
 							alt={altText}
 							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
 							style="object-fit: {imageObjectFit}"
 							loading="lazy"
 						/>
-					{:else if image}
+					{:else if typeof image === 'string' && image}
 						<img
 							src={image}
 							alt={altText}
@@ -71,40 +79,51 @@
 					{/if}
 				</div>
 
-				<h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2.5 flex-shrink-0 tracking-tight blue-gradient_text font-poppins">
+				<h3
+					class="text-base sm:text-lg lg:text-xl font-bold mb-2.5 flex-shrink-0 tracking-tight blue-gradient_text font-poppins"
+				>
 					{title}
 				</h3>
 
-				<p class="text-[13px] sm:text-sm leading-relaxed flex-grow transition-colors duration-300" style="color: var(--text-secondary);">
+				<p
+					class="text-[13px] sm:text-sm leading-relaxed flex-grow transition-colors duration-300"
+					style="color: var(--text-secondary);"
+				>
 					{description}
 				</p>
 			</div>
 		</a>
 	{:else}
-		<div
-			class="magnetic-btn card-inset block h-full rounded-2xl p-5 sm:p-6 relative group"
-		>
+		<div class="magnetic-btn card-inset block h-full rounded-2xl p-5 sm:p-6 relative group">
 			<div class="h-full flex flex-col">
 				<!-- Image area with inset effect and backlight -->
-				<div class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-hidden">
-					<!-- Ambient backlight glow - always visible -->
-					<div class="absolute inset-0 rounded-xl bg-gradient-to-t from-blue-400/10 via-white/8 to-white/5 blur-xl"></div>
-					<div class="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/5 to-purple-500/5"></div>
+				<div
+					class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-hidden"
+				>
+					<!-- Ambient backlight glow -->
+					<div
+						class="absolute inset-0 rounded-xl bg-gradient-to-t from-blue-400/10 via-white/8 to-white/5 blur-xl"
+					></div>
+					<div
+						class="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/5 to-purple-500/5"
+					></div>
 					<!-- Subtle hover enhancement -->
-					<div class="absolute inset-0 rounded-xl bg-white/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div
+						class="absolute inset-0 rounded-xl bg-white/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+					></div>
 					{#if children}
 						<div class="relative z-10 w-full h-full flex items-center justify-center">
 							{@render children()}
 						</div>
 					{:else if isEnhanced}
 						<enhanced:img
-							src={image}
+							src={image as Picture}
 							alt={altText}
 							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
 							style="object-fit: {imageObjectFit}"
 							loading="lazy"
 						/>
-					{:else if image}
+					{:else if typeof image === 'string' && image}
 						<img
 							src={image}
 							alt={altText}
@@ -115,11 +134,16 @@
 					{/if}
 				</div>
 
-				<h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2.5 flex-shrink-0 tracking-tight blue-gradient_text font-poppins">
+				<h3
+					class="text-base sm:text-lg lg:text-xl font-bold mb-2.5 flex-shrink-0 tracking-tight blue-gradient_text font-poppins"
+				>
 					{title}
 				</h3>
 
-				<p class="text-[13px] sm:text-sm leading-relaxed flex-grow transition-colors duration-300" style="color: var(--text-secondary);">
+				<p
+					class="text-[13px] sm:text-sm leading-relaxed flex-grow transition-colors duration-300"
+					style="color: var(--text-secondary);"
+				>
 					{description}
 				</p>
 			</div>
@@ -132,7 +156,11 @@
 		background: var(--card-bg);
 		box-shadow: var(--card-shadow), var(--card-inset-shadow);
 		border: 1px solid var(--glass-border);
-		transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s ease, background 0.3s ease;
+		transition:
+			transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+			box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+			border-color 0.4s ease,
+			background 0.3s ease;
 	}
 
 	@media (min-width: 640px) {
@@ -149,7 +177,7 @@
 
 	.image-inset {
 		background: var(--bg-inset);
-		box-shadow: 
+		box-shadow:
 			inset 1px 1px 4px var(--glass-shadow),
 			0 2px 8px var(--glass-shadow),
 			0 0 20px rgba(59, 130, 246, 0.04);

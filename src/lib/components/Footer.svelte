@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	
+
 	const currentYear = new Date().getFullYear();
 
 	const socialLinks = [
@@ -25,7 +25,12 @@
 	const quickLinks = $derived([
 		{ name: $_('nav.home'), href: '/' },
 		{ name: $_('nav.services'), href: '/#services' },
-		{ name: $_('pricing.navTitle') || ($_('language.de') === 'Deutsch' ? 'Preis-Leitfaden' : 'Pricing Guide'), href: '/pricing' },
+		{
+			name:
+				$_('pricing.navTitle') ||
+				($_('language.de') === 'Deutsch' ? 'Preis-Leitfaden' : 'Pricing Guide'),
+			href: '/pricing'
+		},
 		{ name: $_('nav.contact'), href: '/contact' },
 		{ name: $_('nav.faq'), href: '/#faq' },
 		{ name: 'Blog', href: 'https://blog.bigls.net' }
@@ -44,8 +49,10 @@
 	style="border-top: 1px solid var(--footer-border); background: var(--footer-gradient);"
 >
 	<!-- Subtle top glow accent -->
-	<div class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
-	
+	<div
+		class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"
+	></div>
+
 	<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
 			<!-- Brand Section -->
@@ -56,21 +63,58 @@
 				<p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
 					{$_('footer.description')}
 				</p>
-				<div class="text-sm space-y-2" style="color: var(--text-tertiary);">
-					<p class="flex items-center gap-2">
-						<span>📍</span> 
-						<span>{$_('footer.location')}</span>
-					</p>
-					<p class="flex items-center gap-2">
-						<span>📞</span>
-						<a href="tel:+436604596636" class="hover:text-blue-400 transition-colors duration-300">+43 660 459 6636</a>
-					</p>
-				</div>
+				<address class="not-italic space-y-3 sm:space-y-4">
+					<div class="flex items-start gap-3 group/item">
+						<svg
+							class="w-4 h-4 text-blue-400/60 mt-1 shrink-0 group-hover/item:text-blue-400 transition-colors"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+							></path>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+							></path>
+						</svg>
+						<span class="text-sm leading-relaxed" style="color: var(--text-tertiary);">
+							Korneuburg bei Wien<br />Österreich
+						</span>
+					</div>
+					<a
+						href="tel:+436604596636"
+						class="flex items-center gap-3 group/item hover:text-blue-400 transition-colors"
+					>
+						<svg
+							class="w-4 h-4 text-blue-400/60 group-hover/item:text-blue-400 transition-colors"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+							></path>
+						</svg>
+						<span class="text-sm tracking-wide">+43 660 459 6636</span>
+					</a>
+				</address>
 			</div>
 
 			<!-- Quick Links -->
 			<div class="space-y-5">
-				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">{$_('footer.navigation')}</h4>
+				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
+					{$_('footer.navigation')}
+				</h4>
 				<nav class="flex flex-col space-y-3" aria-label="Footer navigation">
 					{#each quickLinks as link}
 						<a
@@ -88,7 +132,9 @@
 
 			<!-- Services -->
 			<div class="space-y-5">
-				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">{$_('footer.servicesTitle')}</h4>
+				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
+					{$_('footer.servicesTitle')}
+				</h4>
 				<nav class="flex flex-col space-y-3" aria-label="Services navigation">
 					{#each services as service}
 						<a
@@ -104,7 +150,9 @@
 
 			<!-- Social & Contact -->
 			<div class="space-y-5">
-				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">{$_('footer.contactTitle')}</h4>
+				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
+					{$_('footer.contactTitle')}
+				</h4>
 				<div class="flex space-x-3">
 					{#each socialLinks as social}
 						<a
@@ -128,12 +176,16 @@
 					{/each}
 				</div>
 				<p class="text-sm" style="color: var(--text-secondary);">
-					<a href="mailto:biglmatthias@gmail.com" class="hover:text-blue-400 transition-colors duration-300">
+					<a
+						href="mailto:biglmatthias@gmail.com"
+						class="hover:text-blue-400 transition-colors duration-300"
+					>
 						biglmatthias@gmail.com
 					</a>
 				</p>
 				<p class="text-xs leading-relaxed" style="color: var(--text-tertiary);">
-					Webdesigner Wien • Webentwicklung Korneuburg • Website erstellen lassen Österreich • Full Stack Developer Niederösterreich
+					Webdesigner Wien • Webentwicklung Korneuburg • Website erstellen lassen Österreich • Full
+					Stack Developer Niederösterreich
 				</p>
 			</div>
 		</div>
@@ -147,10 +199,17 @@
 				© {currentYear} Matthias Bigl. {$_('footer.copyright')}
 			</p>
 			<div class="flex space-x-6 text-xs" style="color: var(--text-tertiary);">
-				<a href="/impressum" class="hover:text-gray-300 transition-colors duration-300">{$_('footer.imprint')}</a>
-				<a href="/datenschutz" class="hover:text-gray-300 transition-colors duration-300">{$_('footer.privacy')}</a>
-				<a href="/humans.txt" class="hover:text-gray-300 transition-colors duration-300">humans.txt</a>
-				<a href="/sitemap.xml" class="hover:text-gray-300 transition-colors duration-300">Sitemap</a>
+				<a href="/impressum" class="hover:text-gray-300 transition-colors duration-300"
+					>{$_('footer.imprint')}</a
+				>
+				<a href="/datenschutz" class="hover:text-gray-300 transition-colors duration-300"
+					>{$_('footer.privacy')}</a
+				>
+				<a href="/humans.txt" class="hover:text-gray-300 transition-colors duration-300"
+					>humans.txt</a
+				>
+				<a href="/sitemap.xml" class="hover:text-gray-300 transition-colors duration-300">Sitemap</a
+				>
 			</div>
 		</div>
 	</div>

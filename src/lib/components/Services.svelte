@@ -70,131 +70,135 @@
 		}))
 	);
 
-	onMount(async () => {
+	onMount(() => {
 		if (!browser) return;
 
-		const { gsap } = await import('gsap');
-		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-		gsap.registerPlugin(ScrollTrigger);
+		let mm: gsap.MatchMedia;
 
-		const mm = gsap.matchMedia();
+		(async () => {
+			const { gsap } = await import('gsap');
+			const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+			gsap.registerPlugin(ScrollTrigger);
 
-		mm.add('(min-width: 768px)', () => {
-			// Bento Grid Entrance
-			gsap.fromTo(
-				'.bento-item',
-				{
-					opacity: 0,
-					y: 50,
-					scale: 0.9,
-					filter: 'blur(10px)'
-				},
-				{
-					opacity: 1,
-					y: 0,
-					scale: 1,
-					filter: 'blur(0px)',
-					duration: 1,
-					stagger: 0.1,
-					ease: 'power3.out',
-					scrollTrigger: {
-						trigger: '.bento-grid',
-						start: 'top 85%'
+			mm = gsap.matchMedia();
+
+			mm.add('(min-width: 768px)', () => {
+				// Bento Grid Entrance
+				gsap.fromTo(
+					'.bento-item',
+					{
+						opacity: 0,
+						y: 50,
+						scale: 0.9,
+						filter: 'blur(10px)'
+					},
+					{
+						opacity: 1,
+						y: 0,
+						scale: 1,
+						filter: 'blur(0px)',
+						duration: 1,
+						stagger: 0.1,
+						ease: 'power3.out',
+						scrollTrigger: {
+							trigger: '.bento-grid',
+							start: 'top 85%'
+						}
 					}
+				);
+
+				// Holographic tilt effect
+				const cards = document.querySelectorAll('.bento-item');
+				cards.forEach((card: any) => {
+					card.addEventListener('mousemove', (e: MouseEvent) => {
+						const rect = card.getBoundingClientRect();
+						const x = e.clientX - rect.left;
+						const y = e.clientY - rect.top;
+
+						const centerX = rect.width / 2;
+						const centerY = rect.height / 2;
+
+						const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg tilt
+						const rotateY = ((x - centerX) / centerX) * 5;
+
+						gsap.to(card, {
+							rotationX: rotateX,
+							rotationY: rotateY,
+							duration: 0.4,
+							ease: 'power2.out',
+							transformPerspective: 1000
+						});
+
+						// Spotlight effect
+						const spotlight = card.querySelector('.card-spotlight');
+						if (spotlight) {
+							gsap.to(spotlight, {
+								background: `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 40%)`,
+								duration: 0.3
+							});
+						}
+					});
+
+					card.addEventListener('mouseleave', () => {
+						gsap.to(card, {
+							rotationX: 0,
+							rotationY: 0,
+							duration: 0.7,
+							ease: 'elastic.out(1, 0.5)'
+						});
+						const spotlight = card.querySelector('.card-spotlight');
+						if (spotlight) {
+							gsap.to(spotlight, {
+								background: `radial-gradient(600px circle at 50% 50%, rgba(255,255,255,0), transparent 40%)`,
+								duration: 0.3
+							});
+						}
+					});
+				});
+
+				// Magnetic effect for refined CTA
+				const cta = document.querySelector('.cta-magnetic');
+				if (cta) {
+					cta.addEventListener('mouseenter', () => {
+						gsap.to(cta, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
+					});
+					cta.addEventListener('mouseleave', () => {
+						gsap.to(cta, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+					});
+					(cta as HTMLElement).addEventListener('mousemove', (e: MouseEvent) => {
+						const rect = cta.getBoundingClientRect();
+						const x = e.clientX - rect.left - rect.width / 2;
+						const y = e.clientY - rect.top - rect.height / 2;
+						gsap.to(cta, {
+							x: x * 0.3,
+							y: y * 0.3,
+							duration: 0.3,
+							ease: 'power2.out'
+						});
+					});
 				}
-			);
-
-			// Holographic tilt effect
-			const cards = document.querySelectorAll('.bento-item');
-			cards.forEach((card: any) => {
-				card.addEventListener('mousemove', (e: MouseEvent) => {
-					const rect = card.getBoundingClientRect();
-					const x = e.clientX - rect.left;
-					const y = e.clientY - rect.top;
-
-					const centerX = rect.width / 2;
-					const centerY = rect.height / 2;
-
-					const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg tilt
-					const rotateY = ((x - centerX) / centerX) * 5;
-
-					gsap.to(card, {
-						rotationX: rotateX,
-						rotationY: rotateY,
-						duration: 0.4,
-						ease: 'power2.out',
-						transformPerspective: 1000
-					});
-
-					// Spotlight effect
-					const spotlight = card.querySelector('.card-spotlight');
-					if (spotlight) {
-						gsap.to(spotlight, {
-							background: `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 40%)`,
-							duration: 0.3
-						});
-					}
-				});
-
-				card.addEventListener('mouseleave', () => {
-					gsap.to(card, {
-						rotationX: 0,
-						rotationY: 0,
-						duration: 0.7,
-						ease: 'elastic.out(1, 0.5)'
-					});
-					const spotlight = card.querySelector('.card-spotlight');
-					if (spotlight) {
-						gsap.to(spotlight, {
-							background: `radial-gradient(600px circle at 50% 50%, rgba(255,255,255,0), transparent 40%)`,
-							duration: 0.3
-						});
-					}
-				});
 			});
 
-			// Magnetic effect for refined CTA
-			const cta = document.querySelector('.cta-magnetic');
-			if (cta) {
-				cta.addEventListener('mouseenter', () => {
-					gsap.to(cta, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
-				});
-				cta.addEventListener('mouseleave', () => {
-					gsap.to(cta, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
-				});
-				(cta as HTMLElement).addEventListener('mousemove', (e: MouseEvent) => {
-					const rect = cta.getBoundingClientRect();
-					const x = e.clientX - rect.left - rect.width / 2;
-					const y = e.clientY - rect.top - rect.height / 2;
-					gsap.to(cta, {
-						x: x * 0.3,
-						y: y * 0.3,
-						duration: 0.3,
-						ease: 'power2.out'
-					});
-				});
-			}
-		});
-
-		mm.add('(max-width: 767px)', () => {
-			gsap.fromTo(
-				'.bento-item',
-				{ opacity: 0, x: -20 },
-				{
-					opacity: 1,
-					x: 0,
-					duration: 0.8,
-					stagger: 0.1,
-					ease: 'power2.out',
-					scrollTrigger: {
-						trigger: '.bento-grid',
-						start: 'top 90%'
+			mm.add('(max-width: 767px)', () => {
+				gsap.fromTo(
+					'.bento-item',
+					{ opacity: 0, x: -20 },
+					{
+						opacity: 1,
+						x: 0,
+						duration: 0.8,
+						stagger: 0.1,
+						ease: 'power2.out',
+						scrollTrigger: {
+							trigger: '.bento-grid',
+							start: 'top 90%'
+						}
 					}
-				}
-			);
-		});
+				);
+			});
+		})();
 
-		return () => mm.revert();
+		return () => mm?.revert();
 	});
 </script>
 
@@ -245,7 +249,7 @@
 		<!-- Bento Grid Layout -->
 		<div class="bento-grid grid grid-cols-1 md:grid-cols-6 gap-3 md:gap-4 lg:gap-5 mb-10 sm:mb-12">
 			{#each services as service}
-				<div
+				<article
 					class="bento-item group relative {service.colSpan} rounded-xl sm:rounded-2xl overflow-hidden border isolate backdrop-blur-md"
 					style="border-color: var(--glass-border);"
 				>
@@ -281,7 +285,7 @@
 						<div>
 							<div
 								class="w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center text-xl sm:text-2xl mb-5 sm:mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg"
-								style="background: var(--bg-inset); border: 1px solid var(--border-primary);"
+								style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
 							>
 								{service.icon}
 							</div>
@@ -318,7 +322,7 @@
 							</ul>
 						</div>
 					</div>
-				</div>
+				</article>
 			{/each}
 		</div>
 
@@ -337,8 +341,7 @@
 						>
 						<span
 							class="text-[10px] sm:text-xs font-medium transition-colors leading-tight"
-							style="color: var(--text-secondary);"
-							>{benefit.title}</span
+							style="color: var(--text-secondary);">{benefit.title}</span
 						>
 					</div>
 				{/each}
@@ -351,7 +354,9 @@
 			>
 				<!-- Glass background -->
 				<div class="absolute inset-0" style="background: var(--glass-bg);"></div>
-				<div class="absolute inset-0 bg-gradient-to-r from-blue-600/[0.06] via-purple-600/[0.04] to-blue-600/[0.06]"></div>
+				<div
+					class="absolute inset-0 bg-gradient-to-r from-blue-600/[0.06] via-purple-600/[0.04] to-blue-600/[0.06]"
+				></div>
 
 				<div
 					class="relative h-full p-5 sm:p-10 lg:p-12 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8"
@@ -363,13 +368,16 @@
 
 					<div class="relative z-10 max-w-xl text-center md:text-left">
 						<h3
-								class="text-xl sm:text-2xl font-bold mb-2 flex items-center justify-center md:justify-start gap-2.5"
-								style="color: var(--text-heading);"
-							>
-								<span class="text-2xl">💎</span>
-								{$locale === 'de' ? 'Transparente Preise' : 'Transparent Pricing'}
-							</h3>
-							<p class="font-light leading-relaxed text-sm sm:text-base" style="color: var(--text-secondary);">
+							class="text-xl sm:text-2xl font-bold mb-2 flex items-center justify-center md:justify-start gap-2.5"
+							style="color: var(--text-heading);"
+						>
+							<span class="text-2xl">💎</span>
+							{$locale === 'de' ? 'Transparente Preise' : 'Transparent Pricing'}
+						</h3>
+						<p
+							class="font-light leading-relaxed text-sm sm:text-base"
+							style="color: var(--text-secondary);"
+						>
 							{$locale === 'de'
 								? 'Laden Sie meinen vollständigen Preisführer 2026 herunter.'
 								: 'Download my complete 2026 pricing guide.'}
@@ -398,7 +406,8 @@
 					</Button>
 				</div>
 			</div>
-		</div><!-- Final CTA - Matched to Hero Style -->
+		</div>
+		<!-- Final CTA - Matched to Hero Style -->
 		<div class="mt-24 text-center">
 			<Button href="/contact">
 				{$_('services.cta')} &rarr;
