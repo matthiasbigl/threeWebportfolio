@@ -20,17 +20,21 @@
 	// backHref / backLabelKey: fed straight into Navbar
 	// hideFooter: true when the page has its own CTA footer
 	const subPageRoutes = [
-		{ pattern: /^\/projects\/.+/, backHref: '/#projects', backLabelKey: 'projectDetail.backLabel', hideFooter: true },
-		{ pattern: /^\/pricing$/,     backHref: '/',          backLabelKey: 'pricing.backToHome',      hideFooter: true },
+		{
+			pattern: /^\/projects\/.+/,
+			backHref: '/#projects',
+			backLabelKey: 'projectDetail.backLabel',
+			hideFooter: true
+		},
+		{ pattern: /^\/pricing$/, backHref: '/', backLabelKey: 'pricing.backToHome', hideFooter: true }
 	];
 
-	const activeSubPage = $derived(
-		subPageRoutes.find(r => r.pattern.test($page.url.pathname))
-	);
+	const activeSubPage = $derived(subPageRoutes.find((r) => r.pattern.test($page.url.pathname)));
 
-	const navConfig = $derived(activeSubPage
-		? { backHref: activeSubPage.backHref, backLabel: $_(activeSubPage.backLabelKey) }
-		: {}
+	const navConfig = $derived(
+		activeSubPage
+			? { backHref: activeSubPage.backHref, backLabel: $_(activeSubPage.backLabelKey) }
+			: {}
 	);
 
 	const hideFooter = $derived(!!activeSubPage?.hideFooter);
@@ -48,20 +52,20 @@
 <!-- Universal loading spinner: shown during i18n init + SvelteKit page navigations -->
 <LoadingSpinner visible={$isLoading} fullscreen />
 
-{#if !$isLoading}
-	<div
-		class="relative min-h-screen flex flex-col transition-colors duration-300"
-		style="background: var(--bg-body);"
-	>
-		<Navbar backHref={navConfig.backHref} backLabel={navConfig.backLabel} />
-		<main class="flex-grow">
-			{@render children?.()}
-		</main>
-		{#if !hideFooter}
-			<Footer />
-		{/if}
-	</div>
-{/if}
+<div
+	class="relative min-h-screen flex flex-col transition-colors duration-300"
+	style="background: var(--bg-body);"
+>
+	<Navbar backHref={navConfig.backHref} backLabel={navConfig.backLabel} />
+	<main class="flex-grow">
+		{@render children?.()}
+	</main>
+	{#if !hideFooter}
+		<Footer />
+	{:else}
+		<div class="h-20 sm:h-32 pointer-events-none"></div>
+	{/if}
+</div>
 
 <style>
 	:global(html) {

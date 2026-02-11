@@ -1,11 +1,10 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { Picture } from 'vite-imagetools';
 
 	interface Props {
 		title: string;
 		description: string;
-		image?: string | Picture;
+		image?: any;
 		imageAlt?: string;
 		link?: string;
 		target?: string;
@@ -28,7 +27,6 @@
 		className = ''
 	}: Props = $props();
 
-	const isEnhanced = $derived(image && typeof image === 'object');
 	const altText = $derived(imageAlt || title);
 </script>
 
@@ -41,40 +39,38 @@
 			class="magnetic-btn card-inset block h-full rounded-2xl p-5 sm:p-6 relative group"
 		>
 			<div class="h-full flex flex-col">
-				<!-- Image area with inset effect and backlight -->
 				<div
 					class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-hidden"
 				>
-					<!-- Ambient backlight glow -->
 					<div
 						class="absolute inset-0 rounded-xl bg-gradient-to-t from-blue-400/10 via-white/8 to-white/5 blur-xl"
 					></div>
 					<div
 						class="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/5 to-purple-500/5"
 					></div>
-					<!-- Subtle hover enhancement -->
 					<div
 						class="absolute inset-0 rounded-xl bg-white/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
 					></div>
+
 					{#if children}
 						<div class="relative z-10 w-full h-full flex items-center justify-center">
 							{@render children()}
 						</div>
-					{:else if isEnhanced}
+					{:else if image && typeof image === 'object'}
 						<enhanced:img
 							src={image}
 							alt={altText}
-							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
-							style="object-fit: {imageObjectFit}"
-							loading="lazy"
+							class="relative z-10 w-full h-full rounded-lg transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+							style="object-fit: {imageObjectFit};"
+							loading="eager"
 						/>
 					{:else if typeof image === 'string' && image}
 						<img
 							src={image}
 							alt={altText}
-							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
-							style="object-fit: {imageObjectFit}"
-							loading="lazy"
+							class="relative z-10 w-full h-full rounded-lg transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+							style="object-fit: {imageObjectFit};"
+							loading="eager"
 						/>
 					{/if}
 				</div>
@@ -96,40 +92,38 @@
 	{:else}
 		<div class="magnetic-btn card-inset block h-full rounded-2xl p-5 sm:p-6 relative group">
 			<div class="h-full flex flex-col">
-				<!-- Image area with inset effect and backlight -->
 				<div
 					class="aspect-[16/10] sm:aspect-square mb-5 sm:mb-6 rounded-xl flex-shrink-0 flex items-center justify-center relative image-inset overflow-hidden"
 				>
-					<!-- Ambient backlight glow -->
 					<div
 						class="absolute inset-0 rounded-xl bg-gradient-to-t from-blue-400/10 via-white/8 to-white/5 blur-xl"
 					></div>
 					<div
 						class="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/5 to-purple-500/5"
 					></div>
-					<!-- Subtle hover enhancement -->
 					<div
 						class="absolute inset-0 rounded-xl bg-white/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
 					></div>
+
 					{#if children}
 						<div class="relative z-10 w-full h-full flex items-center justify-center">
 							{@render children()}
 						</div>
-					{:else if isEnhanced}
+					{:else if image && typeof image === 'object'}
 						<enhanced:img
 							src={image}
 							alt={altText}
-							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
-							style="object-fit: {imageObjectFit}"
-							loading="lazy"
+							class="relative z-10 w-full h-full rounded-lg transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+							style="object-fit: {imageObjectFit};"
+							loading="eager"
 						/>
 					{:else if typeof image === 'string' && image}
 						<img
 							src={image}
 							alt={altText}
-							class="relative z-10 w-full h-full rounded-lg object-center transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
-							style="object-fit: {imageObjectFit}"
-							loading="lazy"
+							class="relative z-10 w-full h-full rounded-lg transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+							style="object-fit: {imageObjectFit};"
+							loading="eager"
 						/>
 					{/if}
 				</div>

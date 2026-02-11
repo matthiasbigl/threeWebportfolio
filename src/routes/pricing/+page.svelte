@@ -3,11 +3,21 @@
 	import SEO from '$lib/components/SEO.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { marked } from 'marked';
-	import { onMount } from 'svelte';
+	import type { PageData } from './$types';
+
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
+
+	// Use SSR content as initial state, then reactively update when locale changes
+	let content = $state(data.article);
 
 	// Static German SEO metadata (avoids duplicate <head> on hydration locale switch)
 	const seoTitle = 'Website Kosten Österreich 2026 | Was kostet eine Website? Matthias Bigl';
-	const seoDescription = 'Was kostet eine Website 2026 in Österreich? Landingpages ab €650, Websites ab €2.000, Webshops ab €3.250. Ehrlicher Preisguide von Matthias Bigl – Webdesigner Wien/Korneuburg. Jetzt lesen!';
+	const seoDescription =
+		'Was kostet eine Website 2026 in Österreich? Landingpages ab €650, Websites ab €2.000, Webshops ab €3.250. Ehrlicher Preisguide von Matthias Bigl – Webdesigner Wien/Korneuburg. Jetzt lesen!';
 	const seoKeywords = [
 		'Website Kosten Österreich',
 		'Was kostet eine Website',
@@ -23,11 +33,13 @@
 		'Website Preise Vergleich'
 	];
 
-	let content = $state('');
-
 	async function loadContent(lang: string) {
 		try {
-			const modules = import.meta.glob('$lib/content/pricing/*.md', { query: '?raw', import: 'default', eager: true });
+			const modules = import.meta.glob('$lib/content/pricing/*.md', {
+				query: '?raw',
+				import: 'default',
+				eager: true
+			});
 			const rawContent = modules[`/src/lib/content/pricing/${lang}.md`] as string;
 
 			if (rawContent) {
@@ -39,7 +51,13 @@
 	}
 
 	$effect(() => {
-		loadContent($locale || 'de');
+		// Only run client-side to update if locale is not 'de' (which was already SSR'd)
+		if ($locale && $locale !== 'de') {
+			loadContent($locale);
+		} else if ($locale === 'de' && content !== data.article) {
+			// Fallback if user switches back to 'de'
+			content = data.article;
+		}
 	});
 </script>
 
@@ -57,31 +75,42 @@
 	]}
 />
 
-<div class="min-h-screen selection:bg-blue-500/20 relative overflow-hidden" style="background: var(--bg-body); color: var(--text-primary);">
+<div
+	class="min-h-screen selection:bg-blue-500/20 relative overflow-hidden"
+	style="background: var(--bg-body); color: var(--text-primary);"
+>
 	<!-- Background Effects -->
-	<div class="fixed inset-0 z-0 pointer-events-none grid-lines" style="opacity: var(--grid-opacity);"></div>
+	<div
+		class="fixed inset-0 z-0 pointer-events-none grid-lines"
+		style="opacity: var(--grid-opacity);"
+	></div>
 	<div class="fixed inset-0 z-0 pointer-events-none">
 		<div class="pricing-aurora w-full h-full"></div>
 	</div>
 	<!-- Floating orbs for depth -->
-	<div class="fixed top-[15%] left-[5%] w-[500px] h-[500px] bg-blue-600/[0.07] rounded-full blur-[120px] pointer-events-none animate-float-slow"></div>
-	<div class="fixed bottom-[10%] right-[8%] w-[400px] h-[400px] bg-purple-600/[0.06] rounded-full blur-[100px] pointer-events-none animate-float-slow-reverse"></div>
+	<div
+		class="fixed top-[15%] left-[5%] w-[500px] h-[500px] bg-blue-600/[0.07] rounded-full blur-[120px] pointer-events-none animate-float-slow"
+	></div>
+	<div
+		class="fixed bottom-[10%] right-[8%] w-[400px] h-[400px] bg-purple-600/[0.06] rounded-full blur-[100px] pointer-events-none animate-float-slow-reverse"
+	></div>
 
 	<!-- ═══════════════════════════════════════════════════════════ -->
 	<!-- PAGE NAV — Now handled by the unified Navbar component     -->
 	<!-- ═══════════════════════════════════════════════════════════ -->
 
 	<div class="relative z-10 pt-24 pb-20">
-
 		<article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 			<!-- Glass card only on sm+ screens; on mobile, content flows openly -->
-			<div
-				class="pricing-card relative sm:rounded-[2rem] sm:shadow-2xl overflow-hidden"
-			>
+			<div class="pricing-card relative sm:rounded-[2rem] sm:shadow-2xl overflow-hidden">
 				<!-- Top accent gradient line (sm+ only) -->
-				<div class="hidden sm:block absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+				<div
+					class="hidden sm:block absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"
+				></div>
 				<!-- Inner glow (sm+ only) -->
-				<div class="hidden sm:block absolute inset-0 bg-gradient-to-b from-blue-500/[0.03] via-transparent to-purple-500/[0.02] pointer-events-none"></div>
+				<div
+					class="hidden sm:block absolute inset-0 bg-gradient-to-b from-blue-500/[0.03] via-transparent to-purple-500/[0.02] pointer-events-none"
+				></div>
 
 				<div class="relative z-10 py-2 sm:p-12 lg:p-16">
 					<!-- Custom wrapper for markdown content -->
@@ -95,21 +124,31 @@
 					>
 						<!-- Glass background -->
 						<div class="absolute inset-0" style="background: var(--glass-bg);"></div>
-						<div class="absolute inset-0 bg-gradient-to-r from-blue-600/[0.06] via-purple-600/[0.04] to-blue-600/[0.06]"></div>
+						<div
+							class="absolute inset-0 bg-gradient-to-r from-blue-600/[0.06] via-purple-600/[0.04] to-blue-600/[0.06]"
+						></div>
 						<!-- Top accent line -->
-						<div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
+						<div
+							class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"
+						></div>
 						<!-- Animated sheen -->
 						<div
 							class="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"
 						></div>
-						
+
 						<div class="relative z-10 p-6 sm:p-10 lg:p-14">
 							<div class="flex flex-col md:flex-row items-center gap-6 md:gap-12">
 								<div class="flex-1 text-center md:text-left">
-									<h2 class="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold mb-3 sm:mb-4 !mt-0 !bg-none tracking-tight" style="color: var(--text-heading);">
+									<h2
+										class="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold mb-3 sm:mb-4 !mt-0 !bg-none tracking-tight"
+										style="color: var(--text-heading);"
+									>
 										{$locale === 'de' ? 'Bereit für Ihr Projekt?' : 'Ready for your project?'}
 									</h2>
-									<p class="text-sm sm:text-base lg:text-lg font-light leading-relaxed max-w-lg" style="color: var(--text-secondary);">
+									<p
+										class="text-sm sm:text-base lg:text-lg font-light leading-relaxed max-w-lg"
+										style="color: var(--text-secondary);"
+									>
 										{$locale === 'de'
 											? 'Lassen Sie uns gemeinsam herausfinden, wie wir Ihre Ziele erreichen können.'
 											: "Let's find out together how we can achieve your goals."}
@@ -121,8 +160,18 @@
 									className="flex-shrink-0 no-underline !text-base sm:!text-lg"
 								>
 									{$_('hero.cta')}
-									<svg class="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-										<path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+									<svg
+										class="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+										stroke-width="2.5"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M17 8l4 4m0 0l-4 4m4-4H3"
+										/>
 									</svg>
 								</Button>
 							</div>
@@ -137,14 +186,16 @@
 <style>
 	/* Pricing page aurora - more dramatic than global */
 	.pricing-aurora {
-		background: radial-gradient(ellipse at 25% 15%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+		background:
+			radial-gradient(ellipse at 25% 15%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
 			radial-gradient(ellipse at 75% 85%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
 			radial-gradient(ellipse at 50% 50%, rgba(37, 99, 235, 0.04) 0%, transparent 60%);
 		filter: blur(60px);
 	}
 
 	.grid-lines {
-		background-image: linear-gradient(var(--grid-color) 1px, transparent 1px),
+		background-image:
+			linear-gradient(var(--grid-color) 1px, transparent 1px),
 			linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
 		background-size: 60px 60px;
 	}
@@ -176,12 +227,22 @@
 		animation: floatSlowReverse 22s ease-in-out infinite;
 	}
 	@keyframes floatSlow {
-		0%, 100% { transform: translate(0, 0); }
-		50% { transform: translate(30px, -40px); }
+		0%,
+		100% {
+			transform: translate(0, 0);
+		}
+		50% {
+			transform: translate(30px, -40px);
+		}
 	}
 	@keyframes floatSlowReverse {
-		0%, 100% { transform: translate(0, 0); }
-		50% { transform: translate(-25px, 35px); }
+		0%,
+		100% {
+			transform: translate(0, 0);
+		}
+		50% {
+			transform: translate(-25px, 35px);
+		}
 	}
 
 	/* ─── MARKDOWN CONTENT STYLING ─── */
