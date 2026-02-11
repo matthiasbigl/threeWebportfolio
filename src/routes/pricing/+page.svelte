@@ -5,11 +5,7 @@
 	import { marked } from 'marked';
 	import type { PageData } from './$types';
 
-	interface Props {
-		data: PageData;
-	}
-
-	let { data }: Props = $props();
+	let { data }: PageData = $props();
 
 	// Use SSR content as initial state, then reactively update when locale changes
 	let content = $state(data.article);
