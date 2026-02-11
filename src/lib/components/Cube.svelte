@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import Skeleton from './Skeleton.svelte';
+	import { reducedMotion } from '$lib/stores/reducedMotion';
 
 	// Lazy-load Three.js types
 	type THREE = typeof import('three');
@@ -199,11 +200,11 @@
 			const delta = (timestamp - lastTimestamp) / 1000;
 			lastTimestamp = timestamp;
 
-			if (!isDragging) {
+			if (!isDragging && !$reducedMotion) {
 				cube.rotation.y += 0.2 * delta;
 			}
 
-			if (hover) {
+			if (hover && !$reducedMotion) {
 				if (cube.position.y < 1) {
 					cube.position.y = Math.min(cube.position.y + delta * 1.5, 1);
 				}

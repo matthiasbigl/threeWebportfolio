@@ -8,6 +8,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import { reducedMotion } from '$lib/stores/reducedMotion';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
@@ -55,6 +56,7 @@
 <div
 	class="relative min-h-screen flex flex-col transition-colors duration-300"
 	style="background: var(--bg-body);"
+	data-reduced-motion={$reducedMotion}
 >
 	<Navbar backHref={navConfig.backHref} backLabel={navConfig.backLabel} />
 	<main class="flex-grow">

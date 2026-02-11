@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { navigating } from '$app/stores';
 	import { fade } from 'svelte/transition';
+	import { reducedMotion } from '$lib/stores/reducedMotion';
 	import { _ } from 'svelte-i18n';
 
 	interface Props {
@@ -20,7 +21,7 @@
 	<div
 		class="loading-overlay"
 		class:fullscreen
-		transition:fade={{ duration: 220 }}
+		transition:fade={{ duration: $reducedMotion ? 0 : 220 }}
 		aria-live="polite"
 		aria-label={$_('a11y.loading')}
 		role="status"
@@ -31,14 +32,7 @@
 
 			<!-- Spinning arc -->
 			<svg class="spinner" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-				<circle
-					class="track"
-					cx="25"
-					cy="25"
-					r="20"
-					fill="none"
-					stroke-width="3"
-				/>
+				<circle class="track" cx="25" cy="25" r="20" fill="none" stroke-width="3" />
 				<circle
 					class="arc"
 					cx="25"
@@ -92,8 +86,15 @@
 	}
 
 	@keyframes glow-pulse {
-		0%, 100% { opacity: 0.5; transform: scale(1); }
-		50% { opacity: 1; transform: scale(1.15); }
+		0%,
+		100% {
+			opacity: 0.5;
+			transform: scale(1);
+		}
+		50% {
+			opacity: 1;
+			transform: scale(1.15);
+		}
 	}
 
 	/* ── SVG spinner ── */
@@ -117,7 +118,9 @@
 	}
 
 	@keyframes spin {
-		100% { transform: rotate(360deg); }
+		100% {
+			transform: rotate(360deg);
+		}
 	}
 
 	@keyframes arc-dash {
@@ -147,7 +150,14 @@
 	}
 
 	@keyframes dot-pulse {
-		0%, 100% { opacity: 0.4; transform: scale(0.8); }
-		50% { opacity: 1; transform: scale(1.2); }
+		0%,
+		100% {
+			opacity: 0.4;
+			transform: scale(0.8);
+		}
+		50% {
+			opacity: 1;
+			transform: scale(1.2);
+		}
 	}
 </style>

@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import Skeleton from './Skeleton.svelte';
+	import { reducedMotion } from '$lib/stores/reducedMotion';
 	import { _ } from 'svelte-i18n';
 
 	// Use import('three') type for type annotations without bundling
@@ -225,13 +226,13 @@
 
 			camera.lookAt(scene.position);
 
-			if (hover && !isDragging) {
+			if (hover && !isDragging && !$reducedMotion) {
 				mountainMesh.rotation.z += delta * 0.1;
 				sunLight.rotation.z += delta * 0.1;
 			}
 
 			// Animate snow falling
-			if (snowParticles) {
+			if (snowParticles && !$reducedMotion) {
 				const positions = snowParticles.geometry.attributes.position.array as Float32Array;
 				for (let i = 0; i < positions.length; i += 3) {
 					positions[i + 1] -= delta * (0.5 + Math.sin(i) * 0.3); // fall speed

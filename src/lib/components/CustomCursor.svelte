@@ -1,89 +1,92 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { reducedMotion } from '$lib/stores/reducedMotion';
 	import { browser } from '$app/environment';
 
-	let cursor: HTMLDivElement = $state();
-	let follower: HTMLDivElement = $state();
-	let isMobile = $state(false);
+	let cursor: HTMLDivElement | undefined = $state();
+	let follower: HTMLDivElement | undefined = $state();
+	// Detect mobile early to avoid flash of custom cursor
+	let isMobile = $state(
+		browser
+			? window.matchMedia('(hover: none) and (pointer: coarse)').matches || window.innerWidth <= 768
+			: true
+	);
 
 	if (browser) {
-		onMount(async () => {
-			// Check if device is mobile/touch
-			isMobile =
-				window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
-				window.innerWidth <= 768;
+		onMount(() => {
+			(async () => {
+				if (isMobile || $reducedMotion) return;
 
-			if (isMobile) return;
+				// Lazy-load GSAP — cursor is non-critical
+				const { gsap } = await import('gsap');
 
-			// Lazy-load GSAP — cursor is non-critical
-			const { gsap } = await import('gsap');
+				const handleMouseMove = (e: MouseEvent) => {
+					gsap.to(cursor, {
+						x: e.clientX,
+						y: e.clientY,
+						duration: 0.1,
+						ease: 'power2.out'
+					});
 
-			const handleMouseMove = (e: MouseEvent) => {
-				gsap.to(cursor, {
-					x: e.clientX,
-					y: e.clientY,
-					duration: 0.1,
-					ease: 'power2.out'
-				});
+					gsap.to(follower, {
+						x: e.clientX,
+						y: e.clientY,
+						duration: 0.3,
+						ease: 'power2.out'
+					});
+				};
 
-				gsap.to(follower, {
-					x: e.clientX,
-					y: e.clientY,
-					duration: 0.3,
-					ease: 'power2.out'
-				});
-			};
+				const handleMouseEnter = () => {
+					gsap.to(cursor, {
+						scale: 1.5,
+						duration: 0.3,
+						ease: 'back.out(1.7)'
+					});
+					gsap.to(follower, {
+						scale: 0.8,
+						duration: 0.3,
+						ease: 'back.out(1.7)'
+					});
+				};
 
-			const handleMouseEnter = () => {
-				gsap.to(cursor, {
-					scale: 1.5,
-					duration: 0.3,
-					ease: 'back.out(1.7)'
-				});
-				gsap.to(follower, {
-					scale: 0.8,
-					duration: 0.3,
-					ease: 'back.out(1.7)'
-				});
-			};
+				const handleMouseLeave = () => {
+					gsap.to(cursor, {
+						scale: 1,
+						duration: 0.3,
+						ease: 'back.out(1.7)'
+					});
+					gsap.to(follower, {
+						scale: 1,
+						duration: 0.3,
+						ease: 'back.out(1.7)'
+					});
+				};
 
-			const handleMouseLeave = () => {
-				gsap.to(cursor, {
-					scale: 1,
-					duration: 0.3,
-					ease: 'back.out(1.7)'
-				});
-				gsap.to(follower, {
-					scale: 1,
-					duration: 0.3,
-					ease: 'back.out(1.7)'
-				});
-			};
+				// Use event delegation for global coverage
+				const handleGlobalOver = (e: MouseEvent) => {
+					const target = e.target as HTMLElement;
+					if (target.closest('a, button, [role="button"], .magnetic-btn')) {
+						handleMouseEnter();
+					}
+				};
 
-			// Use event delegation for global coverage
-			const handleGlobalOver = (e: MouseEvent) => {
-				const target = e.target as HTMLElement;
-				if (target.closest('a, button, [role="button"], .magnetic-btn')) {
-					handleMouseEnter();
-				}
-			};
+				const handleGlobalOut = (e: MouseEvent) => {
+					const target = e.target as HTMLElement;
+					if (target.closest('a, button, [role="button"], .magnetic-btn')) {
+						handleMouseLeave();
+					}
+				};
 
-			const handleGlobalOut = (e: MouseEvent) => {
-				const target = e.target as HTMLElement;
-				if (target.closest('a, button, [role="button"], .magnetic-btn')) {
-					handleMouseLeave();
-				}
-			};
+				document.addEventListener('mousemove', handleMouseMove);
+				document.addEventListener('mouseover', handleGlobalOver);
+				document.addEventListener('mouseout', handleGlobalOut);
 
-			document.addEventListener('mousemove', handleMouseMove);
-			document.addEventListener('mouseover', handleGlobalOver);
-			document.addEventListener('mouseout', handleGlobalOut);
-
-			return () => {
-				document.removeEventListener('mousemove', handleMouseMove);
-				document.removeEventListener('mouseover', handleGlobalOver);
-				document.removeEventListener('mouseout', handleGlobalOut);
-			};
+				return () => {
+					document.removeEventListener('mousemove', handleMouseMove);
+					document.removeEventListener('mouseover', handleGlobalOver);
+					document.removeEventListener('mouseout', handleGlobalOut);
+				};
+			})();
 		});
 	}
 </script>
