@@ -762,3 +762,48 @@ body:has(.card[data-color="green"]:hover) {
     mask-image: linear-gradient(to right, black 85%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
 }
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    ::before,
+    ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .animate-blob,
+    .aurora-bg,
+    .blue-gradient_text,
+    .floating,
+    .css-floating-1,
+    .css-floating-2,
+    .css-floating-3,
+    .glow-border::before,
+    .magnetic-btn:hover::before {
+        animation: none !important;
+    }
+
+    .reveal-up,
+    .reveal-left,
+    .reveal-right {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+
+    .blue-gradient_text {
+        background-size: 100% 100% !important;
+        text-shadow: none !important;
+    }
+
+    .glass-card-hover:hover {
+        transform: none !important;
+    }
+
+    .magnetic-btn:active {
+        transform: none !important;
+    }
+}

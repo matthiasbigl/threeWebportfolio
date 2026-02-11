@@ -7,6 +7,7 @@
 	import { _, locale } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { reducedMotion } from '$lib/stores/reducedMotion';
 	import type { PageData } from './$types';
 
 	interface Props {
@@ -30,139 +31,159 @@
 	onMount(async () => {
 		if (!browser) return;
 
+		if ($reducedMotion) return;
+
 		const { gsap } = await import('gsap');
 		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
 		gsap.registerPlugin(ScrollTrigger);
 
-		// --- HERO entrance choreography ---
-		const heroTl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+		const mm = gsap.matchMedia();
 
-		heroTl
-			.fromTo('.navbar-sub', { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.6 })
-			.fromTo(
-				'.hero-overline',
-				{ opacity: 0, y: 20, scale: 0.95 },
-				{ opacity: 1, y: 0, scale: 1, duration: 0.8 },
-				'-=0.3'
-			)
-			.fromTo(
-				'.hero-title-main',
-				{ opacity: 0, y: 60, clipPath: 'inset(100% 0 0 0)' },
-				{ opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)', duration: 1.2 },
-				'-=0.4'
-			)
-			.fromTo(
-				'.hero-title-sub',
-				{ opacity: 0, y: 30 },
-				{ opacity: 1, y: 0, duration: 0.8 },
-				'-=0.6'
-			)
-			.fromTo('.hero-tagline', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.9 }, '-=0.4')
-			.fromTo(
-				'.hero-meta-item',
-				{ opacity: 0, y: 15 },
-				{ opacity: 1, y: 0, stagger: 0.1, duration: 0.6 },
-				'-=0.5'
-			);
+		mm.add(
+			{
+				reduce: '(prefers-reduced-motion: reduce)'
+			},
+			(context) => {
+				if (context.conditions?.reduce) return;
 
-		// --- Parallax hero background ---
-		if (heroSection) {
-			gsap.to('.hero-accent-orb', {
-				y: -80,
-				scrollTrigger: {
-					trigger: heroSection,
-					start: 'top top',
-					end: 'bottom top',
-					scrub: 1.5
+				// --- HERO entrance choreography ---
+				const heroTl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+
+				heroTl
+					.fromTo('.navbar-sub', { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.6 })
+					.fromTo(
+						'.hero-overline',
+						{ opacity: 0, y: 20, scale: 0.95 },
+						{ opacity: 1, y: 0, scale: 1, duration: 0.8 },
+						'-=0.3'
+					)
+					.fromTo(
+						'.hero-title-main',
+						{ opacity: 0, y: 60, clipPath: 'inset(100% 0 0 0)' },
+						{ opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)', duration: 1.2 },
+						'-=0.4'
+					)
+					.fromTo(
+						'.hero-title-sub',
+						{ opacity: 0, y: 30 },
+						{ opacity: 1, y: 0, duration: 0.8 },
+						'-=0.6'
+					)
+					.fromTo(
+						'.hero-tagline',
+						{ opacity: 0, y: 20 },
+						{ opacity: 1, y: 0, duration: 0.9 },
+						'-=0.4'
+					)
+					.fromTo(
+						'.hero-meta-item',
+						{ opacity: 0, y: 15 },
+						{ opacity: 1, y: 0, stagger: 0.1, duration: 0.6 },
+						'-=0.5'
+					);
+
+				// --- Parallax hero background ---
+				if (heroSection) {
+					gsap.to('.hero-accent-orb', {
+						y: -80,
+						scrollTrigger: {
+							trigger: heroSection,
+							start: 'top top',
+							end: 'bottom top',
+							scrub: 1.5
+						}
+					});
 				}
-			});
-		}
 
-		// --- Chapter reveals ---
-		gsap.utils.toArray<HTMLElement>('.chapter-block').forEach((el, i) => {
-			gsap.fromTo(
-				el,
-				{ opacity: 0, y: 50 },
-				{
-					opacity: 1,
-					y: 0,
-					duration: 1,
-					ease: 'power3.out',
-					scrollTrigger: {
-						trigger: el,
-						start: 'top 85%',
-						end: 'top 45%',
-						toggleActions: 'play none none reverse',
-						onEnter: () => (chapterIndex = i + 1)
+				// --- Chapter reveals ---
+				gsap.utils.toArray<HTMLElement>('.chapter-block').forEach((el, i) => {
+					gsap.fromTo(
+						el,
+						{ opacity: 0, y: 50 },
+						{
+							opacity: 1,
+							y: 0,
+							duration: 1,
+							ease: 'power3.out',
+							scrollTrigger: {
+								trigger: el,
+								start: 'top 85%',
+								end: 'top 45%',
+								toggleActions: 'play none none reverse',
+								onEnter: () => (chapterIndex = i + 1)
+							}
+						}
+					);
+				});
+
+				// --- Feature cards stagger ---
+				gsap.fromTo(
+					'.feature-card',
+					{ opacity: 0, y: 40, rotateX: 5 },
+					{
+						opacity: 1,
+						y: 0,
+						rotateX: 0,
+						stagger: 0.1,
+						duration: 0.8,
+						ease: 'back.out(1.4)',
+						scrollTrigger: {
+							trigger: '.features-grid',
+							start: 'top 85%'
+						}
 					}
-				}
-			);
-		});
+				);
 
-		// --- Feature cards stagger ---
-		gsap.fromTo(
-			'.feature-card',
-			{ opacity: 0, y: 40, rotateX: 5 },
-			{
-				opacity: 1,
-				y: 0,
-				rotateX: 0,
-				stagger: 0.1,
-				duration: 0.8,
-				ease: 'back.out(1.4)',
-				scrollTrigger: {
-					trigger: '.features-grid',
-					start: 'top 85%'
-				}
+				// --- Tech stack entrance ---
+				gsap.fromTo(
+					'.tech-pill',
+					{ opacity: 0, scale: 0.8 },
+					{
+						opacity: 1,
+						scale: 1,
+						stagger: 0.06,
+						duration: 0.5,
+						ease: 'back.out(2)',
+						scrollTrigger: {
+							trigger: '.tech-stack-row',
+							start: 'top 90%'
+						}
+					}
+				);
+
+				// --- CTA section ---
+				gsap.fromTo(
+					'.cta-block',
+					{ opacity: 0, y: 30 },
+					{
+						opacity: 1,
+						y: 0,
+						duration: 1,
+						ease: 'power3.out',
+						scrollTrigger: { trigger: '.cta-block', start: 'top 88%' }
+					}
+				);
+
+				// --- Project image reveal ---
+				gsap.fromTo(
+					'.project-image-section',
+					{ opacity: 0, y: 40, scale: 0.98 },
+					{
+						opacity: 1,
+						y: 0,
+						scale: 1,
+						duration: 1.2,
+						ease: 'power3.out',
+						scrollTrigger: {
+							trigger: '.project-image-section',
+							start: 'top 90%'
+						}
+					}
+				);
 			}
 		);
 
-		// --- Tech stack entrance ---
-		gsap.fromTo(
-			'.tech-pill',
-			{ opacity: 0, scale: 0.8 },
-			{
-				opacity: 1,
-				scale: 1,
-				stagger: 0.06,
-				duration: 0.5,
-				ease: 'back.out(2)',
-				scrollTrigger: {
-					trigger: '.tech-stack-row',
-					start: 'top 90%'
-				}
-			}
-		);
-
-		// --- CTA section ---
-		gsap.fromTo(
-			'.cta-block',
-			{ opacity: 0, y: 30 },
-			{
-				opacity: 1,
-				y: 0,
-				duration: 1,
-				ease: 'power3.out',
-				scrollTrigger: { trigger: '.cta-block', start: 'top 88%' }
-			}
-		);
-
-		// --- Project image reveal ---
-		gsap.fromTo(
-			'.project-image-section',
-			{ opacity: 0, y: 40, scale: 0.98 },
-			{
-				opacity: 1,
-				y: 0,
-				scale: 1,
-				duration: 1.2,
-				ease: 'power3.out',
-				scrollTrigger: {
-					trigger: '.project-image-section',
-					start: 'top 90%'
-				}
-			}
-		);
+		return () => mm.revert();
 	});
 
 	// ─── Static German locale data for SEO (avoids duplicate <head> on hydration) ───
