@@ -1,5 +1,4 @@
 <script lang="ts">
-	import PhotoAvatar from '$lib/components/PhotoAvatar.svelte';
 	import Cube from '$lib/components/Cube.svelte';
 	import Mountains from '$lib/components/Mountains.svelte';
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
@@ -9,12 +8,10 @@
 	import FAQ from '$lib/components/FAQ.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 	import deLocale from '$lib/i18n/locales/de.json';
-	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { projects } from '$lib/data/projects';
-	import { _, locale } from 'svelte-i18n';
-	import { reducedMotion } from '$lib/stores/reducedMotion';
+	import { _ } from 'svelte-i18n';
 	import dumbbellImg from '$lib/assets/dumbbell.png?enhanced';
 	import surfingImg from '$lib/assets/surfing.JPG?enhanced';
 
@@ -220,80 +217,6 @@
 	<!-- Services Section -->
 	<section class="services-wrapper reveal-section glass-section relative gradient-bg-1">
 		<Services />
-	</section>
-
-	<!-- Hero Section -->
-	<section
-		id="hero"
-		class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-20 sm:pb-28"
-	>
-		<!-- Enhanced Hero Background -->
-		<div class="absolute inset-0 z-0">
-			<div
-				class="absolute inset-0"
-				style="background: linear-gradient(135deg, rgba(59,130,246,0.06) 0%, var(--bg-body) 50%, rgba(139,92,246,0.06) 100%);"
-			></div>
-
-			<!-- Floating geometric shapes -->
-			<div
-				class="hero-floating-1 css-floating-1 absolute top-[15%] left-[10%] w-64 h-64 bg-blue-500/5 rounded-full blur-[80px]"
-			></div>
-			<div
-				class="hero-floating-2 css-floating-2 absolute bottom-[20%] right-[15%] w-96 h-96 bg-purple-500/5 rounded-full blur-[100px]"
-			></div>
-			<div
-				class="hero-floating-3 css-floating-3 absolute top-[40%] right-[25%] w-48 h-48 bg-cyan-500/5 rounded-full blur-[60px]"
-			></div>
-
-			<!-- Optional subtle grid overlay for hero specifically -->
-			<div class="absolute inset-0 opacity-[0.02] grid-lines"></div>
-		</div>
-
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-			<div class="flex flex-col lg:flex-row items-center justify-between gap-12 sm:gap-16">
-				<!-- Avatar -->
-				<div class="hero-avatar floating-avatar relative">
-					<div class="w-56 h-56 sm:w-72 sm:h-72 lg:w-[22rem] lg:h-[22rem] floating">
-						<PhotoAvatar />
-					</div>
-				</div>
-
-				<!-- Hero Text -->
-				<div class="text-center lg:text-left max-w-3xl px-4">
-					<p
-						class="hero-intro font-poppins text-xs sm:text-sm font-semibold text-blue-400/80 mb-6 tracking-[0.15em] uppercase"
-					>
-						{$_('hero.greeting')}
-						<span style="color: var(--text-primary); opacity: 0.9;">{$_('hero.name')}</span>
-					</p>
-
-					<h1
-						class="hero-title font-poppins font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-8 leading-[1.1] tracking-tight"
-						style="color: var(--text-heading);"
-					>
-						{@html $_('hero.subtitle')}
-					</h1>
-
-					<p
-						class="hero-description text-base sm:text-lg lg:text-xl mb-12 leading-relaxed font-light max-w-2xl"
-						style="color: var(--text-secondary);"
-					>
-						{@html $_('hero.description')}
-					</p>
-
-					<div
-						class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center lg:justify-start px-4 sm:px-0"
-					>
-						<Button href="/contact" variant="primary">
-							{$_('hero.cta')}
-						</Button>
-						<Button href="#services" variant="secondary">
-							{$_('hero.ctaServices')}
-						</Button>
-					</div>
-				</div>
-			</div>
-		</div>
 	</section>
 
 	<!-- Skills Section -->
