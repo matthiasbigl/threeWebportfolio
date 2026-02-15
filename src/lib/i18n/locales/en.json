@@ -14,9 +14,9 @@
 		"ctaServices": "My Services"
 	},
 	"services": {
-		"title": "More Customers,",
-		"titleHighlight": "Less Hassle",
-		"subtitle": "Want to be visible online but don't want to waste weeks on tech? <span class=\"blue-gradient_text\">I'll handle it for you</span> – personally, no agency chaos, fair pricing.",
+		"title": "Websites",
+		"titleHighlight": "that win customers",
+		"subtitle": "From first concept to launch: <span class=\"blue-gradient_text\">design, development, SEO, and ongoing support in one place</span> — clear, fast, and without agency overhead.",
 		"items": {
 			"experiences": {
 				"title": "Interactive Web Experiences",
@@ -41,12 +41,7 @@
 			"seo": {
 				"title": "SEO-Optimization",
 				"description": "Rank higher, get found. Data-driven SEO strategies to drive organic traffic and visibility.",
-				"features": [
-					"Keyword Strategy",
-					"Technical Audit",
-					"Performance Boost",
-					"Google Ranking"
-				]
+				"features": ["Keyword Strategy", "Technical Audit", "Performance Boost", "Google Ranking"]
 			},
 			"webshops": {
 				"title": "E-Commerce & Online Shops",
@@ -162,14 +157,7 @@
 					"OpenAI API",
 					"Server Side Events SSE"
 				],
-				"tags": [
-					"IoT",
-					"SvelteKit",
-					"ESP32",
-					"Personal Messenger",
-					"Relationship OS",
-					"AI"
-				]
+				"tags": ["IoT", "SvelteKit", "ESP32", "Personal Messenger", "Relationship OS", "AI"]
 			},
 			"robotics": {
 				"title": "ABC Sensor Box",
@@ -201,14 +189,7 @@
 					"CBRN Sensors",
 					"Off-the-shelf Hardware"
 				],
-				"tags": [
-					"ABC-Schutz",
-					"CBRN",
-					"LoRa",
-					"Robotics",
-					"Defense Tech",
-					"Embedded"
-				]
+				"tags": ["ABC-Schutz", "CBRN", "LoRa", "Robotics", "Defense Tech", "Embedded"]
 			},
 			"grading-bot": {
 				"title": "Grading Bot",
@@ -232,20 +213,8 @@
 					"Azure AD & MS Teams Integration",
 					"Automated Feedback Reports"
 				],
-				"technologies": [
-					"SvelteKit",
-					"Docker",
-					"Azure AD",
-					"PostgreSQL",
-					"Tailwind CSS"
-				],
-				"tags": [
-					"Education Tech",
-					"Automation",
-					"CI/CD",
-					"Docker",
-					"Azure"
-				]
+				"technologies": ["SvelteKit", "Docker", "Azure AD", "PostgreSQL", "Tailwind CSS"],
+				"tags": ["Education Tech", "Automation", "CI/CD", "Docker", "Azure"]
 			},
 			"unleashed": {
 				"title": "Unleashed",
@@ -269,20 +238,8 @@
 					"Chronological Feed (No Algorithm)",
 					"Privacy-First by Design"
 				],
-				"technologies": [
-					"Kotlin",
-					"Jetpack Compose",
-					"Clerk Auth",
-					"Supabase",
-					"Android SDK"
-				],
-				"tags": [
-					"Social Media",
-					"Privacy",
-					"Mobile App",
-					"Android",
-					"Kotlin"
-				]
+				"technologies": ["Kotlin", "Jetpack Compose", "Clerk Auth", "Supabase", "Android SDK"],
+				"tags": ["Social Media", "Privacy", "Mobile App", "Android", "Kotlin"]
 			},
 			"genesys": {
 				"title": "Genesys Cloud",
@@ -306,19 +263,8 @@
 					"Secure Data Integration",
 					"Custom Agent Tools Development"
 				],
-				"technologies": [
-					"Genesys Cloud",
-					"TypeScript",
-					"Cloud APIs",
-					"Micro-services"
-				],
-				"tags": [
-					"Enterprise",
-					"Cloud",
-					"Communications",
-					"Customer Experience",
-					"CX"
-				]
+				"technologies": ["Genesys Cloud", "TypeScript", "Cloud APIs", "Micro-services"],
+				"tags": ["Enterprise", "Cloud", "Communications", "Customer Experience", "CX"]
 			},
 			"portfolio": {
 				"title": "This Portfolio",
@@ -342,41 +288,20 @@
 					"Fully Responsive 3D Canvas",
 					"Advanced SEO & i18n Architecture"
 				],
-				"technologies": [
-					"SvelteKit",
-					"Three.js",
-					"GSAP",
-					"TypeScript",
-					"Tailwind CSS"
-				],
-				"tags": [
-					"SvelteKit",
-					"Three.js",
-					"GSAP",
-					"TypeScript",
-					"3D Web",
-					"Portfolio"
-				]
+				"technologies": ["SvelteKit", "Three.js", "GSAP", "TypeScript", "Tailwind CSS"],
+				"tags": ["SvelteKit", "Three.js", "GSAP", "TypeScript", "3D Web", "Portfolio"]
 			},
 			"blog": {
 				"title": "Bigls Blog - Tech Insights",
 				"description": "A tech blog sharing development experiences and projects.",
 				"longDescription": "A platform for sharing technical knowledge, project updates, and opinions on the latest web technologies.",
-				"tags": [
-					"Blogging",
-					"Web Development",
-					"Content Management"
-				]
+				"tags": ["Blogging", "Web Development", "Content Management"]
 			},
 			"github-projects": {
 				"title": "GitHub Archive",
 				"description": "Dozens of open-source repositories and experiments.",
 				"longDescription": "From small scripts to full-blown libraries, my GitHub profile is an archive of my journey through software engineering.",
-				"tags": [
-					"Open Source",
-					"GitHub",
-					"Web Development"
-				]
+				"tags": ["Open Source", "GitHub", "Web Development"]
 			}
 		}
 	},

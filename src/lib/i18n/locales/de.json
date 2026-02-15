@@ -14,9 +14,9 @@
 		"ctaServices": "Meine Leistungen"
 	},
 	"services": {
-		"title": "Mehr Kunden,",
-		"titleHighlight": "weniger Stress",
-		"subtitle": "Sie wollen online sichtbar sein, aber nicht Wochen mit Technik verschwenden? <span class=\"blue-gradient_text\">Ich übernehme das für Sie</span> – persönlich, ohne Agentur-Chaos, zum fairen Preis.",
+		"title": "Webseiten,",
+		"titleHighlight": "die Kunden bringen",
+		"subtitle": "Von der ersten Idee bis zur fertigen Website: <span class=\"blue-gradient_text\">Design, Entwicklung, SEO und Betreuung aus einer Hand</span> – klar, schnell und ohne Agentur-Umwege.",
 		"items": {
 			"experiences": {
 				"title": "Wow-Effekt garantiert",
@@ -154,22 +154,8 @@
 					"Echtzeit Foto- & Nachrichten-Streams",
 					"ESP32-betriebene Hardware"
 				],
-				"technologies": [
-					"SvelteKit",
-					"ESP32",
-					"C++",
-					"GSAP",
-					"OpenAI API",
-					"WebSockets"
-				],
-				"tags": [
-					"IoT",
-					"SvelteKit",
-					"ESP32",
-					"Messenger",
-					"Relationship OS",
-					"KI"
-				]
+				"technologies": ["SvelteKit", "ESP32", "C++", "GSAP", "OpenAI API", "WebSockets"],
+				"tags": ["IoT", "SvelteKit", "ESP32", "Messenger", "Relationship OS", "KI"]
 			},
 			"robotics": {
 				"title": "ABC Sensorbox",
@@ -201,14 +187,7 @@
 					"ABC-Sensoren",
 					"Off-the-shelf Hardware"
 				],
-				"tags": [
-					"ABC-Schutz",
-					"CBRN",
-					"LoRa",
-					"Robotik",
-					"Defense Tech",
-					"Embedded"
-				]
+				"tags": ["ABC-Schutz", "CBRN", "LoRa", "Robotik", "Defense Tech", "Embedded"]
 			},
 			"grading-bot": {
 				"title": "Grading Bot",
@@ -232,21 +211,8 @@
 					"Azure AD & MS Teams Integration",
 					"Automatisierte Feedback-Reports"
 				],
-				"technologies": [
-					"SvelteKit",
-					"Docker",
-					"Azure AD",
-					"PostgreSQL",
-					"Tailwind CSS"
-				],
-				"tags": [
-					"EdTech",
-					"Automatisierung",
-					"CI/CD",
-					"Coding",
-					"Docker",
-					"Azure"
-				]
+				"technologies": ["SvelteKit", "Docker", "Azure AD", "PostgreSQL", "Tailwind CSS"],
+				"tags": ["EdTech", "Automatisierung", "CI/CD", "Coding", "Docker", "Azure"]
 			},
 			"unleashed": {
 				"title": "Unleashed",
@@ -270,20 +236,8 @@
 					"Chronologischer Feed (kein Algorithmus)",
 					"Privacy-First by Design"
 				],
-				"technologies": [
-					"Kotlin",
-					"Jetpack Compose",
-					"Clerk Auth",
-					"Supabase",
-					"Android SDK"
-				],
-				"tags": [
-					"Social Media",
-					"Datenschutz",
-					"Mobile App",
-					"Android",
-					"Kotlin"
-				]
+				"technologies": ["Kotlin", "Jetpack Compose", "Clerk Auth", "Supabase", "Android SDK"],
+				"tags": ["Social Media", "Datenschutz", "Mobile App", "Android", "Kotlin"]
 			},
 			"genesys": {
 				"title": "Genesys Cloud",
@@ -307,19 +261,8 @@
 					"Sichere Datenintegration",
 					"Entwicklung individueller Agenten-Tools"
 				],
-				"technologies": [
-					"Genesys Cloud",
-					"TypeScript",
-					"Cloud APIs",
-					"Micro-services"
-				],
-				"tags": [
-					"Enterprise",
-					"Cloud",
-					"Kommunikation",
-					"Customer Experience",
-					"CX"
-				]
+				"technologies": ["Genesys Cloud", "TypeScript", "Cloud APIs", "Micro-services"],
+				"tags": ["Enterprise", "Cloud", "Kommunikation", "Customer Experience", "CX"]
 			},
 			"portfolio": {
 				"title": "Dieses Portfolio",
@@ -343,41 +286,20 @@
 					"Vollständig responsives 3D-Canvas",
 					"Fortschrittliche SEO- & i18n-Architektur"
 				],
-				"technologies": [
-					"SvelteKit",
-					"Three.js",
-					"GSAP",
-					"TypeScript",
-					"Tailwind CSS"
-				],
-				"tags": [
-					"SvelteKit",
-					"Three.js",
-					"GSAP",
-					"TypeScript",
-					"3D Web",
-					"Portfolio"
-				]
+				"technologies": ["SvelteKit", "Three.js", "GSAP", "TypeScript", "Tailwind CSS"],
+				"tags": ["SvelteKit", "Three.js", "GSAP", "TypeScript", "3D Web", "Portfolio"]
 			},
 			"blog": {
 				"title": "Bigls Blog - Tech Einblicke",
 				"description": "Ein Tech-Blog über Projekte und Erfahrungen.",
 				"longDescription": "Teilen von technischem Wissen, Projekt-Updates und Meinungen zu modernen Web-Technologien.",
-				"tags": [
-					"Blogging",
-					"Webentwicklung",
-					"Content Management"
-				]
+				"tags": ["Blogging", "Webentwicklung", "Content Management"]
 			},
 			"github-projects": {
 				"title": "GitHub Archiv",
 				"description": "Dutzende Open-Source Repositories und Experimente.",
 				"longDescription": "Vom kleinen Skript bis zur Bibliothek - mein GitHub Profil dokumentiert meine Reise durch die Softwareentwicklung.",
-				"tags": [
-					"Open Source",
-					"GitHub",
-					"Webentwicklung"
-				]
+				"tags": ["Open Source", "GitHub", "Webentwicklung"]
 			}
 		}
 	},
