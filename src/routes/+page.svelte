@@ -73,24 +73,19 @@
 				if (reduceMotion) return;
 
 				if (isDesktop) {
-					// Hero section animations
-					gsap.fromTo(
-						'.hero-title',
-						{ opacity: 0, y: 100, scale: 0.8 },
-						{ opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'back.out(1.7)', delay: 0.5 }
-					);
+					// Hero — cinematic staggered entrance
+					const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-					gsap.fromTo(
-						'.hero-subtitle',
-						{ opacity: 0, y: 50 },
-						{ opacity: 1, y: 0, duration: 1, ease: 'power2.out', delay: 0.8 }
-					);
-
-					gsap.fromTo(
-						'.hero-avatar',
-						{ opacity: 0, x: -100, rotation: -10 },
-						{ opacity: 1, x: 0, rotation: 0, duration: 1.5, ease: 'back.out(1.7)', delay: 0.3 }
-					);
+					heroTl
+						.fromTo('.hero-eyebrow', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 0.2)
+						.fromTo('.hero-title', { opacity: 0, y: 80, clipPath: 'inset(0 0 100% 0)' }, { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.2, ease: 'power4.out' }, 0.3)
+						.fromTo('.hero-description', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.9 }, 0.7)
+						.fromTo('.hero-cta', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7 }, 0.9)
+						.fromTo('.hero-photo-wrap', { opacity: 0, scale: 0.85, rotationY: -15 }, { opacity: 1, scale: 1, rotationY: 0, duration: 1.4, ease: 'back.out(1.4)' }, 0.4)
+						.fromTo('.hero-badge', { opacity: 0, y: 20, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.6 }, 1.2)
+						.fromTo('.hero-step', { opacity: 0, y: 30, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.12 }, 1.1)
+						.fromTo('.hero-orb-1', { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 0.6, duration: 2, ease: 'power2.out' }, 0)
+						.fromTo('.hero-orb-2', { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 0.5, duration: 2.5, ease: 'power2.out' }, 0.3);
 
 					// Section reveal animations
 					gsap.utils.toArray('.reveal-section').forEach((section: any) => {
@@ -217,74 +212,154 @@
 		<div class="aurora-bg w-full h-full"></div>
 	</div>
 
-	<!-- Hero Section -->
+	<!-- Hero Section — Cinematic value-first design -->
 	<section
 		id="hero"
-		class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-20 sm:pb-28"
+		class="hero-cinema relative min-h-screen flex items-center overflow-hidden"
 	>
-		<!-- Enhanced Hero Background -->
+		<!-- Dramatic background layers -->
 		<div class="absolute inset-0 z-0">
-			<div
-				class="absolute inset-0"
-				style="background: linear-gradient(135deg, rgba(59,130,246,0.06) 0%, var(--bg-body) 50%, rgba(139,92,246,0.06) 100%);"
-			></div>
-
-			<!-- Floating geometric shapes -->
-			<div
-				class="hero-floating-1 css-floating-1 absolute top-[15%] left-[10%] w-64 h-64 bg-blue-500/5 rounded-full blur-[80px]"
-			></div>
-			<div
-				class="hero-floating-2 css-floating-2 absolute bottom-[20%] right-[15%] w-96 h-96 bg-purple-500/5 rounded-full blur-[100px]"
-			></div>
-			<div
-				class="hero-floating-3 css-floating-3 absolute top-[40%] right-[25%] w-48 h-48 bg-cyan-500/5 rounded-full blur-[60px]"
-			></div>
-
-			<!-- Optional subtle grid overlay for hero specifically -->
-			<div class="absolute inset-0 opacity-[0.02] grid-lines"></div>
+			<div class="absolute inset-0" style="background: var(--hero-bg);"></div>
+			<!-- Big cinematic glow orbs -->
+			<div class="hero-orb-1 absolute top-[-20%] right-[-10%] w-[700px] h-[700px] rounded-full blur-[120px] opacity-60" style="background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);"></div>
+			<div class="hero-orb-2 absolute bottom-[-15%] left-[-5%] w-[500px] h-[500px] rounded-full blur-[100px] opacity-50" style="background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);"></div>
+			<div class="hero-orb-3 css-floating-2 absolute top-[30%] left-[40%] w-[300px] h-[300px] rounded-full blur-[80px] opacity-40" style="background: radial-gradient(circle, rgba(0,198,255,0.1) 0%, transparent 70%);"></div>
+			<!-- Subtle noise texture -->
+			<div class="absolute inset-0 opacity-[0.03] grid-lines"></div>
 		</div>
 
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-			<div class="flex flex-col lg:flex-row items-center justify-between gap-12 sm:gap-16">
-				<!-- Avatar -->
-				<div class="hero-avatar floating-avatar relative">
-					<div class="w-56 h-56 sm:w-72 sm:h-72 lg:w-[22rem] lg:h-[22rem] floating">
-						<PhotoAvatar />
+		<div class="relative z-10 container mx-auto px-5 sm:px-6 lg:px-8 py-28 sm:py-32 lg:py-0">
+			<!-- Two-column asymmetric layout -->
+			<div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-6 xl:gap-10">
+				<!-- LEFT — Copy & CTA -->
+				<div class="flex-1 max-w-2xl lg:max-w-none lg:flex-[1.15] text-center lg:text-left order-2 lg:order-1">
+					<!-- Eyebrow -->
+					<div class="hero-eyebrow mb-5 sm:mb-6">
+						<span
+							class="inline-flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] px-4 py-2 rounded-full border"
+							style="color: var(--text-secondary); background: var(--glass-bg); border-color: var(--glass-border); backdrop-filter: blur(12px);"
+						>
+							<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+							{$_('hero.trustLine')}
+						</span>
 					</div>
-				</div>
 
-				<!-- Hero Text -->
-				<div class="text-center lg:text-left max-w-3xl px-4">
-					<p
-						class="hero-intro font-poppins text-xs sm:text-sm font-semibold text-blue-400/80 mb-6 tracking-[0.15em] uppercase"
-					>
-						{$_('hero.greeting')}
-						<span style="color: var(--text-primary); opacity: 0.9;">{$_('hero.name')}</span>
-					</p>
-
+					<!-- Big dramatic headline -->
 					<h1
-						class="hero-title font-poppins font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-8 leading-[1.1] tracking-tight"
+						class="hero-title font-syne font-extrabold text-[2rem] sm:text-[2.75rem] md:text-5xl lg:text-[3.4rem] xl:text-[3.8rem] mb-5 sm:mb-7 leading-[1.05] tracking-[-0.02em]"
 						style="color: var(--text-heading);"
 					>
-						{@html $_('hero.subtitle')}
+						{@html $_('hero.headline')}
 					</h1>
 
+					<!-- Description -->
 					<p
-						class="hero-description text-base sm:text-lg lg:text-xl mb-12 leading-relaxed font-light max-w-2xl"
+						class="hero-description text-sm sm:text-base lg:text-lg mb-8 sm:mb-10 leading-[1.7] max-w-xl mx-auto lg:mx-0"
 						style="color: var(--text-secondary);"
 					>
 						{@html $_('hero.description')}
 					</p>
 
-					<div
-						class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center lg:justify-start px-4 sm:px-0"
-					>
+					<!-- CTAs -->
+					<div class="hero-cta flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-12 sm:mb-14 lg:mb-16">
 						<Button href="/contact" variant="primary">
 							{$_('hero.cta')}
 						</Button>
 						<Button href="#services" variant="secondary">
 							{$_('hero.ctaServices')}
 						</Button>
+					</div>
+
+					<!-- 3-Step Journey — Horizontal flowing timeline -->
+					<div class="hero-journey">
+						<div class="grid grid-cols-1 sm:grid-cols-3 gap-0">
+							<!-- Step 1 -->
+							<div class="hero-step group relative flex sm:flex-col items-start sm:items-center gap-4 sm:gap-0 py-4 sm:py-0 sm:px-3">
+								<!-- Step number + connector -->
+								<div class="flex sm:flex-col items-center gap-3 sm:gap-2 flex-shrink-0">
+									<div class="hero-step-num w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center font-syne font-extrabold text-sm sm:text-base transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-blue-500/20" style="background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(0,198,255,0.1)); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2);">
+										01
+									</div>
+									<!-- Connector line (horizontal on mobile, vertical dot on desktop) -->
+									<div class="h-px flex-1 sm:h-0 sm:flex-none sm:w-0 bg-gradient-to-r from-blue-500/30 to-transparent sm:hidden"></div>
+								</div>
+								<div class="flex-1 sm:mt-3 sm:text-center">
+									<h3 class="font-poppins font-bold text-sm sm:text-base mb-0.5 tracking-tight" style="color: var(--text-heading);">
+										{$_('hero.steps.idea.title')}
+									</h3>
+									<p class="text-xs leading-relaxed" style="color: var(--text-tertiary);">
+										{$_('hero.steps.idea.description')}
+									</p>
+								</div>
+								<!-- Connector between steps (desktop) -->
+								<div class="hidden sm:block absolute top-[22px] right-0 w-[calc(50%-28px)] h-px translate-x-full z-0" style="background: linear-gradient(90deg, rgba(59,130,246,0.3), rgba(139,92,246,0.2));"></div>
+							</div>
+
+							<!-- Step 2 -->
+							<div class="hero-step group relative flex sm:flex-col items-start sm:items-center gap-4 sm:gap-0 py-4 sm:py-0 sm:px-3">
+								<div class="flex sm:flex-col items-center gap-3 sm:gap-2 flex-shrink-0">
+									<div class="hero-step-num w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center font-syne font-extrabold text-sm sm:text-base transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-purple-500/20" style="background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(168,85,247,0.1)); color: #a78bfa; border: 1px solid rgba(139,92,246,0.2);">
+										02
+									</div>
+									<div class="h-px flex-1 sm:h-0 sm:flex-none sm:w-0 bg-gradient-to-r from-purple-500/30 to-transparent sm:hidden"></div>
+								</div>
+								<div class="flex-1 sm:mt-3 sm:text-center">
+									<h3 class="font-poppins font-bold text-sm sm:text-base mb-0.5 tracking-tight" style="color: var(--text-heading);">
+										{$_('hero.steps.build.title')}
+									</h3>
+									<p class="text-xs leading-relaxed" style="color: var(--text-tertiary);">
+										{$_('hero.steps.build.description')}
+									</p>
+								</div>
+								<div class="hidden sm:block absolute top-[22px] right-0 w-[calc(50%-28px)] h-px translate-x-full z-0" style="background: linear-gradient(90deg, rgba(139,92,246,0.2), rgba(16,185,129,0.3));"></div>
+							</div>
+
+							<!-- Step 3 -->
+							<div class="hero-step group relative flex sm:flex-col items-start sm:items-center gap-4 sm:gap-0 py-4 sm:py-0 sm:px-3">
+								<div class="flex sm:flex-col items-center gap-3 sm:gap-2 flex-shrink-0">
+									<div class="hero-step-num w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center font-syne font-extrabold text-sm sm:text-base transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-emerald-500/20" style="background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(52,211,153,0.1)); color: #34d399; border: 1px solid rgba(16,185,129,0.2);">
+										03
+									</div>
+									<div class="h-px flex-1 sm:h-0 sm:flex-none sm:w-0 bg-gradient-to-r from-emerald-500/30 to-transparent sm:hidden"></div>
+								</div>
+								<div class="flex-1 sm:mt-3 sm:text-center">
+									<h3 class="font-poppins font-bold text-sm sm:text-base mb-0.5 tracking-tight" style="color: var(--text-heading);">
+										{$_('hero.steps.grow.title')}
+									</h3>
+									<p class="text-xs leading-relaxed" style="color: var(--text-tertiary);">
+										{$_('hero.steps.grow.description')}
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- RIGHT — Photo with dramatic treatment -->
+				<div class="hero-photo-wrap flex-shrink-0 order-1 lg:order-2 relative flex items-center justify-center lg:flex-[0.85]">
+					<!-- Glow backdrop behind photo -->
+					<div class="absolute inset-0 scale-110" aria-hidden="true">
+						<div class="absolute inset-0 rounded-[2rem] blur-[60px] opacity-40" style="background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(139,92,246,0.2), rgba(0,198,255,0.15));"></div>
+					</div>
+
+					<!-- Photo container with animated gradient border -->
+					<div class="hero-photo-card relative w-56 h-64 sm:w-64 sm:h-72 lg:w-[20rem] lg:h-[24rem] xl:w-[22rem] xl:h-[26rem] rounded-[1.5rem] overflow-hidden" style="box-shadow: 0 25px 60px -12px rgba(0,0,0,0.3), 0 0 80px rgba(59,130,246,0.08);">
+						<!-- Animated gradient border -->
+						<div class="absolute inset-0 rounded-[1.5rem] p-[2px] z-10 pointer-events-none hero-glow-border">
+							<div class="absolute inset-0 rounded-[1.5rem] hero-gradient-border-inner"></div>
+							<div class="absolute inset-[2px] rounded-[calc(1.5rem-2px)]" style="background: var(--bg-body);"></div>
+						</div>
+						<PhotoAvatar />
+					</div>
+
+					<!-- Floating badge — social proof -->
+					<div
+						class="hero-badge absolute -bottom-3 sm:-bottom-4 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:-left-6 xl:-left-8 z-20 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl border whitespace-nowrap"
+						style="background: var(--glass-bg); border-color: var(--glass-border); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0,0,0,0.12);"
+					>
+						<p class="font-poppins font-semibold text-xs sm:text-sm" style="color: var(--text-heading);">
+							{$_('hero.socialProof')}
+						</p>
 					</div>
 				</div>
 			</div>
@@ -609,10 +684,41 @@
 		font-family: 'Poppins', sans-serif;
 	}
 
+	:global(.font-syne) {
+		font-family: 'Syne', sans-serif;
+	}
+
 	.aurora-bg {
 		background:
 			radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
 			radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 40%);
 		filter: blur(80px);
+	}
+
+	/* Animated gradient border for hero photo */
+	@keyframes heroGradientBorder {
+		0%, 100% { background-position: 0% 50%; }
+		50% { background-position: 100% 50%; }
+	}
+
+	:global(.hero-gradient-border-inner) {
+		background: linear-gradient(135deg, rgba(0,198,255,0.5), rgba(59,130,246,0.3), rgba(139,92,246,0.5), rgba(0,198,255,0.3));
+		background-size: 400% 400%;
+		animation: heroGradientBorder 6s ease-in-out infinite;
+	}
+
+	:global(.hero-glow-border > div:first-child) {
+		animation: heroGradientBorder 6s ease-in-out infinite;
+		background-size: 400% 400%;
+	}
+
+	/* Hero cinema section */
+	:global(.hero-cinema) {
+		min-height: 100vh;
+	}
+
+	/* Photo card premium shadow */
+	:global(.hero-photo-card) {
+		transform-style: preserve-3d;
 	}
 </style>
