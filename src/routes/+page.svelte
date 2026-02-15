@@ -217,6 +217,11 @@
 		<div class="aurora-bg w-full h-full"></div>
 	</div>
 
+	<!-- Services Section -->
+	<section class="services-wrapper reveal-section glass-section relative gradient-bg-1">
+		<Services />
+	</section>
+
 	<!-- Hero Section -->
 	<section
 		id="hero"
@@ -289,11 +294,6 @@
 				</div>
 			</div>
 		</div>
-	</section>
-
-	<!-- Services Section -->
-	<section class="services-wrapper reveal-section glass-section relative gradient-bg-1">
-		<Services />
 	</section>
 
 	<!-- Skills Section -->
