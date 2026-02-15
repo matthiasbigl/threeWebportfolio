@@ -371,9 +371,6 @@
 					</div>
 				</div>
 
-				<!-- Mobile connecting arrows (between cards) -->
-				<div class="flex lg:hidden flex-col items-center -mt-2 -mb-2" aria-hidden="true">
-				</div>
 			</div>
 
 			<!-- Trust Strip — Photo + Name + Credibility -->
