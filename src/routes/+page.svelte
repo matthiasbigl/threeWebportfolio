@@ -346,7 +346,7 @@
 					<div class="hero-photo-card relative w-56 h-64 sm:w-64 sm:h-72 lg:w-[20rem] lg:h-[24rem] xl:w-[22rem] xl:h-[26rem] rounded-[1.5rem] overflow-hidden" style="box-shadow: 0 25px 60px -12px rgba(0,0,0,0.3), 0 0 80px rgba(59,130,246,0.08);">
 						<!-- Animated gradient border -->
 						<div class="absolute inset-0 rounded-[1.5rem] p-[2px] z-10 pointer-events-none hero-glow-border">
-							<div class="absolute inset-0 rounded-[1.5rem]" style="background: linear-gradient(135deg, rgba(0,198,255,0.5), rgba(59,130,246,0.3), rgba(139,92,246,0.5), rgba(0,198,255,0.3)); background-size: 400% 400%; animation: heroGradientBorder 6s ease-in-out infinite;"></div>
+							<div class="absolute inset-0 rounded-[1.5rem] hero-gradient-border-inner"></div>
 							<div class="absolute inset-[2px] rounded-[calc(1.5rem-2px)]" style="background: var(--bg-body);"></div>
 						</div>
 						<PhotoAvatar />
@@ -699,6 +699,12 @@
 	@keyframes heroGradientBorder {
 		0%, 100% { background-position: 0% 50%; }
 		50% { background-position: 100% 50%; }
+	}
+
+	:global(.hero-gradient-border-inner) {
+		background: linear-gradient(135deg, rgba(0,198,255,0.5), rgba(59,130,246,0.3), rgba(139,92,246,0.5), rgba(0,198,255,0.3));
+		background-size: 400% 400%;
+		animation: heroGradientBorder 6s ease-in-out infinite;
 	}
 
 	:global(.hero-glow-border > div:first-child) {
