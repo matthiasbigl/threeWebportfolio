@@ -8,10 +8,30 @@
 	"hero": {
 		"greeting": "Hey, I'm",
 		"name": "Matthias Bigl",
+		"headline": "Your website brings <span class=\"blue-gradient_text font-semibold\">new customers</span> – around the clock.",
 		"subtitle": "Freelance <span class=\"blue-gradient_text font-semibold\">Web Designer & Full Stack Developer</span> in Vienna, Austria 🇦🇹",
-		"description": "Your <span class=\"blue-gradient_text font-semibold\">professional website</span> from Vienna & Korneuburg that wins new customers 24/7 – while you focus on running your business.",
+		"description": "I handle everything for you: <span class=\"blue-gradient_text font-semibold\">From the first idea to the finished website</span>, including hosting and ongoing support. You sit back – I make sure your business gets found online.",
 		"cta": "Free Consultation",
-		"ctaServices": "My Services"
+		"ctaServices": "My Services",
+		"steps": {
+			"idea": {
+				"label": "You share",
+				"title": "Your Idea",
+				"description": "In a free initial call, we discuss what you need – no tech jargon."
+			},
+			"build": {
+				"label": "I take care of",
+				"title": "Everything",
+				"description": "Design, development, copy, hosting – you don't have to worry about a thing."
+			},
+			"grow": {
+				"label": "You gain",
+				"title": "New Customers",
+				"description": "Your website works 24/7 for you and gets found by your customers on Google."
+			}
+		},
+		"trustLine": "Matthias Bigl · Web Designer from Vienna & Korneuburg",
+		"socialProof": "Personal, no agency, fair pricing"
 	},
 	"services": {
 		"title": "More Customers,",

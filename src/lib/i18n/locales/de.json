@@ -8,10 +8,30 @@
 	"hero": {
 		"greeting": "Hey, ich bin",
 		"name": "Matthias Bigl",
+		"headline": "Ihre Website bringt <span class=\"blue-gradient_text font-semibold\">neue Kunden</span> – rund um die Uhr.",
 		"subtitle": "Professionelles <span class=\"blue-gradient_text font-semibold\">Webdesign & Webentwicklung</span> 🇦🇹",
-		"description": "Ihre <span class=\"blue-gradient_text font-semibold\">digitale Visitenkarte</span> in Wien & Korneuburg, die rund um die Uhr neue Kunden gewinnt – während Sie sich auf Ihr Kerngeschäft konzentrieren.",
+		"description": "Ich übernehme alles für Sie: <span class=\"blue-gradient_text font-semibold\">Von der ersten Idee bis zur fertigen Website</span>, inklusive Hosting und laufender Betreuung. Sie lehnen sich zurück – ich sorge dafür, dass Ihr Business online gefunden wird.",
 		"cta": "Kostenlose Beratung",
-		"ctaServices": "Meine Leistungen"
+		"ctaServices": "Meine Leistungen",
+		"steps": {
+			"idea": {
+				"label": "Sie erzählen",
+				"title": "Ihre Idee",
+				"description": "In einem kostenlosen Erstgespräch besprechen wir, was Sie brauchen – ohne Technik-Jargon."
+			},
+			"build": {
+				"label": "Ich kümmere mich",
+				"title": "Um alles",
+				"description": "Design, Entwicklung, Texte, Hosting – Sie müssen sich um nichts kümmern."
+			},
+			"grow": {
+				"label": "Sie gewinnen",
+				"title": "Neue Kunden",
+				"description": "Ihre Website arbeitet 24/7 für Sie und wird von Ihren Kunden auf Google gefunden."
+			}
+		},
+		"trustLine": "Matthias Bigl · Webdesigner aus Wien & Korneuburg",
+		"socialProof": "Persönlich, ohne Agentur, zum fairen Preis"
 	},
 	"services": {
 		"title": "Mehr Kunden,",

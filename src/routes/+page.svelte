@@ -77,19 +77,40 @@
 					gsap.fromTo(
 						'.hero-title',
 						{ opacity: 0, y: 100, scale: 0.8 },
-						{ opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'back.out(1.7)', delay: 0.5 }
+						{ opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'back.out(1.7)', delay: 0.3 }
 					);
 
 					gsap.fromTo(
-						'.hero-subtitle',
+						'.hero-description',
 						{ opacity: 0, y: 50 },
-						{ opacity: 1, y: 0, duration: 1, ease: 'power2.out', delay: 0.8 }
+						{ opacity: 1, y: 0, duration: 1, ease: 'power2.out', delay: 0.6 }
 					);
 
 					gsap.fromTo(
-						'.hero-avatar',
-						{ opacity: 0, x: -100, rotation: -10 },
-						{ opacity: 1, x: 0, rotation: 0, duration: 1.5, ease: 'back.out(1.7)', delay: 0.3 }
+						'.hero-cta',
+						{ opacity: 0, y: 30 },
+						{ opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 0.8 }
+					);
+
+					// Journey steps stagger
+					gsap.fromTo(
+						'.hero-step',
+						{ opacity: 0, y: 60, scale: 0.9 },
+						{
+							opacity: 1,
+							y: 0,
+							scale: 1,
+							duration: 0.8,
+							ease: 'back.out(1.7)',
+							stagger: 0.15,
+							delay: 1.0
+						}
+					);
+
+					gsap.fromTo(
+						'.hero-trust',
+						{ opacity: 0, y: 20 },
+						{ opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 1.5 }
 					);
 
 					// Section reveal animations
@@ -217,10 +238,10 @@
 		<div class="aurora-bg w-full h-full"></div>
 	</div>
 
-	<!-- Hero Section -->
+	<!-- Hero Section — Value-first design -->
 	<section
 		id="hero"
-		class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-20 sm:pb-28"
+		class="relative min-h-screen flex flex-col justify-center overflow-hidden pt-24 pb-16 sm:pt-28 sm:pb-24"
 	>
 		<!-- Enhanced Hero Background -->
 		<div class="absolute inset-0 z-0">
@@ -240,51 +261,134 @@
 				class="hero-floating-3 css-floating-3 absolute top-[40%] right-[25%] w-48 h-48 bg-cyan-500/5 rounded-full blur-[60px]"
 			></div>
 
-			<!-- Optional subtle grid overlay for hero specifically -->
 			<div class="absolute inset-0 opacity-[0.02] grid-lines"></div>
 		</div>
 
 		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-			<div class="flex flex-col lg:flex-row items-center justify-between gap-12 sm:gap-16">
-				<!-- Avatar -->
-				<div class="hero-avatar floating-avatar relative">
-					<div class="w-56 h-56 sm:w-72 sm:h-72 lg:w-[22rem] lg:h-[22rem] floating">
-						<PhotoAvatar />
+			<!-- Main Value Headline -->
+			<div class="text-center max-w-5xl mx-auto mb-10 sm:mb-16">
+				<h1
+					class="hero-title font-poppins font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-6 sm:mb-8 leading-[1.08] tracking-tight"
+					style="color: var(--text-heading);"
+				>
+					{@html $_('hero.headline')}
+				</h1>
+
+				<p
+					class="hero-description text-base sm:text-lg lg:text-xl mb-8 sm:mb-10 leading-relaxed font-light max-w-3xl mx-auto"
+					style="color: var(--text-secondary);"
+				>
+					{@html $_('hero.description')}
+				</p>
+
+				<div
+					class="hero-cta flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center px-4 sm:px-0"
+				>
+					<Button href="/contact" variant="primary">
+						{$_('hero.cta')}
+					</Button>
+					<Button href="#services" variant="secondary">
+						{$_('hero.ctaServices')}
+					</Button>
+				</div>
+			</div>
+
+			<!-- 3-Step Journey -->
+			<div class="hero-journey relative max-w-5xl mx-auto mb-12 sm:mb-16">
+				<!-- Connecting line (desktop) -->
+				<div class="hidden lg:block absolute top-1/2 left-[16.67%] right-[16.67%] h-px -translate-y-1/2 z-0" aria-hidden="true">
+					<div class="w-full h-full bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-emerald-500/30"></div>
+				</div>
+
+				<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 relative z-10">
+					<!-- Step 1: Idea -->
+					<div
+						class="hero-step group relative rounded-2xl overflow-hidden border backdrop-blur-md p-5 sm:p-7 text-center transition-all duration-500 hover:scale-[1.02]"
+						style="background: var(--glass-bg); border-color: var(--glass-border);"
+					>
+						<div class="absolute inset-0 bg-gradient-to-br from-blue-500/[0.06] to-cyan-500/[0.03] opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+						<div class="relative z-10">
+							<div
+								class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl mx-auto mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
+								style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+							>
+								💡
+							</div>
+							<p class="text-xs font-bold uppercase tracking-[0.2em] text-blue-400/70 mb-1">{$_('hero.steps.idea.label')}</p>
+							<h3 class="font-poppins font-bold text-lg sm:text-xl mb-2 tracking-tight" style="color: var(--text-heading);">
+								{$_('hero.steps.idea.title')}
+							</h3>
+							<p class="text-xs sm:text-sm font-light leading-relaxed" style="color: var(--text-secondary);">
+								{$_('hero.steps.idea.description')}
+							</p>
+						</div>
+					</div>
+
+					<!-- Step 2: Build -->
+					<div
+						class="hero-step group relative rounded-2xl overflow-hidden border backdrop-blur-md p-5 sm:p-7 text-center transition-all duration-500 hover:scale-[1.02]"
+						style="background: var(--glass-bg); border-color: var(--glass-border);"
+					>
+						<div class="absolute inset-0 bg-gradient-to-br from-purple-500/[0.06] to-pink-500/[0.03] opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+						<div class="relative z-10">
+							<div
+								class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl mx-auto mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
+								style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+							>
+								🛠️
+							</div>
+							<p class="text-xs font-bold uppercase tracking-[0.2em] text-purple-400/70 mb-1">{$_('hero.steps.build.label')}</p>
+							<h3 class="font-poppins font-bold text-lg sm:text-xl mb-2 tracking-tight" style="color: var(--text-heading);">
+								{$_('hero.steps.build.title')}
+							</h3>
+							<p class="text-xs sm:text-sm font-light leading-relaxed" style="color: var(--text-secondary);">
+								{$_('hero.steps.build.description')}
+							</p>
+						</div>
+					</div>
+
+					<!-- Step 3: Grow -->
+					<div
+						class="hero-step group relative rounded-2xl overflow-hidden border backdrop-blur-md p-5 sm:p-7 text-center transition-all duration-500 hover:scale-[1.02]"
+						style="background: var(--glass-bg); border-color: var(--glass-border);"
+					>
+						<div class="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.06] to-teal-500/[0.03] opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+						<div class="relative z-10">
+							<div
+								class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl mx-auto mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
+								style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+							>
+								📈
+							</div>
+							<p class="text-xs font-bold uppercase tracking-[0.2em] text-emerald-400/70 mb-1">{$_('hero.steps.grow.label')}</p>
+							<h3 class="font-poppins font-bold text-lg sm:text-xl mb-2 tracking-tight" style="color: var(--text-heading);">
+								{$_('hero.steps.grow.title')}
+							</h3>
+							<p class="text-xs sm:text-sm font-light leading-relaxed" style="color: var(--text-secondary);">
+								{$_('hero.steps.grow.description')}
+							</p>
+						</div>
 					</div>
 				</div>
 
-				<!-- Hero Text -->
-				<div class="text-center lg:text-left max-w-3xl px-4">
-					<p
-						class="hero-intro font-poppins text-xs sm:text-sm font-semibold text-blue-400/80 mb-6 tracking-[0.15em] uppercase"
-					>
-						{$_('hero.greeting')}
-						<span style="color: var(--text-primary); opacity: 0.9;">{$_('hero.name')}</span>
-					</p>
+				<!-- Mobile connecting arrows (between cards) -->
+				<div class="flex lg:hidden flex-col items-center -mt-2 -mb-2" aria-hidden="true">
+				</div>
+			</div>
 
-					<h1
-						class="hero-title font-poppins font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-8 leading-[1.1] tracking-tight"
-						style="color: var(--text-heading);"
-					>
-						{@html $_('hero.subtitle')}
-					</h1>
-
-					<p
-						class="hero-description text-base sm:text-lg lg:text-xl mb-12 leading-relaxed font-light max-w-2xl"
-						style="color: var(--text-secondary);"
-					>
-						{@html $_('hero.description')}
-					</p>
-
-					<div
-						class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center lg:justify-start px-4 sm:px-0"
-					>
-						<Button href="/contact" variant="primary">
-							{$_('hero.cta')}
-						</Button>
-						<Button href="#services" variant="secondary">
-							{$_('hero.ctaServices')}
-						</Button>
+			<!-- Trust Strip — Photo + Name + Credibility -->
+			<div class="hero-trust flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+				<div class="flex items-center gap-4">
+					<div class="hero-avatar w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden ring-2 ring-blue-500/20 shadow-lg flex-shrink-0">
+						<PhotoAvatar />
+					</div>
+					<div class="text-left">
+						<p class="font-poppins font-semibold text-sm sm:text-base" style="color: var(--text-heading);">
+							{$_('hero.trustLine')}
+						</p>
+						<p class="text-xs sm:text-sm font-light" style="color: var(--text-secondary);">
+							{$_('hero.socialProof')}
+						</p>
 					</div>
 				</div>
 			</div>
