@@ -314,6 +314,21 @@
 
 					if (isMobile) {
 						gsap.fromTo(
+							'.all-in-one-card',
+							{ opacity: 0, y: 30 },
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.8,
+								ease: 'power2.out',
+								scrollTrigger: {
+									trigger: '.all-in-one-card',
+									start: 'top 85%'
+								}
+							}
+						);
+
+						gsap.fromTo(
 							'.bento-item',
 							{ opacity: 0, x: -20 },
 							{
@@ -340,7 +355,7 @@
 								ease: 'power2.out',
 								scrollTrigger: {
 									trigger: '.process-mobile',
-									start: 'top 90%'
+									start: 'top 85%'
 								}
 							}
 						);
@@ -357,7 +372,7 @@
 								ease: 'power2.out',
 								scrollTrigger: {
 									trigger: '.process-mobile',
-									start: 'top 90%'
+									start: 'top 85%'
 								}
 							}
 						);
@@ -427,36 +442,35 @@
 			></div>
 
 			<div class="relative z-10 p-6 sm:p-8 lg:p-12">
-				<div class="flex flex-col lg:flex-row gap-6 lg:gap-12">
-					<div class="lg:w-1/2">
+				<div class="flex flex-col gap-6 lg:gap-12">
+					<div class="lg:hidden">
+						<!-- Mobile: Compact stacked layout -->
 						<div class="flex items-center gap-4 mb-4">
 							<div
-								class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg"
+								class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl transition-all duration-500 shadow-lg"
 								style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
 							>
 								🔧
 							</div>
-							<div>
-								<h3
-									class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight"
-									style="color: var(--text-heading);"
-								>
-									{$_('services.allInOne.title')}
-								</h3>
-							</div>
+							<h3
+								class="text-2xl font-bold tracking-tight"
+								style="color: var(--text-heading);"
+							>
+								{$_('services.allInOne.title')}
+							</h3>
 						</div>
 
 						<p
-							class="text-lg sm:text-xl font-light leading-relaxed mb-6 pl-4"
-							style="color: var(--text-secondary); border-left: 2px solid var(--border-accent);"
+							class="text-base font-light leading-relaxed mb-4"
+							style="color: var(--text-secondary);"
 						>
 							{$_('services.allInOne.tagline')}
 						</p>
 
-						<div class="flex flex-wrap gap-2">
+						<div class="flex flex-wrap gap-2 mb-5">
 							{#each $_('services.allInOne.features') as feature}
 								<span
-									class="px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-300"
+									class="px-2.5 py-1 text-xs font-medium rounded-full transition-all duration-300"
 									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
 								>
 									✓ {feature}
@@ -465,11 +479,130 @@
 						</div>
 					</div>
 
-					<div class="lg:w-1/2">
-						<div class="flex items-center gap-3 mb-6">
-							<div class="h-px w-6 bg-gradient-to-r from-blue-500 to-transparent"></div>
+					<div class="hidden lg:flex lg:flex-row gap-6 lg:gap-12">
+						<!-- Desktop: Original side-by-side layout -->
+						<div class="lg:w-1/2">
+							<div class="flex items-center gap-4 mb-4">
+								<div
+									class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg"
+									style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+								>
+									🔧
+								</div>
+								<div>
+									<h3
+										class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight"
+										style="color: var(--text-heading);"
+									>
+										{$_('services.allInOne.title')}
+									</h3>
+								</div>
+							</div>
+
+							<p
+								class="text-lg sm:text-xl font-light leading-relaxed mb-6 pl-4"
+								style="color: var(--text-secondary); border-left: 2px solid var(--border-accent);"
+							>
+								{$_('services.allInOne.tagline')}
+							</p>
+
+							<div class="flex flex-wrap gap-2">
+								{#each $_('services.allInOne.features') as feature}
+									<span
+										class="px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-300"
+										style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+									>
+										✓ {feature}
+									</span>
+								{/each}
+							</div>
+						</div>
+
+						<div class="lg:w-1/2">
+							<div class="flex items-center gap-3 mb-6">
+								<div class="h-px w-6 bg-gradient-to-r from-blue-500 to-transparent"></div>
+								<h4
+									class="text-xs sm:text-sm font-bold uppercase tracking-[0.2em]"
+									style="color: var(--text-tertiary);"
+								>
+									{$locale === 'de' ? 'Der Prozess' : 'The Process'}
+								</h4>
+							</div>
+
+							<div class="process-container relative">
+								<div class="process-grid hidden lg:grid lg:grid-cols-5 gap-2">
+									{#each processSteps as step, i}
+										<div class="process-card group relative" style="perspective: 1000px;">
+											<div
+												class="process-card-inner relative p-3 rounded-xl border transition-all duration-500 cursor-default"
+												style="background: var(--bg-surface); border-color: var(--border-primary); min-height: 140px;"
+											>
+												<div
+													class="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+													style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.1) 50%, rgba(6,182,212,0.1) 100%);"
+												></div>
+
+												<div class="relative z-10 flex flex-col h-full">
+													<div class="flex items-center gap-2 mb-2">
+														<div
+															class="process-icon w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold transition-all duration-500"
+															style="background: var(--bg-inset); color: var(--text-heading); border: 1px solid var(--border-secondary);"
+														>
+															{step.number}
+														</div>
+														{#if i < processSteps.length - 1}
+															<div
+																class="process-connector flex-1 h-[2px] rounded-full transition-all duration-500 relative"
+																style="background: var(--border-primary);"
+															>
+																<div
+																	class="process-connector-arrow absolute right-0 top-1/2 -translate-y-1/2 opacity-0 transition-all duration-300"
+																	style="color: var(--text-tertiary);"
+																>
+																	<svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+																		<path
+																			fill-rule="evenodd"
+																			d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+																			clip-rule="evenodd"
+																		/>
+																	</svg>
+																</div>
+															</div>
+														{/if}
+													</div>
+
+													<h5
+														class="text-xs font-semibold mb-1.5 transition-colors duration-300"
+														style="color: var(--text-heading);"
+													>
+														{step.title}
+													</h5>
+													<p
+														class="text-[10px] leading-relaxed flex-grow"
+														style="color: var(--text-tertiary);"
+													>
+														{step.desc}
+													</p>
+												</div>
+											</div>
+
+											<div
+												class="process-glow absolute -inset-1 rounded-xl opacity-0 transition-opacity duration-500 -z-10"
+												style="background: linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.15) 100%); filter: blur(8px);"
+											></div>
+										</div>
+									{/each}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Mobile Process -->
+					<div class="lg:hidden">
+						<div class="flex items-center gap-2 mb-4">
+							<div class="h-px w-5 bg-gradient-to-r from-blue-500 to-transparent"></div>
 							<h4
-								class="text-xs sm:text-sm font-bold uppercase tracking-[0.2em]"
+								class="text-xs font-bold uppercase tracking-[0.2em]"
 								style="color: var(--text-tertiary);"
 							>
 								{$locale === 'de' ? 'Der Prozess' : 'The Process'}
@@ -477,107 +610,34 @@
 						</div>
 
 						<div class="process-container relative">
-							<div class="process-grid hidden lg:grid lg:grid-cols-5 gap-2">
-								{#each processSteps as step, i}
-									<div class="process-card group relative" style="perspective: 1000px;">
-										<div
-											class="process-card-inner relative p-3 rounded-xl border transition-all duration-500 cursor-default"
-											style="background: var(--bg-surface); border-color: var(--border-primary); min-height: 140px;"
-										>
-											<div
-												class="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-												style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.1) 50%, rgba(6,182,212,0.1) 100%);"
-											></div>
-
-											<div class="relative z-10 flex flex-col h-full">
-												<div class="flex items-center gap-2 mb-2">
-													<div
-														class="process-icon w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold transition-all duration-500"
-														style="background: var(--bg-inset); color: var(--text-heading); border: 1px solid var(--border-secondary);"
-													>
-														{step.number}
-													</div>
-													{#if i < processSteps.length - 1}
-														<div
-															class="process-connector flex-1 h-[2px] rounded-full transition-all duration-500 relative"
-															style="background: var(--border-primary);"
-														>
-															<div
-																class="process-connector-arrow absolute right-0 top-1/2 -translate-y-1/2 opacity-0 transition-all duration-300"
-																style="color: var(--text-tertiary);"
-															>
-																<svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
-																	<path
-																		fill-rule="evenodd"
-																		d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-																		clip-rule="evenodd"
-																	/>
-																</svg>
-															</div>
-														</div>
-													{/if}
-												</div>
-
-												<h5
-													class="text-xs font-semibold mb-1.5 transition-colors duration-300"
-													style="color: var(--text-heading);"
-												>
-													{step.title}
-												</h5>
-												<p
-													class="text-[10px] leading-relaxed flex-grow"
-													style="color: var(--text-tertiary);"
-												>
-													{step.desc}
-												</p>
-											</div>
-										</div>
-
-										<div
-											class="process-glow absolute -inset-1 rounded-xl opacity-0 transition-opacity duration-500 -z-10"
-											style="background: linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.15) 100%); filter: blur(8px);"
-										></div>
-									</div>
-								{/each}
-							</div>
-
-							<div class="process-mobile lg:hidden relative">
-								<div
-									class="process-line-track absolute left-4 sm:left-5 top-0 bottom-0 w-[2px]"
-									style="background: var(--border-primary);"
-								></div>
-								<div
-									class="process-line-fill absolute left-4 sm:left-5 top-0 w-[2px] h-0 origin-top"
-									style="background: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);"
-								></div>
-
-								<div class="space-y-4 sm:space-y-5">
-									{#each processSteps as step, i}
-										<div class="process-step flex items-start gap-4 sm:gap-6 group/step">
+							<div class="process-mobile relative">
+								<div class="space-y-3">
+									{#each processSteps as step}
+										<div class="process-step flex items-start gap-3 group/step">
 											<div class="relative flex-shrink-0">
 												<div
-													class="process-node w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold transition-all duration-500 group-hover/step:scale-110 group-hover/step:shadow-lg group-hover/step:shadow-blue-500/30"
+													class="process-node w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold transition-all duration-500 group-hover/step:scale-110"
 													style="background: var(--bg-surface); border: 2px solid var(--border-primary); color: var(--text-secondary);"
 												>
 													{step.number}
 												</div>
 												<div
-													class="process-node-active absolute inset-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold opacity-0 scale-0 transition-all duration-500 group-hover/step:opacity-100 group-hover/step:scale-100"
+													class="process-node-active absolute inset-0 w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold opacity-0 scale-0 transition-all duration-500 group-hover/step:opacity-100 group-hover/step:scale-100"
 													style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white;"
 												>
 													{step.number}
 												</div>
 											</div>
 
-											<div class="flex-1 pt-1">
+											<div class="flex-1 pt-0.5">
 												<h5
-													class="text-sm sm:text-base font-semibold mb-1 transition-colors duration-300 group-hover/step:text-blue-500"
+													class="text-sm font-semibold mb-0.5 transition-colors duration-300 group-hover/step:text-blue-500"
 													style="color: var(--text-heading);"
 												>
 													{step.title}
 												</h5>
 												<p
-													class="text-xs sm:text-sm font-light leading-relaxed"
+													class="text-xs font-light leading-relaxed"
 													style="color: var(--text-tertiary);"
 												>
 													{step.desc}
@@ -856,20 +916,8 @@
 			display: none;
 		}
 
-		.process-step:nth-child(1) {
+		.process-step {
 			margin-left: 0;
-		}
-		.process-step:nth-child(2) {
-			margin-left: 1.5rem;
-		}
-		.process-step:nth-child(3) {
-			margin-left: 3rem;
-		}
-		.process-step:nth-child(4) {
-			margin-left: 4.5rem;
-		}
-		.process-step:nth-child(5) {
-			margin-left: 6rem;
 		}
 	}
 </style>

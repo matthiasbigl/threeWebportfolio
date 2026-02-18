@@ -53,6 +53,14 @@
 			tagline: $_('heroNew.services.hosting.tagline'),
 			hover: $_('heroNew.services.hosting.hover'),
 			gradient: 'from-cyan-500/20 to-cyan-600/10'
+		},
+		{
+			id: 'support',
+			icon: '💬',
+			title: $_('heroNew.services.support.title'),
+			tagline: $_('heroNew.services.support.tagline'),
+			hover: $_('heroNew.services.support.hover'),
+			gradient: 'from-pink-500/20 to-pink-600/10'
 		}
 	]);
 
@@ -429,28 +437,53 @@
 					<div class="flex flex-wrap gap-2 sm:gap-3 max-w-4xl" style="perspective: 1000px;">
 						{#each heroServices as service}
 							<div
-								class="service-pill group relative flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer transition-colors duration-300 sm:hover:translate-y-[-2px]"
+								class="service-pill group relative flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer transition-all duration-300 hover:shadow-lg active:scale-95"
 								style="background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(12px); transform-style: preserve-3d;"
+								role="button"
+								tabindex="0"
 							>
+								<!-- Hover gradient overlay -->
+								<div
+									class="absolute inset-0 rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br {service.gradient} pointer-events-none"
+								></div>
+
+								<!-- Tooltip -->
+								<div
+									class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-50"
+									style="background: var(--bg-surface); border: 1px solid var(--border-primary); color: var(--text-heading); box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+								>
+									{service.hover}
+									<div
+										class="absolute top-full left-1/2 -translate-x-1/2 -mt-[1px] w-2 h-2 rotate-45"
+										style="background: var(--bg-surface); border-right: 1px solid var(--border-primary); border-bottom: 1px solid var(--border-primary);"
+									></div>
+								</div>
+
 								<span
-									class="text-lg sm:text-xl group-hover:scale-110 transition-transform duration-300"
+									class="relative z-10 text-lg sm:text-xl group-hover:scale-110 transition-transform duration-300"
 								>
 									{service.icon}
 								</span>
-								<div class="flex flex-col">
+								<div class="relative z-10 flex flex-col">
 									<span
-										class="text-xs sm:text-sm font-semibold leading-tight"
+										class="text-xs sm:text-sm font-semibold leading-tight transition-colors duration-300"
 										style="color: var(--text-heading);"
 									>
 										{service.title}
 									</span>
 									<span
-										class="text-[9px] sm:text-[10px] leading-tight"
+										class="text-[9px] sm:text-[10px] leading-tight transition-colors duration-300"
 										style="color: var(--text-tertiary);"
 									>
 										{service.tagline}
 									</span>
 								</div>
+
+								<!-- Shine effect -->
+								<div
+									class="absolute inset-0 rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+									style="background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%); background-size: 200% 200%; animation: shine 2s infinite;"
+								></div>
 							</div>
 						{/each}
 					</div>
@@ -458,13 +491,19 @@
 
 				<!-- CTAs -->
 				<div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
-					<div class="hero-cta">
-						<Button href="/contact" variant="primary">
+					<div class="hero-cta group relative">
+						<div
+							class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg opacity-0 group-hover:opacity-70 blur-lg transition-opacity duration-300"
+						></div>
+						<Button href="/contact" variant="primary" className="relative">
 							{$_('hero.cta')}
 						</Button>
 					</div>
-					<div class="hero-cta">
-						<Button href="/pricing" variant="secondary">
+					<div class="hero-cta group relative">
+						<div
+							class="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg opacity-0 group-hover:opacity-50 blur-lg transition-opacity duration-300"
+						></div>
+						<Button href="/pricing" variant="secondary" className="relative">
 							{$_('pricing.navTitle')}
 						</Button>
 					</div>
@@ -525,13 +564,29 @@
 						<div class="flex flex-wrap gap-3 mb-8">
 							{#each aboutDifferentiators as diff}
 								<div
-									class="about-pill inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full transition-all duration-300 hover:translate-y-[-2px]"
+									class="about-pill group relative inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full transition-all duration-300 hover:translate-y-[-2px] hover:shadow-lg active:scale-95 cursor-pointer"
 									style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+									role="button"
+									tabindex="0"
 								>
-									<span class="text-base">{diff.icon}</span>
-									<span class="text-sm font-medium" style="color: var(--text-secondary);"
-										>{diff.title}</span
+									<!-- Gradient overlay on hover -->
+									<div
+										class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br {diff.gradient} pointer-events-none"
+									></div>
+
+									<span class="relative z-10 text-base group-hover:scale-110 transition-transform duration-300"
+										>{diff.icon}</span
 									>
+									<span
+										class="relative z-10 text-sm font-medium transition-colors duration-300 group-hover:text-blue-500"
+										style="color: var(--text-secondary);">{diff.title}</span
+									>
+
+									<!-- Pulse effect on hover -->
+									<div
+										class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+										style="box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;"
+									></div>
 								</div>
 							{/each}
 						</div>
@@ -641,6 +696,21 @@
 	.service-pill {
 		transform-style: preserve-3d;
 		will-change: transform;
+		position: relative;
+		overflow: visible;
+	}
+
+	.service-pill:hover {
+		border-color: var(--border-accent);
+	}
+
+	@keyframes shine {
+		0% {
+			background-position: 200% 200%;
+		}
+		100% {
+			background-position: -200% -200%;
+		}
 	}
 
 	/* Hero accent — underline highlight, no gradient text */
@@ -673,11 +743,22 @@
 	.about-pill {
 		transform-style: preserve-3d;
 		will-change: transform;
+		position: relative;
+		overflow: visible;
 	}
 
 	.about-pill:hover {
 		border-color: var(--border-accent);
-		box-shadow: 0 8px 24px -8px rgba(59, 130, 246, 0.15);
+		box-shadow: 0 8px 24px -8px rgba(59, 130, 246, 0.25);
+	}
+
+	@keyframes pulse-ring {
+		0% {
+			box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+		}
+		100% {
+			box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+		}
 	}
 
 	.line-clamp-2 {
