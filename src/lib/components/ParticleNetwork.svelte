@@ -42,6 +42,12 @@
 		let mouse = { x: -9999, y: -9999 };
 		let w = 0;
 		let h = 0;
+		let isTouchDevice = false;
+
+		// Detect if device supports touch
+		if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+			isTouchDevice = true;
+		}
 
 		interface Particle {
 			x: number;
@@ -199,6 +205,21 @@
 			mouse.y = -9999;
 		}
 
+		function onTouchMove(e: TouchEvent) {
+			// Track single touch for particle interaction
+			if (e.touches.length === 1) {
+				const touch = e.touches[0];
+				const rect = canvas.getBoundingClientRect();
+				mouse.x = touch.clientX - rect.left;
+				mouse.y = touch.clientY - rect.top;
+			}
+		}
+
+		function onTouchEnd() {
+			mouse.x = -9999;
+			mouse.y = -9999;
+		}
+
 		resize();
 		createParticles();
 		draw();
@@ -209,16 +230,30 @@
 		});
 
 		if (interactive) {
-			canvas.addEventListener('mousemove', onMouseMove);
-			canvas.addEventListener('mouseleave', onMouseLeave);
+			if (isTouchDevice) {
+				// On touch devices, use touch events (passive allows scrolling)
+				canvas.addEventListener('touchmove', onTouchMove, { passive: true });
+				canvas.addEventListener('touchend', onTouchEnd);
+				canvas.addEventListener('touchcancel', onTouchEnd);
+			} else {
+				// On desktop, use mouse events
+				canvas.addEventListener('mousemove', onMouseMove);
+				canvas.addEventListener('mouseleave', onMouseLeave);
+			}
 		}
 
 		return () => {
 			cancelAnimationFrame(animationId);
 			window.removeEventListener('resize', resize);
 			if (interactive) {
-				canvas.removeEventListener('mousemove', onMouseMove);
-				canvas.removeEventListener('mouseleave', onMouseLeave);
+				if (isTouchDevice) {
+					canvas.removeEventListener('touchmove', onTouchMove);
+					canvas.removeEventListener('touchend', onTouchEnd);
+					canvas.removeEventListener('touchcancel', onTouchEnd);
+				} else {
+					canvas.removeEventListener('mousemove', onMouseMove);
+					canvas.removeEventListener('mouseleave', onMouseLeave);
+				}
 			}
 		};
 	});
@@ -226,6 +261,7 @@
 
 <canvas
 	bind:this={canvas}
-	class="absolute inset-0 w-full h-full pointer-events-auto"
+	class="absolute inset-0 w-full h-full touch-none"
+	style="pointer-events: {interactive ? 'auto' : 'none'};"
 	aria-hidden="true"
 ></canvas>
