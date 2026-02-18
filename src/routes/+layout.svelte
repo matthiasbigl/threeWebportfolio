@@ -36,7 +36,7 @@
 	const activeSubPage = $derived(subPageRoutes.find((r) => r.pattern.test($page.url.pathname)));
 
 	const navConfig = $derived(
-		activeSubPage
+		activeSubPage && !$isLoading
 			? { backHref: activeSubPage.backHref, backLabel: $_(activeSubPage.backLabelKey) }
 			: {}
 	);

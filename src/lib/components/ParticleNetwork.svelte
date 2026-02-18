@@ -43,6 +43,8 @@
 		let w = 0;
 		let h = 0;
 		let isTouchDevice = false;
+		let isScrolling = false;
+		let scrollTimeout: number;
 
 		// Detect if device supports touch
 		if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
@@ -207,7 +209,8 @@
 
 		function onTouchMove(e: TouchEvent) {
 			// Track single touch for particle interaction
-			if (e.touches.length === 1) {
+			// Only update on tap-and-hold, not during scroll
+			if (e.touches.length === 1 && !isScrolling) {
 				const touch = e.touches[0];
 				const rect = canvas.getBoundingClientRect();
 				mouse.x = touch.clientX - rect.left;
@@ -231,6 +234,20 @@
 
 		if (interactive) {
 			if (isTouchDevice) {
+				// On touch devices, detect scrolling to avoid interference
+				const onTouchStart = () => {
+					isScrolling = false;
+				};
+				const onScroll = () => {
+					isScrolling = true;
+					clearTimeout(scrollTimeout);
+					scrollTimeout = window.setTimeout(() => {
+						isScrolling = false;
+					}, 100);
+				};
+				
+				window.addEventListener('scroll', onScroll, { passive: true });
+				canvas.addEventListener('touchstart', onTouchStart, { passive: true });
 				// On touch devices, use touch events (passive allows scrolling)
 				canvas.addEventListener('touchmove', onTouchMove, { passive: true });
 				canvas.addEventListener('touchend', onTouchEnd);
@@ -245,8 +262,11 @@
 		return () => {
 			cancelAnimationFrame(animationId);
 			window.removeEventListener('resize', resize);
+			clearTimeout(scrollTimeout);
 			if (interactive) {
 				if (isTouchDevice) {
+					window.removeEventListener('scroll', () => {});
+					canvas.removeEventListener('touchstart', () => {});
 					canvas.removeEventListener('touchmove', onTouchMove);
 					canvas.removeEventListener('touchend', onTouchEnd);
 					canvas.removeEventListener('touchcancel', onTouchEnd);
