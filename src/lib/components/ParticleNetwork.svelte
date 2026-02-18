@@ -206,7 +206,7 @@
 		}
 
 		function onTouchMove(e: TouchEvent) {
-			// Prevent default to avoid scrolling issues
+			// Track single touch for particle interaction
 			if (e.touches.length === 1) {
 				const touch = e.touches[0];
 				const rect = canvas.getBoundingClientRect();
@@ -231,8 +231,8 @@
 
 		if (interactive) {
 			if (isTouchDevice) {
-				// On touch devices, use touch events
-				canvas.addEventListener('touchmove', onTouchMove, { passive: false });
+				// On touch devices, use touch events (passive allows scrolling)
+				canvas.addEventListener('touchmove', onTouchMove, { passive: true });
 				canvas.addEventListener('touchend', onTouchEnd);
 				canvas.addEventListener('touchcancel', onTouchEnd);
 			} else {
