@@ -1,6 +1,7 @@
 {
 	"nav": {
 		"home": "Home",
+		"about": "Über mich",
 		"services": "Leistungen",
 		"faq": "FAQ",
 		"contact": "Kontakt"
@@ -13,17 +14,83 @@
 		"cta": "Kostenlose Beratung",
 		"ctaServices": "Meine Leistungen"
 	},
+	"heroNew": {
+		"headline1": "Online-Präsenz, die wirkt",
+		"headline2": "Sie sind online unsichtbar?<br><span class=\"hero-accent\">Das ändern wir.</span>",
+		"subheadline": "Professionelle Websites, damit Ihre Kunden Sie finden. Persönlich, ohne Agentur-Stress, zum fairen Preis.",
+		"serviceOverview": "Was kann ich für Sie tun?",
+		"services": {
+			"websites": {
+				"title": "Websites",
+				"tagline": "ab €650",
+				"hover": "Professionelle Webpräsenz"
+			},
+			"webshops": {
+				"title": "Webshops",
+				"tagline": "24/7 verkaufen",
+				"hover": "Online verkaufen"
+			},
+			"custom": {
+				"title": "Maßarbeit",
+				"tagline": "Ihre Vision",
+				"hover": "Was auch immer Sie sich vorstellen"
+			},
+			"seo": {
+				"title": "SEO",
+				"tagline": "mehr Traffic",
+				"hover": "Gefunden werden"
+			},
+			"hosting": {
+				"title": "Hosting",
+				"tagline": "alles inkl.",
+				"hover": "Rundum-Sorglos"
+			}
+		}
+	},
 	"services": {
 		"title": "Mehr Kunden,",
 		"titleHighlight": "weniger Stress",
 		"subtitle": "Sie wollen online sichtbar sein, aber nicht Wochen mit Technik verschwenden? <span class=\"blue-gradient_text\">Ich übernehme das für Sie</span> – persönlich, ohne Agentur-Chaos, zum fairen Preis.",
+		"allInOne": {
+			"title": "Voller Service – von A bis Z",
+			"tagline": "Sie sagen was Sie brauchen, ich kümmere mich um den Rest.",
+			"description": "Egal was Sie sich vorstellen – ich setze es um. Von der ersten Idee bis zum laufenden Hosting.",
+			"process": {
+				"consultation": {
+					"title": "Beratung",
+					"desc": "gratis & unverbindlich"
+				},
+				"design": {
+					"title": "Design",
+					"desc": "einzigartig für Sie"
+				},
+				"development": {
+					"title": "Entwicklung",
+					"desc": "modern & sicher"
+				},
+				"launch": {
+					"title": "Launch",
+					"desc": "schnell & smooth"
+				},
+				"hosting": {
+					"title": "Hosting",
+					"desc": "inkl. forever"
+				}
+			},
+			"features": [
+				"Hosting inklusive",
+				"Updates & Wartung",
+				"Direkter Support",
+				"Keine Technik nötig"
+			]
+		},
 		"items": {
 			"experiences": {
-				"title": "Wow-Effekt garantiert",
-				"description": "Heben Sie sich von der Masse ab. Interaktive Erlebnisse, die im Gedächtnis bleiben und Ihre Marke unvergesslich machen.",
+				"title": "Maßgeschneiderte Lösungen",
+				"description": "Was auch immer Sie sich vorstellen – ob 3D-Erlebnisse, interaktive Anwendungen oder etwas ganz Neues. Ich setze Ihre Vision um.",
 				"features": [
-					"Beeindruckende 3D-Welten",
-					"Interaktiv & spielerisch",
+					"Ihre Vision, meine Umsetzung",
+					"3D & Interaktiv möglich",
 					"Maßgeschneidert für Sie",
 					"Einzigartig wie Ihr Business"
 				]
@@ -69,6 +136,18 @@
 				"title": "Sie können sich zurücklehnen",
 				"description": "Hosting, Updates, Sicherheit – das läuft im Hintergrund. Sie konzentrieren sich auf Ihr Business, ich auf Ihre Website."
 			},
+			"personal": {
+				"title": "Keine Warteschleifen",
+				"description": "Sie rufen an, ich hebe ab. Keine Tickets, keine 'Ihr Anliegen wurde weitergeleitet'. Direkte Kommunikation, schnelle Lösungen."
+			},
+			"local": {
+				"title": "Kaffee statt Videocall",
+				"description": "Persönliche Treffen in Wien oder Korneuburg möglich. Manchmal ist ein Gespräch von Angesicht zu Angesicht einfach besser."
+			},
+			"prices": {
+				"title": "Mehr Website, weniger Rechnung",
+				"description": "Keine Agentur-Aufschläge für Meetings über Meetings. Sie zahlen für Ergebnisse, nicht für Overhead."
+			},
 			"tech": {
 				"title": "Zukunftssicher gebaut",
 				"description": "Keine veralteten Systeme, die in 2 Jahren Probleme machen. Moderne Technik, die mit Ihrem Business wächst."
@@ -76,22 +155,38 @@
 			"detail": {
 				"title": "Ihr Projekt = Mein Projekt",
 				"description": "Jedes Detail zählt. Ich arbeite, als wäre es meine eigene Website – denn mein Ruf hängt an Ihrer Zufriedenheit."
-			},
-			"prices": {
-				"title": "Mehr Website, weniger Rechnung",
-				"description": "Keine Agentur-Aufschläge für Meetings über Meetings. Sie zahlen für Ergebnisse, nicht für Overhead."
-			},
-			"local": {
-				"title": "Kaffee statt Videocall",
-				"description": "Persönliche Treffen in Wien oder Korneuburg möglich. Manchmal ist ein Gespräch von Angesicht zu Angesicht einfach besser."
-			},
-			"personal": {
-				"title": "Keine Warteschleifen",
-				"description": "Sie rufen an, ich hebe ab. Keine Tickets, keine 'Ihr Anliegen wurde weitergeleitet'. Direkte Kommunikation, schnelle Lösungen."
 			}
+		},
+		"pricing": {
+			"websites": "€650 - €2.000+",
+			"webshops": "ab €3.250",
+			"custom": "Individuell"
 		},
 		"cta": "Jetzt gratis Webdesign-Beratung",
 		"ctaSubtext": "Unverbindlich • Gratis Beratung • Keine versteckten Kosten"
+	},
+	"aboutCompact": {
+		"title": "Ihr Ansprechpartner",
+		"name": "Matthias Bigl",
+		"role": "Freelancer aus Wien & Korneuburg",
+		"description": "Ein Ansprechpartner. Keine Warteschleifen. Persönlich, nicht unpersönlich.",
+		"bio": "Absolvent der HTL Hollabrunn für Informationstechnologie. Hauptberuflich als Consultant & Full Stack Developer bei Tieto tätig – Customer Experience Projekte im Banking-Sektor. Nebenbei baue ich moderne Weblösungen für KMUs und Selbstständige.",
+		"availability": "Verfügbar für neue Projekte",
+		"differentiators": {
+			"partner": {
+				"title": "Ein Partner",
+				"desc": "nicht eine Abteilung"
+			},
+			"local": {
+				"title": "Lokal",
+				"desc": "in Wien & Korneuburg"
+			},
+			"direct": {
+				"title": "Direkt",
+				"desc": "erreichbar"
+			}
+		},
+		"cta": "Über mich"
 	},
 	"skills": {
 		"title": "Einige meiner besten",
@@ -154,22 +249,8 @@
 					"Echtzeit Foto- & Nachrichten-Streams",
 					"ESP32-betriebene Hardware"
 				],
-				"technologies": [
-					"SvelteKit",
-					"ESP32",
-					"C++",
-					"GSAP",
-					"OpenAI API",
-					"WebSockets"
-				],
-				"tags": [
-					"IoT",
-					"SvelteKit",
-					"ESP32",
-					"Messenger",
-					"Relationship OS",
-					"KI"
-				]
+				"technologies": ["SvelteKit", "ESP32", "C++", "GSAP", "OpenAI API", "WebSockets"],
+				"tags": ["IoT", "SvelteKit", "ESP32", "Messenger", "Relationship OS", "KI"]
 			},
 			"robotics": {
 				"title": "ABC Sensorbox",
@@ -201,14 +282,7 @@
 					"ABC-Sensoren",
 					"Off-the-shelf Hardware"
 				],
-				"tags": [
-					"ABC-Schutz",
-					"CBRN",
-					"LoRa",
-					"Robotik",
-					"Defense Tech",
-					"Embedded"
-				]
+				"tags": ["ABC-Schutz", "CBRN", "LoRa", "Robotik", "Defense Tech", "Embedded"]
 			},
 			"grading-bot": {
 				"title": "Grading Bot",
@@ -232,21 +306,8 @@
 					"Azure AD & MS Teams Integration",
 					"Automatisierte Feedback-Reports"
 				],
-				"technologies": [
-					"SvelteKit",
-					"Docker",
-					"Azure AD",
-					"PostgreSQL",
-					"Tailwind CSS"
-				],
-				"tags": [
-					"EdTech",
-					"Automatisierung",
-					"CI/CD",
-					"Coding",
-					"Docker",
-					"Azure"
-				]
+				"technologies": ["SvelteKit", "Docker", "Azure AD", "PostgreSQL", "Tailwind CSS"],
+				"tags": ["EdTech", "Automatisierung", "CI/CD", "Coding", "Docker", "Azure"]
 			},
 			"unleashed": {
 				"title": "Unleashed",
@@ -270,20 +331,8 @@
 					"Chronologischer Feed (kein Algorithmus)",
 					"Privacy-First by Design"
 				],
-				"technologies": [
-					"Kotlin",
-					"Jetpack Compose",
-					"Clerk Auth",
-					"Supabase",
-					"Android SDK"
-				],
-				"tags": [
-					"Social Media",
-					"Datenschutz",
-					"Mobile App",
-					"Android",
-					"Kotlin"
-				]
+				"technologies": ["Kotlin", "Jetpack Compose", "Clerk Auth", "Supabase", "Android SDK"],
+				"tags": ["Social Media", "Datenschutz", "Mobile App", "Android", "Kotlin"]
 			},
 			"genesys": {
 				"title": "Genesys Cloud",
@@ -307,19 +356,8 @@
 					"Sichere Datenintegration",
 					"Entwicklung individueller Agenten-Tools"
 				],
-				"technologies": [
-					"Genesys Cloud",
-					"TypeScript",
-					"Cloud APIs",
-					"Micro-services"
-				],
-				"tags": [
-					"Enterprise",
-					"Cloud",
-					"Kommunikation",
-					"Customer Experience",
-					"CX"
-				]
+				"technologies": ["Genesys Cloud", "TypeScript", "Cloud APIs", "Micro-services"],
+				"tags": ["Enterprise", "Cloud", "Kommunikation", "Customer Experience", "CX"]
 			},
 			"portfolio": {
 				"title": "Dieses Portfolio",
@@ -343,41 +381,20 @@
 					"Vollständig responsives 3D-Canvas",
 					"Fortschrittliche SEO- & i18n-Architektur"
 				],
-				"technologies": [
-					"SvelteKit",
-					"Three.js",
-					"GSAP",
-					"TypeScript",
-					"Tailwind CSS"
-				],
-				"tags": [
-					"SvelteKit",
-					"Three.js",
-					"GSAP",
-					"TypeScript",
-					"3D Web",
-					"Portfolio"
-				]
+				"technologies": ["SvelteKit", "Three.js", "GSAP", "TypeScript", "Tailwind CSS"],
+				"tags": ["SvelteKit", "Three.js", "GSAP", "TypeScript", "3D Web", "Portfolio"]
 			},
 			"blog": {
 				"title": "Bigls Blog - Tech Einblicke",
 				"description": "Ein Tech-Blog über Projekte und Erfahrungen.",
 				"longDescription": "Teilen von technischem Wissen, Projekt-Updates und Meinungen zu modernen Web-Technologien.",
-				"tags": [
-					"Blogging",
-					"Webentwicklung",
-					"Content Management"
-				]
+				"tags": ["Blogging", "Webentwicklung", "Content Management"]
 			},
 			"github-projects": {
 				"title": "GitHub Archiv",
 				"description": "Dutzende Open-Source Repositories und Experimente.",
 				"longDescription": "Vom kleinen Skript bis zur Bibliothek - mein GitHub Profil dokumentiert meine Reise durch die Softwareentwicklung.",
-				"tags": [
-					"Open Source",
-					"GitHub",
-					"Webentwicklung"
-				]
+				"tags": ["Open Source", "GitHub", "Webentwicklung"]
 			}
 		}
 	},
@@ -547,6 +564,10 @@
 			"title": "Matthias Bigl | Webdesigner & Full Stack Developer Wien & Korneuburg",
 			"description": "Matthias Bigl – Ihr Webdesigner & Full Stack Developer aus Wien/Korneuburg. Professionelle Websites, Webshops & interaktive 3D Web-Erlebnisse für KMU & Selbstständige. Keine Agentur-Preise, in 1–2 Wochen online. Jetzt kostenloses Erstgespräch!"
 		},
+		"about": {
+			"title": "Über Matthias Bigl | Webdesigner & Full Stack Developer aus Wien",
+			"description": "Erfahren Sie mehr über Matthias Bigl – Freelance Webdesigner & Full Stack Developer aus Wien/Korneuburg. Persönlich, direkt, ohne Agentur-Chaos. Skills, Hobbys und meine Geschichte."
+		},
 		"contact": {
 			"title": "Kontakt Matthias Bigl | Kostenlose Webdesign-Beratung Wien",
 			"description": "Kontaktieren Sie Matthias Bigl für Ihr Webprojekt. 15 Minuten Erstgespräch – kostenlos & unverbindlich. Freelance Webdesign aus Wien & Korneuburg. Antwort innerhalb 24h!"
@@ -563,5 +584,46 @@
 	"pricing": {
 		"navTitle": "Preis-Guide 2026",
 		"backToHome": "Zurück zur Übersicht"
+	},
+	"aboutPage": {
+		"hero": {
+			"label": "Über mich",
+			"name": "Matthias Bigl",
+			"role": "Freelancer aus Wien & Korneuburg",
+			"tagline": "Ihr Partner für professionelles Webdesign und moderne Webentwicklung. Keine Agentur, kein Chaos – sondern ein Ansprechpartner, der Ihr Projekt persönlich betreut.",
+			"cta": "Kontakt aufnehmen",
+			"ctaSecondary": "Meine Leistungen"
+		},
+		"differentiators": {
+			"label": "Warum ich",
+			"title": "Was mich anders macht",
+			"partner": {
+				"title": "Ein Partner",
+				"desc": "Nicht eine Abteilung. Sie sprechen direkt mit der Person, die Ihr Projekt umsetzt – ohne Umwege, ohne Warteschleifen."
+			},
+			"local": {
+				"title": "Lokal",
+				"desc": "In Wien & Korneuburg zu Hause. Persönliche Treffen möglich – manchmal ist ein Kaffee besser als ein Videocall."
+			},
+			"direct": {
+				"title": "Direkt",
+				"desc": "Erreichbar, wenn Sie mich brauchen. Keine Tickets, keine Warteschleifen – schnelle Antworten und direkte Kommunikation."
+			}
+		},
+		"journey": {
+			"label": "Meine Geschichte",
+			"title": "Der Weg hierher",
+			"paragraphs": [
+				"Meine Reise in die Technik begann früh – mit Neugier, einem alten Computer und der Frage: \"Wie funktioniert das eigentlich?\" Diese Frage hat mich nie losgelassen.",
+				"Die HTL Hollabrunn war meine Schule für Informationstechnologie. Dort entdeckte ich meine Leidenschaft für Softwareentwicklung – von Backend bis Frontend, von Hardware bis Cloud. Die Matura war der offizielle Start meiner professionellen Laufbahn.",
+				"Heute arbeite ich hauptberuflich bei Tieto, einer internationalen Consulting-Firma. Als Consultant und Full Stack Developer betreue ich Customer Experience Projekte im Banking-Sektor – komplexe Enterprise-Systeme, hohe Verfügbarkeit, anspruchsvolle Kunden. Nebenbei unterstütze ich KMUs und Selbstständige mit modernen Weblösungen.",
+				"Technologie ist für mich mehr als nur Code. Es ist ein Werkzeug, um Probleme zu lösen und Menschen zu helfen. Ob Enterprise-Architektur oder kleine Business-Website – ich bringe die gleiche Sorgfalt und Erfahrung ein."
+			]
+		},
+		"cta": {
+			"title": "Lassen Sie uns zusammenarbeiten",
+			"subtitle": "Haben Sie ein Projekt im Kopf? Ich freue mich darauf, von Ihnen zu hören und gemeinsam herauszufinden, wie ich Ihnen helfen kann.",
+			"button": "Kontakt aufnehmen"
+		}
 	}
 }

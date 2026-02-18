@@ -1,10 +1,7 @@
 <script lang="ts">
 	import PhotoAvatar from '$lib/components/PhotoAvatar.svelte';
-	import Cube from '$lib/components/Cube.svelte';
-	import Mountains from '$lib/components/Mountains.svelte';
-	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
+	import ParticleNetwork from '$lib/components/ParticleNetwork.svelte';
 	import Card from '$lib/components/Card.svelte';
-	import Resume from '$lib/components/Resume.svelte';
 	import Services from '$lib/components/Services.svelte';
 	import FAQ from '$lib/components/FAQ.svelte';
 	import SEO from '$lib/components/SEO.svelte';
@@ -15,49 +12,80 @@
 	import { projects } from '$lib/data/projects';
 	import { _, locale } from 'svelte-i18n';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
-	import dumbbellImg from '$lib/assets/dumbbell.png?enhanced';
-	import surfingImg from '$lib/assets/surfing.JPG?enhanced';
 
-	// Track scroll position for scroll indicator visibility
-	let showScrollIndicator = $state(true);
-
-	// Reactive hobbies based on locale
-	const hobbies = $derived([
+	const heroServices = $derived([
 		{
-			title: $_('hobbies.items.gym.title'),
-			description: $_('hobbies.items.gym.description'),
-			image: dumbbellImg,
-			imageAlt: $_('hobbies.items.gym.alt')
+			id: 'websites',
+			icon: '🌐',
+			title: $_('heroNew.services.websites.title'),
+			tagline: $_('heroNew.services.websites.tagline'),
+			hover: $_('heroNew.services.websites.hover'),
+			gradient: 'from-blue-500/20 to-blue-600/10'
 		},
 		{
-			title: $_('hobbies.items.skiing.title'),
-			description: $_('hobbies.items.skiing.description'),
-			image: '',
-			isSpecialComponent: true,
-			imageAlt: $_('hobbies.items.skiing.alt')
+			id: 'webshops',
+			icon: '🛒',
+			title: $_('heroNew.services.webshops.title'),
+			tagline: $_('heroNew.services.webshops.tagline'),
+			hover: $_('heroNew.services.webshops.hover'),
+			gradient: 'from-purple-500/20 to-purple-600/10'
 		},
 		{
-			title: $_('hobbies.items.surfing.title'),
-			description: $_('hobbies.items.surfing.description'),
-			image: surfingImg,
-			imageObjectFit: 'cover' as const,
-			imageAlt: $_('hobbies.items.surfing.alt')
+			id: 'custom',
+			icon: '✨',
+			title: $_('heroNew.services.custom.title'),
+			tagline: $_('heroNew.services.custom.tagline'),
+			hover: $_('heroNew.services.custom.hover'),
+			gradient: 'from-emerald-500/20 to-emerald-600/10'
+		},
+		{
+			id: 'seo',
+			icon: '📈',
+			title: $_('heroNew.services.seo.title'),
+			tagline: $_('heroNew.services.seo.tagline'),
+			hover: $_('heroNew.services.seo.hover'),
+			gradient: 'from-orange-500/20 to-orange-600/10'
+		},
+		{
+			id: 'hosting',
+			icon: '🛡️',
+			title: $_('heroNew.services.hosting.title'),
+			tagline: $_('heroNew.services.hosting.tagline'),
+			hover: $_('heroNew.services.hosting.hover'),
+			gradient: 'from-cyan-500/20 to-cyan-600/10'
+		}
+	]);
+
+	const aboutDifferentiators = $derived([
+		{
+			id: 'partner',
+			icon: '🤝',
+			title: $_('aboutCompact.differentiators.partner.title'),
+			desc: $_('aboutCompact.differentiators.partner.desc'),
+			gradient: 'from-blue-500/10 via-blue-600/5 to-cyan-500/10'
+		},
+		{
+			id: 'local',
+			icon: '📍',
+			title: $_('aboutCompact.differentiators.local.title'),
+			desc: $_('aboutCompact.differentiators.local.desc'),
+			gradient: 'from-purple-500/10 via-pink-500/5 to-purple-600/10'
+		},
+		{
+			id: 'direct',
+			icon: '⚡',
+			title: $_('aboutCompact.differentiators.direct.title'),
+			desc: $_('aboutCompact.differentiators.direct.desc'),
+			gradient: 'from-emerald-500/10 via-teal-500/5 to-cyan-500/10'
 		}
 	]);
 
 	onMount(async () => {
 		if (!browser) return;
 
-		// Dynamically import GSAP to reduce initial chunk size
 		const { gsap } = await import('gsap');
 		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
 		gsap.registerPlugin(ScrollTrigger);
-
-		// Handle scroll indicator visibility
-		const handleScroll = () => {
-			showScrollIndicator = window.scrollY < 100;
-		};
-		window.addEventListener('scroll', handleScroll);
 
 		const mm = gsap.matchMedia();
 
@@ -73,26 +101,57 @@
 				if (reduceMotion) return;
 
 				if (isDesktop) {
-					// Hero section animations
+					// Accent line grows in
 					gsap.fromTo(
-						'.hero-title',
-						{ opacity: 0, y: 100, scale: 0.8 },
-						{ opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'back.out(1.7)', delay: 0.5 }
+						'.hero-accent-line',
+						{ scaleY: 0, transformOrigin: 'top center' },
+						{ scaleY: 1, duration: 0.8, ease: 'power3.out', delay: 0.1 }
 					);
 
 					gsap.fromTo(
-						'.hero-subtitle',
-						{ opacity: 0, y: 50 },
-						{ opacity: 1, y: 0, duration: 1, ease: 'power2.out', delay: 0.8 }
+						'.hero-headline-1',
+						{ opacity: 0, x: -20 },
+						{ opacity: 1, x: 0, duration: 0.6, ease: 'power2.out', delay: 0.3 }
 					);
 
 					gsap.fromTo(
-						'.hero-avatar',
-						{ opacity: 0, x: -100, rotation: -10 },
-						{ opacity: 1, x: 0, rotation: 0, duration: 1.5, ease: 'back.out(1.7)', delay: 0.3 }
+						'.hero-headline-2',
+						{ opacity: 0, y: 40 },
+						{
+							opacity: 1,
+							y: 0,
+							duration: 1,
+							ease: 'power3.out',
+							delay: 0.5
+						}
 					);
 
-					// Section reveal animations
+					gsap.fromTo(
+						'.hero-subheadline',
+						{ opacity: 0, y: 20 },
+						{ opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.9 }
+					);
+
+					gsap.fromTo(
+						'.service-pill',
+						{ opacity: 0, y: 20, scale: 0.95 },
+						{
+							opacity: 1,
+							y: 0,
+							scale: 1,
+							duration: 0.5,
+							stagger: 0.06,
+							ease: 'power2.out',
+							delay: 1.1
+						}
+					);
+
+					gsap.fromTo(
+						'.hero-cta',
+						{ opacity: 0, y: 20 },
+						{ opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out', delay: 1.5 }
+					);
+
 					gsap.utils.toArray('.reveal-section').forEach((section: any) => {
 						gsap.fromTo(
 							section.querySelector('.section-title'),
@@ -110,7 +169,6 @@
 						);
 					});
 
-					// Staggered card animations
 					gsap.utils.toArray('.stagger-cards').forEach((container: any) => {
 						const cards = container.querySelectorAll('.stagger-item');
 						gsap.fromTo(
@@ -131,11 +189,120 @@
 						);
 					});
 
-					// Magnetic effect handles by Button component now
+					const aboutSection = document.querySelector('.about-section');
+					if (aboutSection) {
+						gsap.fromTo(
+							'.about-avatar-wrap',
+							{
+								opacity: 0,
+								scale: 0.85,
+								rotateY: -15
+							},
+							{
+								opacity: 1,
+								scale: 1,
+								rotateY: 0,
+								duration: 1.2,
+								ease: 'power3.out',
+								scrollTrigger: {
+									trigger: aboutSection,
+									start: 'top 80%'
+								}
+							}
+						);
+
+						gsap.fromTo(
+							'.about-pill',
+							{
+								opacity: 0,
+								y: 20,
+								scale: 0.9
+							},
+							{
+								opacity: 1,
+								y: 0,
+								scale: 1,
+								duration: 0.6,
+								stagger: 0.08,
+								ease: 'back.out(1.4)',
+								scrollTrigger: {
+									trigger: aboutSection,
+									start: 'top 70%'
+								}
+							}
+						);
+					}
+
+					const pills = document.querySelectorAll('.service-pill');
+					pills.forEach((pill: any) => {
+						pill.addEventListener('mousemove', (e: MouseEvent) => {
+							const rect = pill.getBoundingClientRect();
+							const x = e.clientX - rect.left;
+							const y = e.clientY - rect.top;
+							const centerX = rect.width / 2;
+							const centerY = rect.height / 2;
+							const rotateX = ((y - centerY) / centerY) * -8;
+							const rotateY = ((x - centerX) / centerX) * 8;
+
+							gsap.to(pill, {
+								rotationX: rotateX,
+								rotationY: rotateY,
+								duration: 0.3,
+								ease: 'power2.out',
+								transformPerspective: 800
+							});
+						});
+
+						pill.addEventListener('mouseleave', () => {
+							gsap.to(pill, {
+								rotationX: 0,
+								rotationY: 0,
+								duration: 0.5,
+								ease: 'elastic.out(1, 0.5)'
+							});
+						});
+					});
 				}
 
 				if (isMobile) {
-					// Simpler reveals for mobile
+					gsap.fromTo(
+						'.hero-headline-1',
+						{ opacity: 0, y: 10 },
+						{ opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.2 }
+					);
+
+					gsap.fromTo(
+						'.hero-headline-2',
+						{ opacity: 0, y: 15 },
+						{ opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.3 }
+					);
+
+					gsap.fromTo(
+						'.hero-subheadline',
+						{ opacity: 0, y: 10 },
+						{ opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.5 }
+					);
+
+					gsap.fromTo(
+						'.service-pill',
+						{ opacity: 0, x: -20 },
+						{
+							opacity: 1,
+							x: 0,
+							duration: 0.5,
+							stagger: 0.06,
+							ease: 'power2.out',
+							delay: 0.6,
+							overwrite: 'auto'
+						}
+					);
+
+					gsap.fromTo(
+						'.hero-cta',
+						{ opacity: 0, y: 10 },
+						{ opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out', delay: 1 }
+					);
+
 					gsap.utils.toArray('.reveal-section').forEach((section: any) => {
 						gsap.fromTo(
 							section,
@@ -154,7 +321,6 @@
 
 		return () => {
 			mm.revert();
-			window.removeEventListener('scroll', handleScroll);
 		};
 	});
 </script>
@@ -166,13 +332,11 @@
 	type="profile"
 	image="https://bigls.net/headshot.png"
 	keywords={[
-		// Brand dominance
 		'Matthias Bigl',
 		'Matthias Bigl Webdesign',
 		'Matthias Bigl Wien',
 		'Matthias Bigl Portfolio',
 		'bigls.net',
-		// Local + transactional
 		'Webdesign Wien',
 		'Webdesigner Wien',
 		'Webentwicklung Wien',
@@ -181,25 +345,21 @@
 		'Homepage erstellen Wien',
 		'Webdesign Korneuburg',
 		'Webdesign Niederösterreich',
-		// Commercial intent
 		'Website Kosten Österreich',
 		'Was kostet eine Website',
 		'Webdesign günstig Wien',
 		'Freelancer Webdesign Wien',
 		'Webdesign ohne Agentur',
-		// Target audience
 		'Website für KMU',
 		'Website für Selbstständige',
 		'Website für kleine Unternehmen',
 		'Website für Startups Wien',
-		// Tech/quality
 		'Full Stack Developer Wien',
 		'SvelteKit Developer',
 		'Three.js Developer',
 		'Responsive Webdesign',
 		'SEO optimierte Website',
 		'moderne Website erstellen',
-		// English
 		'web developer Vienna',
 		'freelance web developer Austria',
 		'web designer Vienna Austria'
@@ -208,82 +368,104 @@
 	breadcrumbs={[{ name: 'Matthias Bigl', url: 'https://bigls.net' }]}
 />
 
-<ScrollProgress />
-
 <div class="relative pt-16 selection:bg-blue-500/20">
-	<!-- UI Layers for consistency with project pages -->
 	<div class="fixed inset-0 z-0 opacity-[0.05] pointer-events-none grid-lines"></div>
 	<div class="fixed inset-0 z-0 opacity-20 pointer-events-none">
 		<div class="aurora-bg w-full h-full"></div>
 	</div>
 
-	<!-- Hero Section -->
 	<section
 		id="hero"
-		class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-20 sm:pb-28"
+		class="relative min-h-screen flex items-start sm:items-center overflow-hidden pb-16 pt-24 sm:pt-20 sm:pb-28"
 	>
-		<!-- Enhanced Hero Background -->
+		<!-- Background: particle network + subtle radial glow -->
 		<div class="absolute inset-0 z-0">
 			<div
 				class="absolute inset-0"
-				style="background: linear-gradient(135deg, rgba(59,130,246,0.06) 0%, var(--bg-body) 50%, rgba(139,92,246,0.06) 100%);"
+				style="background: radial-gradient(ellipse 80% 60% at 30% 40%, rgba(59,130,246,0.05) 0%, transparent 70%), var(--bg-body);"
 			></div>
-
-			<!-- Floating geometric shapes -->
-			<div
-				class="hero-floating-1 css-floating-1 absolute top-[15%] left-[10%] w-64 h-64 bg-blue-500/5 rounded-full blur-[80px]"
-			></div>
-			<div
-				class="hero-floating-2 css-floating-2 absolute bottom-[20%] right-[15%] w-96 h-96 bg-purple-500/5 rounded-full blur-[100px]"
-			></div>
-			<div
-				class="hero-floating-3 css-floating-3 absolute top-[40%] right-[25%] w-48 h-48 bg-cyan-500/5 rounded-full blur-[60px]"
-			></div>
-
-			<!-- Optional subtle grid overlay for hero specifically -->
-			<div class="absolute inset-0 opacity-[0.02] grid-lines"></div>
+			<ParticleNetwork count={70} connectionDistance={140} speed={0.25} mouseRadius={180} />
 		</div>
 
 		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-			<div class="flex flex-col lg:flex-row items-center justify-between gap-12 sm:gap-16">
-				<!-- Avatar -->
-				<div class="hero-avatar floating-avatar relative">
-					<div class="w-56 h-56 sm:w-72 sm:h-72 lg:w-[22rem] lg:h-[22rem] floating">
-						<PhotoAvatar />
+			<div class="max-w-6xl">
+				<!-- Editorial left-aligned layout -->
+				<div class="flex items-stretch gap-6 sm:gap-8 mb-10 sm:mb-14">
+					<!-- Vertical accent line -->
+					<div
+						class="hero-accent-line hidden sm:block w-[3px] rounded-full flex-shrink-0 self-stretch"
+						style="background: linear-gradient(180deg, #3b82f6 0%, #7b68ee 100%); opacity: 0.6;"
+					></div>
+
+					<div>
+						<!-- Opening line -->
+						<p
+							class="hero-headline-1 text-sm sm:text-base font-semibold uppercase tracking-[0.2em] mb-4 sm:mb-5"
+							style="color: var(--text-tertiary);"
+						>
+							{$_('heroNew.headline1')}
+						</p>
+
+						<!-- Main headline — Poppins, solid color, accent on key words -->
+						<h1
+							class="hero-headline-2 font-poppins font-extrabold text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] xl:text-[5.5rem] mb-6 sm:mb-8 leading-[1.08] tracking-tight"
+							style="color: var(--text-heading);"
+						>
+							{@html $_('heroNew.headline2')}
+						</h1>
+
+						<!-- Subheadline — clean, no border-left gimmick -->
+						<p
+							class="hero-subheadline text-sm sm:text-base lg:text-lg max-w-lg leading-relaxed font-light"
+							style="color: var(--text-secondary);"
+						>
+							{$_('heroNew.subheadline')}
+						</p>
 					</div>
 				</div>
 
-				<!-- Hero Text -->
-				<div class="text-center lg:text-left max-w-3xl px-4">
-					<p
-						class="hero-intro font-poppins text-xs sm:text-sm font-semibold text-blue-400/80 mb-6 tracking-[0.15em] uppercase"
-					>
-						{$_('hero.greeting')}
-						<span style="color: var(--text-primary); opacity: 0.9;">{$_('hero.name')}</span>
-					</p>
+				<!-- Service pills — tight horizontal strip -->
+				<div class="mb-10 sm:mb-12">
+					<div class="flex flex-wrap gap-2 sm:gap-3 max-w-4xl" style="perspective: 1000px;">
+						{#each heroServices as service}
+							<div
+								class="service-pill group relative flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer transition-colors duration-300 sm:hover:translate-y-[-2px]"
+								style="background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(12px); transform-style: preserve-3d;"
+							>
+								<span
+									class="text-lg sm:text-xl group-hover:scale-110 transition-transform duration-300"
+								>
+									{service.icon}
+								</span>
+								<div class="flex flex-col">
+									<span
+										class="text-xs sm:text-sm font-semibold leading-tight"
+										style="color: var(--text-heading);"
+									>
+										{service.title}
+									</span>
+									<span
+										class="text-[9px] sm:text-[10px] leading-tight"
+										style="color: var(--text-tertiary);"
+									>
+										{service.tagline}
+									</span>
+								</div>
+							</div>
+						{/each}
+					</div>
+				</div>
 
-					<h1
-						class="hero-title font-poppins font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-8 leading-[1.1] tracking-tight"
-						style="color: var(--text-heading);"
-					>
-						{@html $_('hero.subtitle')}
-					</h1>
-
-					<p
-						class="hero-description text-base sm:text-lg lg:text-xl mb-12 leading-relaxed font-light max-w-2xl"
-						style="color: var(--text-secondary);"
-					>
-						{@html $_('hero.description')}
-					</p>
-
-					<div
-						class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center lg:justify-start px-4 sm:px-0"
-					>
+				<!-- CTAs -->
+				<div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+					<div class="hero-cta">
 						<Button href="/contact" variant="primary">
 							{$_('hero.cta')}
 						</Button>
-						<Button href="#services" variant="secondary">
-							{$_('hero.ctaServices')}
+					</div>
+					<div class="hero-cta">
+						<Button href="/pricing" variant="secondary">
+							{$_('pricing.navTitle')}
 						</Button>
 					</div>
 				</div>
@@ -291,160 +473,105 @@
 		</div>
 	</section>
 
-	<!-- Services Section -->
 	<section class="services-wrapper reveal-section glass-section relative gradient-bg-1">
 		<Services />
 	</section>
 
-	<!-- Skills Section -->
 	<section
-		id="skills"
-		class="skills-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-2"
-		aria-labelledby="skills-heading"
+		id="about"
+		class="about-section reveal-section relative overflow-hidden py-16 sm:py-20 lg:py-24"
+		aria-labelledby="about-heading"
 	>
-		<div class="parallax-bg parallax-bg-2"></div>
+		<div class="absolute inset-0 z-0">
+			<ParticleNetwork count={50} connectionDistance={130} speed={0.18} mouseRadius={160} />
+		</div>
 
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-			<div class="flex flex-col items-center mb-14 lg:mb-20">
-				<div class="flex items-center gap-3 mb-5">
-					<div class="h-px w-8 bg-blue-500/40"></div>
-					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
-						>{$_('skills.title')}</span
-					>
-					<div class="h-px w-8 bg-blue-500/40"></div>
-				</div>
-				<h2
-					id="skills-heading"
-					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
-					style="color: var(--text-heading);"
-				>
-					{$_('skills.titleHighlight')}
-				</h2>
-				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-			</div>
-
-			<div class="grid lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-24 relative">
-				<!-- Visual divider with hint between cubes (desktop only) -->
-				<div
-					class="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 z-10"
-					aria-hidden="true"
-				>
-					<div
-						class="w-px h-16 bg-gradient-to-b from-transparent via-blue-500/30 to-transparent"
-					></div>
-					<p
-						class="text-gray-500 text-xs whitespace-nowrap opacity-60 hover:opacity-100 transition-opacity duration-300 px-3 py-1.5 rounded-full backdrop-blur-sm border"
-						style="background: var(--bg-inset); border-color: var(--border-secondary);"
-					>
-						{$_('skills.hint')}
-					</p>
-					<div
-						class="w-px h-16 bg-gradient-to-b from-transparent via-blue-500/30 to-transparent"
-					></div>
-				</div>
-
-				<!-- Languages -->
-				<div class="text-center">
-					<h3
-						id="skills-languages"
-						class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 uppercase tracking-wider"
-						style="color: var(--text-secondary);"
-					>
-						{$_('skills.languages')}
-					</h3>
-					<!-- Screen reader description for SEO -->
-					<p class="sr-only">{$_('skills.languagesDescription')}</p>
-
-					<div class="cube-container cube-glow max-w-lg mx-auto aspect-square">
-						<Cube
-							images={[
-								'assets/python.png',
-								'assets/java.png',
-								'assets/svelte.png',
-								'assets/typescript.png',
-								'assets/kotlin.png'
-							]}
-							normalMaps={[
-								'assets/pythonNormal.png',
-								'assets/javaNormal.png',
-								'assets/svelteNormal.png',
-								'assets/typescriptNormal.png',
-								'assets/kotlinNormal.png'
-							]}
-							ariaLabel={$_('skills.languagesAriaLabel')}
-						/>
+		<div class="relative z-10 container mx-auto px-6 sm:px-8 lg:px-12">
+			<div class="max-w-6xl mx-auto">
+				<div class="grid lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+					<div class="lg:col-span-5 flex justify-center lg:justify-end">
+						<div class="about-avatar-wrap relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64">
+							<div class="absolute -inset-4 rounded-3xl opacity-40 blur-3xl avatar-glow"></div>
+							<PhotoAvatar />
+						</div>
 					</div>
-					<!-- Mobile hint (shown below first cube on mobile) -->
-					<p
-						class="lg:hidden text-gray-500 text-xs sm:text-sm mt-4 opacity-60 hover:opacity-100 transition-opacity duration-300"
-					>
-						{$_('skills.hint')}
-					</p>
 
-					<!-- Skill labels -->
-					<div class="mt-4 flex justify-center gap-2 flex-wrap">
-						{#each $_('skills.languagesList').split(',') as skill}
+					<div class="lg:col-span-7">
+						<div class="mb-3">
 							<span
-								class="text-xs px-3 py-1.5 rounded-full border hover:border-blue-500/30 transition-all duration-200"
-								style="background: var(--bg-surface); color: var(--text-secondary); border-color: var(--border-primary);"
-								>{skill.trim()}</span
+								class="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em]"
+								style="color: var(--text-tertiary);"
 							>
-						{/each}
-					</div>
-				</div>
+								<span class="w-5 h-px bg-blue-500/60"></span>
+								{$_('aboutCompact.title')}
+							</span>
+						</div>
 
-				<!-- Strengths -->
-				<div class="text-center">
-					<h3
-						id="skills-strengths"
-						class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 uppercase tracking-wider"
-						style="color: var(--text-secondary);"
-					>
-						{$_('skills.strengths')}
-					</h3>
-					<!-- Screen reader description for SEO -->
-					<p class="sr-only">{$_('skills.strengthsDescription')}</p>
+						<h2
+							id="about-heading"
+							class="section-title font-poppins text-4xl sm:text-5xl lg:text-6xl font-bold tracking-[-0.02em] leading-[1.1] mb-6"
+							style="color: var(--text-heading);"
+						>
+							{$_('aboutCompact.name')}
+						</h2>
 
-					<div class="cube-container cube-glow max-w-lg mx-auto aspect-square">
-						<Cube
-							images={[
-								'assets/backend.png',
-								'assets/UI.png',
-								'assets/graphic.png',
-								'assets/Teamwork.png',
-								'assets/project.png'
-							]}
-							normalMaps={[
-								'assets/backendNormal.png',
-								'assets/UINormal.png',
-								'assets/graphicNormal.png',
-								'assets/TeamworkNormal.png',
-								'assets/projectNormal.png'
-							]}
-							ariaLabel={$_('skills.strengthsAriaLabel')}
-						/>
-					</div>
+						<p
+							class="text-base sm:text-lg lg:text-xl font-light leading-relaxed mb-8 max-w-xl"
+							style="color: var(--text-secondary);"
+						>
+							{$_('aboutCompact.bio')}
+						</p>
 
-					<!-- Skill labels -->
-					<div class="mt-4 flex justify-center gap-2 flex-wrap">
-						{#each $_('skills.strengthsList').split(',') as skill}
-							<span
-								class="text-xs px-3 py-1.5 rounded-full border hover:border-purple-500/30 transition-all duration-200"
-								style="background: var(--bg-surface); color: var(--text-secondary); border-color: var(--border-primary);"
-								>{skill.trim()}</span
-							>
-						{/each}
+						<div class="flex flex-wrap gap-3 mb-8">
+							{#each aboutDifferentiators as diff}
+								<div
+									class="about-pill inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full transition-all duration-300 hover:translate-y-[-2px]"
+									style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+								>
+									<span class="text-base">{diff.icon}</span>
+									<span class="text-sm font-medium" style="color: var(--text-secondary);"
+										>{diff.title}</span
+									>
+								</div>
+							{/each}
+						</div>
+
+						<div class="flex items-center gap-6">
+							<div class="flex items-center gap-2.5">
+								<span class="relative flex h-2.5 w-2.5">
+									<span
+										class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+									></span>
+									<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+								</span>
+								<span class="text-sm font-medium" style="color: var(--text-secondary);">
+									{$_('aboutCompact.availability')}
+								</span>
+							</div>
+
+							<Button href="/about" variant="primary" className="!px-6 !py-3">
+								<span>{$_('aboutCompact.cta')}</span>
+								<svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M17 8l4 4m0 0l-4 4m4-4H3"
+									/>
+								</svg>
+							</Button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- Projects Section -->
+
 	<section
 		id="projects"
-		class="projects-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-hidden"
+		class="projects-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-2 overflow-hidden"
 	>
-		<div class="parallax-bg parallax-bg-1"></div>
+		<div class="parallax-bg parallax-bg-2"></div>
 
 		<div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex flex-col items-center mb-14 lg:mb-20">
@@ -493,115 +620,10 @@
 		</div>
 	</section>
 
-	<!-- Resume Section -->
-	<section
-		class="resume-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-2 overflow-hidden"
-	>
-		<div class="parallax-bg parallax-bg-2"></div>
-
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-			<div class="flex flex-col items-center mb-12 sm:mb-14">
-				<div class="flex items-center gap-3 mb-5">
-					<div class="h-px w-8 bg-blue-500/40"></div>
-					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
-						>{$_('resume.title')}</span
-					>
-					<div class="h-px w-8 bg-blue-500/40"></div>
-				</div>
-				<h2
-					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
-					style="color: var(--text-heading);"
-				>
-					{$_('resume.titleHighlight')}
-				</h2>
-				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-			</div>
-
-			<Resume />
-		</div>
-	</section>
-
-	<!-- FAQ Section -->
 	<section class="faq-wrapper reveal-section glass-section relative gradient-bg-2">
 		<div class="parallax-bg parallax-bg-2"></div>
 		<FAQ />
 	</section>
-	<!-- Hobbies Section -->
-	<section
-		class="hobbies-section reveal-section glass-section relative py-20 sm:py-24 lg:py-32 gradient-bg-1 overflow-hidden"
-	>
-		<div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
-			<div class="flex flex-col items-center mb-12 sm:mb-16">
-				<div class="flex items-center gap-3 mb-5">
-					<div class="h-px w-8 bg-blue-500/40"></div>
-					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
-						>{$_('hobbies.title')}</span
-					>
-					<div class="h-px w-8 bg-blue-500/40"></div>
-				</div>
-				<h2
-					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
-					style="color: var(--text-heading);"
-				>
-					{$_('hobbies.titleHighlight')}
-				</h2>
-				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-			</div>
-
-			<div
-				class="stagger-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto"
-			>
-				{#each hobbies as hobby}
-					{#if hobby.isSpecialComponent && hobby.title === $_('hobbies.items.skiing.title')}
-						<Card
-							title={hobby.title}
-							description={hobby.description}
-							image={hobby.image}
-							imageAlt={hobby.imageAlt}
-							imageObjectFit={hobby.imageObjectFit || 'contain'}
-						>
-							<Mountains />
-						</Card>
-					{:else}
-						<Card
-							title={hobby.title}
-							description={hobby.description}
-							image={hobby.image}
-							imageAlt={hobby.imageAlt}
-							imageObjectFit={hobby.imageObjectFit || 'contain'}
-						/>
-					{/if}
-				{/each}
-			</div>
-		</div>
-	</section>
-
-	<!-- Scroll Down Indicator -->
-	{#if showScrollIndicator}
-		<div
-			class="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 cursor-pointer z-20 hidden md:flex transition-all duration-500"
-			style="opacity: {showScrollIndicator
-				? 0.4
-				: 0}; transform: translateX(-50%) translateY({showScrollIndicator ? 0 : 20}px);"
-			onclick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-			onkeydown={(e) =>
-				e.key === 'Enter' && window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-			role="button"
-			tabindex="0"
-			aria-label={$_('a11y.scrollDown')}
-		>
-			<span class="text-[9px] font-semibold uppercase tracking-[0.3em] text-gray-500">Scroll</span>
-			<div
-				class="w-4 h-7 rounded-full flex items-start justify-center p-1"
-				style="border: 1px solid var(--border-primary);"
-			>
-				<div
-					class="w-0.5 h-1.5 rounded-full animate-bounce"
-					style="background: var(--text-tertiary);"
-				></div>
-			</div>
-		</div>
-	{/if}
 </div>
 
 <style>
@@ -614,5 +636,61 @@
 			radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
 			radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 40%);
 		filter: blur(80px);
+	}
+
+	.service-pill {
+		transform-style: preserve-3d;
+		will-change: transform;
+	}
+
+	/* Hero accent — underline highlight, no gradient text */
+	:global(.hero-accent) {
+		color: #3b82f6;
+		-webkit-text-fill-color: #3b82f6;
+		position: relative;
+		display: inline;
+		text-decoration: underline;
+		text-decoration-color: rgba(59, 130, 246, 0.3);
+		text-underline-offset: 0.15em;
+		text-decoration-thickness: 0.06em;
+	}
+
+	/* About Section Styles */
+	.about-avatar-wrap {
+		transform-style: preserve-3d;
+		will-change: transform;
+	}
+
+	.avatar-glow {
+		background: radial-gradient(
+			ellipse 60% 60%,
+			rgba(59, 130, 246, 0.25) 0%,
+			rgba(139, 92, 246, 0.15) 50%,
+			transparent 70%
+		);
+	}
+
+	.about-pill {
+		transform-style: preserve-3d;
+		will-change: transform;
+	}
+
+	.about-pill:hover {
+		border-color: var(--border-accent);
+		box-shadow: 0 8px 24px -8px rgba(59, 130, 246, 0.15);
+	}
+
+	.line-clamp-2 {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	@media (max-width: 1023px) {
+		.about-avatar-container,
+		.about-diff-card {
+			transform-style: flat;
+		}
 	}
 </style>

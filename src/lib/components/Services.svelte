@@ -4,41 +4,50 @@
 	import { _, locale } from 'svelte-i18n';
 	import Button from './Button.svelte';
 
-	// GSAP is dynamically imported in onMount to avoid blocking initial render
+	const processSteps = $derived([
+		{
+			id: 'consultation',
+			number: '01',
+			title: $_('services.allInOne.process.consultation.title'),
+			desc: $_('services.allInOne.process.consultation.desc')
+		},
+		{
+			id: 'design',
+			number: '02',
+			title: $_('services.allInOne.process.design.title'),
+			desc: $_('services.allInOne.process.design.desc')
+		},
+		{
+			id: 'development',
+			number: '03',
+			title: $_('services.allInOne.process.development.title'),
+			desc: $_('services.allInOne.process.development.desc')
+		},
+		{
+			id: 'launch',
+			number: '04',
+			title: $_('services.allInOne.process.launch.title'),
+			desc: $_('services.allInOne.process.launch.desc')
+		},
+		{
+			id: 'hosting',
+			number: '05',
+			title: $_('services.allInOne.process.hosting.title'),
+			desc: $_('services.allInOne.process.hosting.desc')
+		}
+	]);
 
 	const services = $derived([
 		{
-			id: 'experiences',
-			icon: '✨',
-			title: $_('services.items.experiences.title'),
-			description: $_('services.items.experiences.description'),
-			features: $_('services.items.experiences.features') as unknown as string[],
-			gradient: 'from-emerald-500/10 via-teal-500/10 to-emerald-600/10',
-			border: 'group-hover:border-emerald-500/50',
-			colSpan: 'md:col-span-3 lg:col-span-3',
-			delay: 0
-		},
-		{
-			id: 'fullstack',
-			icon: '🔧',
+			id: 'websites',
+			icon: '🌐',
 			title: $_('services.items.fullstack.title'),
 			description: $_('services.items.fullstack.description'),
 			features: $_('services.items.fullstack.features') as unknown as string[],
-			gradient: 'from-orange-500/10 via-amber-500/10 to-orange-600/10',
-			border: 'group-hover:border-orange-500/50',
-			colSpan: 'md:col-span-3 lg:col-span-3',
-			delay: 0.1
-		},
-		{
-			id: 'seo',
-			icon: '🌐',
-			title: $_('services.items.seo.title'),
-			description: $_('services.items.seo.description'),
-			features: $_('services.items.seo.features') as unknown as string[],
 			gradient: 'from-blue-500/10 via-cyan-500/10 to-blue-600/10',
 			border: 'group-hover:border-blue-500/50',
-			colSpan: 'md:col-span-2',
-			delay: 0.2
+			colSpan: 'md:col-span-3 lg:col-span-3',
+			delay: 0
 		},
 		{
 			id: 'webshops',
@@ -48,23 +57,47 @@
 			features: $_('services.items.webshops.features') as unknown as string[],
 			gradient: 'from-purple-500/10 via-pink-500/10 to-purple-600/10',
 			border: 'group-hover:border-purple-500/50',
+			colSpan: 'md:col-span-3 lg:col-span-3',
+			delay: 0.1
+		},
+		{
+			id: 'custom',
+			icon: '✨',
+			title: $_('services.items.experiences.title'),
+			description: $_('services.items.experiences.description'),
+			features: $_('services.items.experiences.features') as unknown as string[],
+			gradient: 'from-emerald-500/10 via-teal-500/10 to-emerald-600/10',
+			border: 'group-hover:border-emerald-500/50',
+			colSpan: 'md:col-span-2',
+			delay: 0.2
+		},
+		{
+			id: 'seo',
+			icon: '📈',
+			title: $_('services.items.seo.title'),
+			description: $_('services.items.seo.description'),
+			features: $_('services.items.seo.features') as unknown as string[],
+			gradient: 'from-orange-500/10 via-amber-500/10 to-orange-600/10',
+			border: 'group-hover:border-orange-500/50',
 			colSpan: 'md:col-span-4',
 			delay: 0.3
 		}
 	]);
 
 	const benefitIcons: Record<string, string> = {
+		allInOne: '🛡️',
 		personal: '🤝',
 		local: '📍',
 		prices: '💰',
-		detail: '🎯',
 		tech: '⚡',
-		allInOne: '🛡️'
+		detail: '🎯'
 	};
 
-	// Generate benefits list dynamically preserving JSON order
+	const benefitOrder = ['allInOne', 'personal', 'local', 'prices', 'tech', 'detail'];
+
 	const benefits = $derived(
-		Object.keys($_('services.benefits')).map((key) => ({
+		benefitOrder.map((key) => ({
+			id: key,
 			icon: benefitIcons[key] || '⭐',
 			title: $_(`services.benefits.${key}.title`)
 		}))
@@ -91,14 +124,9 @@
 				(context) => {
 					const { isDesktop, isMobile, reduceMotion } = context.conditions!;
 
-					if (reduceMotion) {
-						// Optionally handle specific logic for reduced motion here
-						// but usually we just want to skip the following animations
-						return;
-					}
+					if (reduceMotion) return;
 
 					if (isDesktop) {
-						// Bento Grid Entrance
 						gsap.fromTo(
 							'.bento-item',
 							{
@@ -122,7 +150,99 @@
 							}
 						);
 
-						// Holographic tilt effect
+						gsap.fromTo(
+							'.process-card',
+							{
+								opacity: 0,
+								y: 40,
+								scale: 0.9,
+								rotationY: -15
+							},
+							{
+								opacity: 1,
+								y: 0,
+								scale: 1,
+								rotationY: 0,
+								duration: 0.8,
+								stagger: 0.08,
+								ease: 'back.out(1.4)',
+								scrollTrigger: {
+									trigger: '.process-grid',
+									start: 'top 90%'
+								}
+							}
+						);
+
+						gsap.fromTo(
+							'.process-connector',
+							{ scaleX: 0, transformOrigin: 'left center' },
+							{
+								scaleX: 1,
+								duration: 0.6,
+								stagger: 0.08,
+								ease: 'power2.out',
+								scrollTrigger: {
+									trigger: '.process-grid',
+									start: 'top 90%'
+								}
+							}
+						);
+
+						gsap.fromTo(
+							'.process-mobile .process-step',
+							{
+								opacity: 0,
+								x: -30
+							},
+							{
+								opacity: 1,
+								x: 0,
+								duration: 0.7,
+								stagger: 0.12,
+								ease: 'power3.out',
+								scrollTrigger: {
+									trigger: '.process-mobile',
+									start: 'top 85%'
+								}
+							}
+						);
+
+						gsap.fromTo(
+							'.process-mobile .process-line-fill',
+							{
+								scaleY: 0,
+								transformOrigin: 'top center'
+							},
+							{
+								scaleY: 1,
+								duration: 1.2,
+								ease: 'power2.out',
+								scrollTrigger: {
+									trigger: '.process-mobile',
+									start: 'top 85%'
+								}
+							}
+						);
+
+						gsap.fromTo(
+							'.process-mobile .process-node',
+							{
+								scale: 0,
+								rotation: -180
+							},
+							{
+								scale: 1,
+								rotation: 0,
+								duration: 0.5,
+								stagger: 0.12,
+								ease: 'back.out(2)',
+								scrollTrigger: {
+									trigger: '.process-mobile',
+									start: 'top 85%'
+								}
+							}
+						);
+
 						const cards = document.querySelectorAll('.bento-item');
 						cards.forEach((card: any) => {
 							card.addEventListener('mousemove', (e: MouseEvent) => {
@@ -133,7 +253,7 @@
 								const centerX = rect.width / 2;
 								const centerY = rect.height / 2;
 
-								const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg tilt
+								const rotateX = ((y - centerY) / centerY) * -5;
 								const rotateY = ((x - centerX) / centerX) * 5;
 
 								gsap.to(card, {
@@ -144,7 +264,6 @@
 									transformPerspective: 1000
 								});
 
-								// Spotlight effect
 								const spotlight = card.querySelector('.card-spotlight');
 								if (spotlight) {
 									gsap.to(spotlight, {
@@ -171,7 +290,6 @@
 							});
 						});
 
-						// Magnetic effect for refined CTA
 						const cta = document.querySelector('.cta-magnetic');
 						if (cta) {
 							cta.addEventListener('mouseenter', () => {
@@ -193,17 +311,6 @@
 							});
 						}
 					}
-				}
-			);
-
-			mm.add(
-				{
-					isMobile: '(max-width: 767px)',
-					reduceMotion: '(prefers-reduced-motion: reduce)'
-				},
-				(context) => {
-					if (context.conditions?.reduceMotion) return;
-					const { isMobile } = context.conditions!;
 
 					if (isMobile) {
 						gsap.fromTo(
@@ -217,6 +324,39 @@
 								ease: 'power2.out',
 								scrollTrigger: {
 									trigger: '.bento-grid',
+									start: 'top 95%'
+								}
+							}
+						);
+
+						gsap.fromTo(
+							'.process-mobile .process-step',
+							{ opacity: 0, x: -20 },
+							{
+								opacity: 1,
+								x: 0,
+								duration: 0.6,
+								stagger: 0.1,
+								ease: 'power2.out',
+								scrollTrigger: {
+									trigger: '.process-mobile',
+									start: 'top 90%'
+								}
+							}
+						);
+
+						gsap.fromTo(
+							'.process-mobile .process-line-fill',
+							{
+								scaleY: 0,
+								transformOrigin: 'top center'
+							},
+							{
+								scaleY: 1,
+								duration: 1,
+								ease: 'power2.out',
+								scrollTrigger: {
+									trigger: '.process-mobile',
 									start: 'top 90%'
 								}
 							}
@@ -234,7 +374,6 @@
 	id="services"
 	class="relative py-20 lg:py-32 overflow-hidden selection:bg-blue-500/30 selection:text-white"
 >
-	<!-- Background Ambiance -->
 	<div class="absolute inset-0 pointer-events-none">
 		<div
 			class="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-blue-600/10 blur-[150px] rounded-full animate-blob"
@@ -242,15 +381,12 @@
 		<div
 			class="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-purple-600/10 blur-[130px] rounded-full animate-blob animation-delay-2000"
 		></div>
-
-		<!-- Noise texture for premium feel -->
 		<div
 			class="absolute inset-0 opacity-[0.03] bg-[url('/noise.svg')] invert filter contrast-125"
 		></div>
 	</div>
 
 	<div class="container mx-auto px-4 sm:px-6 relative z-10">
-		<!-- Section Header -->
 		<div class="max-w-3xl mb-10 sm:mb-16 lg:mb-20">
 			<div class="flex items-center gap-3 mb-4 sm:mb-6">
 				<div class="h-px w-8 bg-blue-500"></div>
@@ -274,14 +410,195 @@
 			</p>
 		</div>
 
-		<!-- Bento Grid Layout -->
+		<div
+			class="all-in-one-card bento-item group relative rounded-2xl lg:rounded-3xl overflow-hidden mb-8 lg:mb-12 border isolate backdrop-blur-md"
+			style="border-color: var(--glass-border);"
+		>
+			<div
+				class="absolute inset-0 transition-colors duration-500"
+				style="background: var(--glass-bg);"
+			></div>
+			<div
+				class="absolute inset-0 bg-gradient-to-br from-blue-500/15 via-purple-500/10 to-cyan-500/15 opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+			></div>
+
+			<div
+				class="card-spotlight absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-soft-light"
+			></div>
+
+			<div class="relative z-10 p-6 sm:p-8 lg:p-12">
+				<div class="flex flex-col lg:flex-row gap-6 lg:gap-12">
+					<div class="lg:w-1/2">
+						<div class="flex items-center gap-4 mb-4">
+							<div
+								class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg"
+								style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+							>
+								🔧
+							</div>
+							<div>
+								<h3
+									class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight"
+									style="color: var(--text-heading);"
+								>
+									{$_('services.allInOne.title')}
+								</h3>
+							</div>
+						</div>
+
+						<p
+							class="text-lg sm:text-xl font-light leading-relaxed mb-6 pl-4"
+							style="color: var(--text-secondary); border-left: 2px solid var(--border-accent);"
+						>
+							{$_('services.allInOne.tagline')}
+						</p>
+
+						<div class="flex flex-wrap gap-2">
+							{#each $_('services.allInOne.features') as feature}
+								<span
+									class="px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-300"
+									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+								>
+									✓ {feature}
+								</span>
+							{/each}
+						</div>
+					</div>
+
+					<div class="lg:w-1/2">
+						<div class="flex items-center gap-3 mb-6">
+							<div class="h-px w-6 bg-gradient-to-r from-blue-500 to-transparent"></div>
+							<h4
+								class="text-xs sm:text-sm font-bold uppercase tracking-[0.2em]"
+								style="color: var(--text-tertiary);"
+							>
+								{$locale === 'de' ? 'Der Prozess' : 'The Process'}
+							</h4>
+						</div>
+
+						<div class="process-container relative">
+							<div class="process-grid hidden lg:grid lg:grid-cols-5 gap-2">
+								{#each processSteps as step, i}
+									<div class="process-card group relative" style="perspective: 1000px;">
+										<div
+											class="process-card-inner relative p-3 rounded-xl border transition-all duration-500 cursor-default"
+											style="background: var(--bg-surface); border-color: var(--border-primary); min-height: 140px;"
+										>
+											<div
+												class="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+												style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.1) 50%, rgba(6,182,212,0.1) 100%);"
+											></div>
+
+											<div class="relative z-10 flex flex-col h-full">
+												<div class="flex items-center gap-2 mb-2">
+													<div
+														class="process-icon w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold transition-all duration-500"
+														style="background: var(--bg-inset); color: var(--text-heading); border: 1px solid var(--border-secondary);"
+													>
+														{step.number}
+													</div>
+													{#if i < processSteps.length - 1}
+														<div
+															class="process-connector flex-1 h-[2px] rounded-full transition-all duration-500 relative"
+															style="background: var(--border-primary);"
+														>
+															<div
+																class="process-connector-arrow absolute right-0 top-1/2 -translate-y-1/2 opacity-0 transition-all duration-300"
+																style="color: var(--text-tertiary);"
+															>
+																<svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+																	<path
+																		fill-rule="evenodd"
+																		d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+																		clip-rule="evenodd"
+																	/>
+																</svg>
+															</div>
+														</div>
+													{/if}
+												</div>
+
+												<h5
+													class="text-xs font-semibold mb-1.5 transition-colors duration-300"
+													style="color: var(--text-heading);"
+												>
+													{step.title}
+												</h5>
+												<p
+													class="text-[10px] leading-relaxed flex-grow"
+													style="color: var(--text-tertiary);"
+												>
+													{step.desc}
+												</p>
+											</div>
+										</div>
+
+										<div
+											class="process-glow absolute -inset-1 rounded-xl opacity-0 transition-opacity duration-500 -z-10"
+											style="background: linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.15) 100%); filter: blur(8px);"
+										></div>
+									</div>
+								{/each}
+							</div>
+
+							<div class="process-mobile lg:hidden relative">
+								<div
+									class="process-line-track absolute left-4 sm:left-5 top-0 bottom-0 w-[2px]"
+									style="background: var(--border-primary);"
+								></div>
+								<div
+									class="process-line-fill absolute left-4 sm:left-5 top-0 w-[2px] h-0 origin-top"
+									style="background: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);"
+								></div>
+
+								<div class="space-y-4 sm:space-y-5">
+									{#each processSteps as step, i}
+										<div class="process-step flex items-start gap-4 sm:gap-6 group/step">
+											<div class="relative flex-shrink-0">
+												<div
+													class="process-node w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold transition-all duration-500 group-hover/step:scale-110 group-hover/step:shadow-lg group-hover/step:shadow-blue-500/30"
+													style="background: var(--bg-surface); border: 2px solid var(--border-primary); color: var(--text-secondary);"
+												>
+													{step.number}
+												</div>
+												<div
+													class="process-node-active absolute inset-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold opacity-0 scale-0 transition-all duration-500 group-hover/step:opacity-100 group-hover/step:scale-100"
+													style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white;"
+												>
+													{step.number}
+												</div>
+											</div>
+
+											<div class="flex-1 pt-1">
+												<h5
+													class="text-sm sm:text-base font-semibold mb-1 transition-colors duration-300 group-hover/step:text-blue-500"
+													style="color: var(--text-heading);"
+												>
+													{step.title}
+												</h5>
+												<p
+													class="text-xs sm:text-sm font-light leading-relaxed"
+													style="color: var(--text-tertiary);"
+												>
+													{step.desc}
+												</p>
+											</div>
+										</div>
+									{/each}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="bento-grid grid grid-cols-1 md:grid-cols-6 gap-3 md:gap-4 lg:gap-5 mb-10 sm:mb-12">
 			{#each services as service}
 				<article
 					class="bento-item group relative {service.colSpan} rounded-xl sm:rounded-2xl overflow-hidden border isolate backdrop-blur-md"
 					style="border-color: var(--glass-border);"
 				>
-					<!-- Consistent Background -->
 					<div
 						class="absolute inset-0 transition-colors duration-500"
 						style="background: var(--glass-bg);"
@@ -290,26 +607,21 @@
 						class="absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none dark:from-white/[0.04] from-black/[0.02]"
 					></div>
 
-					<!-- Holographic Gradient Accents -->
 					<div
 						class="absolute inset-0 bg-gradient-to-br {service.gradient} opacity-20 transition-opacity duration-500 group-hover:opacity-50"
 					></div>
 
-					<!-- Spotlight Overlay -->
 					<div
 						class="card-spotlight absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-soft-light"
 					></div>
 
-					<!-- Animated Border Gradient -->
 					<div
 						class="absolute inset-0 rounded-2xl border border-transparent {service.border} transition-colors duration-500"
 					></div>
 
-					<!-- Content Container -->
 					<div
 						class="relative z-10 h-full p-4 sm:p-6 lg:p-8 flex flex-col justify-between min-h-[220px] sm:min-h-[300px] transition-transform duration-500 group-hover:scale-[1.01]"
 					>
-						<!-- Header -->
 						<div>
 							<div
 								class="w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center text-xl sm:text-2xl mb-5 sm:mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg"
@@ -326,7 +638,6 @@
 							</h3>
 						</div>
 
-						<!-- Description & Features -->
 						<div class="flex flex-col h-full justify-between">
 							<p
 								class="text-xs sm:text-sm font-light leading-relaxed mb-3 sm:mb-5 pl-3 sm:pl-4 transition-colors duration-500"
@@ -335,29 +646,28 @@
 								{service.description}
 							</p>
 
-							<!-- Features List -->
-							<ul
-								class="flex flex-wrap sm:flex-nowrap gap-1.5 mb-2 sm:mb-4 sm:overflow-x-auto sm:scrollbar-hide sm:mask-fade-right"
-							>
-								{#each service.features as feature}
-									<li
-										class="flex-shrink-0 px-2.5 py-1 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
-										style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
-									>
-										{feature}
-									</li>
-								{/each}
-							</ul>
+							<div class="flex items-center justify-between">
+								<ul
+									class="flex flex-wrap sm:flex-nowrap gap-1.5 mb-2 sm:mb-4 sm:overflow-x-auto sm:scrollbar-hide sm:mask-fade-right"
+								>
+									{#each service.features as feature}
+										<li
+											class="flex-shrink-0 px-2.5 py-1 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
+											style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+										>
+											{feature}
+										</li>
+									{/each}
+								</ul>
+							</div>
 						</div>
 					</div>
 				</article>
 			{/each}
 		</div>
 
-		<!-- Benefits & Pricing Stack -->
 		<div class="flex flex-col gap-10 lg:gap-12">
-			<!-- Quick Benefits -->
-			<div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+			<div class="grid grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
 				{#each benefits as benefit}
 					<div
 						class="rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col items-center justify-center text-center gap-1.5 sm:gap-2.5 transition-all duration-300 group hover:scale-[1.02]"
@@ -375,12 +685,10 @@
 				{/each}
 			</div>
 
-			<!-- Pricing Banner -->
 			<div
 				class="relative group rounded-2xl overflow-hidden"
 				style="border: 1px solid var(--glass-border);"
 			>
-				<!-- Glass background -->
 				<div class="absolute inset-0" style="background: var(--glass-bg);"></div>
 				<div
 					class="absolute inset-0 bg-gradient-to-r from-blue-600/[0.06] via-purple-600/[0.04] to-blue-600/[0.06]"
@@ -389,7 +697,6 @@
 				<div
 					class="relative h-full p-5 sm:p-10 lg:p-12 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8"
 				>
-					<!-- Animated sheen -->
 					<div
 						class="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"
 					></div>
@@ -435,7 +742,7 @@
 				</div>
 			</div>
 		</div>
-		<!-- Final CTA - Matched to Hero Style -->
+
 		<div class="mt-24 text-center">
 			<Button href="/contact">
 				{$_('services.cta')} &rarr;
@@ -463,6 +770,106 @@
 		}
 		100% {
 			transform: translate(0px, 0px) scale(1);
+		}
+	}
+
+	.all-in-one-card {
+		transform-style: preserve-3d;
+	}
+
+	.process-container {
+		position: relative;
+		padding-left: 0.5rem;
+	}
+
+	.process-card-inner {
+		transform-style: preserve-3d;
+		will-change: transform;
+	}
+
+	.process-card:hover .process-card-inner {
+		transform: translateY(-2px);
+		border-color: var(--border-accent);
+	}
+
+	.process-card:hover .process-icon {
+		background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+		color: white;
+		box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+	}
+
+	.process-card:hover .process-glow {
+		opacity: 1;
+	}
+
+	.process-card:hover .process-connector {
+		background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+	}
+
+	.process-card:hover .process-connector-arrow {
+		opacity: 1;
+	}
+
+	.process-card:hover + .process-card .process-card-inner {
+		border-color: rgba(59, 130, 246, 0.3);
+		transform: translateY(-1px);
+	}
+
+	.process-card:hover + .process-card .process-icon {
+		background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+		border-color: rgba(59, 130, 246, 0.3);
+	}
+
+	.process-card:hover + .process-card .process-glow {
+		opacity: 0.5;
+	}
+
+	.process-line-fill {
+		box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+	}
+
+	.process-step {
+		position: relative;
+	}
+
+	.process-node {
+		position: relative;
+		z-index: 10;
+		transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	.process-node-active {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 11;
+	}
+
+	@media (max-width: 1023px) {
+		.process-container {
+			padding-left: 0;
+			position: relative;
+		}
+
+		.process-line-track,
+		.process-line-fill {
+			display: none;
+		}
+
+		.process-step:nth-child(1) {
+			margin-left: 0;
+		}
+		.process-step:nth-child(2) {
+			margin-left: 1.5rem;
+		}
+		.process-step:nth-child(3) {
+			margin-left: 3rem;
+		}
+		.process-step:nth-child(4) {
+			margin-left: 4.5rem;
+		}
+		.process-step:nth-child(5) {
+			margin-left: 6rem;
 		}
 	}
 </style>
