@@ -334,6 +334,31 @@
 				"technologies": ["Kotlin", "Jetpack Compose", "Clerk Auth", "Supabase", "Android SDK"],
 				"tags": ["Social Media", "Datenschutz", "Mobile App", "Android", "Kotlin"]
 			},
+			"free-jazz-tattoo": {
+				"title": "Free Jazz Tattoo",
+				"subtitle": "Tattoo Studio Website",
+				"tagline": "Moderne Website für ein lokales Tattoo-Studio in Österreich — mit Galerie, Kontaktformular und integrierten Google Reviews.",
+				"description": "Professionelle Website für ein Tattoo-Studio mit Online-Galerie, Kontaktformular und Google-Reviews-Integration.",
+				"role": "Designer & Entwickler",
+				"timeline": "2024 — Heute",
+				"type": "Webdesign · SvelteKit",
+				"status": "live",
+				"sections": {
+					"context": "Free Jazz Tattoo ist ein lokales Tattoo-Studio in Österreich. Die Website dient als digitale Visitenkarte — mit einer Übersicht über den Künstler, einer Galerie der Arbeiten und allen wichtigen Kontaktinformationen.",
+					"problem": "Viele Tattoo-Studios haben veraltete Websites oder verlassen sich nur auf Social Media. Das macht es schwer, einen professionellen Eindruck zu vermitteln und neue Kunden über Google zu finden.",
+					"solution": "Eine moderne SvelteKit-Website mit einer ansprechenden Galerie, die die Kunstwerke präsentiert. Google-Reviews sind direkt eingebunden, und ein einfaches Kontaktformular macht die Buchung leicht. Das Design ist dunkel und edel — passend zur Studio-Ästhetik.",
+					"impact": "Eine professionelle Online-Präsenz, die Neukunden über Google findet und das Studio von der Konkurrenz abhebt. Klare Struktur und schnelle Ladezeiten auf allen Geräten."
+				},
+				"features": [
+					"Responsive Galerie",
+					"Google Reviews Integration",
+					"Kontaktformular",
+					"Dark Mode Design",
+					"SEO-optimiert"
+				],
+				"technologies": ["SvelteKit", "Tailwind CSS", "TypeScript", "Vercel"],
+				"tags": ["Webdesign", "Tattoo", "SvelteKit", "Portfolio", "Local Business"]
+			},
 			"genesys": {
 				"title": "Genesys Cloud",
 				"subtitle": "Enterprise CX",

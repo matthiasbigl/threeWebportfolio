@@ -1,27 +1,27 @@
 {
-  "name": "Matthias Bigl – Webdesign & Webentwicklung Wien/Korneuburg",
-  "short_name": "Matthias Bigl",
-  "description": "Matthias Bigl – Freelance Webdesigner & Full Stack Developer aus Wien/Korneuburg, Österreich. Professionelle Websites, Webshops & interaktive 3D Web-Erlebnisse für KMU und Selbstständige.",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0a0a0f",
-  "theme_color": "#0072ff",
-  "orientation": "portrait-primary",
-  "scope": "/",
-  "lang": "de-AT",
-  "categories": ["business", "web development", "design", "portfolio"],
-  "icons": [
-    {
-      "src": "/favicon.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/favicon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
+	"name": "Matthias Bigl – Webdesign & Webentwicklung Wien/Korneuburg",
+	"short_name": "Matthias Bigl",
+	"description": "Matthias Bigl – Freelance Webdesigner & Full Stack Developer aus Wien/Korneuburg, Österreich. Professionelle Websites, Webshops & interaktive 3D Web-Erlebnisse für KMU und Selbstständige.",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#0a0a0f",
+	"theme_color": "#0072ff",
+	"orientation": "portrait-primary",
+	"scope": "/",
+	"lang": "de-AT",
+	"categories": ["business", "web development", "design", "portfolio"],
+	"icons": [
+		{
+			"src": "/favicon.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "/favicon.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any maskable"
+		}
+	]
 }

@@ -335,6 +335,31 @@
 				"technologies": ["Kotlin", "Jetpack Compose", "Clerk Auth", "Supabase", "Android SDK"],
 				"tags": ["Social Media", "Privacy", "Mobile App", "Android", "Kotlin"]
 			},
+			"free-jazz-tattoo": {
+				"title": "Free Jazz Tattoo",
+				"subtitle": "Tattoo Studio Website",
+				"tagline": "Modern website for a local tattoo studio in Austria — featuring gallery, contact form, and integrated Google Reviews.",
+				"description": "Professional website for a tattoo studio with online gallery, contact form, and Google Reviews integration.",
+				"role": "Designer & Developer",
+				"timeline": "2024 — Present",
+				"type": "Web Design · SvelteKit",
+				"status": "live",
+				"sections": {
+					"context": "Free Jazz Tattoo is a local tattoo studio in Austria. The website serves as a digital business card — with an overview of the artist, a gallery of the work, and all essential contact information.",
+					"problem": "Many tattoo studios have outdated websites or rely solely on social media. This makes it hard to present a professional image and attract new customers through Google.",
+					"solution": "A modern SvelteKit website with an appealing gallery that showcases the artwork. Google Reviews are integrated directly, and a simple contact form makes booking easy. The design is dark and elegant — matching the studio aesthetic.",
+					"impact": "A professional online presence that attracts new customers via Google and sets the studio apart from the competition. Clear structure and fast loading times on all devices."
+				},
+				"features": [
+					"Responsive Gallery",
+					"Google Reviews Integration",
+					"Contact Form",
+					"Dark Mode Design",
+					"SEO Optimized"
+				],
+				"technologies": ["SvelteKit", "Tailwind CSS", "TypeScript", "Vercel"],
+				"tags": ["Web Design", "Tattoo", "SvelteKit", "Portfolio", "Local Business"]
+			},
 			"genesys": {
 				"title": "Genesys Cloud",
 				"subtitle": "Enterprise CX",

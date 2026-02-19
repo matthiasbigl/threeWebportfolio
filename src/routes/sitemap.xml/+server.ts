@@ -5,28 +5,34 @@ const siteUrl = 'https://bigls.net';
 
 /** Escape special XML characters in text content */
 function escXml(s: string): string {
-    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+	return s
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&apos;');
 }
 
 export const GET: RequestHandler = async () => {
-    const lastmod = new Date().toISOString().split('T')[0];
+	const lastmod = new Date().toISOString().split('T')[0];
 
-    const projectUrls = projects
-        .filter(p => !p.isExternal)
-        .map(project => {
-            // Resolve image URL: enhanced imports are Picture objects, others are plain strings
-            let imageUrl: string;
-            if (typeof project.image === 'string') {
-                imageUrl = project.image.startsWith('http') ? project.image : `${siteUrl}/${project.image}`;
-            } else {
-                // Picture object from ?enhanced — grab the first source fallback
-                const src = (project.image as any)?.sources?.avif?.[0]?.src
-                    ?? (project.image as any)?.sources?.webp?.[0]?.src
-                    ?? (project.image as any)?.img?.src
-                    ?? `${siteUrl}/favicon.png`;
-                imageUrl = src.startsWith('http') ? src : `${siteUrl}${src}`;
-            }
-            return `
+	const projectUrls = projects
+		.filter((p) => !p.isExternal)
+		.map((project) => {
+			// Resolve image URL: enhanced imports are Picture objects, others are plain strings
+			let imageUrl: string;
+			if (typeof project.image === 'string') {
+				imageUrl = project.image.startsWith('http') ? project.image : `${siteUrl}/${project.image}`;
+			} else {
+				// Picture object from ?enhanced — grab the first source fallback
+				const src =
+					(project.image as any)?.sources?.avif?.[0]?.src ??
+					(project.image as any)?.sources?.webp?.[0]?.src ??
+					(project.image as any)?.img?.src ??
+					`${siteUrl}/favicon.png`;
+				imageUrl = src.startsWith('http') ? src : `${siteUrl}${src}`;
+			}
+			return `
     <url>
         <loc>${siteUrl}/projects/${project.slug}</loc>
         <lastmod>${lastmod}</lastmod>
@@ -37,11 +43,12 @@ export const GET: RequestHandler = async () => {
             <image:title>${escXml(project.slug.charAt(0).toUpperCase() + project.slug.slice(1))} – Matthias Bigl Portfolio</image:title>
         </image:image>
     </url>`;
-        }).join('');
+		})
+		.join('');
 
-    // Hreflang omitted: site uses client-side i18n with a single URL per page.
-    // Will be re-added after migrating to URL-based i18n (Paraglide).
-    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+	// Hreflang omitted: site uses client-side i18n with a single URL per page.
+	// Will be re-added after migrating to URL-based i18n (Paraglide).
+	const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
@@ -90,10 +97,10 @@ export const GET: RequestHandler = async () => {
     <!-- Project Case Studies -->${projectUrls}
 </urlset>`;
 
-    return new Response(sitemap, {
-        headers: {
-            'Content-Type': 'application/xml',
-            'Cache-Control': 'public, max-age=86400, s-maxage=86400'
-        }
-    });
+	return new Response(sitemap, {
+		headers: {
+			'Content-Type': 'application/xml',
+			'Cache-Control': 'public, max-age=86400, s-maxage=86400'
+		}
+	});
 };

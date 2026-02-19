@@ -5,43 +5,48 @@ This document summarizes all SEO improvements made to the Matthias Bigl Portfoli
 ## ✅ Files Created
 
 ### Static Files (in `/static/`)
-| File | Purpose |
-|------|---------|
-| `robots.txt` | Crawler instructions, sitemap location, AI crawler permissions |
-| `site.webmanifest` | PWA manifest for mobile/app-like experience |
-| `humans.txt` | Human-readable credits and site info |
-| `llms.txt` | AI/LLM discovery file with structured information |
-| `ai.txt` | Machine-readable AI policy file |
+
+| File               | Purpose                                                        |
+| ------------------ | -------------------------------------------------------------- |
+| `robots.txt`       | Crawler instructions, sitemap location, AI crawler permissions |
+| `site.webmanifest` | PWA manifest for mobile/app-like experience                    |
+| `humans.txt`       | Human-readable credits and site info                           |
+| `llms.txt`         | AI/LLM discovery file with structured information              |
+| `ai.txt`           | Machine-readable AI policy file                                |
 
 ### Components (in `/src/lib/components/`)
-| File | Purpose |
-|------|---------|
-| `SEO.svelte` | Reusable SEO component with meta tags, Open Graph, Twitter Cards, and JSON-LD |
-| `Footer.svelte` | SEO-friendly footer with author info, social links, and sitemap link |
+
+| File            | Purpose                                                                       |
+| --------------- | ----------------------------------------------------------------------------- |
+| `SEO.svelte`    | Reusable SEO component with meta tags, Open Graph, Twitter Cards, and JSON-LD |
+| `Footer.svelte` | SEO-friendly footer with author info, social links, and sitemap link          |
 
 ### Routes (in `/src/routes/`)
-| File | Purpose |
-|------|---------|
+
+| File                     | Purpose                        |
+| ------------------------ | ------------------------------ |
 | `sitemap.xml/+server.ts` | Dynamic XML sitemap generation |
 
 ### Config Files
-| File | Purpose |
-|------|---------|
+
+| File                  | Purpose                              |
+| --------------------- | ------------------------------------ |
 | `src/hooks.server.ts` | Security headers and caching for SEO |
 
 ## ✅ Files Modified
 
-| File | Changes |
-|------|---------|
-| `src/app.html` | Enhanced meta tags, favicon, manifest, theme colors, AI discovery links, performance hints |
-| `src/routes/+layout.svelte` | Added SEO component, Footer, improved structure |
-| `src/routes/+page.svelte` | Added SEO component with page-specific keywords |
-| `src/routes/contact/+page.svelte` | Added SEO component, ContactPage structured data |
-| `svelte.config.js` | Added prerender options for sitemap |
+| File                              | Changes                                                                                    |
+| --------------------------------- | ------------------------------------------------------------------------------------------ |
+| `src/app.html`                    | Enhanced meta tags, favicon, manifest, theme colors, AI discovery links, performance hints |
+| `src/routes/+layout.svelte`       | Added SEO component, Footer, improved structure                                            |
+| `src/routes/+page.svelte`         | Added SEO component with page-specific keywords                                            |
+| `src/routes/contact/+page.svelte` | Added SEO component, ContactPage structured data                                           |
+| `svelte.config.js`                | Added prerender options for sitemap                                                        |
 
 ## 🔧 SEO Features Implemented
 
 ### 1. Meta Tags
+
 - ✅ Primary meta tags (title, description, author)
 - ✅ Open Graph tags for Facebook/LinkedIn sharing
 - ✅ Twitter Card tags for Twitter sharing
@@ -51,18 +56,21 @@ This document summarizes all SEO improvements made to the Matthias Bigl Portfoli
 - ✅ Mobile/PWA meta tags
 
 ### 2. Structured Data (JSON-LD)
+
 - ✅ Person schema (your personal info)
 - ✅ WebSite schema (site info with search action)
 - ✅ ProfilePage schema (portfolio page)
 - ✅ ContactPage schema (contact page)
 
 ### 3. AI/LLM Discoverability
+
 - ✅ `llms.txt` - Markdown file for AI systems
 - ✅ `ai.txt` - Machine-readable AI policy
 - ✅ AI meta tags in SEO component
 - ✅ Allowed AI crawlers in robots.txt
 
 ### 4. Technical SEO
+
 - ✅ Dynamic sitemap.xml generation
 - ✅ robots.txt with sitemap reference
 - ✅ Canonical URLs on all pages
@@ -71,6 +79,7 @@ This document summarizes all SEO improvements made to the Matthias Bigl Portfoli
 - ✅ Prerender configuration
 
 ### 5. Social & Branding
+
 - ✅ PWA manifest (site.webmanifest)
 - ✅ Theme color for browser UI
 - ✅ Apple touch icon
@@ -90,6 +99,7 @@ After deploying, complete these external steps:
 ## 🎯 Keywords Strategy
 
 The SEO is optimized to rank for:
+
 - "Matthias Bigl"
 - "Full Stack Developer Austria"
 - "Web Developer Korneuburg"
@@ -105,4 +115,5 @@ The SEO is optimized to rank for:
 - AI discovery files help LLMs accurately reference your portfolio
 
 ---
-*Last Updated: December 2025*
+
+_Last Updated: December 2025_

@@ -21,5 +21,3 @@ export const load: PageLoad = async ({ fetch }) => {
 		article: content
 	};
 };
-
-

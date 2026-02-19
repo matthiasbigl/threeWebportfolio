@@ -145,14 +145,6 @@
 				</a>
 				<div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
 				<a
-					href="/about"
-					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base"
-					style="color: var(--text-primary);"
-				>
-					{$_('nav.about')}
-				</a>
-				<div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
-				<a
 					href="/#services"
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base"
 					style="color: var(--text-primary);"
@@ -166,6 +158,14 @@
 					style="color: var(--text-primary);"
 				>
 					{$_('nav.faq')}
+				</a>
+				<div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
+				<a
+					href="/about"
+					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base"
+					style="color: var(--text-primary);"
+				>
+					{$_('nav.about')}
 				</a>
 				<div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
 				<a
@@ -236,17 +236,6 @@
 					{$_('nav.home')}
 				</button>
 
-				<button
-					class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
-					style="color: var(--text-primary);"
-					onclick={() => {
-						goto('/about');
-						isHamOpen = false;
-					}}
-				>
-					{$_('nav.about')}
-				</button>
-
 				<a
 					href="/#services"
 					class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
@@ -264,6 +253,17 @@
 				>
 					{$_('nav.faq')}
 				</a>
+
+				<button
+					class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
+					style="color: var(--text-primary);"
+					onclick={() => {
+						goto('/about');
+						isHamOpen = false;
+					}}
+				>
+					{$_('nav.about')}
+				</button>
 
 				<button
 					class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
