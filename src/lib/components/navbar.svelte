@@ -96,7 +96,7 @@
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <header
 	bind:this={navbar}
-	class="navbar fixed top-0 left-0 z-50 w-full flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300"
+	class="navbar fixed top-0 left-0 z-50 w-full flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 md:py-2 transition-all duration-300"
 	class:navbar-sub={isSubPage}
 >
 	<div class="w-full max-w-6xl flex items-center justify-between">
@@ -104,7 +104,7 @@
 		<div class="logo-container magnetic-btn shrink-0">
 			<a
 				href="/"
-				class="w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl rounded-xl glass-card glass-card-hover items-center justify-center flex font-bold glow-border"
+				class="w-12 h-12 sm:w-14 sm:h-14 md:w-10 md:h-10 text-lg sm:text-xl md:text-sm rounded-xl glass-card glass-card-hover items-center justify-center flex font-bold glow-border"
 				style="color: var(--text-primary);"
 			>
 				<span class="blue-gradient_text">MB</span>
@@ -134,43 +134,43 @@
 		{:else}
 			<!-- Desktop Navigation (centered) -->
 			<nav
-				class="hidden md:flex items-center justify-center text-center glass-card px-6 lg:px-8 py-3 lg:py-4 font-semibold"
+				class="hidden md:flex items-center justify-center text-center glass-card px-6 lg:px-8 py-2 lg:py-2 font-semibold"
 			>
 				<a
 					href="/"
-					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base"
+					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
 					{$_('nav.home')}
 				</a>
-				<div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
+				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
 					href="/#services"
-					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base"
+					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
 					{$_('nav.services')}
 				</a>
-				<div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
+				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
 					href="/#faq"
-					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base"
+					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
 					{$_('nav.faq')}
 				</a>
-				<div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
+				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
 					href="/about"
-					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base"
+					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
 					{$_('nav.about')}
 				</a>
-				<div class="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
+				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
 					href="/contact"
-					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-4 lg:px-6 py-2 relative overflow-hidden text-sm lg:text-base"
+					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
 					{$_('nav.contact')}

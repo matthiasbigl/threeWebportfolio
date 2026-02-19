@@ -9,6 +9,8 @@
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import CookieConsent from '$lib/components/CookieConsent.svelte';
+	import { cookieConsent } from '$lib/stores/cookieConsent';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -60,6 +62,20 @@
 	});
 </script>
 
+<svelte:head>
+	{#if $cookieConsent.analytics}
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-X2S4GHD32Z"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+			gtag('config', 'G-X2S4GHD32Z', { send_page_view: true });
+		</script>
+	{/if}
+</svelte:head>
+
 <CustomCursor />
 <ScrollProgress />
 
@@ -75,6 +91,7 @@
 	<main class="flex-grow">
 		{@render children?.()}
 	</main>
+	<CookieConsent />
 	{#if !hideFooter}
 		<Footer />
 	{:else}

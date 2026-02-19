@@ -34,13 +34,18 @@
 			e.stopPropagation();
 			toggleDropdown();
 		}}
-		class="flex items-center gap-2 px-3 py-2 rounded-lg glass-card glass-card-hover text-sm font-medium transition-all duration-300 hover:scale-105"
+		class="flex items-center gap-2 md:gap-1.5 px-3 py-2 md:px-2 md:py-1 rounded-lg glass-card glass-card-hover text-sm md:text-xs font-medium transition-all duration-300 hover:scale-105"
 		style="color: var(--text-primary); border: 1px solid var(--border-primary);"
 		aria-label="Change language"
 		title="Change language"
 	>
 		<!-- Globe icon -->
-		<svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+		<svg
+			class="w-4 h-4 md:w-3.5 md:h-3.5 text-blue-400"
+			fill="none"
+			stroke="currentColor"
+			viewBox="0 0 24 24"
+		>
 			<path
 				stroke-linecap="round"
 				stroke-linejoin="round"
@@ -48,7 +53,7 @@
 				d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
 			/>
 		</svg>
-		<span class="text-base">{currentLocale === 'de' ? '🇩🇪' : '🇬🇧'}</span>
+		<span class="text-base md:text-sm">{currentLocale === 'de' ? '🇩🇪' : '🇬🇧'}</span>
 		<span class="text-xs uppercase tracking-wide">{currentLocale}</span>
 		<svg
 			class="w-3 h-3 transition-transform duration-200"

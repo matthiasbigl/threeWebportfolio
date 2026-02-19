@@ -84,6 +84,8 @@
 		}
 	]);
 
+	let hoveredStepIndex = $state(-1);
+
 	const benefitIcons: Record<string, string> = {
 		allInOne: '🛡️',
 		personal: '🤝',
@@ -360,19 +362,19 @@
 		</div>
 
 		<div
-			class="all-in-one-card group relative rounded-2xl lg:rounded-3xl overflow-hidden mb-8 lg:mb-12 border isolate backdrop-blur-md"
+			class="all-in-one-card group relative rounded-2xl lg:rounded-3xl mb-8 lg:mb-12 border isolate backdrop-blur-md"
 			style="border-color: var(--glass-border);"
 		>
 			<div
-				class="absolute inset-0 transition-colors duration-500"
+				class="absolute inset-0 rounded-2xl lg:rounded-3xl overflow-hidden transition-colors duration-500"
 				style="background: var(--glass-bg);"
 			></div>
 			<div
-				class="absolute inset-0 bg-gradient-to-br from-blue-500/15 via-purple-500/10 to-cyan-500/15 opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+				class="absolute inset-0 rounded-2xl lg:rounded-3xl overflow-hidden bg-gradient-to-br from-blue-500/15 via-purple-500/10 to-cyan-500/15 opacity-30 group-hover:opacity-50 transition-opacity duration-500"
 			></div>
 
 			<div
-				class="card-spotlight absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-soft-light"
+				class="card-spotlight absolute inset-0 rounded-2xl lg:rounded-3xl overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-soft-light"
 			></div>
 
 			<div
@@ -417,33 +419,53 @@
 						</div>
 					</div>
 
-					<div class="relative">
+					<div class="relative rounded-lg">
 						<div
-							class="process-flow flex items-stretch gap-1 sm:gap-2 overflow-x-auto pb-1 -mx-1 px-1 sm:-mx-2 sm:px-2"
+							class="process-flow flex items-stretch gap-1 sm:gap-2 overflow-x-auto py-2 -mx-1 px-1 sm:-mx-2 sm:px-2"
 						>
 							{#each processSteps as step, i}
+								{@const isHovered = hoveredStepIndex === i}
+								{@const isNextOfHovered = hoveredStepIndex >= 0 && i === hoveredStepIndex + 1}
+								<!-- svelte-ignore a11y_no_static_element_interactions -->
 								<div
 									class="process-step-item flex-shrink-0 flex-1 min-w-[140px] sm:min-w-[160px] lg:min-w-0 relative group/step"
+									onmouseenter={() => (hoveredStepIndex = i)}
+									onmouseleave={() => (hoveredStepIndex = -1)}
 								>
+									<!-- Step card -->
 									<div
-										class="h-full p-3 sm:p-4 rounded-xl border transition-all duration-300 cursor-default hover:border-blue-500/40"
+										class="process-step-card h-full p-3 sm:p-4 rounded-xl border cursor-default {isHovered
+											? 'step-active'
+											: ''} {isNextOfHovered ? 'step-next-lit' : ''}"
 										style="background: var(--bg-surface); border-color: var(--border-primary);"
 									>
 										<div class="flex items-center gap-2 mb-2">
+											<!-- Number badge -->
 											<div
-												class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-xs font-bold transition-all duration-300 group-hover/step:bg-gradient-to-br group-hover/step:from-blue-500 group-hover/step:to-purple-500 group-hover/step:text-white"
+												class="process-step-number w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-xs font-bold {isHovered
+													? 'step-number-active'
+													: ''} {isNextOfHovered ? 'step-number-next' : ''}"
 												style="background: var(--bg-inset); color: var(--text-heading); border: 1px solid var(--border-secondary);"
 											>
 												{step.number}
 											</div>
+											<!-- Connector arrow -->
 											{#if i < processSteps.length - 1}
-												<div class="hidden lg:flex items-center gap-1 flex-1">
+												<div class="hidden lg:flex items-center gap-1 flex-1 connector-wrapper">
 													<div
-														class="flex-1 h-[2px] rounded-full"
+														class="connector-track flex-1 h-[2px] rounded-full relative overflow-hidden"
 														style="background: var(--border-primary);"
-													></div>
+													>
+														<div
+															class="connector-fill absolute inset-y-0 left-0 rounded-full {isHovered
+																? 'connector-active'
+																: ''}"
+														></div>
+													</div>
 													<svg
-														class="w-3 h-3 flex-shrink-0"
+														class="w-3.5 h-3.5 flex-shrink-0 connector-chevron {isHovered
+															? 'chevron-active'
+															: ''}"
 														style="color: var(--text-tertiary);"
 														fill="currentColor"
 														viewBox="0 0 20 20"
@@ -458,13 +480,17 @@
 											{/if}
 										</div>
 										<h5
-											class="text-xs sm:text-sm font-semibold mb-1 transition-colors duration-300 group-hover/step:text-blue-400"
+											class="process-step-title text-xs sm:text-sm font-semibold mb-1 {isHovered
+												? 'step-title-active'
+												: ''} {isNextOfHovered ? 'step-title-next' : ''}"
 											style="color: var(--text-heading);"
 										>
 											{step.title}
 										</h5>
 										<p
-											class="text-[10px] sm:text-xs leading-relaxed"
+											class="text-[10px] sm:text-xs leading-relaxed process-step-desc {isNextOfHovered
+												? 'step-desc-next'
+												: ''}"
 											style="color: var(--text-tertiary);"
 										>
 											{step.desc}
@@ -680,6 +706,174 @@
 
 	.process-step-item {
 		scroll-snap-align: start;
+	}
+
+	/* ═══════════════════════════════════════════════
+	   Process Step Card — base transitions
+	   ═══════════════════════════════════════════════ */
+	.process-step-card {
+		transition:
+			border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+			box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+			background 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+			transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.process-step-number {
+		transition:
+			background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+			color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+			border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+			box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+			transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.process-step-title {
+		transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.process-step-desc {
+		transition: color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* ═══════════════════════════════════════════════
+	   HOVERED step — glowing blue border, elevated
+	   ═══════════════════════════════════════════════ */
+	.step-active {
+		border-color: rgb(59 130 246 / 0.5) !important;
+		box-shadow:
+			0 0 20px rgb(59 130 246 / 0.1),
+			inset 0 1px 0 rgb(255 255 255 / 0.05);
+	}
+
+	.step-number-active {
+		background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
+		color: white !important;
+		border-color: transparent !important;
+		box-shadow: 0 0 14px rgb(59 130 246 / 0.35);
+		transform: scale(1.08);
+	}
+
+	.step-title-active {
+		color: #60a5fa !important;
+	}
+
+	/* ═══════════════════════════════════════════════
+	   Connector: animated fill line + pulsing chevron
+	   ═══════════════════════════════════════════════ */
+	.connector-fill {
+		width: 0%;
+		background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+		height: 100%;
+		transition: width 0.01s;
+		border-radius: inherit;
+	}
+
+	.connector-fill.connector-active {
+		width: 100%;
+		transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+		box-shadow: 0 0 8px rgb(59 130 246 / 0.4);
+	}
+
+	.connector-chevron {
+		transition:
+			color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+			transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+			filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.connector-chevron.chevron-active {
+		color: #60a5fa !important;
+		animation: chevron-pulse 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+		filter: drop-shadow(0 0 4px rgb(59 130 246 / 0.5));
+	}
+
+	@keyframes chevron-pulse {
+		0%,
+		100% {
+			transform: translateX(0px);
+			opacity: 1;
+		}
+		50% {
+			transform: translateX(3px);
+			opacity: 0.7;
+		}
+	}
+
+	/* ═══════════════════════════════════════════════
+	   NEXT STEP (n+1) — full illumination
+	   ═══════════════════════════════════════════════ */
+	.step-next-lit {
+		border-color: rgb(59 130 246 / 0.35) !important;
+		background: linear-gradient(
+			135deg,
+			rgb(59 130 246 / 0.08),
+			rgb(139 92 246 / 0.06),
+			transparent
+		) !important;
+		box-shadow:
+			0 0 30px rgb(59 130 246 / 0.12),
+			0 0 60px rgb(139 92 246 / 0.06),
+			inset 0 1px 0 rgb(255 255 255 / 0.06);
+		transform: scale(1.02);
+		animation: next-step-glow 2s ease-in-out infinite;
+	}
+
+	@keyframes next-step-glow {
+		0%,
+		100% {
+			box-shadow:
+				0 0 30px rgb(59 130 246 / 0.12),
+				0 0 60px rgb(139 92 246 / 0.06),
+				inset 0 1px 0 rgb(255 255 255 / 0.06);
+		}
+		50% {
+			box-shadow:
+				0 0 35px rgb(59 130 246 / 0.18),
+				0 0 70px rgb(139 92 246 / 0.1),
+				inset 0 1px 0 rgb(255 255 255 / 0.08);
+		}
+	}
+
+	.step-number-next {
+		background: linear-gradient(135deg, rgb(59 130 246 / 0.8), rgb(168 85 247 / 0.8)) !important;
+		color: white !important;
+		border-color: transparent !important;
+		box-shadow:
+			0 0 16px rgb(59 130 246 / 0.35),
+			0 0 32px rgb(139 92 246 / 0.15);
+		transform: scale(1.1);
+	}
+
+	.step-title-next {
+		color: #93c5fd !important;
+	}
+
+	.step-desc-next {
+		color: var(--text-secondary) !important;
+	}
+
+	/* ═══════════════════════════════════════════════
+	   Reduced motion
+	   ═══════════════════════════════════════════════ */
+	@media (prefers-reduced-motion: reduce) {
+		.connector-fill.connector-active {
+			transition: width 0.01s;
+		}
+		.connector-chevron.chevron-active {
+			animation: none;
+		}
+		.step-next-lit {
+			animation: none;
+			transform: none;
+		}
+		.step-number-active,
+		.step-number-next {
+			transform: none;
+		}
+		.step-active {
+			transform: none;
+		}
 	}
 
 	@media (max-width: 767px) {

@@ -578,6 +578,13 @@
 		"analytics": "Google Analytics",
 		"analyticsText": "Diese Website nutzt Google Analytics zur Analyse des Nutzerverhaltens. Die Daten werden anonymisiert verarbeitet."
 	},
+	"cookies": {
+		"message": "Diese Website verwendet Cookies zur Analyse und Verbesserung der Nutzung. Sie entscheiden: Opt-in für Google Analytics.",
+		"accept": "Akzeptieren",
+		"reject": "Ablehnen",
+		"learnMore": "Mehr erfahren",
+		"bannerAria": "Cookie-Einwilligung"
+	},
 	"a11y": {
 		"avatarAlt": "Porträtfoto von Matthias Bigl – Webdesigner & Full Stack Developer aus Wien, Österreich",
 		"loading": "Wird geladen",

@@ -579,6 +579,13 @@
 		"analytics": "Google Analytics",
 		"analyticsText": "This website uses Google Analytics to analyze user behavior. The data is processed anonymously."
 	},
+	"cookies": {
+		"message": "This website uses cookies to analyze and improve usage. You decide: Opt-in for Google Analytics.",
+		"accept": "Accept",
+		"reject": "Decline",
+		"learnMore": "Learn more",
+		"bannerAria": "Cookie consent"
+	},
 	"a11y": {
 		"avatarAlt": "Portrait photo of Matthias Bigl – Web Designer & Full Stack Developer from Vienna, Austria",
 		"loading": "Loading",
