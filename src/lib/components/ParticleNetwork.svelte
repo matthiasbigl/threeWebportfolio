@@ -27,7 +27,7 @@
 	}: Props = $props();
 
 	let canvas: HTMLCanvasElement;
-	let animationId: number;
+	let animationId: number = 0;
 
 	onMount(() => {
 		if (!browser) return;
@@ -42,6 +42,8 @@
 		let w = 0;
 		let h = 0;
 		let isMobile = false;
+		let isVisible = true;
+		let resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
 		const checkMobile = () => {
 			isMobile =
@@ -75,27 +77,55 @@
 		}
 
 		function createParticles() {
+			const oldParticles = particles;
 			particles = [];
 			const area = w * h;
 			const mobileScale = isMobile ? 0.6 : 1;
 			const scaledCount = Math.min(count, Math.floor((area / 12000) * mobileScale));
 
 			for (let i = 0; i < scaledCount; i++) {
-				const angle = Math.random() * Math.PI * 2;
-				const s = (Math.random() * 0.5 + 0.5) * speed;
-				particles.push({
-					x: Math.random() * w,
-					y: Math.random() * h,
-					vx: Math.cos(angle) * s,
-					vy: Math.sin(angle) * s,
-					r: radius[0] + Math.random() * (radius[1] - radius[0]),
-					baseAlpha: 0.15 + Math.random() * 0.35
-				});
+				// Reuse existing particle positions when possible to avoid visual jumps
+				if (i < oldParticles.length) {
+					const old = oldParticles[i];
+					particles.push({
+						x: Math.min(old.x, w),
+						y: Math.min(old.y, h),
+						vx: old.vx,
+						vy: old.vy,
+						r: old.r,
+						baseAlpha: old.baseAlpha
+					});
+				} else {
+					const angle = Math.random() * Math.PI * 2;
+					const s = (Math.random() * 0.5 + 0.5) * speed;
+					particles.push({
+						x: Math.random() * w,
+						y: Math.random() * h,
+						vx: Math.cos(angle) * s,
+						vy: Math.sin(angle) * s,
+						r: radius[0] + Math.random() * (radius[1] - radius[0]),
+						baseAlpha: 0.15 + Math.random() * 0.35
+					});
+				}
+			}
+		}
+
+		function startAnimation() {
+			if (!animationId && isVisible) {
+				animationId = requestAnimationFrame(draw);
+			}
+		}
+
+		function stopAnimation() {
+			if (animationId) {
+				cancelAnimationFrame(animationId);
+				animationId = 0;
 			}
 		}
 
 		function draw() {
-			if (!ctx) return;
+			animationId = 0;
+			if (!ctx || !isVisible) return;
 			ctx.clearRect(0, 0, w, h);
 
 			const dark = isDark();
@@ -198,17 +228,40 @@
 			mouse.y = -9999;
 		}
 
+		/** Debounced resize — avoids particle re-creation thrashing from mobile address bar */
 		function onResize() {
 			checkMobile();
 			resize();
-			createParticles();
+			if (resizeTimer) clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
+				createParticles();
+			}, 150);
 		}
+
+		// IntersectionObserver: pause animation when canvas is off-screen
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				isVisible = entry.isIntersecting;
+				if (isVisible) {
+					startAnimation();
+				} else {
+					stopAnimation();
+				}
+			},
+			{ threshold: 0 }
+		);
+		observer.observe(canvas);
 
 		resize();
 		createParticles();
-		draw();
+		startAnimation();
 
 		window.addEventListener('resize', onResize);
+
+		// Listen to visualViewport resize for mobile address bar changes
+		if (window.visualViewport) {
+			window.visualViewport.addEventListener('resize', onResize);
+		}
 
 		if (interactive && !isMobile) {
 			canvas.addEventListener('mousemove', onMouseMove);
@@ -216,8 +269,13 @@
 		}
 
 		return () => {
-			cancelAnimationFrame(animationId);
+			stopAnimation();
+			observer.disconnect();
 			window.removeEventListener('resize', onResize);
+			if (window.visualViewport) {
+				window.visualViewport.removeEventListener('resize', onResize);
+			}
+			if (resizeTimer) clearTimeout(resizeTimer);
 			if (interactive) {
 				canvas.removeEventListener('mousemove', onMouseMove);
 				canvas.removeEventListener('mouseleave', onMouseLeave);

@@ -263,7 +263,7 @@
 
 	<section
 		id="hero"
-		class="relative min-h-screen flex items-center overflow-hidden py-20 sm:py-24 lg:py-32"
+		class="relative min-h-dvh flex items-center overflow-hidden py-20 sm:py-24 lg:py-32"
 	>
 		<div class="absolute inset-0 z-0">
 			<div

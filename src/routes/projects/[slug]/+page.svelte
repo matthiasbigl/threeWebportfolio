@@ -251,7 +251,7 @@
 <ScrollProgress />
 
 <article
-	class="project-detail-page relative min-h-screen overflow-hidden selection:bg-blue-500/20"
+	class="project-detail-page relative min-h-dvh overflow-hidden selection:bg-blue-500/20"
 	style="background: var(--bg-body); color: var(--text-primary);"
 >
 	<!-- Atmospheric layers -->

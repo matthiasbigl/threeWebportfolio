@@ -289,7 +289,7 @@ body:has(.card[data-color='green']:hover) {
 
 @layer utilities {
 	.max-container {
-		@apply max-w-5xl mx-auto sm:p-16 pb-12 !pt-[126px] px-8 min-h-[calc(100vh-80px)];
+		@apply max-w-5xl mx-auto sm:p-16 pb-12 !pt-[126px] px-8 min-h-[calc(100dvh-80px)];
 	}
 
 	.head-text {
@@ -642,7 +642,7 @@ body:has(.card[data-color='green']:hover) {
 }
 
 .hero-section {
-	min-height: 100vh;
+	min-height: 100dvh;
 	background:
 		radial-gradient(ellipse at center, var(--hero-glow) 0%, transparent 70%), var(--hero-bg);
 	position: relative;
@@ -729,7 +729,7 @@ body:has(.card[data-color='green']:hover) {
 /* Mobile-specific improvements */
 @media (max-width: 640px) {
 	.hero-section {
-		min-height: calc(100vh - 4rem);
+		min-height: calc(100dvh - 4rem);
 		padding-top: 2rem;
 	}
 

@@ -67,7 +67,7 @@
 <LoadingSpinner visible={$isLoading} fullscreen />
 
 <div
-	class="relative min-h-screen flex flex-col transition-colors duration-300"
+	class="relative min-h-dvh flex flex-col transition-colors duration-300"
 	style="background: var(--bg-body);"
 	data-reduced-motion={$reducedMotion}
 >

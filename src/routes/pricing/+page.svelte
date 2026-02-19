@@ -72,7 +72,7 @@
 />
 
 <div
-	class="min-h-screen selection:bg-blue-500/20 relative overflow-hidden"
+	class="min-h-dvh selection:bg-blue-500/20 relative overflow-hidden"
 	style="background: var(--bg-body); color: var(--text-primary);"
 >
 	<!-- Background Effects -->

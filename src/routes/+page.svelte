@@ -376,7 +376,7 @@
 
 	<section
 		id="hero"
-		class="relative min-h-screen flex items-start sm:items-center overflow-hidden pb-16 pt-24 sm:pt-20 sm:pb-28"
+		class="relative min-h-dvh flex items-start sm:items-center overflow-hidden pb-16 pt-24 sm:pt-20 sm:pb-28"
 	>
 		<!-- Background: particle network + subtle radial glow -->
 		<div class="absolute inset-0 z-0">

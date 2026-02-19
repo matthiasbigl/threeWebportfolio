@@ -178,7 +178,7 @@
 <CustomCursor />
 <ScrollProgress />
 
-<div class="relative min-h-screen overflow-hidden pt-16 sm:pt-20">
+<div class="relative min-h-dvh overflow-hidden pt-16 sm:pt-20">
 	<!-- Background Elements -->
 	<div class="fixed inset-0 z-0">
 		<div class="aurora-bg w-full h-full"></div>

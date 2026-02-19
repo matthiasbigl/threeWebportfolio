@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { _, locale } from 'svelte-i18n';
+	import { _, locale, json } from 'svelte-i18n';
 	import Button from './Button.svelte';
 
 	const processSteps = $derived([
@@ -43,7 +43,7 @@
 			icon: '🌐',
 			title: $_('services.items.fullstack.title'),
 			description: $_('services.items.fullstack.description'),
-			features: $_('services.items.fullstack.features') as unknown as string[],
+			features: $json('services.items.fullstack.features') as string[],
 			gradient: 'from-blue-500/10 via-cyan-500/10 to-blue-600/10',
 			border: 'group-hover:border-blue-500/50',
 			colSpan: 'md:col-span-3 lg:col-span-3',
@@ -54,7 +54,7 @@
 			icon: '🛒',
 			title: $_('services.items.webshops.title'),
 			description: $_('services.items.webshops.description'),
-			features: $_('services.items.webshops.features') as unknown as string[],
+			features: $json('services.items.webshops.features') as string[],
 			gradient: 'from-purple-500/10 via-pink-500/10 to-purple-600/10',
 			border: 'group-hover:border-purple-500/50',
 			colSpan: 'md:col-span-3 lg:col-span-3',
@@ -65,10 +65,10 @@
 			icon: '📈',
 			title: $_('services.items.seo.title'),
 			description: $_('services.items.seo.description'),
-			features: $_('services.items.seo.features') as unknown as string[],
+			features: $json('services.items.seo.features') as string[],
 			gradient: 'from-orange-500/10 via-amber-500/10 to-orange-600/10',
 			border: 'group-hover:border-orange-500/50',
-			colSpan: 'md:col-span-4',
+			colSpan: 'md:col-span-2',
 			delay: 0.2
 		},
 		{
@@ -76,10 +76,10 @@
 			icon: '✨',
 			title: $_('services.items.experiences.title'),
 			description: $_('services.items.experiences.description'),
-			features: $_('services.items.experiences.features') as unknown as string[],
+			features: $json('services.items.experiences.features') as string[],
 			gradient: 'from-emerald-500/10 via-teal-500/10 to-emerald-600/10',
 			border: 'group-hover:border-emerald-500/50',
-			colSpan: 'md:col-span-2',
+			colSpan: 'md:col-span-4',
 			delay: 0.3
 		}
 	]);
@@ -406,7 +406,7 @@
 						</div>
 
 						<div class="flex flex-wrap gap-1.5 sm:gap-2 sm:justify-end">
-							{#each $_('services.allInOne.features') as feature}
+							{#each $json('services.allInOne.features') as string[] as feature}
 								<span
 									class="px-2.5 py-1 text-xs font-medium rounded-full transition-all duration-300"
 									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
