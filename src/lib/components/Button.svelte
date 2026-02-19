@@ -24,11 +24,24 @@
 	}: Props = $props();
 
 	let element = $state<HTMLElement>();
+	let ripples = $state<{ id: number; x: number; y: number; size: number }[]>([]);
+	let rippleId = 0;
+
+	function createRipple(e: MouseEvent) {
+		if (!element || disabled) return;
+		const rect = element.getBoundingClientRect();
+		const x = e.clientX - rect.left;
+		const y = e.clientY - rect.top;
+		const size = Math.max(rect.width, rect.height) * 2;
+		ripples = [...ripples, { id: rippleId++, x, y, size }];
+		setTimeout(() => {
+			ripples = ripples.filter((r) => r.id !== rippleId - 1);
+		}, 600);
+	}
 
 	onMount(async () => {
 		if (!element) return;
 
-		// Lazy-load GSAP for magnetic hover effect
 		const { gsap } = await import('gsap');
 
 		const handleMouseEnter = (e: Event) => {
@@ -58,12 +71,14 @@
 		element.addEventListener('mouseenter', handleMouseEnter);
 		element.addEventListener('mouseleave', handleMouseLeave);
 		element.addEventListener('mousemove', handleMouseMove);
+		element.addEventListener('click', createRipple);
 
 		return () => {
 			if (element) {
 				element.removeEventListener('mouseenter', handleMouseEnter);
 				element.removeEventListener('mouseleave', handleMouseLeave);
 				element.removeEventListener('mousemove', handleMouseMove);
+				element.removeEventListener('click', createRipple);
 			}
 		};
 	});
@@ -71,14 +86,14 @@
 	const baseClasses =
 		'magnetic-btn px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg font-bold text-center rounded-2xl transition-all duration-300 inline-flex items-center justify-center gap-2';
 
-	// Apply text color via inline style for theme support
 	const baseStyle = variant === 'inverted' ? '' : `color: var(--text-heading);`;
 
 	const variants: Record<string, string> = {
 		primary:
 			'glass-card shadow-lg shadow-blue-500/10 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-500/25 hover:border-blue-500/40 hover:shadow-blue-500/20',
 		secondary: 'glass-card glass-card-hover border hover:border-white/15',
-		inverted: 'bg-white text-slate-900 shadow-xl shadow-black/15 hover:bg-blue-50 hover:shadow-2xl hover:-translate-y-0.5'
+		inverted:
+			'bg-white text-slate-900 shadow-xl shadow-black/15 hover:bg-blue-50 hover:shadow-2xl hover:-translate-y-0.5'
 	};
 </script>
 
@@ -93,6 +108,12 @@
 		{onclick}
 	>
 		{@render children?.()}
+		{#each ripples as ripple}
+			<span
+				class="ripple-effect"
+				style="left: {ripple.x}px; top: {ripple.y}px; width: {ripple.size}px; height: {ripple.size}px;"
+			></span>
+		{/each}
 	</a>
 {:else}
 	<button
@@ -106,5 +127,36 @@
 		{disabled}
 	>
 		{@render children?.()}
+		{#each ripples as ripple}
+			<span
+				class="ripple-effect"
+				style="left: {ripple.x}px; top: {ripple.y}px; width: {ripple.size}px; height: {ripple.size}px;"
+			></span>
+		{/each}
 	</button>
 {/if}
+
+<style>
+	.ripple-effect {
+		position: absolute;
+		border-radius: 50%;
+		background: rgba(59, 130, 246, 0.25);
+		transform: translate(-50%, -50%) scale(0);
+		animation: ripple-animation 0.6s ease-out forwards;
+		pointer-events: none;
+	}
+
+	@keyframes ripple-animation {
+		to {
+			transform: translate(-50%, -50%) scale(1);
+			opacity: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ripple-effect {
+			animation: none;
+			display: none;
+		}
+	}
+</style>

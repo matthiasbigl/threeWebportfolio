@@ -90,8 +90,9 @@
 					}}
 				>
 					<summary
-						class="px-5 sm:px-6 py-4 sm:py-5 text-left flex items-center justify-between gap-4 hover:bg-white/[0.02] transition-colors duration-300 cursor-pointer list-none [&::-webkit-details-marker]:hidden"
+						class="px-5 sm:px-6 py-4 sm:py-5 text-left flex items-center justify-between gap-4 hover:bg-white/[0.02] transition-all duration-300 cursor-pointer list-none [&::-webkit-details-marker]:hidden"
 					>
+						<div class="faq-item-highlight"></div>
 						<div class="flex items-center gap-3 sm:gap-4 min-w-0">
 							<span
 								class="text-xs font-bold text-blue-500/60 font-poppins flex-shrink-0 tabular-nums w-6 text-right"
@@ -178,16 +179,43 @@
 		border: 1px solid var(--faq-border);
 		transition:
 			border-color 0.3s ease,
-			background 0.3s ease;
+			background 0.3s ease,
+			box-shadow 0.3s ease,
+			transform 0.3s ease;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.faq-item-highlight {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 3px;
+		background: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 100%);
+		transform: scaleY(0);
+		transform-origin: top;
+		transition: transform 0.3s ease;
+		border-radius: 0 2px 2px 0;
+	}
+
+	.faq-item[open] .faq-item-highlight {
+		transform: scaleY(1);
 	}
 
 	.faq-item:hover {
 		background: var(--faq-bg-hover);
 		border-color: var(--glass-border-hover);
+		box-shadow: 0 4px 20px -4px rgba(59, 130, 246, 0.08);
+		transform: translateY(-1px);
 	}
 
 	.faq-item[open] {
 		border-color: var(--faq-open-border);
 		background: var(--faq-open-bg);
+		box-shadow:
+			0 8px 32px -8px rgba(59, 130, 246, 0.12),
+			0 0 0 1px rgba(59, 130, 246, 0.08);
+		transform: translateY(-2px);
 	}
 </style>

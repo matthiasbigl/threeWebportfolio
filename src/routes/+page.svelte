@@ -429,9 +429,11 @@
 					<div class="flex flex-wrap gap-2 sm:gap-3 max-w-4xl" style="perspective: 1000px;">
 						{#each heroServices as service}
 							<div
-								class="service-pill group relative flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer transition-colors duration-300 sm:hover:translate-y-[-2px]"
+								class="service-pill group relative flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer transition-all duration-300 sm:hover:translate-y-[-2px]"
 								style="background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(12px); transform-style: preserve-3d;"
 							>
+								<div class="service-pill-shimmer"></div>
+								<div class="service-pill-glow"></div>
 								<span
 									class="text-lg sm:text-xl group-hover:scale-110 transition-transform duration-300"
 								>
@@ -525,9 +527,10 @@
 						<div class="flex flex-wrap gap-3 mb-8">
 							{#each aboutDifferentiators as diff}
 								<div
-									class="about-pill inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full transition-all duration-300 hover:translate-y-[-2px]"
+									class="about-pill inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full transition-all duration-300 hover:translate-y-[-2px] cursor-pointer"
 									style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
 								>
+									<div class="about-pill-glow"></div>
 									<span class="text-base">{diff.icon}</span>
 									<span class="text-sm font-medium" style="color: var(--text-secondary);"
 										>{diff.title}</span
@@ -670,14 +673,99 @@
 		);
 	}
 
+	.service-pill {
+		transform-style: preserve-3d;
+		will-change: transform;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.service-pill-shimmer {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			90deg,
+			transparent 0%,
+			rgba(59, 130, 246, 0.08) 25%,
+			rgba(139, 92, 246, 0.06) 50%,
+			rgba(59, 130, 246, 0.08) 75%,
+			transparent 100%
+		);
+		background-size: 200% 100%;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+		pointer-events: none;
+		border-radius: inherit;
+	}
+
+	.service-pill:hover .service-pill-shimmer {
+		opacity: 1;
+		animation: shimmer-slide 1.5s ease-in-out infinite;
+	}
+
+	.service-pill-glow {
+		position: absolute;
+		inset: -1px;
+		border-radius: inherit;
+		padding: 1px;
+		background: linear-gradient(
+			135deg,
+			rgba(59, 130, 246, 0.3),
+			rgba(139, 92, 246, 0.2),
+			rgba(59, 130, 246, 0.3)
+		);
+		mask:
+			linear-gradient(#fff 0 0) content-box,
+			linear-gradient(#fff 0 0);
+		mask-composite: exclude;
+		opacity: 0;
+		transition: opacity 0.4s ease;
+		pointer-events: none;
+	}
+
+	.service-pill:hover .service-pill-glow {
+		opacity: 1;
+	}
+
+	.service-pill:hover {
+		box-shadow: 0 8px 24px -8px rgba(59, 130, 246, 0.12);
+	}
+
+	@keyframes shimmer-slide {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
+	}
+
 	.about-pill {
 		transform-style: preserve-3d;
 		will-change: transform;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.about-pill-glow {
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+		opacity: 0;
+		transition: opacity 0.4s ease;
+		pointer-events: none;
+	}
+
+	.about-pill:hover .about-pill-glow {
+		opacity: 1;
 	}
 
 	.about-pill:hover {
 		border-color: var(--border-accent);
-		box-shadow: 0 8px 24px -8px rgba(59, 130, 246, 0.15);
+		box-shadow:
+			0 8px 24px -8px rgba(59, 130, 246, 0.15),
+			0 0 0 1px rgba(59, 130, 246, 0.1);
 	}
 
 	.line-clamp-2 {

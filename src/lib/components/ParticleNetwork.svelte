@@ -11,7 +11,7 @@
 		speed?: number;
 		/** Particle radius range [min, max] */
 		radius?: [number, number];
-		/** Whether mouse interaction is enabled */
+		/** Whether mouse interaction is enabled (desktop only) */
 		interactive?: boolean;
 		/** Mouse attraction radius */
 		mouseRadius?: number;
@@ -32,7 +32,6 @@
 	onMount(() => {
 		if (!browser) return;
 
-		// Respect reduced motion
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
 		const ctx = canvas.getContext('2d');
@@ -42,12 +41,13 @@
 		let mouse = { x: -9999, y: -9999 };
 		let w = 0;
 		let h = 0;
-		let isTouchDevice = false;
+		let isMobile = false;
 
-		// Detect if device supports touch
-		if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-			isTouchDevice = true;
-		}
+		const checkMobile = () => {
+			isMobile =
+				window.innerWidth < 768 || ('ontouchstart' in window && navigator.maxTouchPoints > 0);
+		};
+		checkMobile();
 
 		interface Particle {
 			x: number;
@@ -76,9 +76,9 @@
 
 		function createParticles() {
 			particles = [];
-			// Scale count to canvas size so density stays consistent
 			const area = w * h;
-			const scaledCount = Math.min(count, Math.floor(area / 12000));
+			const mobileScale = isMobile ? 0.6 : 1;
+			const scaledCount = Math.min(count, Math.floor((area / 12000) * mobileScale));
 
 			for (let i = 0; i < scaledCount; i++) {
 				const angle = Math.random() * Math.PI * 2;
@@ -102,20 +102,17 @@
 			const dotColor = dark ? [255, 255, 255] : [15, 23, 42];
 			const lineColor = dark ? [59, 130, 246] : [59, 130, 246];
 
-			// Update positions
 			for (const p of particles) {
 				p.x += p.vx;
 				p.y += p.vy;
 
-				// Wrap around edges with padding
 				if (p.x < -10) p.x = w + 10;
 				if (p.x > w + 10) p.x = -10;
 				if (p.y < -10) p.y = h + 10;
 				if (p.y > h + 10) p.y = -10;
 			}
 
-			// Mouse interaction — gently push nearby particles
-			if (interactive && mouse.x > -9000) {
+			if (interactive && !isMobile && mouse.x > -9000) {
 				for (const p of particles) {
 					const dx = p.x - mouse.x;
 					const dy = p.y - mouse.y;
@@ -125,7 +122,6 @@
 						p.vx += (dx / dist) * force;
 						p.vy += (dy / dist) * force - 0.006;
 					}
-					// Dampen velocity so particles don't fly off
 					const currentSpeed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
 					const maxSpeed = speed * 1.5;
 					if (currentSpeed > maxSpeed) {
@@ -135,7 +131,6 @@
 				}
 			}
 
-			// Draw connections
 			const cd2 = connectionDistance * connectionDistance;
 			for (let i = 0; i < particles.length; i++) {
 				for (let j = i + 1; j < particles.length; j++) {
@@ -154,8 +149,7 @@
 				}
 			}
 
-			// Draw mouse connections
-			if (interactive && mouse.x > -9000) {
+			if (interactive && !isMobile && mouse.x > -9000) {
 				for (const p of particles) {
 					const dx = p.x - mouse.x;
 					const dy = p.y - mouse.y;
@@ -173,10 +167,9 @@
 				}
 			}
 
-			// Draw particles
 			for (const p of particles) {
 				let alpha = p.baseAlpha;
-				if (interactive && mouse.x > -9000) {
+				if (interactive && !isMobile && mouse.x > -9000) {
 					const dx = p.x - mouse.x;
 					const dy = p.y - mouse.y;
 					const d2 = dx * dx + dy * dy;
@@ -205,55 +198,29 @@
 			mouse.y = -9999;
 		}
 
-		function onTouchMove(e: TouchEvent) {
-			// Track single touch for particle interaction
-			if (e.touches.length === 1) {
-				const touch = e.touches[0];
-				const rect = canvas.getBoundingClientRect();
-				mouse.x = touch.clientX - rect.left;
-				mouse.y = touch.clientY - rect.top;
-			}
-		}
-
-		function onTouchEnd() {
-			mouse.x = -9999;
-			mouse.y = -9999;
+		function onResize() {
+			checkMobile();
+			resize();
+			createParticles();
 		}
 
 		resize();
 		createParticles();
 		draw();
 
-		window.addEventListener('resize', () => {
-			resize();
-			createParticles();
-		});
+		window.addEventListener('resize', onResize);
 
-		if (interactive) {
-			if (isTouchDevice) {
-				// On touch devices, use touch events (passive allows scrolling)
-				canvas.addEventListener('touchmove', onTouchMove, { passive: true });
-				canvas.addEventListener('touchend', onTouchEnd);
-				canvas.addEventListener('touchcancel', onTouchEnd);
-			} else {
-				// On desktop, use mouse events
-				canvas.addEventListener('mousemove', onMouseMove);
-				canvas.addEventListener('mouseleave', onMouseLeave);
-			}
+		if (interactive && !isMobile) {
+			canvas.addEventListener('mousemove', onMouseMove);
+			canvas.addEventListener('mouseleave', onMouseLeave);
 		}
 
 		return () => {
 			cancelAnimationFrame(animationId);
-			window.removeEventListener('resize', resize);
+			window.removeEventListener('resize', onResize);
 			if (interactive) {
-				if (isTouchDevice) {
-					canvas.removeEventListener('touchmove', onTouchMove);
-					canvas.removeEventListener('touchend', onTouchEnd);
-					canvas.removeEventListener('touchcancel', onTouchEnd);
-				} else {
-					canvas.removeEventListener('mousemove', onMouseMove);
-					canvas.removeEventListener('mouseleave', onMouseLeave);
-				}
+				canvas.removeEventListener('mousemove', onMouseMove);
+				canvas.removeEventListener('mouseleave', onMouseLeave);
 			}
 		};
 	});
@@ -261,7 +228,7 @@
 
 <canvas
 	bind:this={canvas}
-	class="absolute inset-0 w-full h-full touch-none"
-	style="pointer-events: {interactive ? 'auto' : 'none'};"
+	class="absolute inset-0 w-full h-full"
+	style="pointer-events: none;"
 	aria-hidden="true"
 ></canvas>
