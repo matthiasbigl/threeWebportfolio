@@ -1,6 +1,6 @@
 <script lang="ts">
-import { goto } from '$app/navigation';
-import { locales, getLocale, localizeHref } from '$lib/paraglide/runtime.js';
+import { locales, getLocale, setLocale } from '$lib/paraglide/runtime.js';
+import type { Locale } from '$lib/paraglide/runtime.js';
 import * as m from '$lib/paraglide/messages.js';
 
 let isOpen = $state(false);
@@ -19,11 +19,9 @@ en: () => m['language.en'](),
 cs: () => m['language.cs']()
 };
 
-function handleLocaleChange(lang: string) {
-if (typeof window !== 'undefined') {
-goto(localizeHref(window.location.pathname, { locale: lang as 'de' | 'en' | 'cs' }));
-}
-isOpen = false;
+function handleLocaleChange(lang: Locale) {
+	setLocale(lang);
+	isOpen = false;
 }
 
 function toggleDropdown() {
