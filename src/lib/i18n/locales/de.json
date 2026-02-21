@@ -611,7 +611,8 @@
 	},
 	"language": {
 		"de": "Deutsch",
-		"en": "English"
+		"en": "English",
+		"cs": "Čeština"
 	},
 	"pricing": {
 		"navTitle": "Preis-Guide 2026",
