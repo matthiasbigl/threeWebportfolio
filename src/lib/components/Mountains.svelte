@@ -48,10 +48,13 @@
 			if (!canvasContainer) return;
 
 			let cleanupFn: (() => void) | undefined;
+			let destroyed = false;
 
 			(async () => {
 			// Dynamically import Three.js to keep it out of the main chunk
 			const THREE = await import('three');
+
+			if (destroyed) return;
 
 			scene = new THREE.Scene();
 
@@ -220,7 +223,10 @@
 			};
 			})().then(fn => { cleanupFn = fn; });
 
-			return () => cleanupFn?.();
+			return () => {
+				destroyed = true;
+				cleanupFn?.();
+			};
 		});
 
 		const animate = (timestamp: number) => {

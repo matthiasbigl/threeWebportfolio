@@ -42,7 +42,7 @@
 		{ name: $t('footer.services.websites'), href: `/${lang}/#services` },
 		{ name: $t('footer.services.webshops'), href: `/${lang}/#services` },
 		{ name: $t('footer.services.experiences'), href: `/${lang}/#services` },
-		{ name: $t('footer.services.hosting'), href: '/#services' }
+		{ name: $t('footer.services.hosting'), href: `/${lang}/#services` }
 	]);
 </script>
 
