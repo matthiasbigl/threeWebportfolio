@@ -1,11 +1,19 @@
 import type { Handle } from '@sveltejs/kit';
-import { paraglideMiddleware } from '$lib/paraglide/server.js';
+import { paraglideMiddleware } from '$lib/paraglide/server';
 
-const i18nHandle: Handle = ({ event, resolve }) =>
-	paraglideMiddleware(event.request, ({ request }) => resolve({ ...event, request }));
+// creating a handle to use the paraglide middleware
+const paraglideHandle: Handle = ({ event, resolve }) =>
+	paraglideMiddleware(event.request, ({ request: localizedRequest, locale }) => {
+		event.request = localizedRequest;
+		return resolve(event, {
+			transformPageChunk: ({ html }) => {
+				return html.replace('%lang%', locale);
+			}
+		});
+	});
 
-export const handle: Handle = async ({ event, resolve }) => {
-	const response = await i18nHandle({ event, resolve });
+const securityHandle: Handle = async ({ event, resolve }) => {
+	const response = await resolve(event);
 
 	// Security headers
 	response.headers.set('X-Content-Type-Options', 'nosniff');
@@ -37,3 +45,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	return response;
 };
+
+export const handle: Handle = ({ event, resolve }) =>
+	paraglideHandle({ event, resolve: (e, opts) => securityHandle({ event: e, resolve: (ev) => resolve(ev, opts) }) });
+
