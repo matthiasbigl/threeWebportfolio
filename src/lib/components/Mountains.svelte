@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import Skeleton from './Skeleton.svelte';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
-	import { _ } from 'svelte-i18n';
+	import { t } from '$lib/i18n';
 
 	// Use import('three') type for type annotations without bundling
 	type THREE = typeof import('three');
@@ -44,9 +44,12 @@
 			hover = true;
 		}
 
-		onMount(async () => {
+		onMount(() => {
 			if (!canvasContainer) return;
 
+			let cleanupFn: (() => void) | undefined;
+
+			(async () => {
 			// Dynamically import Three.js to keep it out of the main chunk
 			const THREE = await import('three');
 
@@ -215,6 +218,9 @@
 				window.removeEventListener('mouseup', onMouseUp);
 				window.removeEventListener('touchend', onTouchEnd);
 			};
+			})().then(fn => { cleanupFn = fn; });
+
+			return () => cleanupFn?.();
 		});
 
 		const animate = (timestamp: number) => {
@@ -306,7 +312,7 @@
 		isDragging = false;
 	}}
 	class="mountain-canvas relative w-full h-full rounded-lg overflow-hidden group cursor-grab active:cursor-grabbing"
-	aria-label={$_('hobbies.mountainAlt')}
+	aria-label={$t('hobbies.mountainAlt')}
 	role="img"
 >
 	<!-- Atmospheric overlay gradients -->
@@ -340,7 +346,7 @@
 				/>
 			</svg>
 			<span class="text-[10px] text-white/50 font-medium tracking-wide whitespace-nowrap"
-				>{$_('hobbies.mountainHint')}</span
+				>{$t('hobbies.mountainHint')}</span
 			>
 		</div>
 	{/if}

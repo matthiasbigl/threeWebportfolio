@@ -1,15 +1,11 @@
 import { error } from '@sveltejs/kit';
 import { projects } from '$lib/data/projects';
-import type { PageLoad } from './$types';
+import type { PageServerLoad } from './$types';
 
-export const load: PageLoad = ({ params }: { params: { slug: string } }) => {
+export const load: PageServerLoad = ({ params }) => {
 	const project = projects.find((p) => p.slug === params.slug);
-
 	if (!project) {
 		throw error(404, 'Project not found');
 	}
-
-	return {
-		project
-	};
+	return { project };
 };

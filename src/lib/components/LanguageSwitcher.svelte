@@ -1,24 +1,18 @@
 <script lang="ts">
-	import { locale, setLocale } from '$lib/i18n';
-	import { _, locale as localeStore } from 'svelte-i18n';
-	import { get } from 'svelte/store';
+	import { locale, t } from '$lib/i18n';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	let isOpen = $state(false);
 
-	// Reactive current locale
-	let currentLocale = $state('de');
+	const currentLocale = $derived($locale || 'de');
 
-	// Subscribe to locale changes
-	$effect(() => {
-		const unsubscribe = localeStore.subscribe((value) => {
-			currentLocale = value || 'de';
-		});
-		return unsubscribe;
-	});
-
-	function handleLocaleChange(lang: 'de' | 'en' | 'cs') {
-		setLocale(lang);
+	function handleLocaleChange(lang: string) {
 		isOpen = false;
+		const currentPath = $page.url.pathname;
+		const pathParts = currentPath.split('/');
+		pathParts[1] = lang;
+		goto(pathParts.join('/') + $page.url.search);
 	}
 
 	function toggleDropdown() {
@@ -83,7 +77,7 @@
 				style="color: var(--text-primary);"
 			>
 				<span class="text-lg">🇩🇪</span>
-				<span>{$_('language.de')}</span>
+				<span>{$t('language.de')}</span>
 				{#if currentLocale === 'de'}
 					<svg class="w-4 h-4 ml-auto text-blue-400" fill="currentColor" viewBox="0 0 20 20">
 						<path
@@ -103,7 +97,7 @@
 				style="color: var(--text-primary);"
 			>
 				<span class="text-lg">🇬🇧</span>
-				<span>{$_('language.en')}</span>
+				<span>{$t('language.en')}</span>
 				{#if currentLocale === 'en'}
 					<svg class="w-4 h-4 ml-auto text-blue-400" fill="currentColor" viewBox="0 0 20 20">
 						<path
@@ -123,7 +117,7 @@
 				style="color: var(--text-primary);"
 			>
 				<span class="text-lg">🇨🇿</span>
-				<span>{$_('language.cs')}</span>
+				<span>{$t('language.cs')}</span>
 				{#if currentLocale === 'cs'}
 					<svg class="w-4 h-4 ml-auto text-blue-400" fill="currentColor" viewBox="0 0 20 20">
 						<path

@@ -2,7 +2,7 @@
 	import { navigating } from '$app/stores';
 	import { fade } from 'svelte/transition';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
-	import { _ } from 'svelte-i18n';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		/** Show spinner unconditionally (e.g. during i18n load) */
@@ -23,7 +23,7 @@
 		class:fullscreen
 		transition:fade={{ duration: $reducedMotion ? 0 : 220 }}
 		aria-live="polite"
-		aria-label={$_('a11y.loading')}
+		aria-label={$t('a11y.loading')}
 		role="status"
 	>
 		<div class="spinner-wrapper">

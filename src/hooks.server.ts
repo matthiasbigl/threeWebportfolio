@@ -1,6 +1,15 @@
 import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
+	// Redirect legacy (non-lang-prefixed) paths to /de/...
+	const legacyPaths = ['/about', '/contact', '/pricing', '/datenschutz', '/impressum'];
+	const legacyProjectPath = /^\/projects\/.+/;
+	const pathname = event.url.pathname;
+
+	if (legacyPaths.includes(pathname) || legacyProjectPath.test(pathname)) {
+		return Response.redirect(`${event.url.origin}/de${pathname}`, 308);
+	}
+
 	const response = await resolve(event, {
 		// Preload critical assets via Link headers
 		preload: ({ type }) => {
