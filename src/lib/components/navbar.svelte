@@ -115,7 +115,7 @@
 		<!-- ── Center: Nav links OR Back arrow ── -->
 		{#if isSubPage}
 			<a
-				href={localizeHref(backHref ?? '/')}
+				href={localizeHref(backHref || '/')}
 				class="back-link group flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
 				style="color: var(--text-tertiary);"
 			>
