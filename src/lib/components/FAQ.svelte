@@ -5,16 +5,20 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import Button from './Button.svelte';
 
-	const faqKeys = ['cost', 'duration', 'hosting', 'edit', 'remote', 'agency', 'tech', 'process', 'seo', 'existing'];
-
 	let openIndex = $state<number | null>(null);
 
-	const faqs = $derived(
-		faqKeys.map((key) => ({
-			question: m[`faq.items.${key}.question` as keyof typeof m]?.() ?? '',
-			answer: m[`faq.items.${key}.answer` as keyof typeof m]?.() ?? ''
-		}))
-	);
+	const faqs = $derived([
+		{ question: m['faq.items.cost.question'](), answer: m['faq.items.cost.answer']() },
+		{ question: m['faq.items.duration.question'](), answer: m['faq.items.duration.answer']() },
+		{ question: m['faq.items.hosting.question'](), answer: m['faq.items.hosting.answer']() },
+		{ question: m['faq.items.edit.question'](), answer: m['faq.items.edit.answer']() },
+		{ question: m['faq.items.remote.question'](), answer: m['faq.items.remote.answer']() },
+		{ question: m['faq.items.agency.question'](), answer: m['faq.items.agency.answer']() },
+		{ question: m['faq.items.tech.question'](), answer: m['faq.items.tech.answer']() },
+		{ question: m['faq.items.process.question'](), answer: m['faq.items.process.answer']() },
+		{ question: m['faq.items.seo.question'](), answer: m['faq.items.seo.answer']() },
+		{ question: m['faq.items.existing.question'](), answer: m['faq.items.existing.answer']() }
+	]);
 
 	function toggleFAQ(index: number) {
 		if (openIndex === index) {

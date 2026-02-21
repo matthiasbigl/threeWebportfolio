@@ -12,6 +12,10 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
 
+	// Helper for dynamic project message keys
+	const pm = m as unknown as Record<string, () => string>;
+	const projectMsg = (slug: string, field: string) => pm[`projects.items.${slug}.${field}`]?.() ?? '';
+
 	const heroServices = $derived([
 		{
 			id: 'websites',
@@ -597,10 +601,10 @@
 				{#each projects as project}
 					<Card
 						tag="article"
-						title={m[`projects.items.${project.slug}.title`]()}
-						description={m[`projects.items.${project.slug}.description`]()}
+						title={projectMsg(project.slug, 'title')}
+						description={projectMsg(project.slug, 'description')}
 						image={project.image}
-						imageAlt={m["a11y.projectImageAlt"]({ project: m[`projects.items.${project.slug}.title`]() })}
+						imageAlt={m["a11y.projectImageAlt"]({ project: projectMsg(project.slug, 'title') })}
 						link={project.isExternal ? project.link : `/projects/${project.slug}`}
 						target={project.isExternal ? '_blank' : ''}
 						rel={project.isExternal ? 'noopener noreferrer' : ''}

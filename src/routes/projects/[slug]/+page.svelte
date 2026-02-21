@@ -4,7 +4,6 @@
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import * as m from '$lib/paraglide/messages.js';
-	import deLocale from '$lib/i18n/locales/de.json';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
@@ -200,14 +199,16 @@ return val ? val.split('\n') : [];
 	});
 
 	// ─── Static German locale data for SEO (avoids duplicate <head> on hydration) ───
-	const deProject = (deLocale.projects.items as Record<string, any>)[project.slug] ?? {};
+	const deTitle = projectMsg(project.slug, 'title') || project.slug;
+	const deDescription = projectMsg(project.slug, 'description') || '';
+	const deTags = projectMsg(project.slug, 'tags') ? projectMsg(project.slug, 'tags').split('\n') : [];
 
 	// ─── CreativeWork structured data for each project ───
 	const projectSchema = {
 		'@context': 'https://schema.org',
 		'@type': 'CreativeWork',
-		name: deProject.title ?? project.slug,
-		description: deProject.description ?? '',
+		name: deTitle,
+		description: deDescription,
 		url: `https://bigls.net/projects/${project.slug}`,
 		image:
 			typeof project.image === 'string'
@@ -227,7 +228,7 @@ return val ? val.split('\n') : [];
 		},
 		dateCreated: project.year,
 		genre: project.category,
-		keywords: (deProject.tags ?? []).join(', '),
+		keywords: deTags.join(', '),
 		isPartOf: {
 			'@type': 'WebSite',
 			'@id': 'https://bigls.net/#website'
@@ -236,12 +237,12 @@ return val ? val.split('\n') : [];
 </script>
 
 <SEO
-	title="{deProject.title ?? project.slug} – Case Study | Matthias Bigl"
-	description={`${deProject.description ?? ''} – Ein Projekt von Matthias Bigl, Webdesigner & Full Stack Developer aus Wien/Korneuburg.`}
+	title="{deTitle} – Case Study | Matthias Bigl"
+	description={`${deDescription} – Ein Projekt von Matthias Bigl, Webdesigner & Full Stack Developer aus Wien/Korneuburg.`}
 	url="https://bigls.net/projects/{project.slug}"
 	type="article"
 	keywords={[
-		...(deProject.tags ?? []),
+		...deTags,
 		'Matthias Bigl',
 		'Matthias Bigl Projekt',
 		'Matthias Bigl Portfolio',
@@ -252,7 +253,7 @@ return val ? val.split('\n') : [];
 	breadcrumbs={[
 		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
 		{ name: 'Portfolio', url: 'https://bigls.net/#projects' },
-		{ name: deProject.title ?? project.slug, url: `https://bigls.net/projects/${project.slug}` }
+		{ name: deTitle, url: `https://bigls.net/projects/${project.slug}` }
 	]}
 />
 
