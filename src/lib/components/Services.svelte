@@ -1,39 +1,40 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { _, locale, json } from 'svelte-i18n';
+	import * as m from '$lib/paraglide/messages.js';
+	import { getLocale } from '$lib/paraglide/runtime.js';
 	import Button from './Button.svelte';
 
 	const processSteps = $derived([
 		{
 			id: 'consultation',
 			number: '01',
-			title: $_('services.allInOne.process.consultation.title'),
-			desc: $_('services.allInOne.process.consultation.desc')
+			title: m["services.allInOne.process.consultation.title"](),
+			desc: m["services.allInOne.process.consultation.desc"]()
 		},
 		{
 			id: 'design',
 			number: '02',
-			title: $_('services.allInOne.process.design.title'),
-			desc: $_('services.allInOne.process.design.desc')
+			title: m["services.allInOne.process.design.title"](),
+			desc: m["services.allInOne.process.design.desc"]()
 		},
 		{
 			id: 'development',
 			number: '03',
-			title: $_('services.allInOne.process.development.title'),
-			desc: $_('services.allInOne.process.development.desc')
+			title: m["services.allInOne.process.development.title"](),
+			desc: m["services.allInOne.process.development.desc"]()
 		},
 		{
 			id: 'launch',
 			number: '04',
-			title: $_('services.allInOne.process.launch.title'),
-			desc: $_('services.allInOne.process.launch.desc')
+			title: m["services.allInOne.process.launch.title"](),
+			desc: m["services.allInOne.process.launch.desc"]()
 		},
 		{
 			id: 'hosting',
 			number: '05',
-			title: $_('services.allInOne.process.hosting.title'),
-			desc: $_('services.allInOne.process.hosting.desc')
+			title: m["services.allInOne.process.hosting.title"](),
+			desc: m["services.allInOne.process.hosting.desc"]()
 		}
 	]);
 
@@ -41,9 +42,9 @@
 		{
 			id: 'websites',
 			icon: '🌐',
-			title: $_('services.items.fullstack.title'),
-			description: $_('services.items.fullstack.description'),
-			features: $json('services.items.fullstack.features') as string[],
+			title: m["services.items.fullstack.title"](),
+			description: m["services.items.fullstack.description"](),
+			features: m["services.items.fullstack.features"]().split('\\n'),
 			gradient: 'from-blue-500/10 via-cyan-500/10 to-blue-600/10',
 			border: 'group-hover:border-blue-500/50',
 			colSpan: 'md:col-span-3 lg:col-span-3',
@@ -52,9 +53,9 @@
 		{
 			id: 'webshops',
 			icon: '🛒',
-			title: $_('services.items.webshops.title'),
-			description: $_('services.items.webshops.description'),
-			features: $json('services.items.webshops.features') as string[],
+			title: m["services.items.webshops.title"](),
+			description: m["services.items.webshops.description"](),
+			features: m["services.items.webshops.features"]().split('\\n'),
 			gradient: 'from-purple-500/10 via-pink-500/10 to-purple-600/10',
 			border: 'group-hover:border-purple-500/50',
 			colSpan: 'md:col-span-3 lg:col-span-3',
@@ -63,9 +64,9 @@
 		{
 			id: 'seo',
 			icon: '📈',
-			title: $_('services.items.seo.title'),
-			description: $_('services.items.seo.description'),
-			features: $json('services.items.seo.features') as string[],
+			title: m["services.items.seo.title"](),
+			description: m["services.items.seo.description"](),
+			features: m["services.items.seo.features"]().split('\\n'),
 			gradient: 'from-orange-500/10 via-amber-500/10 to-orange-600/10',
 			border: 'group-hover:border-orange-500/50',
 			colSpan: 'md:col-span-2',
@@ -74,9 +75,9 @@
 		{
 			id: 'custom',
 			icon: '✨',
-			title: $_('services.items.experiences.title'),
-			description: $_('services.items.experiences.description'),
-			features: $json('services.items.experiences.features') as string[],
+			title: m["services.items.experiences.title"](),
+			description: m["services.items.experiences.description"](),
+			features: m["services.items.experiences.features"]().split('\\n'),
 			gradient: 'from-emerald-500/10 via-teal-500/10 to-emerald-600/10',
 			border: 'group-hover:border-emerald-500/50',
 			colSpan: 'md:col-span-4',
@@ -101,7 +102,7 @@
 		benefitOrder.map((key) => ({
 			id: key,
 			icon: benefitIcons[key] || '⭐',
-			title: $_(`services.benefits.${key}.title`)
+			title: (m as unknown as Record<string, (() => string) | undefined>)[`services.benefits.${key}.title`]?.() ?? ''
 		}))
 	);
 
@@ -342,7 +343,7 @@
 			<div class="flex items-center gap-3 mb-4 sm:mb-6">
 				<div class="h-px w-8 bg-blue-500"></div>
 				<span class="text-blue-400 text-xs font-bold uppercase tracking-[0.2em]">
-					{$_('services.title')}
+					{m["services.title"]()}
 				</span>
 			</div>
 
@@ -350,14 +351,14 @@
 				class="text-3xl sm:text-5xl lg:text-7xl font-bold mb-5 sm:mb-8 tracking-tight leading-[0.95] sm:leading-[0.9]"
 				style="color: var(--text-heading);"
 			>
-				{$_('services.titleHighlight')}
+				{m["services.titleHighlight"]()}
 			</h2>
 
 			<p
 				class="text-base sm:text-xl font-light leading-relaxed max-w-2xl pl-4 sm:pl-6"
 				style="color: var(--text-secondary); border-left: 2px solid var(--border-primary);"
 			>
-				{@html $_('services.subtitle')}
+				{@html m["services.subtitle"]()}
 			</p>
 		</div>
 
@@ -396,19 +397,19 @@
 									class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight"
 									style="color: var(--text-heading);"
 								>
-									{$_('services.allInOne.title')}
+									{m["services.allInOne.title"]()}
 								</h3>
 								<p
 									class="text-sm sm:text-base font-light mt-0.5"
 									style="color: var(--text-secondary);"
 								>
-									{$_('services.allInOne.tagline')}
+									{m["services.allInOne.tagline"]()}
 								</p>
 							</div>
 						</div>
 
 						<div class="flex flex-wrap gap-1.5 sm:gap-2 sm:justify-end">
-							{#each $json('services.allInOne.features') as string[] as feature}
+							{#each m["services.allInOne.features"]().split('\\n') as feature}
 								<span
 									class="px-2.5 py-1 text-xs font-medium rounded-full transition-all duration-300"
 									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
@@ -618,13 +619,13 @@
 							style="color: var(--text-heading);"
 						>
 							<span class="text-2xl">💎</span>
-							{$locale === 'de' ? 'Transparente Preise' : 'Transparent Pricing'}
+							{getLocale() === 'de' ? 'Transparente Preise' : 'Transparent Pricing'}
 						</h3>
 						<p
 							class="font-light leading-relaxed text-sm sm:text-base"
 							style="color: var(--text-secondary);"
 						>
-							{$locale === 'de'
+							{getLocale() === 'de'
 								? 'Laden Sie meinen vollständigen Preisführer 2026 herunter.'
 								: 'Download my complete 2026 pricing guide.'}
 						</p>
@@ -635,7 +636,7 @@
 						variant="inverted"
 						className="relative z-10 !text-sm sm:!text-base !px-7 !py-3.5 sm:!px-8 sm:!py-4"
 					>
-						<span>{$_('pricing.navTitle')}</span>
+						<span>{m["pricing.navTitle"]()}</span>
 						<svg
 							class="w-4 h-4 group-hover:translate-x-1 transition-transform"
 							fill="none"
@@ -656,7 +657,7 @@
 
 		<div class="mt-24 text-center">
 			<Button href="/contact">
-				{$_('services.cta')} &rarr;
+				{m["services.cta"]()} &rarr;
 			</Button>
 		</div>
 	</div>

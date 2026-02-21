@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO.svelte';
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
-	import { _ } from 'svelte-i18n';
+	import * as m from '$lib/paraglide/messages.js';
 </script>
 
 <SEO
@@ -24,7 +24,7 @@
 				class="font-poppins text-4xl sm:text-5xl font-bold mb-4"
 				style="color: var(--text-heading);"
 			>
-				{$_('imprint.title')}
+				{m["imprint.title"]()}
 			</h1>
 			<div class="h-1 w-20 bg-blue-500 rounded-full"></div>
 		</header>
@@ -35,21 +35,21 @@
 		>
 			<section>
 				<h2 class="font-bold text-xl mb-4" style="color: var(--text-heading);">
-					{$_('imprint.owner')}
+					{m["imprint.owner"]()}
 				</h2>
 				<p>Matthias Bigl<br />Webdesigner & Softwareentwickler</p>
 			</section>
 
 			<section>
 				<h2 class="font-bold text-xl mb-4" style="color: var(--text-heading);">
-					{$_('imprint.address')}
+					{m["imprint.address"]()}
 				</h2>
 				<p>Dammstraße 11/2<br />2100 Korneuburg<br />Österreich</p>
 			</section>
 
 			<section>
 				<h2 class="font-bold text-xl mb-4" style="color: var(--text-heading);">
-					{$_('imprint.contact')}
+					{m["imprint.contact"]()}
 				</h2>
 				<p>
 					E-Mail: <a href="mailto:biglmatthias@gmail.com" class="text-blue-400 hover:underline"
@@ -62,9 +62,9 @@
 
 			<section>
 				<h2 class="font-bold text-xl mb-4" style="color: var(--text-heading);">
-					{$_('imprint.disclaimer')}
+					{m["imprint.disclaimer"]()}
 				</h2>
-				<p>{$_('imprint.disclaimerText')}</p>
+				<p>{m["imprint.disclaimerText"]()}</p>
 			</section>
 
 			<section class="pt-6" style="border-top: 1px solid var(--border-primary);">
@@ -72,9 +72,9 @@
 					class="font-bold text-sm uppercase tracking-widest mb-4"
 					style="color: var(--text-heading);"
 				>
-					{$_('imprint.content')}
+					{m["imprint.content"]()}
 				</h2>
-				<p class="text-sm opacity-80">{$_('imprint.contentText')}</p>
+				<p class="text-sm opacity-80">{m["imprint.contentText"]()}</p>
 			</section>
 		</div>
 	</div>

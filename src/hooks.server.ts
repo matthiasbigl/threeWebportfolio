@@ -1,13 +1,11 @@
 import type { Handle } from '@sveltejs/kit';
+import { paraglideMiddleware } from '$lib/paraglide/server.js';
+
+const i18nHandle: Handle = ({ event, resolve }) =>
+	paraglideMiddleware(event.request, ({ request }) => resolve({ ...event, request }));
 
 export const handle: Handle = async ({ event, resolve }) => {
-	const response = await resolve(event, {
-		// Preload critical assets via Link headers
-		preload: ({ type }) => {
-			// Only preload JS, CSS, and fonts — skip images (lazy-loaded)
-			return type === 'js' || type === 'css' || type === 'font';
-		}
-	});
+	const response = await i18nHandle({ event, resolve });
 
 	// Security headers
 	response.headers.set('X-Content-Type-Options', 'nosniff');

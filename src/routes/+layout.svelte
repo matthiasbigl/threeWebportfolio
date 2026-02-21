@@ -1,8 +1,6 @@
 <script>
 	import '../app.css';
-	import '$lib/i18n';
-	import { isLoading, _ } from 'svelte-i18n';
-	import { initLocaleFromStorage } from '$lib/i18n';
+	import * as m from '$lib/paraglide/messages.js';
 	import { initTheme } from '$lib/theme';
 	import Navbar from '$lib/components/navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
@@ -23,23 +21,28 @@
 	// ─── Sub-page route config ───
 	// One array. Add a route → navbar and footer adapt automatically.
 	// pattern: regex tested against pathname
-	// backHref / backLabelKey: fed straight into Navbar
+	// getBackLabel: returns translated back label
 	// hideFooter: true when the page has its own CTA footer
 	const subPageRoutes = [
 		{
 			pattern: /^\/projects\/.+/,
 			backHref: '/#projects',
-			backLabelKey: 'projectDetail.backLabel',
+			getBackLabel: () => m["projectDetail.backLabel"](),
 			hideFooter: true
 		},
-		{ pattern: /^\/pricing$/, backHref: '/', backLabelKey: 'pricing.backToHome', hideFooter: true }
+		{
+			pattern: /^\/pricing$/,
+			backHref: '/',
+			getBackLabel: () => m["pricing.backToHome"](),
+			hideFooter: true
+		}
 	];
 
 	const activeSubPage = $derived(subPageRoutes.find((r) => r.pattern.test($page.url.pathname)));
 
 	const navConfig = $derived(
 		activeSubPage
-			? { backHref: activeSubPage.backHref, backLabel: $_(activeSubPage.backLabelKey) }
+			? { backHref: activeSubPage.backHref, backLabel: activeSubPage.getBackLabel() }
 			: {}
 	);
 
@@ -47,7 +50,6 @@
 
 	onMount(() => {
 		if (browser) {
-			initLocaleFromStorage();
 			initTheme();
 
 			const handleScroll = () => {
@@ -78,9 +80,7 @@
 
 <CustomCursor />
 <ScrollProgress />
-
-<!-- Universal loading spinner: shown during i18n init + SvelteKit page navigations -->
-<LoadingSpinner visible={$isLoading} fullscreen />
+<LoadingSpinner />
 
 <div
 	class="relative min-h-dvh flex flex-col transition-colors duration-300"
@@ -106,7 +106,7 @@
 			? 0
 			: 30}px);"
 		onclick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-		aria-label={$_('a11y.scrollDown')}
+		aria-label={m["a11y.scrollDown"]()}
 	>
 		<svg
 			class="w-6 h-6 transition-transform duration-300 group-hover:translate-y-0.5"

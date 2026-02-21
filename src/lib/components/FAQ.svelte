@@ -2,20 +2,17 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
-	import { _ } from 'svelte-i18n';
+	import * as m from '$lib/paraglide/messages.js';
 	import Button from './Button.svelte';
-	import deLocale from '$lib/i18n/locales/de.json';
 
-	// Infer FAQ keys directly from the i18n locale file — no hardcoding
-	const faqKeys = Object.keys(deLocale.faq.items);
+	const faqKeys = ['cost', 'duration', 'hosting', 'edit', 'remote', 'agency', 'tech', 'process', 'seo', 'existing'];
 
 	let openIndex = $state<number | null>(null);
 
-	// Reactive FAQs — dynamically mapped from inferred locale keys
 	const faqs = $derived(
 		faqKeys.map((key) => ({
-			question: $_(`faq.items.${key}.question`),
-			answer: $_(`faq.items.${key}.answer`)
+			question: m[`faq.items.${key}.question` as keyof typeof m]?.() ?? '',
+			answer: m[`faq.items.${key}.answer` as keyof typeof m]?.() ?? ''
 		}))
 	);
 
@@ -65,13 +62,13 @@
 				class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5 sm:mb-6 tracking-tight font-poppins"
 				style="color: var(--text-heading);"
 			>
-				{$_('faq.title')} <span class="blue-gradient_text">{$_('faq.titleHighlight')}</span>
+				{m["faq.title"]()} <span class="blue-gradient_text">{m["faq.titleHighlight"]()}</span>
 			</h2>
 			<p
 				class="text-sm sm:text-base max-w-xl mx-auto leading-relaxed"
 				style="color: var(--text-tertiary);"
 			>
-				{$_('faq.subtitle')}
+				{m["faq.subtitle"]()}
 			</p>
 		</div>
 
@@ -133,9 +130,9 @@
 
 		<!-- CTA -->
 		<div class="text-center mt-14 sm:mt-16">
-			<p class="mb-5 text-sm" style="color: var(--text-tertiary);">{$_('faq.moreQuestions')}</p>
+			<p class="mb-5 text-sm" style="color: var(--text-tertiary);">{m["faq.moreQuestions"]()}</p>
 			<Button href="/contact" variant="secondary" className="!px-6 !py-3 !text-sm !rounded-xl">
-				<span class="font-semibold">{$_('faq.cta')}</span>
+				<span class="font-semibold">{m["faq.cta"]()}</span>
 				<svg
 					class="w-4 h-4 text-blue-400/70 group-hover:translate-x-1 transition-transform duration-300"
 					fill="none"

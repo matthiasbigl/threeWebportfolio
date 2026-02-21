@@ -1,9 +1,18 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { enhancedImages } from '@sveltejs/enhanced-img';
 import { defineConfig } from 'vite';
+import { paraglide as paraglideVitePlugin } from '@inlang/paraglide-vite';
 
 export default defineConfig({
-	plugins: [enhancedImages(), sveltekit()],
+	plugins: [
+		paraglideVitePlugin({
+			project: './project.inlang',
+			outdir: './src/lib/paraglide',
+			strategy: ['url']
+		}),
+		enhancedImages(),
+		sveltekit()
+	],
 	build: {
 		// Target modern browsers only — smaller output, no legacy polyfills
 		target: 'es2020',
@@ -23,13 +32,6 @@ export default defineConfig({
 					if (id.includes('node_modules/gsap')) {
 						return 'vendor-gsap';
 					}
-					// i18n runtime (loaded on every page)
-					if (
-						id.includes('node_modules/svelte-i18n') ||
-						id.includes('node_modules/intl-messageformat')
-					) {
-						return 'vendor-i18n';
-					}
 					// Markdown parser — only used on pricing page
 					if (id.includes('node_modules/marked')) {
 						return 'vendor-marked';
@@ -48,7 +50,6 @@ export default defineConfig({
 	},
 	// Optimise dependency pre-bundling
 	optimizeDeps: {
-		include: ['svelte-i18n'],
 		exclude: ['three']
 	}
 });

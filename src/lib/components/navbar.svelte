@@ -3,7 +3,8 @@
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
-	import { _ } from 'svelte-i18n';
+	import * as m from '$lib/paraglide/messages.js';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import LanguageSwitcher from './LanguageSwitcher.svelte';
 	import ThemeToggle from './ThemeToggle.svelte';
 
@@ -141,39 +142,39 @@
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
-					{$_('nav.home')}
+					{m["nav.home"]()}
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/#services"
+					href={localizeHref("/#services")}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
-					{$_('nav.services')}
+					{m["nav.services"]()}
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/#faq"
+					href={localizeHref("/#faq")}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
-					{$_('nav.faq')}
+					{m["nav.faq"]()}
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/about"
+					href={localizeHref("/about")}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
-					{$_('nav.about')}
+					{m["nav.about"]()}
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/contact"
+					href={localizeHref("/contact")}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
-					{$_('nav.contact')}
+					{m["nav.contact"]()}
 				</a>
 			</nav>
 		{/if}
@@ -233,25 +234,25 @@
 						isHamOpen = false;
 					}}
 				>
-					{$_('nav.home')}
+					{m["nav.home"]()}
 				</button>
 
 				<a
-					href="/#services"
+					href={localizeHref("/#services")}
 					class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
 					style="color: var(--text-primary);"
 					onclick={() => (isHamOpen = false)}
 				>
-					{$_('nav.services')}
+					{m["nav.services"]()}
 				</a>
 
 				<a
-					href="/#faq"
+					href={localizeHref("/#faq")}
 					class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
 					style="color: var(--text-primary);"
 					onclick={() => (isHamOpen = false)}
 				>
-					{$_('nav.faq')}
+					{m["nav.faq"]()}
 				</a>
 
 				<button
@@ -262,7 +263,7 @@
 						isHamOpen = false;
 					}}
 				>
-					{$_('nav.about')}
+					{m["nav.about"]()}
 				</button>
 
 				<button
@@ -273,7 +274,7 @@
 						isHamOpen = false;
 					}}
 				>
-					{$_('nav.contact')}
+					{m["nav.contact"]()}
 				</button>
 			</div>
 		</div>
