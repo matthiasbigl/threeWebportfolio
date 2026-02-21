@@ -1,39 +1,30 @@
-import { browser } from '$app/environment';
-import { init, register, getLocaleFromNavigator, locale, _, addMessages } from 'svelte-i18n';
-import deMessages from './locales/de.json';
+import i18n from 'sveltekit-i18n';
+import type { Config } from 'sveltekit-i18n';
 
-// Load default locale synchronously so $_() works immediately (SSR + hydration)
-addMessages('de', deMessages);
+export const supportedLocales = ['de', 'en', 'cs'] as const;
+export type SupportedLocale = (typeof supportedLocales)[number];
 
-// Register English as lazy-loaded
-register('en', () => import('./locales/en.json'));
-
-// Register Czech as lazy-loaded
-register('cs', () => import('./locales/cs.json'));
-
-// Initialize i18n
-init({
-	fallbackLocale: 'de',
-	initialLocale: browser ? getLocaleFromNavigator()?.split('-')[0] || 'de' : 'de'
-});
-
-// Export locale for use in components
-export { locale, _ };
-
-// Helper function to switch locale
-export function setLocale(lang: 'de' | 'en' | 'cs') {
-	locale.set(lang);
-	if (browser) {
-		localStorage.setItem('preferred-locale', lang);
-	}
-}
-
-// Initialize from localStorage if available
-export function initLocaleFromStorage() {
-	if (browser) {
-		const stored = localStorage.getItem('preferred-locale');
-		if (stored === 'de' || stored === 'en' || stored === 'cs') {
-			locale.set(stored);
+const config: Config = {
+	loaders: [
+		{
+			locale: 'de',
+			key: '',
+			loader: async () => (await import('./locales/de.json')).default
+		},
+		{
+			locale: 'en',
+			key: '',
+			loader: async () => (await import('./locales/en.json')).default
+		},
+		{
+			locale: 'cs',
+			key: '',
+			loader: async () => (await import('./locales/cs.json')).default
 		}
-	}
-}
+	]
+};
+
+const i18nInstance = new i18n(config);
+
+export const { t, locale, locales, loading, loadTranslations, translations, setLocale } =
+	i18nInstance;

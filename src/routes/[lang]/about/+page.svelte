@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { _, locale } from 'svelte-i18n';
+	import { t } from '$lib/i18n';
 	import PhotoAvatar from '$lib/components/PhotoAvatar.svelte';
 	import ParticleNetwork from '$lib/components/ParticleNetwork.svelte';
 	import Cube from '$lib/components/Cube.svelte';
@@ -14,29 +14,36 @@
 	import deLocale from '$lib/i18n/locales/de.json';
 	import dumbbellImg from '$lib/assets/dumbbell.png?enhanced';
 	import surfingImg from '$lib/assets/surfing.JPG?enhanced';
+	import type { PageData } from './$types';
+
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 
 	const differentiators = $derived([
 		{
 			id: 'partner',
 			icon: '🤝',
-			title: $_('aboutPage.differentiators.partner.title'),
-			desc: $_('aboutPage.differentiators.partner.desc'),
+			title: $t('aboutPage.differentiators.partner.title'),
+			desc: $t('aboutPage.differentiators.partner.desc'),
 			gradient: 'from-blue-500/10 via-cyan-500/10 to-blue-600/10',
 			colSpan: 'md:col-span-2 lg:col-span-2'
 		},
 		{
 			id: 'local',
 			icon: '📍',
-			title: $_('aboutPage.differentiators.local.title'),
-			desc: $_('aboutPage.differentiators.local.desc'),
+			title: $t('aboutPage.differentiators.local.title'),
+			desc: $t('aboutPage.differentiators.local.desc'),
 			gradient: 'from-purple-500/10 via-pink-500/10 to-purple-600/10',
 			colSpan: 'md:col-span-2 lg:col-span-2'
 		},
 		{
 			id: 'direct',
 			icon: '⚡',
-			title: $_('aboutPage.differentiators.direct.title'),
-			desc: $_('aboutPage.differentiators.direct.desc'),
+			title: $t('aboutPage.differentiators.direct.title'),
+			desc: $t('aboutPage.differentiators.direct.desc'),
 			gradient: 'from-emerald-500/10 via-teal-500/10 to-emerald-600/10',
 			colSpan: 'md:col-span-2 lg:col-span-2'
 		}
@@ -44,24 +51,24 @@
 
 	const hobbies = $derived([
 		{
-			title: $_('hobbies.items.gym.title'),
-			description: $_('hobbies.items.gym.description'),
+			title: $t('hobbies.items.gym.title'),
+			description: $t('hobbies.items.gym.description'),
 			image: dumbbellImg,
-			imageAlt: $_('hobbies.items.gym.alt')
+			imageAlt: $t('hobbies.items.gym.alt')
 		},
 		{
-			title: $_('hobbies.items.skiing.title'),
-			description: $_('hobbies.items.skiing.description'),
+			title: $t('hobbies.items.skiing.title'),
+			description: $t('hobbies.items.skiing.description'),
 			image: '',
 			isSpecialComponent: true,
-			imageAlt: $_('hobbies.items.skiing.alt')
+			imageAlt: $t('hobbies.items.skiing.alt')
 		},
 		{
-			title: $_('hobbies.items.surfing.title'),
-			description: $_('hobbies.items.surfing.description'),
+			title: $t('hobbies.items.surfing.title'),
+			description: $t('hobbies.items.surfing.description'),
 			image: surfingImg,
 			imageObjectFit: 'cover' as const,
-			imageAlt: $_('hobbies.items.surfing.alt')
+			imageAlt: $t('hobbies.items.surfing.alt')
 		}
 	]);
 
@@ -233,9 +240,10 @@
 </script>
 
 <SEO
-	title={deLocale.seo?.about?.title ?? 'Über Matthias Bigl | About'}
-	description={deLocale.seo?.about?.description ?? 'Learn more about Matthias Bigl'}
-	url="https://bigls.net/about"
+	title={$t('seo.about.title') || (deLocale.seo?.about?.title ?? 'Über Matthias Bigl | About')}
+	description={$t('seo.about.description') ||
+		(deLocale.seo?.about?.description ?? 'Learn more about Matthias Bigl')}
+	url="https://bigls.net/{data.lang}/about"
 	type="profile"
 	image="https://bigls.net/headshot.png"
 	keywords={[
@@ -248,8 +256,8 @@
 		'Webentwicklung'
 	]}
 	breadcrumbs={[
-		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
-		{ name: 'Über mich', url: 'https://bigls.net/about' }
+		{ name: 'Matthias Bigl', url: `https://bigls.net/${data.lang}` },
+		{ name: 'Über mich', url: `https://bigls.net/${data.lang}/about` }
 	]}
 />
 
@@ -288,7 +296,7 @@
 						<div class="flex items-center gap-3 mb-4 justify-center lg:justify-start">
 							<div class="h-px w-6 bg-blue-500/40"></div>
 							<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]">
-								{$_('aboutPage.hero.label')}
+								{$t('aboutPage.hero.label')}
 							</span>
 							<div class="h-px w-6 bg-blue-500/40"></div>
 						</div>
@@ -297,29 +305,29 @@
 							class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 tracking-tight"
 							style="color: var(--text-heading);"
 						>
-							{$_('aboutPage.hero.name')}
+							{$t('aboutPage.hero.name')}
 						</h1>
 
 						<p
 							class="text-lg sm:text-xl lg:text-2xl mb-6 font-light"
 							style="color: var(--text-secondary);"
 						>
-							{$_('aboutPage.hero.role')}
+							{$t('aboutPage.hero.role')}
 						</p>
 
 						<p
 							class="text-sm sm:text-base mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed font-light"
 							style="color: var(--text-tertiary);"
 						>
-							{$_('aboutPage.hero.tagline')}
+							{$t('aboutPage.hero.tagline')}
 						</p>
 
 						<div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-							<Button href="/contact" variant="primary">
-								{$_('aboutPage.hero.cta')}
+							<Button href="/{data.lang}/contact" variant="primary">
+								{$t('aboutPage.hero.cta')}
 							</Button>
-							<Button href="/#services" variant="secondary">
-								{$_('aboutPage.hero.ctaSecondary')}
+							<Button href="/{data.lang}/#services" variant="secondary">
+								{$t('aboutPage.hero.ctaSecondary')}
 							</Button>
 						</div>
 					</div>
@@ -339,7 +347,7 @@
 				<div class="flex items-center gap-3 mb-5">
 					<div class="h-px w-8 bg-blue-500/40"></div>
 					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]">
-						{$_('aboutPage.differentiators.label')}
+						{$t('aboutPage.differentiators.label')}
 					</span>
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
@@ -347,7 +355,7 @@
 					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
 					style="color: var(--text-heading);"
 				>
-					{$_('aboutPage.differentiators.title')}
+					{$t('aboutPage.differentiators.title')}
 				</h2>
 				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
@@ -412,7 +420,7 @@
 				<div class="flex items-center gap-3 mb-5">
 					<div class="h-px w-8 bg-blue-500/40"></div>
 					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
-						>{$_('skills.title')}</span
+						>{$t('skills.title')}</span
 					>
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
@@ -421,7 +429,7 @@
 					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
 					style="color: var(--text-heading);"
 				>
-					{$_('skills.titleHighlight')}
+					{$t('skills.titleHighlight')}
 				</h2>
 				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
@@ -438,7 +446,7 @@
 						class="text-gray-500 text-xs whitespace-nowrap opacity-60 hover:opacity-100 transition-opacity duration-300 px-3 py-1.5 rounded-full backdrop-blur-sm border"
 						style="background: var(--bg-inset); border-color: var(--border-secondary);"
 					>
-						{$_('skills.hint')}
+						{$t('skills.hint')}
 					</p>
 					<div
 						class="w-px h-16 bg-gradient-to-b from-transparent via-blue-500/30 to-transparent"
@@ -451,9 +459,9 @@
 						class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 uppercase tracking-wider"
 						style="color: var(--text-secondary);"
 					>
-						{$_('skills.languages')}
+						{$t('skills.languages')}
 					</h3>
-					<p class="sr-only">{$_('skills.languagesDescription')}</p>
+					<p class="sr-only">{$t('skills.languagesDescription')}</p>
 
 					<div class="cube-container cube-glow max-w-lg mx-auto aspect-square">
 						<Cube
@@ -471,17 +479,17 @@
 								'assets/typescriptNormal.png',
 								'assets/kotlinNormal.png'
 							]}
-							ariaLabel={$_('skills.languagesAriaLabel')}
+							ariaLabel={$t('skills.languagesAriaLabel')}
 						/>
 					</div>
 					<p
 						class="lg:hidden text-gray-500 text-xs sm:text-sm mt-4 opacity-60 hover:opacity-100 transition-opacity duration-300"
 					>
-						{$_('skills.hint')}
+						{$t('skills.hint')}
 					</p>
 
 					<div class="mt-4 flex justify-center gap-2 flex-wrap">
-						{#each $_('skills.languagesList').split(',') as skill}
+						{#each $t('skills.languagesList').split(',') as skill}
 							<span
 								class="text-xs px-3 py-1.5 rounded-full border hover:border-blue-500/30 transition-all duration-200"
 								style="background: var(--bg-surface); color: var(--text-secondary); border-color: var(--border-primary);"
@@ -497,9 +505,9 @@
 						class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 sm:mb-8 uppercase tracking-wider"
 						style="color: var(--text-secondary);"
 					>
-						{$_('skills.strengths')}
+						{$t('skills.strengths')}
 					</h3>
-					<p class="sr-only">{$_('skills.strengthsDescription')}</p>
+					<p class="sr-only">{$t('skills.strengthsDescription')}</p>
 
 					<div class="cube-container cube-glow max-w-lg mx-auto aspect-square">
 						<Cube
@@ -517,12 +525,12 @@
 								'assets/TeamworkNormal.png',
 								'assets/projectNormal.png'
 							]}
-							ariaLabel={$_('skills.strengthsAriaLabel')}
+							ariaLabel={$t('skills.strengthsAriaLabel')}
 						/>
 					</div>
 
 					<div class="mt-4 flex justify-center gap-2 flex-wrap">
-						{#each $_('skills.strengthsList').split(',') as skill}
+						{#each $t('skills.strengthsList').split(',') as skill}
 							<span
 								class="text-xs px-3 py-1.5 rounded-full border hover:border-purple-500/30 transition-all duration-200"
 								style="background: var(--bg-surface); color: var(--text-secondary); border-color: var(--border-primary);"
@@ -547,7 +555,7 @@
 					<div class="flex items-center gap-3 mb-5">
 						<div class="h-px w-8 bg-blue-500/40"></div>
 						<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]">
-							{$_('aboutPage.journey.label')}
+							{$t('aboutPage.journey.label')}
 						</span>
 						<div class="h-px w-8 bg-blue-500/40"></div>
 					</div>
@@ -555,7 +563,7 @@
 						class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
 						style="color: var(--text-heading);"
 					>
-						{$_('aboutPage.journey.title')}
+						{$t('aboutPage.journey.title')}
 					</h2>
 					<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 				</div>
@@ -565,7 +573,7 @@
 					style="background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(12px);"
 				>
 					<div class="prose-about">
-						{#each $_('aboutPage.journey.paragraphs') as paragraph}
+						{#each $t('aboutPage.journey.paragraphs') as paragraph}
 							<p class="mb-6 last:mb-0">{paragraph}</p>
 						{/each}
 					</div>
@@ -584,7 +592,7 @@
 				<div class="flex items-center gap-3 mb-5">
 					<div class="h-px w-8 bg-blue-500/40"></div>
 					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
-						>{$_('resume.title')}</span
+						>{$t('resume.title')}</span
 					>
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
@@ -592,7 +600,7 @@
 					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
 					style="color: var(--text-heading);"
 				>
-					{$_('resume.titleHighlight')}
+					{$t('resume.titleHighlight')}
 				</h2>
 				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
@@ -609,7 +617,7 @@
 				<div class="flex items-center gap-3 mb-5">
 					<div class="h-px w-8 bg-blue-500/40"></div>
 					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
-						>{$_('hobbies.title')}</span
+						>{$t('hobbies.title')}</span
 					>
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
@@ -617,7 +625,7 @@
 					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
 					style="color: var(--text-heading);"
 				>
-					{$_('hobbies.titleHighlight')}
+					{$t('hobbies.titleHighlight')}
 				</h2>
 				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
@@ -626,7 +634,7 @@
 				class="stagger-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto"
 			>
 				{#each hobbies as hobby}
-					{#if hobby.isSpecialComponent && hobby.title === $_('hobbies.items.skiing.title')}
+					{#if hobby.isSpecialComponent && hobby.title === $t('hobbies.items.skiing.title')}
 						<Card
 							title={hobby.title}
 							description={hobby.description}
@@ -659,16 +667,16 @@
 					class="section-title font-poppins text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 tracking-tight"
 					style="color: var(--text-heading);"
 				>
-					{$_('aboutPage.cta.title')}
+					{$t('aboutPage.cta.title')}
 				</h2>
 				<p
 					class="text-base sm:text-lg font-light mb-8 max-w-xl mx-auto leading-relaxed"
 					style="color: var(--text-secondary);"
 				>
-					{$_('aboutPage.cta.subtitle')}
+					{$t('aboutPage.cta.subtitle')}
 				</p>
-				<Button href="/contact" variant="primary">
-					{$_('aboutPage.cta.button')}
+				<Button href="/{data.lang}/contact" variant="primary">
+					{$t('aboutPage.cta.button')}
 				</Button>
 			</div>
 		</div>

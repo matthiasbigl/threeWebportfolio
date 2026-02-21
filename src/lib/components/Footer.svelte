@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n';
+	import { t } from '$lib/i18n';
+	import { page } from '$app/stores';
 
 	const currentYear = new Date().getFullYear();
+	const lang = $derived($page.params.lang || 'de');
 
 	const socialLinks = [
 		{
@@ -23,24 +25,24 @@
 
 	// Reactive quick links based on translations
 	const quickLinks = $derived([
-		{ name: $_('nav.home'), href: '/' },
-		{ name: $_('nav.services'), href: '/#services' },
+		{ name: $t('nav.home'), href: `/${lang}` },
+		{ name: $t('nav.services'), href: `/${lang}/#services` },
 		{
 			name:
-				$_('pricing.navTitle') ||
-				($_('language.de') === 'Deutsch' ? 'Preis-Leitfaden' : 'Pricing Guide'),
-			href: '/pricing'
+				$t('pricing.navTitle') ||
+				($t('language.de') === 'Deutsch' ? 'Preis-Leitfaden' : 'Pricing Guide'),
+			href: `/${lang}/pricing`
 		},
-		{ name: $_('nav.contact'), href: '/contact' },
-		{ name: $_('nav.faq'), href: '/#faq' },
+		{ name: $t('nav.contact'), href: `/${lang}/contact` },
+		{ name: $t('nav.faq'), href: `/${lang}/#faq` },
 		{ name: 'Blog', href: 'https://blog.bigls.net' }
 	]);
 
 	const services = $derived([
-		{ name: $_('footer.services.websites'), href: '/#services' },
-		{ name: $_('footer.services.webshops'), href: '/#services' },
-		{ name: $_('footer.services.experiences'), href: '/#services' },
-		{ name: $_('footer.services.hosting'), href: '/#services' }
+		{ name: $t('footer.services.websites'), href: `/${lang}/#services` },
+		{ name: $t('footer.services.webshops'), href: `/${lang}/#services` },
+		{ name: $t('footer.services.experiences'), href: `/${lang}/#services` },
+		{ name: $t('footer.services.hosting'), href: `/${lang}/#services` }
 	]);
 </script>
 
@@ -61,7 +63,7 @@
 					<span class="blue-gradient_text">Matthias Bigl</span>
 				</h3>
 				<p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
-					{$_('footer.description')}
+					{$t('footer.description')}
 				</p>
 				<address class="not-italic space-y-3 sm:space-y-4">
 					<div class="flex items-start gap-3 group/item">
@@ -113,7 +115,7 @@
 			<!-- Quick Links -->
 			<div class="space-y-5">
 				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
-					{$_('footer.navigation')}
+					{$t('footer.navigation')}
 				</h4>
 				<nav class="flex flex-col space-y-3" aria-label="Footer navigation">
 					{#each quickLinks as link}
@@ -133,7 +135,7 @@
 			<!-- Services -->
 			<div class="space-y-5">
 				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
-					{$_('footer.servicesTitle')}
+					{$t('footer.servicesTitle')}
 				</h4>
 				<nav class="flex flex-col space-y-3" aria-label="Services navigation">
 					{#each services as service}
@@ -151,7 +153,7 @@
 			<!-- Social & Contact -->
 			<div class="space-y-5">
 				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
-					{$_('footer.contactTitle')}
+					{$t('footer.contactTitle')}
 				</h4>
 				<div class="flex space-x-3">
 					{#each socialLinks as social}
@@ -196,14 +198,14 @@
 			style="border-top: 1px solid var(--border-secondary);"
 		>
 			<p class="text-sm" style="color: var(--text-tertiary);">
-				© {currentYear} Matthias Bigl. {$_('footer.copyright')}
+				© {currentYear} Matthias Bigl. {$t('footer.copyright')}
 			</p>
 			<div class="flex space-x-6 text-xs" style="color: var(--text-tertiary);">
-				<a href="/impressum" class="hover:text-gray-300 transition-colors duration-300"
-					>{$_('footer.imprint')}</a
+				<a href="/{lang}/impressum" class="hover:text-gray-300 transition-colors duration-300"
+					>{$t('footer.imprint')}</a
 				>
-				<a href="/datenschutz" class="hover:text-gray-300 transition-colors duration-300"
-					>{$_('footer.privacy')}</a
+				<a href="/{lang}/datenschutz" class="hover:text-gray-300 transition-colors duration-300"
+					>{$t('footer.privacy')}</a
 				>
 				<a href="/humans.txt" class="hover:text-gray-300 transition-colors duration-300"
 					>humans.txt</a

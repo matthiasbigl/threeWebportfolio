@@ -7,7 +7,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
-	import { _ } from 'svelte-i18n';
+	import { t } from '$lib/i18n';
 	import type { PageData, ActionData } from './$types';
 
 	interface Props {
@@ -20,7 +20,6 @@
 	let isSubmitting = $state(false);
 	let formLoadTime = $state(0);
 
-	// Contact page specific structured data
 	const contactPageSchema = {
 		'@context': 'https://schema.org',
 		'@type': 'ContactPage',
@@ -44,56 +43,56 @@
 		}
 	};
 
-	// Reactive contact methods based on translations
 	const contactMethods = $derived([
 		{
 			icon: 'email',
-			title: $_('contact.methods.email.title'),
+			title: $t('contact.methods.email.title'),
 			value: 'biglmatthias@gmail.com',
 			href: 'mailto:biglmatthias@gmail.com',
-			description: $_('contact.methods.email.description')
+			description: $t('contact.methods.email.description')
 		},
 		{
 			icon: 'phone',
-			title: $_('contact.methods.phone.title'),
+			title: $t('contact.methods.phone.title'),
 			value: '+43 660 459 6636',
 			href: 'tel:+436604596636',
-			description: $_('contact.methods.phone.description')
+			description: $t('contact.methods.phone.description')
 		},
 		{
 			icon: 'location',
-			title: $_('contact.methods.location.title'),
+			title: $t('contact.methods.location.title'),
 			value: 'Korneuburg, Austria',
 			href: 'https://maps.google.com/?q=Korneuburg,Austria',
-			description: $_('contact.methods.location.description')
+			description: $t('contact.methods.location.description')
 		},
 		{
 			icon: 'github',
-			title: $_('contact.methods.github.title'),
+			title: $t('contact.methods.github.title'),
 			value: '@matthiasbigl',
 			href: 'https://github.com/matthiasbigl',
-			description: $_('contact.methods.github.description')
+			description: $t('contact.methods.github.description')
 		}
 	]);
 
-	onMount(async () => {
+	onMount(() => {
 		if (!browser) return;
 
-		// Record form load time for bot detection
 		formLoadTime = Date.now();
 
-		const { gsap } = await import('gsap');
-		const mm = gsap.matchMedia();
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		let mm: any;
+
+		(async () => {
+			const { gsap } = await import('gsap');
+			mm = gsap.matchMedia();
 
 		mm.add('(min-width: 768px)', () => {
-			// Hero animation
 			gsap.fromTo(
 				'.contact-hero',
 				{ opacity: 0, y: 100, scale: 0.9 },
 				{ opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'back.out(1.7)', delay: 0.3 }
 			);
 
-			// Contact methods stagger animation
 			gsap.fromTo(
 				'.contact-method',
 				{ opacity: 0, y: 60, rotationX: -15 },
@@ -108,18 +107,14 @@
 				}
 			);
 
-			// Form animation
 			gsap.fromTo(
 				'.contact-form',
 				{ opacity: 0, x: 50, scale: 0.95 },
 				{ opacity: 1, x: 0, scale: 1, duration: 1, ease: 'power2.out', delay: 1.2 }
 			);
-
-			// Magnetic effect handles by Button component now
 		});
 
 		mm.add('(max-width: 767px)', () => {
-			// Simpler entrance for mobile
 			gsap.fromTo(
 				'.contact-hero, .contact-method, .contact-form',
 				{ opacity: 0, y: 30 },
@@ -127,7 +122,6 @@
 			);
 		});
 
-		// Form input focus animations
 		document.querySelectorAll('.form-input').forEach((input: any) => {
 			input.addEventListener('focus', () => {
 				gsap.to(input.parentElement, { scale: 1.02, duration: 0.3 });
@@ -137,15 +131,16 @@
 				gsap.to(input.parentElement, { scale: 1, duration: 0.3 });
 			});
 		});
+		})();
 
-		return () => mm.revert();
+		return () => mm?.revert();
 	});
 </script>
 
 <SEO
 	title={deLocale.seo.contact.title}
 	description={deLocale.seo.contact.description}
-	url="https://bigls.net/contact"
+	url="https://bigls.net/{data.lang}/contact"
 	keywords={[
 		'Matthias Bigl Kontakt',
 		'Matthias Bigl kontaktieren',
@@ -165,13 +160,12 @@
 		'freelance web designer Austria contact'
 	]}
 	breadcrumbs={[
-		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
-		{ name: 'Kontakt', url: 'https://bigls.net/contact' }
+		{ name: 'Matthias Bigl', url: `https://bigls.net/${data.lang}` },
+		{ name: 'Kontakt', url: `https://bigls.net/${data.lang}/contact` }
 	]}
 />
 
 <svelte:head>
-	<!-- Contact Page Specific Structured Data -->
 	{@html `<script type="application/ld+json">${JSON.stringify(contactPageSchema)}</script>`}
 </svelte:head>
 
@@ -179,7 +173,6 @@
 <ScrollProgress />
 
 <div class="relative min-h-dvh overflow-hidden pt-16 sm:pt-20">
-	<!-- Background Elements -->
 	<div class="fixed inset-0 z-0">
 		<div class="aurora-bg w-full h-full"></div>
 		<div
@@ -187,7 +180,6 @@
 			style="background: linear-gradient(135deg, var(--overlay-bg) 0%, var(--overlay-strong) 50%, var(--overlay-bg) 100%);"
 		></div>
 
-		<!-- Floating geometric shapes -->
 		<div
 			class="floating-1 css-floating-1 absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-xl"
 		></div>
@@ -200,32 +192,30 @@
 	</div>
 
 	<main class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-		<!-- Hero Section -->
 		<section class="contact-hero text-center mb-16 lg:mb-24">
 			<h1 class="font-poppins text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 text-glow">
-				{$_('contact.title')} <span class="blue-gradient_text">{$_('contact.titleHighlight')}</span>
+				{$t('contact.title')} <span class="blue-gradient_text">{$t('contact.titleHighlight')}</span>
 			</h1>
 			<p
 				class="text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed"
 				style="color: var(--text-secondary);"
 			>
-				{$_('contact.subtitle')}
+				{$t('contact.subtitle')}
 			</p>
 		</section>
 
 		<div class="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-7xl mx-auto">
-			<!-- Contact Methods -->
 			<section class="space-y-6">
 				<h2
 					class="font-poppins text-2xl lg:text-3xl font-bold mb-8"
 					style="color: var(--text-secondary);"
 				>
-					{$_('contact.getInTouch')}
-					<span class="blue-gradient_text">{$_('contact.getInTouchHighlight')}</span>
+					{$t('contact.getInTouch')}
+					<span class="blue-gradient_text">{$t('contact.getInTouchHighlight')}</span>
 				</h2>
 
 				<div class="grid gap-6">
-					{#each contactMethods as method, index}
+					{#each contactMethods as method}
 						<article class="contact-method">
 							<a
 								href={method.href}
@@ -327,15 +317,14 @@
 				</div>
 			</section>
 
-			<!-- Contact Form -->
 			<div class="contact-form">
 				<div class="glass-card p-6 sm:p-8 rounded-2xl">
 					<h2
 						class="font-poppins text-2xl lg:text-3xl font-bold mb-8"
 						style="color: var(--text-secondary);"
 					>
-						{$_('contact.form.title')}
-						<span class="blue-gradient_text">{$_('contact.form.titleHighlight')}</span>
+						{$t('contact.form.title')}
+						<span class="blue-gradient_text">{$t('contact.form.titleHighlight')}</span>
 					</h2>
 
 					<form
@@ -345,7 +334,6 @@
 							return async ({ result, update }) => {
 								isSubmitting = false;
 								if (result.type === 'success') {
-									// Clear form on success
 									const form = document.querySelector('form');
 									if (form) form.reset();
 								}
@@ -354,7 +342,6 @@
 						}}
 						class="space-y-6"
 					>
-						<!-- Honeypot field - hidden from users but filled by bots -->
 						<div
 							style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;"
 							aria-hidden="true"
@@ -363,7 +350,6 @@
 							<input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
 						</div>
 
-						<!-- Timestamp for timing check -->
 						<input type="hidden" name="_timestamp" value={formLoadTime} />
 
 						<div class="form-field">
@@ -372,7 +358,7 @@
 								class="block text-sm font-medium mb-2"
 								style="color: var(--text-secondary);"
 							>
-								{$_('contact.form.name')}
+								{$t('contact.form.name')}
 							</label>
 							<div class="relative">
 								<input
@@ -384,15 +370,12 @@
 									maxlength="100"
 									class="form-input w-full px-4 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:bg-white/10 transition-all duration-300"
 									style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
-									placeholder={$_('contact.form.namePlaceholder')}
-									class:border-red-500={form?.errors?.name}
+									placeholder={$t('contact.form.namePlaceholder')}
+									class:border-red-500={(form?.errors as Record<string,string>)?.name}
 								/>
-								<div
-									class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-								></div>
 							</div>
-							{#if form?.errors?.name}
-								<p class="mt-2 text-sm text-red-400">{form.errors.name}</p>
+							{#if (form?.errors as Record<string,string>)?.name}
+								<p class="mt-2 text-sm text-red-400">{(form?.errors as Record<string,string>)?.name}</p>
 							{/if}
 						</div>
 
@@ -402,7 +385,7 @@
 								class="block text-sm font-medium mb-2"
 								style="color: var(--text-secondary);"
 							>
-								{$_('contact.form.email')}
+								{$t('contact.form.email')}
 							</label>
 							<div class="relative">
 								<input
@@ -414,15 +397,12 @@
 									maxlength="254"
 									class="form-input w-full px-4 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:bg-white/10 transition-all duration-300"
 									style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
-									placeholder={$_('contact.form.emailPlaceholder')}
-									class:border-red-500={form?.errors?.email}
+									placeholder={$t('contact.form.emailPlaceholder')}
+									class:border-red-500={(form?.errors as Record<string,string>)?.email}
 								/>
-								<div
-									class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-								></div>
 							</div>
-							{#if form?.errors?.email}
-								<p class="mt-2 text-sm text-red-400">{form.errors.email}</p>
+							{#if (form?.errors as Record<string,string>)?.email}
+								<p class="mt-2 text-sm text-red-400">{(form?.errors as Record<string,string>)?.email}</p>
 							{/if}
 						</div>
 
@@ -432,7 +412,7 @@
 								class="block text-sm font-medium mb-2"
 								style="color: var(--text-secondary);"
 							>
-								{$_('contact.form.message')}
+								{$t('contact.form.message')}
 							</label>
 							<div class="relative">
 								<textarea
@@ -444,15 +424,12 @@
 									rows="6"
 									class="form-input w-full px-4 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:bg-white/10 transition-all duration-300 resize-none"
 									style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
-									placeholder={$_('contact.form.messagePlaceholder')}
-									class:border-red-500={form?.errors?.message}
+									placeholder={$t('contact.form.messagePlaceholder')}
+									class:border-red-500={(form?.errors as Record<string,string>)?.message}
 								></textarea>
-								<div
-									class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-								></div>
 							</div>
-							{#if form?.errors?.message}
-								<p class="mt-2 text-sm text-red-400">{form.errors.message}</p>
+							{#if (form?.errors as Record<string,string>)?.message}
+								<p class="mt-2 text-sm text-red-400">{(form?.errors as Record<string,string>)?.message}</p>
 							{/if}
 						</div>
 
@@ -483,14 +460,11 @@
 											d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
 										></path>
 									</svg>
-									{$_('contact.form.sending')}
+									{$t('contact.form.sending')}
 								{:else}
-									{$_('contact.form.submit')}
+									{$t('contact.form.submit')}
 								{/if}
 							</span>
-							<div
-								class="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-							></div>
 						</Button>
 
 						{#if form?.success}
@@ -509,24 +483,23 @@
 			</div>
 		</div>
 
-		<!-- Additional CTA Section -->
 		<div class="text-center mt-16 lg:mt-24">
 			<div class="glass-card p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto">
 				<h3 class="font-poppins text-2xl lg:text-3xl font-bold mb-4 text-glow">
-					{$_('contact.cta.title')}
-					<span class="blue-gradient_text">{$_('contact.cta.titleHighlight')}</span>{$_(
+					{$t('contact.cta.title')}
+					<span class="blue-gradient_text">{$t('contact.cta.titleHighlight')}</span>{$t(
 						'contact.cta.titleEnd'
 					)}
 				</h3>
 				<p class="text-lg mb-8 max-w-2xl mx-auto" style="color: var(--text-secondary);">
-					{$_('contact.cta.subtitle')}
+					{$t('contact.cta.subtitle')}
 				</p>
 				<div class="flex flex-col sm:flex-row gap-4 justify-center">
 					<Button href="mailto:biglmatthias@gmail.com" variant="secondary">
-						{$_('contact.cta.emailMe')}
+						{$t('contact.cta.emailMe')}
 					</Button>
 					<Button href="/assets/resume.pdf" external={true} variant="secondary">
-						{$_('contact.cta.downloadResume')}
+						{$t('contact.cta.downloadResume')}
 					</Button>
 				</div>
 			</div>

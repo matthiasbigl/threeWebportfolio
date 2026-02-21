@@ -2,7 +2,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
 
-	let progressBar: HTMLDivElement = $state();
+	let progressBar: HTMLDivElement | undefined = $state();
 
 	if (browser) {
 		onMount(() => {

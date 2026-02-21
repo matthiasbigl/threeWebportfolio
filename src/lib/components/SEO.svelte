@@ -1,5 +1,6 @@
 <script lang="ts">
 	import deLocale from '$lib/i18n/locales/de.json';
+	import { page } from '$app/stores';
 
 	interface SEOProps {
 		title?: string;
@@ -147,6 +148,13 @@
 	const author = 'Matthias Bigl';
 	const twitterHandle = '@matthiasbigl';
 	const siteUrl = 'https://bigls.net';
+
+	// Strip lang prefix to get the page path for hreflang alternates
+	const pagePath = $derived((() => {
+		const pathname = $page.url.pathname;
+		const match = pathname.match(/^\/(de|en|cs)(\/.*)?$/);
+		return match ? (match[2] || '') : pathname;
+	})());
 
 	// ═══════════════════════════════════════════════════════════
 	// Structured Data — Person Schema (brand entity)
@@ -463,9 +471,11 @@
 	/>
 	<link rel="canonical" href={url} />
 
-	<!-- Hreflang omitted: site uses client-side i18n with a single URL per page.
-	     Hreflang requires distinct URLs per language (e.g. /de/... /en/...).
-	     Will be re-added after migrating to URL-based i18n (Paraglide). -->
+	<!-- Hreflang: route-based language alternates -->
+	{#each ['de', 'en', 'cs'] as hLang}
+		<link rel="alternate" hreflang={hLang} href="https://bigls.net/{hLang}{pagePath}" />
+	{/each}
+	<link rel="alternate" hreflang="x-default" href="https://bigls.net/de{pagePath}" />
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content={type} />

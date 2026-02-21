@@ -1,8 +1,6 @@
 <script>
-	import '../app.css';
-	import '$lib/i18n';
-	import { isLoading, _ } from 'svelte-i18n';
-	import { initLocaleFromStorage } from '$lib/i18n';
+	import '../../app.css';
+	import { t, loading, setLocale } from '$lib/i18n';
 	import { initTheme } from '$lib/theme';
 	import Navbar from '$lib/components/navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
@@ -15,31 +13,37 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
-	/** @type {{children?: import('svelte').Snippet}} */
-	let { children } = $props();
+
+	/** @type {{data: import('./$types').LayoutData, children?: import('svelte').Snippet}} */
+	let { data, children } = $props();
 
 	let showScrollIndicator = $state(true);
 
+	$effect(() => {
+		setLocale(data.lang);
+	});
+
 	// ─── Sub-page route config ───
-	// One array. Add a route → navbar and footer adapt automatically.
-	// pattern: regex tested against pathname
-	// backHref / backLabelKey: fed straight into Navbar
-	// hideFooter: true when the page has its own CTA footer
-	const subPageRoutes = [
+	const subPageRoutes = $derived([
 		{
-			pattern: /^\/projects\/.+/,
-			backHref: '/#projects',
+			pattern: new RegExp(`^/${data.lang}/projects/.+`),
+			backHref: `/${data.lang}/#projects`,
 			backLabelKey: 'projectDetail.backLabel',
 			hideFooter: true
 		},
-		{ pattern: /^\/pricing$/, backHref: '/', backLabelKey: 'pricing.backToHome', hideFooter: true }
-	];
+		{
+			pattern: new RegExp(`^/${data.lang}/pricing$`),
+			backHref: `/${data.lang}`,
+			backLabelKey: 'pricing.backToHome',
+			hideFooter: true
+		}
+	]);
 
 	const activeSubPage = $derived(subPageRoutes.find((r) => r.pattern.test($page.url.pathname)));
 
 	const navConfig = $derived(
 		activeSubPage
-			? { backHref: activeSubPage.backHref, backLabel: $_(activeSubPage.backLabelKey) }
+			? { backHref: activeSubPage.backHref, backLabel: $t(activeSubPage.backLabelKey) }
 			: {}
 	);
 
@@ -47,7 +51,6 @@
 
 	onMount(() => {
 		if (browser) {
-			initLocaleFromStorage();
 			initTheme();
 
 			const handleScroll = () => {
@@ -80,7 +83,7 @@
 <ScrollProgress />
 
 <!-- Universal loading spinner: shown during i18n init + SvelteKit page navigations -->
-<LoadingSpinner visible={$isLoading} fullscreen />
+<LoadingSpinner visible={$loading} fullscreen />
 
 <div
 	class="relative min-h-dvh flex flex-col transition-colors duration-300"
@@ -106,7 +109,7 @@
 			? 0
 			: 30}px);"
 		onclick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-		aria-label={$_('a11y.scrollDown')}
+		aria-label={$t('a11y.scrollDown')}
 	>
 		<svg
 			class="w-6 h-6 transition-transform duration-300 group-hover:translate-y-0.5"

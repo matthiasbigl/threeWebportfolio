@@ -1,13 +1,14 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO.svelte';
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
-	import { _ } from 'svelte-i18n';
+	import { t } from '$lib/i18n';
+	import { page } from '$app/stores';
 </script>
 
 <SEO
 	title="Datenschutz | Matthias Bigl – Webdesigner Wien/Korneuburg"
 	description="Datenschutzerklärung von Matthias Bigl, Webdesigner & Full Stack Developer aus Korneuburg bei Wien. DSGVO-konforme Informationen zur Datenverarbeitung."
-	url="https://bigls.net/datenschutz"
+	url="https://bigls.net/{$page.params.lang || 'de'}/datenschutz"
 	noindex={true}
 />
 
@@ -24,7 +25,7 @@
 				class="font-poppins text-4xl sm:text-5xl font-bold mb-4"
 				style="color: var(--text-heading);"
 			>
-				{$_('privacy.title')}
+				{$t('privacy.title')}
 			</h1>
 			<div class="h-1 w-20 bg-blue-500 rounded-full"></div>
 		</header>
@@ -34,21 +35,21 @@
 			style="color: var(--text-secondary);"
 		>
 			<section>
-				<p>{$_('privacy.intro')}</p>
+				<p>{$t('privacy.intro')}</p>
 			</section>
 
 			<section>
 				<h2 class="font-bold text-xl mb-4" style="color: var(--text-heading);">
-					{$_('privacy.contact')}
+					{$t('privacy.contact')}
 				</h2>
-				<p>{$_('privacy.contactText')}</p>
+				<p>{$t('privacy.contactText')}</p>
 			</section>
 
 			<section>
 				<h2 class="font-bold text-xl mb-4" style="color: var(--text-heading);">
-					{$_('privacy.analytics')}
+					{$t('privacy.analytics')}
 				</h2>
-				<p>{$_('privacy.analyticsText')}</p>
+				<p>{$t('privacy.analyticsText')}</p>
 			</section>
 
 			<section class="pt-6" style="border-top: 1px solid var(--border-primary);">

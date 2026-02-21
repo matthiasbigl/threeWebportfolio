@@ -1,39 +1,50 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { _, locale, json } from 'svelte-i18n';
+	import { t, translations, locale } from '$lib/i18n';
 	import Button from './Button.svelte';
+
+	function tArr(key: string, maxItems = 50): string[] {
+		const trans = ($translations?.[$locale ?? 'de'] ?? {}) as Record<string, unknown>;
+		const result: string[] = [];
+		let i = 0;
+		while (i < maxItems && `${key}.${i}` in trans) {
+			result.push(trans[`${key}.${i}`] as string);
+			i++;
+		}
+		return result;
+	}
 
 	const processSteps = $derived([
 		{
 			id: 'consultation',
 			number: '01',
-			title: $_('services.allInOne.process.consultation.title'),
-			desc: $_('services.allInOne.process.consultation.desc')
+			title: $t('services.allInOne.process.consultation.title'),
+			desc: $t('services.allInOne.process.consultation.desc')
 		},
 		{
 			id: 'design',
 			number: '02',
-			title: $_('services.allInOne.process.design.title'),
-			desc: $_('services.allInOne.process.design.desc')
+			title: $t('services.allInOne.process.design.title'),
+			desc: $t('services.allInOne.process.design.desc')
 		},
 		{
 			id: 'development',
 			number: '03',
-			title: $_('services.allInOne.process.development.title'),
-			desc: $_('services.allInOne.process.development.desc')
+			title: $t('services.allInOne.process.development.title'),
+			desc: $t('services.allInOne.process.development.desc')
 		},
 		{
 			id: 'launch',
 			number: '04',
-			title: $_('services.allInOne.process.launch.title'),
-			desc: $_('services.allInOne.process.launch.desc')
+			title: $t('services.allInOne.process.launch.title'),
+			desc: $t('services.allInOne.process.launch.desc')
 		},
 		{
 			id: 'hosting',
 			number: '05',
-			title: $_('services.allInOne.process.hosting.title'),
-			desc: $_('services.allInOne.process.hosting.desc')
+			title: $t('services.allInOne.process.hosting.title'),
+			desc: $t('services.allInOne.process.hosting.desc')
 		}
 	]);
 
@@ -41,9 +52,9 @@
 		{
 			id: 'websites',
 			icon: '🌐',
-			title: $_('services.items.fullstack.title'),
-			description: $_('services.items.fullstack.description'),
-			features: $json('services.items.fullstack.features') as string[],
+			title: $t('services.items.fullstack.title'),
+			description: $t('services.items.fullstack.description'),
+			features: tArr('services.items.fullstack.features'),
 			gradient: 'from-blue-500/10 via-cyan-500/10 to-blue-600/10',
 			border: 'group-hover:border-blue-500/50',
 			colSpan: 'md:col-span-3 lg:col-span-3',
@@ -52,9 +63,9 @@
 		{
 			id: 'webshops',
 			icon: '🛒',
-			title: $_('services.items.webshops.title'),
-			description: $_('services.items.webshops.description'),
-			features: $json('services.items.webshops.features') as string[],
+			title: $t('services.items.webshops.title'),
+			description: $t('services.items.webshops.description'),
+			features: tArr('services.items.webshops.features'),
 			gradient: 'from-purple-500/10 via-pink-500/10 to-purple-600/10',
 			border: 'group-hover:border-purple-500/50',
 			colSpan: 'md:col-span-3 lg:col-span-3',
@@ -63,9 +74,9 @@
 		{
 			id: 'seo',
 			icon: '📈',
-			title: $_('services.items.seo.title'),
-			description: $_('services.items.seo.description'),
-			features: $json('services.items.seo.features') as string[],
+			title: $t('services.items.seo.title'),
+			description: $t('services.items.seo.description'),
+			features: tArr('services.items.seo.features'),
 			gradient: 'from-orange-500/10 via-amber-500/10 to-orange-600/10',
 			border: 'group-hover:border-orange-500/50',
 			colSpan: 'md:col-span-2',
@@ -74,9 +85,9 @@
 		{
 			id: 'custom',
 			icon: '✨',
-			title: $_('services.items.experiences.title'),
-			description: $_('services.items.experiences.description'),
-			features: $json('services.items.experiences.features') as string[],
+			title: $t('services.items.experiences.title'),
+			description: $t('services.items.experiences.description'),
+			features: tArr('services.items.experiences.features'),
 			gradient: 'from-emerald-500/10 via-teal-500/10 to-emerald-600/10',
 			border: 'group-hover:border-emerald-500/50',
 			colSpan: 'md:col-span-4',
@@ -101,7 +112,7 @@
 		benefitOrder.map((key) => ({
 			id: key,
 			icon: benefitIcons[key] || '⭐',
-			title: $_(`services.benefits.${key}.title`)
+			title: $t(`services.benefits.${key}.title`)
 		}))
 	);
 
@@ -342,7 +353,7 @@
 			<div class="flex items-center gap-3 mb-4 sm:mb-6">
 				<div class="h-px w-8 bg-blue-500"></div>
 				<span class="text-blue-400 text-xs font-bold uppercase tracking-[0.2em]">
-					{$_('services.title')}
+					{$t('services.title')}
 				</span>
 			</div>
 
@@ -350,14 +361,14 @@
 				class="text-3xl sm:text-5xl lg:text-7xl font-bold mb-5 sm:mb-8 tracking-tight leading-[0.95] sm:leading-[0.9]"
 				style="color: var(--text-heading);"
 			>
-				{$_('services.titleHighlight')}
+				{$t('services.titleHighlight')}
 			</h2>
 
 			<p
 				class="text-base sm:text-xl font-light leading-relaxed max-w-2xl pl-4 sm:pl-6"
 				style="color: var(--text-secondary); border-left: 2px solid var(--border-primary);"
 			>
-				{@html $_('services.subtitle')}
+				{@html $t('services.subtitle')}
 			</p>
 		</div>
 
@@ -396,19 +407,19 @@
 									class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight"
 									style="color: var(--text-heading);"
 								>
-									{$_('services.allInOne.title')}
+									{$t('services.allInOne.title')}
 								</h3>
 								<p
 									class="text-sm sm:text-base font-light mt-0.5"
 									style="color: var(--text-secondary);"
 								>
-									{$_('services.allInOne.tagline')}
+									{$t('services.allInOne.tagline')}
 								</p>
 							</div>
 						</div>
 
 						<div class="flex flex-wrap gap-1.5 sm:gap-2 sm:justify-end">
-							{#each $json('services.allInOne.features') as string[] as feature}
+							{#each tArr('services.allInOne.features') as feature}
 								<span
 									class="px-2.5 py-1 text-xs font-medium rounded-full transition-all duration-300"
 									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
@@ -635,7 +646,7 @@
 						variant="inverted"
 						className="relative z-10 !text-sm sm:!text-base !px-7 !py-3.5 sm:!px-8 sm:!py-4"
 					>
-						<span>{$_('pricing.navTitle')}</span>
+						<span>{$t('pricing.navTitle')}</span>
 						<svg
 							class="w-4 h-4 group-hover:translate-x-1 transition-transform"
 							fill="none"
@@ -656,7 +667,7 @@
 
 		<div class="mt-24 text-center">
 			<Button href="/contact">
-				{$_('services.cta')} &rarr;
+				{$t('services.cta')} &rarr;
 			</Button>
 		</div>
 	</div>

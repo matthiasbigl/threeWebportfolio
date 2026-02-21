@@ -1,16 +1,16 @@
 <script lang="ts">
-	import { locale, _ } from '$lib/i18n';
+	import { t, locale } from '$lib/i18n';
 	import SEO from '$lib/components/SEO.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import { marked } from 'marked';
 	import type { PageData } from './$types';
+	
 
-	let { data }: PageData = $props();
+	interface Props {
+		data: PageData;
+	}
 
-	// Use SSR content as initial state, then reactively update when locale changes
-	let content = $state(data.article);
+	let { data }: Props = $props();
 
-	// Static German SEO metadata (avoids duplicate <head> on hydration locale switch)
 	const seoTitle = 'Website Kosten Österreich 2026 | Was kostet eine Website? Matthias Bigl';
 	const seoDescription =
 		'Was kostet eine Website 2026 in Österreich? Landingpages ab €650, Websites ab €2.000, Webshops ab €3.250. Ehrlicher Preisguide von Matthias Bigl – Webdesigner Wien/Korneuburg. Jetzt lesen!';
@@ -28,33 +28,6 @@
 		'Webdesign günstig Wien',
 		'Website Preise Vergleich'
 	];
-
-	async function loadContent(lang: string) {
-		try {
-			const modules = import.meta.glob('$lib/content/pricing/*.md', {
-				query: '?raw',
-				import: 'default',
-				eager: true
-			});
-			const rawContent = modules[`/src/lib/content/pricing/${lang}.md`] as string;
-
-			if (rawContent) {
-				content = await marked.parse(rawContent);
-			}
-		} catch (e) {
-			console.error('Failed to load pricing content', e);
-		}
-	}
-
-	$effect(() => {
-		// Only run client-side to update if locale is not 'de' (which was already SSR'd)
-		if ($locale && $locale !== 'de') {
-			loadContent($locale);
-		} else if ($locale === 'de' && content !== data.article) {
-			// Fallback if user switches back to 'de'
-			content = data.article;
-		}
-	});
 </script>
 
 <SEO
@@ -62,12 +35,12 @@
 	description={seoDescription}
 	keywords={seoKeywords}
 	type="article"
-	url="https://bigls.net/pricing"
+	url="https://bigls.net/{data.lang}/pricing"
 	datePublished="2025-12-01"
 	dateModified="2026-02-01"
 	breadcrumbs={[
-		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
-		{ name: seoTitle, url: 'https://bigls.net/pricing' }
+		{ name: 'Matthias Bigl', url: `https://bigls.net/${data.lang}` },
+		{ name: seoTitle, url: `https://bigls.net/${data.lang}/pricing` }
 	]}
 />
 
@@ -75,7 +48,6 @@
 	class="min-h-dvh selection:bg-blue-500/20 relative overflow-hidden"
 	style="background: var(--bg-body); color: var(--text-primary);"
 >
-	<!-- Background Effects -->
 	<div
 		class="fixed inset-0 z-0 pointer-events-none grid-lines"
 		style="opacity: var(--grid-opacity);"
@@ -83,7 +55,6 @@
 	<div class="fixed inset-0 z-0 pointer-events-none">
 		<div class="pricing-aurora w-full h-full"></div>
 	</div>
-	<!-- Floating orbs for depth -->
 	<div
 		class="fixed top-[15%] left-[5%] w-[500px] h-[500px] bg-blue-600/[0.07] rounded-full blur-[120px] pointer-events-none animate-float-slow"
 	></div>
@@ -91,43 +62,31 @@
 		class="fixed bottom-[10%] right-[8%] w-[400px] h-[400px] bg-purple-600/[0.06] rounded-full blur-[100px] pointer-events-none animate-float-slow-reverse"
 	></div>
 
-	<!-- ═══════════════════════════════════════════════════════════ -->
-	<!-- PAGE NAV — Now handled by the unified Navbar component     -->
-	<!-- ═══════════════════════════════════════════════════════════ -->
-
 	<div class="relative z-10 pt-24 pb-20">
 		<article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-			<!-- Glass card only on sm+ screens; on mobile, content flows openly -->
 			<div class="pricing-card relative sm:rounded-[2rem] sm:shadow-2xl overflow-hidden">
-				<!-- Top accent gradient line (sm+ only) -->
 				<div
 					class="hidden sm:block absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"
 				></div>
-				<!-- Inner glow (sm+ only) -->
 				<div
 					class="hidden sm:block absolute inset-0 bg-gradient-to-b from-blue-500/[0.03] via-transparent to-purple-500/[0.02] pointer-events-none"
 				></div>
 
 				<div class="relative z-10 py-2 sm:p-12 lg:p-16">
-					<!-- Custom wrapper for markdown content -->
 					<div class="pricing-content">
-						{@html content}
+						{@html data.article}
 					</div>
 
-					<!-- CTA Block — Glass style matching site aesthetic -->
 					<div
 						class="pricing-cta mt-12 sm:mt-20 relative rounded-xl sm:rounded-2xl overflow-hidden group"
 					>
-						<!-- Glass background -->
 						<div class="absolute inset-0" style="background: var(--glass-bg);"></div>
 						<div
 							class="absolute inset-0 bg-gradient-to-r from-blue-600/[0.06] via-purple-600/[0.04] to-blue-600/[0.06]"
 						></div>
-						<!-- Top accent line -->
 						<div
 							class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"
 						></div>
-						<!-- Animated sheen -->
 						<div
 							class="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"
 						></div>
@@ -151,11 +110,11 @@
 									</p>
 								</div>
 								<Button
-									href="/contact"
+									href="/{data.lang}/contact"
 									variant="primary"
 									className="flex-shrink-0 no-underline !text-base sm:!text-lg"
 								>
-									{$_('hero.cta')}
+									{$t('hero.cta')}
 									<svg
 										class="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300"
 										fill="none"
@@ -180,7 +139,6 @@
 </div>
 
 <style>
-	/* Pricing page aurora - more dramatic than global */
 	.pricing-aurora {
 		background:
 			radial-gradient(ellipse at 25% 15%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
@@ -196,7 +154,6 @@
 		background-size: 60px 60px;
 	}
 
-	/* Main card glass effect — transparent on mobile, glass on sm+ */
 	.pricing-card {
 		background: transparent;
 		backdrop-filter: none;
@@ -215,7 +172,6 @@
 		}
 	}
 
-	/* Floating orb animations */
 	:global(.animate-float-slow) {
 		animation: floatSlow 18s ease-in-out infinite;
 	}
@@ -241,7 +197,6 @@
 		}
 	}
 
-	/* ─── MARKDOWN CONTENT STYLING ─── */
 	:global(.pricing-content) {
 		color: var(--text-secondary);
 		font-family: 'Work Sans', sans-serif;
@@ -249,7 +204,6 @@
 		font-size: 1.05rem;
 	}
 
-	/* ── HEADINGS ── */
 	:global(.pricing-content h1) {
 		font-family: 'Poppins', sans-serif;
 		font-weight: 800;
@@ -296,13 +250,11 @@
 		line-height: 1.3;
 	}
 
-	/* ── PARAGRAPHS ── */
 	:global(.pricing-content p) {
 		margin-bottom: 1.5rem;
 		color: var(--text-secondary);
 	}
 
-	/* ── BOLD/STRONG – Gradient accent ── */
 	:global(.pricing-content strong) {
 		background: linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #a78bfa 100%);
 		-webkit-background-clip: text;
@@ -311,7 +263,6 @@
 		font-weight: 700;
 	}
 
-	/* ── LINKS ── */
 	:global(.pricing-content a) {
 		color: #60a5fa;
 		text-decoration: none;
@@ -325,7 +276,6 @@
 		text-shadow: 0 0 12px rgba(96, 165, 250, 0.3);
 	}
 
-	/* ── HORIZONTAL RULES ── */
 	:global(.pricing-content hr) {
 		border: none;
 		height: 1px;
@@ -333,7 +283,6 @@
 		margin: 3rem 0;
 	}
 
-	/* ── LISTS ── */
 	:global(.pricing-content ul) {
 		list-style: none;
 		padding-left: 0;
@@ -383,7 +332,6 @@
 		-webkit-text-fill-color: transparent;
 	}
 
-	/* ── TABLES – Premium glass card look ── */
 	:global(.pricing-content table) {
 		width: 100%;
 		border-collapse: separate;
@@ -434,7 +382,6 @@
 		color: var(--text-heading);
 	}
 
-	/* First column in tables - the category/type */
 	:global(.pricing-content td:first-child) {
 		color: var(--text-heading);
 		font-weight: 500;
@@ -454,7 +401,6 @@
 		}
 	}
 
-	/* ── BLOCKQUOTE ── */
 	:global(.pricing-content blockquote) {
 		border-left: 3px solid rgba(59, 130, 246, 0.5);
 		padding: 1rem 1.5rem;
@@ -465,13 +411,11 @@
 		font-style: italic;
 	}
 
-	/* ── EMPHASIS ── */
 	:global(.pricing-content em) {
 		color: var(--text-secondary);
 		font-style: italic;
 	}
 
-	/* ── MOBILE TIGHTENING ── */
 	@media (max-width: 639px) {
 		:global(.pricing-content) {
 			font-size: 0.95rem;
