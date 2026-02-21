@@ -1,0 +1,662 @@
+{
+	"nav": {
+		"home": "Domů",
+		"about": "O mně",
+		"services": "Služby",
+		"faq": "FAQ",
+		"contact": "Kontakt"
+	},
+	"hero": {
+		"greeting": "Ahoj, jsem",
+		"name": "Matthias Bigl",
+		"subtitle": "Profesionální <span class=\"blue-gradient_text font-semibold\">webdesign & vývoj webu</span> 🇦🇹",
+		"description": "Váš <span class=\"blue-gradient_text font-semibold\">digitální vizitka</span> ve Vídni & Korneuburgu, který získává nové zákazníky 24 hodin denně – zatímco se vy soustředíte na svůj hlavní byznys.",
+		"cta": "Bezplatná konzultace",
+		"ctaServices": "Moje služby"
+	},
+	"heroNew": {
+		"headline1": "Online přítomnost, která funguje",
+		"headline2": "Jste online neviditelní?<br><span class=\"hero-accent\">To změníme.</span>",
+		"subheadline": "Profesionální webové stránky, aby vás vaši zákazníci našli. Osobně, bez agenturního stresu, za férovou cenu.",
+		"serviceOverview": "Co pro vás mohu udělat?",
+		"services": {
+			"websites": {
+				"title": "Webové stránky",
+				"tagline": "od 650 €",
+				"hover": "Profesionální webová přítomnost"
+			},
+			"webshops": {
+				"title": "E-shopy",
+				"tagline": "prodávejte 24/7",
+				"hover": "Prodávejte online"
+			},
+			"custom": {
+				"title": "Na míru",
+				"tagline": "Vaše vize",
+				"hover": "Cokoli si představíte"
+			},
+			"seo": {
+				"title": "SEO",
+				"tagline": "více návštěvníků",
+				"hover": "Buďte nalezeni"
+			},
+			"hosting": {
+				"title": "Hosting",
+				"tagline": "vše v ceně",
+				"hover": "Bez starostí"
+			}
+		}
+	},
+	"services": {
+		"title": "Více zákazníků,",
+		"titleHighlight": "méně stresu",
+		"subtitle": "Chcete být online viditelní, ale nechcete trávit týdny s technikou? <span class=\"blue-gradient_text\">Postarám se o to za vás</span> – osobně, bez agenturního chaosu, za férovou cenu.",
+		"allInOne": {
+			"title": "Kompletní servis – od A do Z",
+			"tagline": "Řekněte, co potřebujete, já se postarám o zbytek.",
+			"description": "Ať si představíte cokoli – realizuji to. Od první myšlenky až po spuštění a hosting.",
+			"process": {
+				"consultation": {
+					"title": "Konzultace",
+					"desc": "zdarma & nezávazně"
+				},
+				"design": {
+					"title": "Design",
+					"desc": "jedinečný pro vás"
+				},
+				"development": {
+					"title": "Vývoj",
+					"desc": "moderní & bezpečný"
+				},
+				"launch": {
+					"title": "Spuštění",
+					"desc": "rychlé & hladké"
+				},
+				"hosting": {
+					"title": "Hosting",
+					"desc": "navždy v ceně"
+				}
+			},
+			"features": [
+				"Hosting v ceně",
+				"Aktualizace & údržba",
+				"Přímá podpora",
+				"Bez technických znalostí"
+			]
+		},
+		"items": {
+			"experiences": {
+				"title": "Řešení na míru",
+				"description": "Ať si představíte cokoli – 3D zážitky, interaktivní aplikace nebo něco zcela nového. Realizuji vaši vizi.",
+				"features": [
+					"Vaše vize, moje realizace",
+					"3D & interaktivní možnosti",
+					"Přizpůsobeno pro vás",
+					"Jedinečné jako váš byznys"
+				]
+			},
+			"fullstack": {
+				"title": "Balíček bez starostí",
+				"description": "Technika není vaše silná stránka? Žádný problém. Postarám se o vše – od první myšlenky až po průběžnou péči. Stačí říct ‚ano'.",
+				"features": [
+					"Vše z jedné ruky",
+					"Rychlý & bezpečný hosting",
+					"Aktualizace & údržba v ceně",
+					"Vždy k dispozici"
+				]
+			},
+			"seo": {
+				"title": "SEO optimalizace",
+				"description": "Lépe rankovat, být nalezen. Datové SEO strategie pro větší viditelnost a provoz.",
+				"features": [
+					"Strategie klíčových slov",
+					"Technický audit",
+					"Posílení výkonu",
+					"Umístění na Googlu"
+				]
+			},
+			"webshops": {
+				"title": "Online prodej, snadno",
+				"description": "Váš vlastní obchod, který přijímá objednávky, když spíte. Snadno spravovatelný, bezpečný pro zákazníky, optimalizovaný pro více prodejů.",
+				"features": [
+					"Snadná správa",
+					"Bezpečné platby",
+					"Automatické objednávky",
+					"Vědět, co funguje"
+				]
+			}
+		},
+		"whyMe": {
+			"title": "Kvalita agentury,",
+			"titleHighlight": "bez agenturních cen",
+			"subtitle": "Proč platit za 10 lidí, když jeden zvládne vše? Přímo, osobně, bez zbytečných kroků."
+		},
+		"benefits": {
+			"allInOne": {
+				"title": "Můžete se opřít",
+				"description": "Hosting, aktualizace, zabezpečení – běží na pozadí. Vy se soustředíte na svůj byznys, já na váš web."
+			},
+			"personal": {
+				"title": "Žádné čekání",
+				"description": "Zavoláte, zvednu telefon. Žádné tikety, žádné ‚vaše požadavek byl předán'. Přímá komunikace, rychlá řešení."
+			},
+			"local": {
+				"title": "Káva místo videohovoru",
+				"description": "Osobní setkání ve Vídni nebo Korneuburgu jsou možná. Někdy je osobní rozhovor prostě lepší."
+			},
+			"prices": {
+				"title": "Více webu, méně faktury",
+				"description": "Žádné agenturní příplatky za schůzky o schůzkách. Platíte za výsledky, ne za režii."
+			},
+			"tech": {
+				"title": "Stavěno na budoucnost",
+				"description": "Žádné zastaralé systémy, které budou za 2 roky problémem. Moderní technologie, která roste s vaším byznysem."
+			},
+			"detail": {
+				"title": "Váš projekt = Můj projekt",
+				"description": "Každý detail se počítá. Pracuji, jako by to byl můj vlastní web – protože moje pověst závisí na vaší spokojenosti."
+			}
+		},
+		"pricing": {
+			"websites": "650 € – 2 000 €+",
+			"webshops": "od 3 250 €",
+			"custom": "Individuálně"
+		},
+		"cta": "Bezplatná konzultace webdesignu",
+		"ctaSubtext": "Nezávazně • Zdarma • Bez skrytých poplatků"
+	},
+	"aboutCompact": {
+		"title": "Váš kontakt",
+		"name": "Matthias Bigl",
+		"role": "Freelancer z Vídně & Korneuburgu",
+		"description": "Jeden kontakt. Žádné čekání. Osobně, ne neosobně.",
+		"bio": "Absolvent HTL Hollabrunn v oboru informační technologie. Hlavní zaměstnání jako konzultant & Full Stack Developer ve společnosti Tieto – projekty zákaznické zkušenosti v bankovním sektoru. Ve volném čase buduji moderní webová řešení pro malé a střední podniky a živnostníky.",
+		"availability": "K dispozici pro nové projekty",
+		"differentiators": {
+			"partner": {
+				"title": "Jeden partner",
+				"desc": "ne oddělení"
+			},
+			"local": {
+				"title": "Lokálně",
+				"desc": "ve Vídni & Korneuburgu"
+			},
+			"direct": {
+				"title": "Přímo",
+				"desc": "dostupný"
+			}
+		},
+		"cta": "O mně"
+	},
+	"skills": {
+		"title": "Některé z mých nejlepších",
+		"titleHighlight": "dovedností",
+		"hint": "👆 Zkuste uchopit kostky!",
+		"languages": "Jazyky",
+		"strengths": "Silné stránky",
+		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin",
+		"strengthsList": "Backend, UI/UX, Grafický design, Týmová práce, Projektový management",
+		"languagesDescription": "Zkušenosti s programovacími jazyky jako Python, Java, Svelte, TypeScript a Kotlin pro full-stack webový a mobilní vývoj.",
+		"strengthsDescription": "Klíčové kompetence jako vývoj backendu, UI/UX design, grafický design, týmová práce a projektový management.",
+		"languagesAriaLabel": "Interaktivní 3D kostka s programovacími jazyky: Python, Java, Svelte, TypeScript a Kotlin. Táhněte pro otočení.",
+		"strengthsAriaLabel": "Interaktivní 3D kostka s profesionálními silnými stránkami: vývoj backendu, UI/UX design, grafický design, týmová práce a projektový management. Táhněte pro otočení."
+	},
+	"projectDetail": {
+		"backLabel": "Všechny projekty",
+		"caseStudy": "Případová studie",
+		"chapterVision": "Vize",
+		"chapterChallenge": "Výzva",
+		"chapterCraft": "Realizace",
+		"chapterOutcome": "Výsledek",
+		"techStackLabel": "Technologie",
+		"metaRole": "Role",
+		"metaTimeline": "Časový rámec",
+		"metaType": "Typ",
+		"metaStatus": "Stav",
+		"featuresTitle": "Co ho dělá výjimečným",
+		"ctaTitle": "Líbí se vám, co vidíte?",
+		"ctaLaunch": "Zobrazit živě",
+		"ctaContact": "Postavme váš projekt",
+		"statusLive": "Živě",
+		"statusPrototype": "Prototyp",
+		"statusDevelopment": "Ve vývoji",
+		"scrollHint": "Posouvejte pro objevování"
+	},
+	"projects": {
+		"title": "Portfolio &",
+		"titleHighlight": "případové studie",
+		"moreOnGithub": "Další open-source projekty na",
+		"items": {
+			"loveline": {
+				"title": "LoveLine",
+				"subtitle": "Digitální fotorámeček-messenger",
+				"tagline": "Malá obrazovka 10×10 cm, která se rozsvítí, když na vás váš partner myslí. Zprávy, které žijí na vašem nočním stolku – ne v notifikacích.",
+				"description": "Osobní messenger s fyzickým 10cm displejem – jako malý fotorámeček, který zobrazuje zprávy od vašich blízkých.",
+				"role": "Full-Stack Engineer & Hardware Lead",
+				"timeline": "2024 – Dnes",
+				"type": "IoT · Messenger · Hardware",
+				"status": "live",
+				"sections": {
+					"context": "LoveLine je messenger – ale ne ten, který žije ve vašem telefonu. Je to malý fyzický fotorámeček, 10 krát 10 centimetrů, který stojí na vašem stole nebo nočním stolku. Když vám partner pošle zprávu, prostě se objeví. Žádné notifikace, žádné otvírání aplikací. Jen klidná malá obrazovka, která vám ukazuje, že na vás někdo myslí.",
+					"problem": "SMS a chaty se zdají prchavé. Zprávy mizí ve feedu mezi pracovními chaty a skupinovými notifikacemi. Nic fyzického, nic, co zůstane. Zejména páry na dálku postrádají ten pocit přítomnosti – pocit být ve stejné místnosti.",
+					"solution": "Webová aplikace SvelteKit kombinovaná s displejem poháněným ESP32. Pošlete zprávu nebo fotku přes aplikaci a okamžitě se objeví na fyzickém rámečku u vašeho partnera. Server-Sent Events udržují vše v reálném čase. Plánovač rande s umělou inteligencí navrhuje společné aktivity i na dálku.",
+					"impact": "Zpráva, která nezapadne. Obrazovka, na kterou se skutečně podíváte, protože ukazuje jen to, na čem záleží. LoveLine přeměňuje digitální zprávu v něco, co se cítí jako ručně psaný vzkaz na kuchyňském stole."
+				},
+				"features": [
+					"Fyzický displej 10×10 cm",
+					"AI plánovač rande 'Spark'",
+					"End-to-End privátní architektura",
+					"Streamování fotek & zpráv v reálném čase",
+					"Hardware poháněný ESP32"
+				],
+				"technologies": ["SvelteKit", "ESP32", "C++", "GSAP", "OpenAI API", "WebSockets"],
+				"tags": ["IoT", "SvelteKit", "ESP32", "Messenger", "Relationship OS", "AI"]
+			},
+			"robotics": {
+				"title": "ABC Sensorbox",
+				"subtitle": "Obranné vestavěné systémy",
+				"tagline": "Univerzálně montovatelná senzorová krabice pro 1. ABC měřicí stanoviště – detekuje záření, plyn a kyslík v reálném čase přes LoRa.",
+				"description": "Univerzálně montovatelná ABC senzorová krabice pro ABC obranu Korneuburg s Geiger-Müllerovým čítačem, MQ plynovými senzory a monitoringem O₂.",
+				"role": "Embedded Systems Engineer",
+				"timeline": "2024",
+				"type": "Obrana · Vestavěné systémy",
+				"status": "prototype",
+				"sections": {
+					"context": "Postaveno jako součást 1. ABC měřicího stanoviště – speciální jednotky ABC obrany Korneuburg v Rakouské spolkové armádě. Idea: malá, samostatná senzorová krabice, kterou lze namontovat prakticky kamkoli. Na vozidlo, stativ, robota – jedno. Jen měří a hlásí.",
+					"problem": "Profesionální ABC detekční vybavení je drahé, rozměrné a často svázané s proprietárními ekosystémy. Záchranáři potřebují něco, co rychle nasadí, namontují kamkoli a na co se mohou spolehnout pro přesná měření – bez speciálního školení.",
+					"solution": "Kompaktní senzorová krabice na bázi ESP32 s Geiger-Müllerovým čítačem pro detekci záření, plnou sadou MQ plynových senzorů a O₂ senzorem. Krabice komunikuje přes LoRa s dosahem 2 km a streamuje hodnoty na ruční terminál. Univerzálně montovatelná – jde tam, kde ji mise potřebuje.",
+					"impact": "Funkční prototyp, který prokázal, že komerčně dostupné komponenty mohou zajistit spolehlivou ABC detekci v terénu. Univerzálně montovatelný design se přizpůsobí jakémukoli nasazení jednotky."
+				},
+				"features": [
+					"Geiger-Müllerova detekce záření",
+					"Sada MQ plynových senzorů",
+					"Monitorování O₂",
+					"LoRa rádiové spojení 2 km",
+					"Univerzálně montovatelný design"
+				],
+				"technologies": [
+					"ESP32",
+					"C++",
+					"LoRa",
+					"unphone",
+					"ABC senzory",
+					"Komerční hardware"
+				],
+				"tags": ["ABC ochrana", "CBRN", "LoRa", "Robotika", "Defense Tech", "Embedded"]
+			},
+			"grading-bot": {
+				"title": "Grading Bot",
+				"subtitle": "Diplomová práce",
+				"tagline": "Odevzdejte kód, výsledek za 30 sekund. Živé hodnocení pro Java, TypeScript, JavaScript, Bash a PowerShell.",
+				"description": "Automatický systém hodnocení kódu pro 5 jazyků s živým hodnocením za ~30 sekund – moje diplomová práce, nasazená na HTL Hollabrunn.",
+				"role": "Hlavní architekt & vývojář",
+				"timeline": "2024 – Dnes",
+				"type": "Diplomová práce · EdTech",
+				"status": "live",
+				"sections": {
+					"context": "To je moje diplomová práce. Grading Bot je automatický systém hodnocení kódu nasazený na HTL Hollabrunn. Studenti odevzdají úkoly a do přibližně 30 sekund obdrží hodnocení a podrobnou zpětnou vazbu. Podporuje Java, TypeScript, JavaScript, Bash a PowerShell – prakticky vše, co se ve škole vyučuje.",
+					"problem": "Učitelé hodnotili kód ručně. Stovky odevzdání na úkol, více tříd, každý týden. Bylo to pomalé, nekonzistentní a nikoho to nebavilo. Studenti čekali dny na zpětnou vazbu, která byla často jen hodnocením a komentářem.",
+					"solution": "Každé odevzdání běží ve vlastním Docker kontejneru – zcela izolovaně, žádný studentský kód nemůže nic rozbít. Systém je propojen s Azure AD pro autentizaci a MS Teams pro notifikace. Učitel nastaví úkol jednou a bot udělá zbytek. Přibližně 30 sekund od odevzdání do výsledku.",
+					"impact": "Více než 1 000 automaticky ohodnocených úkolů. Studenti dostávají zpětnou vazbu, dokud mají kód čerstvě v hlavě. Učitelé mají večery zpět. Funguje to, je to rychlé a nikdy to neselhalo."
+				},
+				"features": [
+					"5 jazyků (Java, TS, JS, Bash, PS)",
+					"Živé hodnocení za ~30 sekund",
+					"Izolované spouštění v Dockeru",
+					"Integrace Azure AD & MS Teams",
+					"Automatizované zprávy se zpětnou vazbou"
+				],
+				"technologies": ["SvelteKit", "Docker", "Azure AD", "PostgreSQL", "Tailwind CSS"],
+				"tags": ["EdTech", "Automatizace", "CI/CD", "Kódování", "Docker", "Azure"]
+			},
+			"unleashed": {
+				"title": "Unleashed",
+				"subtitle": "Privacy-First sociální síť (Ukončena)",
+				"tagline": "Sociální platforma zaměřená na soukromí jako PWA. Ukončena kvůli nákladům na infrastrukturu, ale koncept fungoval.",
+				"description": "Experiment s PWA sociální sítí zaměřenou na soukromí – ukončen kvůli průběžným nákladům.",
+				"role": "Vývojář & architekt",
+				"timeline": "2025",
+				"type": "PWA · Sociální platforma",
+				"status": "prototype",
+				"sections": {
+					"context": "Unleashed byla sociální platforma postavená jako Progressive Web App. Myšlenka byla jednoduchá: sociální sítě bez sledování, bez algoritmické manipulace, bez prodeje vašich dat. Prostě lidé propojující se s lidmi.",
+					"problem": "Každá velká sociální platforma monetizuje uživatelská data. Nastavení soukromí jsou skryta, algoritmy rozhodují, co vidíte, a odhlásit se znamená opustit platformu. Neexistuje střední cesta.",
+					"solution": "PWA s architekturou nulového sledování a end-to-end šifrováním. Žádný algoritmický feed – vidíte příspěvky chronologicky od lidí, které skutečně sledujete. Postaveno s Kotlinem a Jetpack Compose na frontendu, Supabase a Clerkem na backendu.",
+					"impact": "Platforma fungovala a prokázala koncept, ale náklady na infrastrukturu byly jako sólo projekt příliš vysoké. Byla ukončena, ale poznatky o architektuře privacy-first se promítají do každého dalšího projektu."
+				},
+				"features": [
+					"Progressive Web App",
+					"Architektura nulového sledování",
+					"End-to-end šifrované zprávy",
+					"Chronologický feed (bez algoritmu)",
+					"Privacy-First by Design"
+				],
+				"technologies": ["Kotlin", "Jetpack Compose", "Clerk Auth", "Supabase", "Android SDK"],
+				"tags": ["Sociální sítě", "Soukromí", "Mobilní aplikace", "Android", "Kotlin"]
+			},
+			"free-jazz-tattoo": {
+				"title": "Free Jazz Tattoo",
+				"subtitle": "Webové stránky tetovacího studia",
+				"tagline": "Moderní web pro místní tetovací studio v Rakousku – s galerií, kontaktním formulářem a integrovanými recenzemi Google.",
+				"description": "Profesionální web pro tetovací studio s online galerií, kontaktním formulářem a integrací recenzí Google.",
+				"role": "Designer & vývojář",
+				"timeline": "2024 – Dnes",
+				"type": "Webdesign · SvelteKit",
+				"status": "live",
+				"sections": {
+					"context": "Free Jazz Tattoo je místní tetovací studio v Rakousku. Web slouží jako digitální vizitka – s přehledem umělce, galerií prací a všemi důležitými kontaktními informacemi.",
+					"problem": "Mnoho tetovacích studií má zastaralé webové stránky nebo se spoléhá pouze na sociální sítě. To ztěžuje profesionální dojem a nalezení nových zákazníků přes Google.",
+					"solution": "Moderní SvelteKit web s atraktivní galerií prezentující umělecká díla. Recenze Google jsou přímo integrovány a jednoduchý kontaktní formulář usnadňuje rezervaci. Design je temný a elegantní – odpovídá estetice studia.",
+					"impact": "Profesionální online přítomnost, která nachází nové zákazníky přes Google a odlišuje studio od konkurence. Jasná struktura a rychlé načítání na všech zařízeních."
+				},
+				"features": [
+					"Responzivní galerie",
+					"Integrace recenzí Google",
+					"Kontaktní formulář",
+					"Design tmavého režimu",
+					"SEO optimalizace"
+				],
+				"technologies": ["SvelteKit", "Tailwind CSS", "TypeScript", "Vercel"],
+				"tags": ["Webdesign", "Tetování", "SvelteKit", "Portfolio", "Místní byznys"]
+			},
+			"genesys": {
+				"title": "Genesys Cloud",
+				"subtitle": "Enterprise CX",
+				"tagline": "Orchestrace světové komunikace. High-availability CX engineering pro enterprise zákazníky.",
+				"description": "Podniková řešení zákaznické zkušenosti (CX) pro globální značky.",
+				"role": "CX konzultant & engineer",
+				"timeline": "2025 – Dnes",
+				"type": "Podnikový software",
+				"status": "live",
+				"sections": {
+					"context": "Poradenství na průsečíku psychologie a škálování. Řízení komplexních komunikačních architektur pro globálně působící společnosti.",
+					"problem": "Velká kontaktní centra často trpí fragmentovanými starými systémy. Latence brání empatii a oddělené kanály frustrují agenty i zákazníky.",
+					"solution": "Návrh interakčních toků pod sekundu na platformě Genesys Cloud. Vlastní logika směrování a sjednocené nástroje přeměňují hluk v harmonický omnichannel zážitek.",
+					"impact": "25% nárůst efektivity agentů. Bezproblémová komunikace pro miliony uživatelů. Důkaz, že personalizovaná interakce je možná i v enterprise měřítku."
+				},
+				"features": [
+					"Enterprise orchestrace směrování",
+					"API interakcí v reálném čase",
+					"Omnichannel CX workflowy",
+					"Bezpečná datová integrace",
+					"Vývoj vlastních nástrojů pro agenty"
+				],
+				"technologies": ["Genesys Cloud", "TypeScript", "Cloud APIs", "Micro-services"],
+				"tags": ["Enterprise", "Cloud", "Komunikace", "Zákaznická zkušenost", "CX"]
+			},
+			"portfolio": {
+				"title": "Toto portfolio",
+				"subtitle": "3D webový zážitek",
+				"tagline": "Technická excelence a výkon. Silný 3D experiment v moderním webovém vývoji.",
+				"description": "Interaktivní 3D portfolio pro zkoumání moderních webových technologií.",
+				"role": "Designer & vývojář",
+				"timeline": "2025 – Dnes",
+				"type": "Kreativní vývoj",
+				"status": "live",
+				"sections": {
+					"context": "Projekt, který ukazuje, že 3D grafiku, animace a SEO výkon lze efektivně integrovat v jednom balíčku.",
+					"problem": "3D na webu může být pomalé nebo obtížně indexovatelné vyhledávači. Kinematická portfolia často zanedbávají mobilní výkon nebo přístupnost.",
+					"solution": "Optimalizované shadery, SvelteKit pro server-side stav a GSAP pro koordinaci interakcí. Zážitek při 60 FPS, který zůstává přístupný pro vyhledávací roboty.",
+					"impact": "Vysoké výkonnostní skóre ve všech metrikách. Žádné technické kompromisy v základním zážitku. Důkaz, jak může moderní webdesign být imerzivní a zároveň snadno nalezitelný."
+				},
+				"features": [
+					"Kinematické vykreslování 3D scén",
+					"Fyzikálně založené interakce",
+					"High-performance motion design",
+					"Plně responzivní 3D canvas",
+					"Pokročilá SEO & i18n architektura"
+				],
+				"technologies": ["SvelteKit", "Three.js", "GSAP", "TypeScript", "Tailwind CSS"],
+				"tags": ["SvelteKit", "Three.js", "GSAP", "TypeScript", "3D Web", "Portfolio"]
+			},
+			"blog": {
+				"title": "Biglův blog – technické postřehy",
+				"description": "Technický blog o projektech a zkušenostech.",
+				"longDescription": "Sdílení technických znalostí, aktualizací projektů a názorů na moderní webové technologie.",
+				"tags": ["Blogování", "Webový vývoj", "Content Management"]
+			},
+			"github-projects": {
+				"title": "GitHub archiv",
+				"description": "Desítky open-source repozitářů a experimentů.",
+				"longDescription": "Od malého skriptu po knihovnu – můj GitHub profil dokumentuje moji cestu softwarovým vývojem.",
+				"tags": ["Open Source", "GitHub", "Webový vývoj"]
+			}
+		}
+	},
+	"resume": {
+		"title": "Můj",
+		"titleHighlight": "životopis"
+	},
+	"hobbies": {
+		"title": "Moje",
+		"titleHighlight": "koníčky",
+		"mountainHint": "Táhněte pro otočení",
+		"mountainAlt": "Interaktivní 3D horská krajina se sněhovými částicemi – táhněte pro otočení",
+		"items": {
+			"gym": {
+				"title": "Posilovna",
+				"description": "Vždy se snažím překonávat své limity v posilovně 💪",
+				"alt": "Činka jako symbol fitness tréninku a posilovny"
+			},
+			"skiing": {
+				"title": "Lyžování",
+				"description": "Sjíždět sjezdovky je jedna z mých nejoblíbenějších zimních aktivit 🎿",
+				"alt": "3D horská scéna jako zobrazení koníčku lyžování"
+			},
+			"surfing": {
+				"title": "Surfování",
+				"description": "Surfuji od svých 6 let 🤙",
+				"alt": "Matthias surfující na vlně v moři"
+			}
+		}
+	},
+	"faq": {
+		"title": "Vaše otázky,",
+		"titleHighlight": "upřímné odpovědi",
+		"subtitle": "Žádný marketingový žargon – zde zjistíte, jak spolupráce skutečně funguje",
+		"moreQuestions": "Stále nejste si jisti? Prostě mi zavolejte!",
+		"cta": "Zavolat nyní",
+		"items": {
+			"cost": {
+				"question": "Co mě to bude stát?",
+				"answer": "Upřímně: landing page od 650 €, kompletní web od 2 000 €, e-shopy od 3 250 €. Ale důležitější je: v bezplatném úvodním rozhovoru zjistíme, co SKUTEČNĚ potřebujete – ne více, ne méně. Poté dostanete transparentní nabídku bez překvapení."
+			},
+			"duration": {
+				"question": "Kdy budu online?",
+				"answer": "Jednoduchý web? Za 1–2 týdny jste online. Větší projekty s obchodem nebo speciálními funkcemi: 4–8 týdnů. Nejlepší na tom: průběžně vidíte aktuální stav – žádná nemilá překvapení na konci."
+			},
+			"hosting": {
+				"question": "Co se stane po spuštění?",
+				"answer": "To je ta krásná věc: nemusíte se o nic starat. Hosting, zabezpečení, aktualizace, zálohy – vše běží automaticky na pozadí. Pokud nastane problém, jsem jedno zavolání daleko. Vy děláte svůj byznys, já udržuji váš web v chodu."
+			},
+			"edit": {
+				"question": "Mohu sám upravovat texty?",
+				"answer": "Samozřejmě! Podle potřeby postavím jednoduchý systém správy, který pochopíte za 10 minut. Nebo se postarám o všechny změny za vás – jak vám vyhovuje. Nemusíte absolvovat žádné technické kurzy."
+			},
+			"remote": {
+				"question": "Musím být ve Vídni?",
+				"answer": "Ne! Většinu zákazníků znám jen přes video nebo telefon – funguje to skvěle. Pokud ale jste ve Vídni nebo okolí a raději si dáte kávu: s radostí!"
+			},
+			"agency": {
+				"question": "Proč ne velká agentura?",
+				"answer": "Představte si: jeden kontakt místo pěti. Žádné odpovědi ‚to není moje oddělení'. Žádné nafouklé faktury za interní schůzky. U mě vždy víte, kdo pracuje na vašem projektu: já. Osobně, přímo, bez zbytečných kroků."
+			},
+			"tech": {
+				"question": "Je můj web připraven na budoucnost?",
+				"answer": "Absolutně. Používám moderní technologie, které budou aktuální i za 5 let – žádné zastaralé WordPress šablony, které jsou pravidelně hacknuty. Rychlé, bezpečné a nikdy se nebudete bát, že najednou nic nefunguje."
+			},
+			"process": {
+				"question": "Jak to konkrétně funguje?",
+				"answer": "Jednoduše: 1) Zavoláme 15 minut – zdarma, nezávazně. 2) Pošlu vám jasnou nabídku. 3) Během realizace průběžně vidíte postup. 4) Váš web jde online a já jsem i nadále k dispozici. Žádný stres, žádná překvapení."
+			},
+			"seo": {
+				"question": "Budu nalezen na Googlu?",
+				"answer": "Základy jsou vždy zahrnuty: rychlé načítání, čistý kód, mobilní optimalizace, všechny důležité meta tagy. Tím máte solidní základ. Pro intenzivní SEO kampaně vám rád připravím samostatnou nabídku."
+			},
+			"existing": {
+				"question": "Už mám web – můžete pomoci?",
+				"answer": "Jasně! Ať jde o redesign, zlepšení výkonu nebo nové funkce – prostě mi pošlete odkaz a upřímně vám řeknu, co má smysl a co ne."
+			}
+		}
+	},
+	"contact": {
+		"title": "Pojďme",
+		"titleHighlight": "začít",
+		"subtitle": "Máte nápad? Já mám realizaci. Za 15 minut budete vědět, zda si sedneme – zdarma a nezávazně.",
+		"getInTouch": "Jak mě",
+		"getInTouchHighlight": "kontaktovat",
+		"methods": {
+			"email": {
+				"title": "E-mail",
+				"description": "Odpověď do 24 hodin"
+			},
+			"phone": {
+				"title": "Telefon",
+				"description": "Mluvte přímo se mnou"
+			},
+			"location": {
+				"title": "Lokalita",
+				"description": "Vídeň & Korneuburg, Rakousko"
+			},
+			"github": {
+				"title": "GitHub",
+				"description": "Podívejte se, jak pracuji"
+			}
+		},
+		"form": {
+			"title": "Popište",
+			"titleHighlight": "projekt",
+			"name": "Vaše jméno",
+			"namePlaceholder": "Jak vás mám oslovovat?",
+			"email": "Váš e-mail",
+			"emailPlaceholder": "Kde vás mohu kontaktovat?",
+			"message": "Řekněte mi o svém projektu",
+			"messagePlaceholder": "Co si představujete? Jaký je cíl? Nebojte se, nemusí být ještě dokonalé...",
+			"submit": "Odeslat & rozjet to",
+			"sending": "Odesílání..."
+		},
+		"cta": {
+			"title": "Připraveni na",
+			"titleHighlight": "váš",
+			"titleEnd": "online úspěch?",
+			"subtitle": "První krok je rozhovor. 15 minut, zdarma, nezávazně. Poté budete přesně vědět, co je možné a co to bude stát.",
+			"emailMe": "Napsat e-mail",
+			"downloadResume": "Více o mně"
+		}
+	},
+	"footer": {
+		"description": "Matthias Bigl – Freelance webdesigner & Full Stack Developer z Vídně/Korneuburgu. Pomáhám malým a středním podnikům, startupům a živnostníkům stát se online viditelnými s profesionálními weby, e-shopy & 3D webovými zážitky. Bez agenturních příplatků.",
+		"navigation": "Navigace",
+		"servicesTitle": "Služby",
+		"contactTitle": "Kontakt",
+		"services": {
+			"websites": "Weby, které prodávají",
+			"webshops": "E-shopy & online prodej",
+			"experiences": "Wow zážitky",
+			"hosting": "Hosting & péče"
+		},
+		"copyright": "Všechna práva vyhrazena.",
+		"location": "Korneuburg / Vídeň, Rakousko",
+		"imprint": "Impresum",
+		"privacy": "Ochrana dat"
+	},
+	"imprint": {
+		"title": "Impresum",
+		"owner": "Majitel",
+		"address": "Adresa",
+		"contact": "Kontakt",
+		"disclaimer": "Pravidlo pro malé podniky",
+		"disclaimerText": "Osvobozeno od DPH na základě pravidla pro malé podniky dle § 6 odst. 1 č. 27 zákona o DPH.",
+		"content": "Vyloučení odpovědnosti",
+		"contentText": "Navzdory pečlivé kontrole obsahu nepřebírám odpovědnost za obsah externích odkazů. Za obsah odkazovaných stránek nesou výhradní odpovědnost jejich provozovatelé."
+	},
+	"privacy": {
+		"title": "Ochrana osobních údajů",
+		"intro": "Ochrana vašich osobních údajů je pro mě zvláště důležitá. Zpracovávám vaše data výhradně na základě zákonných ustanovení (GDPR, TKG 2003).",
+		"contact": "Kontakt se mnou",
+		"contactText": "Pokud mě kontaktujete prostřednictvím formuláře na webu nebo e-mailem, vaše zadané údaje budou uloženy po dobu šesti měsíců za účelem zpracování žádosti a pro případ následných dotazů. Tyto údaje bez vašeho souhlasu nepředávám.",
+		"analytics": "Google Analytics",
+		"analyticsText": "Tyto webové stránky používají Google Analytics k analýze chování uživatelů. Data jsou zpracovávána anonymizovaně."
+	},
+	"cookies": {
+		"message": "Tyto webové stránky používají cookies pro analýzu a zlepšení používání. Rozhodujete vy: opt-in pro Google Analytics.",
+		"accept": "Přijmout",
+		"reject": "Odmítnout",
+		"learnMore": "Zjistit více",
+		"bannerAria": "Souhlas s cookies"
+	},
+	"a11y": {
+		"avatarAlt": "Portrétní fotografie Matthiase Bigla – webdesigner & Full Stack Developer z Vídně, Rakousko",
+		"loading": "Načítání",
+		"scrollDown": "Posouvat dolů",
+		"projectImageAlt": "Screenshot projektu {project} od Matthiase Bigla"
+	},
+	"seo": {
+		"home": {
+			"title": "Matthias Bigl | Webdesigner & Full Stack Developer Vídeň & Korneuburg",
+			"description": "Matthias Bigl – váš webdesigner & Full Stack Developer z Vídně/Korneuburgu. Profesionální weby, e-shopy & interaktivní 3D webové zážitky pro malé a střední podniky & živnostníky. Žádné agenturní ceny, online za 1–2 týdny. Bezplatný úvodní rozhovor!"
+		},
+		"about": {
+			"title": "O Matthiasi Biglovi | Webdesigner & Full Stack Developer z Vídně",
+			"description": "Zjistěte více o Matthiasi Biglovi – freelance webdesigner & Full Stack Developer z Vídně/Korneuburgu. Osobně, přímo, bez agenturního chaosu. Dovednosti, koníčky a můj příběh."
+		},
+		"contact": {
+			"title": "Kontakt Matthias Bigl | Bezplatná konzultace webdesignu Vídeň",
+			"description": "Kontaktujte Matthiase Bigla pro váš webový projekt. 15minutový úvodní rozhovor – zdarma & nezávazně. Freelance webdesign z Vídně & Korneuburgu. Odpověď do 24 hodin!"
+		},
+		"pricing": {
+			"title": "Náklady na web Rakousko 2026 | Upřímný průvodce cenou od Matthiase Bigla",
+			"description": "Co stojí web v Rakousku v roce 2026? Landing pages od 650 €, weby od 2 000 €, e-shopy od 3 250 €. Transparentní ceny od Matthiase Bigla, bez skrytých poplatků."
+		}
+	},
+	"language": {
+		"de": "Deutsch",
+		"en": "English",
+		"cs": "Čeština"
+	},
+	"pricing": {
+		"navTitle": "Průvodce cenami 2026",
+		"backToHome": "Zpět na přehled"
+	},
+	"aboutPage": {
+		"hero": {
+			"label": "O mně",
+			"name": "Matthias Bigl",
+			"role": "Freelancer z Vídně & Korneuburgu",
+			"tagline": "Váš partner pro profesionální webdesign a moderní webový vývoj. Žádná agentura, žádný chaos – jen jeden kontakt, který osobně pečuje o váš projekt.",
+			"cta": "Kontaktovat",
+			"ctaSecondary": "Moje služby"
+		},
+		"differentiators": {
+			"label": "Proč já",
+			"title": "Co mě odlišuje",
+			"partner": {
+				"title": "Jeden partner",
+				"desc": "Ne oddělení. Mluvíte přímo s osobou, která realizuje váš projekt – bez zbytečných kroků, bez čekání."
+			},
+			"local": {
+				"title": "Lokálně",
+				"desc": "Doma ve Vídni & Korneuburgu. Osobní setkání jsou možná – někdy je káva lepší než videohovor."
+			},
+			"direct": {
+				"title": "Přímo",
+				"desc": "Dostupný, když mě potřebujete. Žádné tikety, žádné fronty – rychlé odpovědi a přímá komunikace."
+			}
+		},
+		"journey": {
+			"label": "Můj příběh",
+			"title": "Cesta sem",
+			"paragraphs": [
+				"Moje cesta do technologie začala brzy – s zvědavostí, starým počítačem a otázkou: 'Jak to vlastně funguje?' Tato otázka mě nikdy neopustila.",
+				"HTL Hollabrunn byl moje škola pro informační technologie. Tam jsem objevil svou vášeň pro vývoj softwaru – od backendu po frontend, od hardwaru po cloud. Maturita byl oficiální začátek mé profesní kariéry.",
+				"Dnes pracuji na plný úvazek ve společnosti Tieto, mezinárodní poradenské firmě. Jako konzultant a Full Stack Developer vedu projekty zákaznické zkušenosti v bankovním sektoru – komplexní podnikové systémy, vysoká dostupnost, náročné zákazníky. Ve volném čase podporuji malé a střední podniky a živnostníky s moderními webovými řešeními.",
+				"Technologie je pro mě více než jen kód. Je to nástroj k řešení problémů a pomoci lidem. Ať jde o podnikovou architekturu nebo malý podnikový web – přistupuji k tomu se stejnou péčí a zkušeností."
+			]
+		},
+		"cta": {
+			"title": "Pojďme spolupracovat",
+			"subtitle": "Máte projekt na mysli? Těším se, až od vás uslyším, a společně zjistíme, jak vám mohu pomoci.",
+			"button": "Kontaktovat"
+		}
+	}
+}

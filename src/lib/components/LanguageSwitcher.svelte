@@ -16,7 +16,7 @@
 		return unsubscribe;
 	});
 
-	function handleLocaleChange(lang: 'de' | 'en') {
+	function handleLocaleChange(lang: 'de' | 'en' | 'cs') {
 		setLocale(lang);
 		isOpen = false;
 	}
@@ -53,7 +53,7 @@
 				d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
 			/>
 		</svg>
-		<span class="text-base md:text-sm">{currentLocale === 'de' ? '🇩🇪' : '🇬🇧'}</span>
+		<span class="text-base md:text-sm">{currentLocale === 'de' ? '🇩🇪' : currentLocale === 'cs' ? '🇨🇿' : '🇬🇧'}</span>
 		<span class="text-xs uppercase tracking-wide">{currentLocale}</span>
 		<svg
 			class="w-3 h-3 transition-transform duration-200"
@@ -105,6 +105,26 @@
 				<span class="text-lg">🇬🇧</span>
 				<span>{$_('language.en')}</span>
 				{#if currentLocale === 'en'}
+					<svg class="w-4 h-4 ml-auto text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+						<path
+							fill-rule="evenodd"
+							d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+							clip-rule="evenodd"
+						/>
+					</svg>
+				{/if}
+			</button>
+			<button
+				onclick={() => handleLocaleChange('cs')}
+				class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-blue-500/10 transition-colors duration-200 {currentLocale ===
+				'cs'
+					? 'bg-blue-500/10'
+					: ''}"
+				style="color: var(--text-primary);"
+			>
+				<span class="text-lg">🇨🇿</span>
+				<span>{$_('language.cs')}</span>
+				{#if currentLocale === 'cs'}
 					<svg class="w-4 h-4 ml-auto text-blue-400" fill="currentColor" viewBox="0 0 20 20">
 						<path
 							fill-rule="evenodd"
