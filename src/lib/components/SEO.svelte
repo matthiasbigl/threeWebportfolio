@@ -1,5 +1,7 @@
 <script lang="ts">
 	import deLocale from '$lib/i18n/locales/de.json';
+	import { page } from '$app/stores';
+	import { _ } from 'svelte-i18n';
 
 	interface SEOProps {
 		title?: string;
@@ -444,6 +446,20 @@
 					}))
 				}
 			: null;
+
+	// Hreflang URLs — replace lang segment in current pathname
+	const hreflangUrls = $derived(
+		(() => {
+			const segments = $page.url.pathname.split('/');
+			const pathWithoutLang = segments.slice(2).join('/');
+			const suffix = pathWithoutLang ? `/${pathWithoutLang}` : '';
+			return {
+				de: `${siteUrl}/de${suffix}`,
+				en: `${siteUrl}/en${suffix}`,
+				cs: `${siteUrl}/cs${suffix}`
+			};
+		})()
+	);
 </script>
 
 <svelte:head>
@@ -463,9 +479,11 @@
 	/>
 	<link rel="canonical" href={url} />
 
-	<!-- Hreflang omitted: site uses client-side i18n with a single URL per page.
-	     Hreflang requires distinct URLs per language (e.g. /de/... /en/...).
-	     Will be re-added after migrating to URL-based i18n (Paraglide). -->
+	<!-- Hreflang — URL-based i18n with /de, /en, /cs prefixes -->
+	<link rel="alternate" hreflang="de" href={hreflangUrls.de} />
+	<link rel="alternate" hreflang="en" href={hreflangUrls.en} />
+	<link rel="alternate" hreflang="cs" href={hreflangUrls.cs} />
+	<link rel="alternate" hreflang="x-default" href={hreflangUrls.de} />
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content={type} />

@@ -2,7 +2,6 @@
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import SEO from '$lib/components/SEO.svelte';
-	import deLocale from '$lib/i18n/locales/de.json';
 	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -143,9 +142,9 @@
 </script>
 
 <SEO
-	title={deLocale.seo.contact.title}
-	description={deLocale.seo.contact.description}
-	url="https://bigls.net/contact"
+	title={$_('seo.contact.title')}
+	description={$_('seo.contact.description')}
+	url={`https://bigls.net/${data.lang}/contact`}
 	keywords={[
 		'Matthias Bigl Kontakt',
 		'Matthias Bigl kontaktieren',

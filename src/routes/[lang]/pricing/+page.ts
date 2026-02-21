@@ -1,10 +1,8 @@
 import type { PageLoad } from './$types';
 import { marked } from 'marked';
 
-export const load: PageLoad = async ({ fetch }) => {
-	// We use a default locale 'de' for the SSR pass.
-	// In the browser, the component will re-load if the locale changes.
-	const lang = 'de';
+export const load: PageLoad = async ({ params }) => {
+	const lang = (params.lang === 'en' || params.lang === 'cs') ? params.lang : 'de';
 	const modules = import.meta.glob('$lib/content/pricing/*.md', {
 		query: '?raw',
 		import: 'default',

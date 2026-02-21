@@ -5,8 +5,8 @@
 </script>
 
 <SEO
-	title="Impressum | Matthias Bigl – Webdesigner Wien/Korneuburg"
-	description="Impressum und rechtliche Informationen von Matthias Bigl, Webdesigner & Full Stack Developer aus Korneuburg bei Wien, Österreich."
+	title={$_('seo.impressum.title')}
+	description={$_('seo.impressum.description')}
 	url="https://bigls.net/impressum"
 	noindex={true}
 />

@@ -5,8 +5,12 @@
 declare global {
 	namespace App {
 		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
+		interface Locals {
+			lang: 'de' | 'en' | 'cs';
+		}
+		interface PageData {
+			lang?: 'de' | 'en' | 'cs';
+		}
 		// interface PageState {}
 		// interface Platform {}
 	}

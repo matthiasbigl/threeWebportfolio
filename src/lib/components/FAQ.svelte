@@ -3,6 +3,7 @@
 	import { browser } from '$app/environment';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
 	import { _ } from 'svelte-i18n';
+	import { page } from '$app/stores';
 	import Button from './Button.svelte';
 	import deLocale from '$lib/i18n/locales/de.json';
 
@@ -134,7 +135,7 @@
 		<!-- CTA -->
 		<div class="text-center mt-14 sm:mt-16">
 			<p class="mb-5 text-sm" style="color: var(--text-tertiary);">{$_('faq.moreQuestions')}</p>
-			<Button href="/contact" variant="secondary" className="!px-6 !py-3 !text-sm !rounded-xl">
+			<Button href={`/${$page.data.lang ?? 'de'}/contact`} variant="secondary" className="!px-6 !py-3 !text-sm !rounded-xl">
 				<span class="font-semibold">{$_('faq.cta')}</span>
 				<svg
 					class="w-4 h-4 text-blue-400/70 group-hover:translate-x-1 transition-transform duration-300"

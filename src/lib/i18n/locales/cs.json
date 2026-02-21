@@ -658,5 +658,37 @@
 			"subtitle": "Máte projekt na mysli? Těším se, až od vás uslyším, a společně zjistíme, jak vám mohu pomoci.",
 			"button": "Kontaktovat"
 		}
+	},
+	"seo": {
+		"home": {
+			"title": "Matthias Bigl | Webdesign & Vývoj Webu Vídeň & Korneuburg",
+			"description": "Matthias Bigl – Webdesigner & Full Stack Developer z Vídně/Korneuburgu, Rakousko. Profesionální weby, e-shopy & interaktivní webové zážitky. Freelancer, žádné agenturní ceny.",
+			"keywords": "Matthias Bigl,webdesign Vídeň,vývoj webu Vídeň,Full Stack Developer Vídeň,freelance webdesigner Rakousko"
+		},
+		"about": {
+			"title": "O mně | Matthias Bigl – Webdesigner & Developer Vídeň",
+			"description": "Zjistěte více o Matthiasi Biglovi – webdesignerovi a Full Stack Developerovi z Korneuburgu u Vídně. Absolvent HTL, vášnivý vývojář.",
+			"keywords": "Matthias Bigl,o mně,webdesigner Vídeň,full stack developer"
+		},
+		"contact": {
+			"title": "Kontakt | Matthias Bigl – Webdesign Vídeň/Korneuburg",
+			"description": "Kontaktujte Matthiase Bigla pro váš webový projekt. Bezplatná první konzultace pro weby, e-shopy a vlastní webové zážitky.",
+			"keywords": "kontakt,webdesign poptávka,bezplatná konzultace,Matthias Bigl"
+		},
+		"pricing": {
+			"title": "Ceny Webu Rakousko 2026 | Kolik stojí web? Matthias Bigl",
+			"description": "Kolik stojí web v Rakousku v roce 2026? Landingpages od 650 €, weby od 2 000 €, e-shopy od 3 250 €. Poctivý průvodce cenami od Matthiase Bigla.",
+			"keywords": "cena webu Rakousko,kolik stojí web,ceny webdesignu,ceny homepage"
+		},
+		"datenschutz": {
+			"title": "Ochrana osobních údajů | Matthias Bigl – Webdesigner Vídeň/Korneuburg",
+			"description": "Zásady ochrany osobních údajů Matthiase Bigla, webdesignera & Full Stack Developera z Korneuburgu u Vídně.",
+			"keywords": "ochrana osobních údajů,GDPR,Matthias Bigl"
+		},
+		"impressum": {
+			"title": "Impressum | Matthias Bigl – Webdesigner Vídeň/Korneuburg",
+			"description": "Impressum Matthiase Bigla, webdesignera & Full Stack Developera z Korneuburgu u Vídně.",
+			"keywords": "impressum,právní informace,Matthias Bigl,webdesigner Vídeň"
+		}
 	}
 }

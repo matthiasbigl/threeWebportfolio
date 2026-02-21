@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { cookieConsent, getConsentStatus, type ConsentStatus } from '$lib/stores/cookieConsent';
 	import { _ } from 'svelte-i18n';
+	import { page } from '$app/stores';
 
 	interface Props {
 		className?: string;
@@ -47,7 +48,7 @@
 		>
 			<p id="cookie-description" class="cookie-text">
 				{$_('cookies.message')}
-				<a href="/datenschutz" class="cookie-link">{$_('cookies.learnMore')}</a>
+				<a href={`/${$page.data.lang ?? 'de'}/datenschutz`} class="cookie-link">{$_('cookies.learnMore')}</a>
 			</p>
 			<div class="cookie-buttons">
 				<button

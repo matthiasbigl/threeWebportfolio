@@ -658,5 +658,37 @@
 			"subtitle": "Haben Sie ein Projekt im Kopf? Ich freue mich darauf, von Ihnen zu hören und gemeinsam herauszufinden, wie ich Ihnen helfen kann.",
 			"button": "Kontakt aufnehmen"
 		}
+	},
+	"seo": {
+		"home": {
+			"title": "Matthias Bigl | Webdesign & Webentwicklung Wien & Korneuburg",
+			"description": "Matthias Bigl – Webdesigner & Full Stack Developer aus Wien/Korneuburg, Österreich. Professionelle Websites, Webshops & interaktive Web-Erlebnisse. Freelancer, keine Agentur-Preise. Jetzt kostenlos anfragen!",
+			"keywords": "Matthias Bigl,Webdesign Wien,Webentwicklung Wien,Full Stack Developer Wien,Freelancer Webdesign"
+		},
+		"about": {
+			"title": "Über mich | Matthias Bigl – Webdesigner & Developer Wien",
+			"description": "Erfahren Sie mehr über Matthias Bigl – Webdesigner und Full Stack Developer aus Korneuburg bei Wien. HTL-Absolvent, leidenschaftlicher Entwickler.",
+			"keywords": "Matthias Bigl,Über mich,Webdesigner Wien,Full Stack Developer"
+		},
+		"contact": {
+			"title": "Kontakt | Matthias Bigl – Webdesign Wien/Korneuburg",
+			"description": "Kontaktieren Sie Matthias Bigl für Ihr Webprojekt. Kostenlose Erstberatung für Websites, Webshops und individuelle Web-Erlebnisse.",
+			"keywords": "Kontakt,Webdesign Anfrage,kostenlose Beratung,Matthias Bigl"
+		},
+		"pricing": {
+			"title": "Website Kosten Österreich 2026 | Was kostet eine Website? Matthias Bigl",
+			"description": "Was kostet eine Website 2026 in Österreich? Landingpages ab €650, Websites ab €2.000, Webshops ab €3.250. Ehrlicher Preisguide von Matthias Bigl.",
+			"keywords": "Website Kosten Österreich,Was kostet eine Website,Webdesign Preise,Homepage Kosten"
+		},
+		"datenschutz": {
+			"title": "Datenschutz | Matthias Bigl – Webdesigner Wien/Korneuburg",
+			"description": "Datenschutzerklärung von Matthias Bigl, Webdesigner & Full Stack Developer aus Korneuburg bei Wien.",
+			"keywords": "Datenschutz,DSGVO,Matthias Bigl"
+		},
+		"impressum": {
+			"title": "Impressum | Matthias Bigl – Webdesigner Wien/Korneuburg",
+			"description": "Impressum von Matthias Bigl, Webdesigner & Full Stack Developer aus Korneuburg bei Wien.",
+			"keywords": "Impressum,Matthias Bigl,Webdesigner Wien"
+		}
 	}
 }

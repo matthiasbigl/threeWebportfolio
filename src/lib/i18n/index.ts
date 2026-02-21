@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { init, register, getLocaleFromNavigator, locale, _, addMessages } from 'svelte-i18n';
+import { init, register, locale, _, addMessages } from 'svelte-i18n';
 import deMessages from './locales/de.json';
 
 // Load default locale synchronously so $_() works immediately (SSR + hydration)
@@ -14,26 +14,16 @@ register('cs', () => import('./locales/cs.json'));
 // Initialize i18n
 init({
 	fallbackLocale: 'de',
-	initialLocale: browser ? getLocaleFromNavigator()?.split('-')[0] || 'de' : 'de'
+	initialLocale: 'de'
 });
 
 // Export locale for use in components
 export { locale, _ };
 
-// Helper function to switch locale
+// Helper function to switch locale (used by [lang]/+layout.svelte on mount)
 export function setLocale(lang: 'de' | 'en' | 'cs') {
 	locale.set(lang);
 	if (browser) {
-		localStorage.setItem('preferred-locale', lang);
-	}
-}
-
-// Initialize from localStorage if available
-export function initLocaleFromStorage() {
-	if (browser) {
-		const stored = localStorage.getItem('preferred-locale');
-		if (stored === 'de' || stored === 'en' || stored === 'cs') {
-			locale.set(stored);
-		}
+		document.cookie = `preferred-locale=${lang};path=/;max-age=31536000;SameSite=Lax;Secure`;
 	}
 }

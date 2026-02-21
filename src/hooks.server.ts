@@ -1,7 +1,19 @@
 import type { Handle } from '@sveltejs/kit';
 
+const VALID_LANGS = ['de', 'en', 'cs'] as const;
+type Lang = (typeof VALID_LANGS)[number];
+
+function detectLang(pathname: string): Lang {
+	const seg = pathname.split('/')[1];
+	return (VALID_LANGS as readonly string[]).includes(seg) ? (seg as Lang) : 'de';
+}
+
 export const handle: Handle = async ({ event, resolve }) => {
+	const lang = detectLang(event.url.pathname);
+	event.locals.lang = lang;
+
 	const response = await resolve(event, {
+		transformPageChunk: ({ html }) => html.replace('<html lang="de"', `<html lang="${lang}"`),
 		// Preload critical assets via Link headers
 		preload: ({ type }) => {
 			// Only preload JS, CSS, and fonts — skip images (lazy-loaded)

@@ -225,7 +225,7 @@
 <SEO
 	title="{deProject.title ?? project.slug} – Case Study | Matthias Bigl"
 	description={`${deProject.description ?? ''} – Ein Projekt von Matthias Bigl, Webdesigner & Full Stack Developer aus Wien/Korneuburg.`}
-	url="https://bigls.net/projects/{project.slug}"
+	url={`https://bigls.net/${data.lang}/projects/${project.slug}`}
 	type="article"
 	keywords={[
 		...(deProject.tags ?? []),

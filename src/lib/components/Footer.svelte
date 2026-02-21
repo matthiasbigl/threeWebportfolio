@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
+	import { page } from '$app/stores';
 
 	const currentYear = new Date().getFullYear();
+
+	const lang = $derived($page.data.lang ?? 'de');
 
 	const socialLinks = [
 		{
@@ -23,24 +26,24 @@
 
 	// Reactive quick links based on translations
 	const quickLinks = $derived([
-		{ name: $_('nav.home'), href: '/' },
-		{ name: $_('nav.services'), href: '/#services' },
+		{ name: $_('nav.home'), href: `/${lang}` },
+		{ name: $_('nav.services'), href: `/${lang}/#services` },
 		{
 			name:
 				$_('pricing.navTitle') ||
 				($_('language.de') === 'Deutsch' ? 'Preis-Leitfaden' : 'Pricing Guide'),
-			href: '/pricing'
+			href: `/${lang}/pricing`
 		},
-		{ name: $_('nav.contact'), href: '/contact' },
-		{ name: $_('nav.faq'), href: '/#faq' },
+		{ name: $_('nav.contact'), href: `/${lang}/contact` },
+		{ name: $_('nav.faq'), href: `/${lang}/#faq` },
 		{ name: 'Blog', href: 'https://blog.bigls.net' }
 	]);
 
 	const services = $derived([
-		{ name: $_('footer.services.websites'), href: '/#services' },
-		{ name: $_('footer.services.webshops'), href: '/#services' },
-		{ name: $_('footer.services.experiences'), href: '/#services' },
-		{ name: $_('footer.services.hosting'), href: '/#services' }
+		{ name: $_('footer.services.websites'), href: `/${lang}/#services` },
+		{ name: $_('footer.services.webshops'), href: `/${lang}/#services` },
+		{ name: $_('footer.services.experiences'), href: `/${lang}/#services` },
+		{ name: $_('footer.services.hosting'), href: `/${lang}/#services` }
 	]);
 </script>
 
@@ -199,10 +202,10 @@
 				© {currentYear} Matthias Bigl. {$_('footer.copyright')}
 			</p>
 			<div class="flex space-x-6 text-xs" style="color: var(--text-tertiary);">
-				<a href="/impressum" class="hover:text-gray-300 transition-colors duration-300"
+				<a href={`/${lang}/impressum`} class="hover:text-gray-300 transition-colors duration-300"
 					>{$_('footer.imprint')}</a
 				>
-				<a href="/datenschutz" class="hover:text-gray-300 transition-colors duration-300"
+				<a href={`/${lang}/datenschutz`} class="hover:text-gray-300 transition-colors duration-300"
 					>{$_('footer.privacy')}</a
 				>
 				<a href="/humans.txt" class="hover:text-gray-300 transition-colors duration-300"

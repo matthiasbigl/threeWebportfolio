@@ -11,7 +11,8 @@
 	import SEO from '$lib/components/SEO.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
-	import deLocale from '$lib/i18n/locales/de.json';
+	import type { PageData } from './$types';
+	let { data }: { data: PageData } = $props();
 	import dumbbellImg from '$lib/assets/dumbbell.png?enhanced';
 	import surfingImg from '$lib/assets/surfing.JPG?enhanced';
 
@@ -233,9 +234,9 @@
 </script>
 
 <SEO
-	title={deLocale.seo?.about?.title ?? 'Über Matthias Bigl | About'}
-	description={deLocale.seo?.about?.description ?? 'Learn more about Matthias Bigl'}
-	url="https://bigls.net/about"
+	title={$_('seo.about.title')}
+	description={$_('seo.about.description')}
+	url={`https://bigls.net/${data.lang}/about`}
 	type="profile"
 	image="https://bigls.net/headshot.png"
 	keywords={[
