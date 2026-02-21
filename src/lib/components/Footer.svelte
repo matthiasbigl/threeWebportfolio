@@ -201,10 +201,10 @@
 				© {currentYear} Matthias Bigl. {$t('footer.copyright')}
 			</p>
 			<div class="flex space-x-6 text-xs" style="color: var(--text-tertiary);">
-				<a href="/impressum" class="hover:text-gray-300 transition-colors duration-300"
+				<a href="/{lang}/impressum" class="hover:text-gray-300 transition-colors duration-300"
 					>{$t('footer.imprint')}</a
 				>
-				<a href="/datenschutz" class="hover:text-gray-300 transition-colors duration-300"
+				<a href="/{lang}/datenschutz" class="hover:text-gray-300 transition-colors duration-300"
 					>{$t('footer.privacy')}</a
 				>
 				<a href="/humans.txt" class="hover:text-gray-300 transition-colors duration-300"
