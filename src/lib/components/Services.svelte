@@ -44,7 +44,7 @@
 			icon: '🌐',
 			title: m["services.items.fullstack.title"](),
 			description: m["services.items.fullstack.description"](),
-			features: m["services.items.fullstack.features"]().split('\\n'),
+			features: m["services.items.fullstack.features"]().split('\n'),
 			gradient: 'from-blue-500/10 via-cyan-500/10 to-blue-600/10',
 			border: 'group-hover:border-blue-500/50',
 			colSpan: 'md:col-span-3 lg:col-span-3',
@@ -55,7 +55,7 @@
 			icon: '🛒',
 			title: m["services.items.webshops.title"](),
 			description: m["services.items.webshops.description"](),
-			features: m["services.items.webshops.features"]().split('\\n'),
+			features: m["services.items.webshops.features"]().split('\n'),
 			gradient: 'from-purple-500/10 via-pink-500/10 to-purple-600/10',
 			border: 'group-hover:border-purple-500/50',
 			colSpan: 'md:col-span-3 lg:col-span-3',
@@ -66,7 +66,7 @@
 			icon: '📈',
 			title: m["services.items.seo.title"](),
 			description: m["services.items.seo.description"](),
-			features: m["services.items.seo.features"]().split('\\n'),
+			features: m["services.items.seo.features"]().split('\n'),
 			gradient: 'from-orange-500/10 via-amber-500/10 to-orange-600/10',
 			border: 'group-hover:border-orange-500/50',
 			colSpan: 'md:col-span-2',
@@ -77,7 +77,7 @@
 			icon: '✨',
 			title: m["services.items.experiences.title"](),
 			description: m["services.items.experiences.description"](),
-			features: m["services.items.experiences.features"]().split('\\n'),
+			features: m["services.items.experiences.features"]().split('\n'),
 			gradient: 'from-emerald-500/10 via-teal-500/10 to-emerald-600/10',
 			border: 'group-hover:border-emerald-500/50',
 			colSpan: 'md:col-span-4',
@@ -409,7 +409,7 @@
 						</div>
 
 						<div class="flex flex-wrap gap-1.5 sm:gap-2 sm:justify-end">
-							{#each m["services.allInOne.features"]().split('\\n') as feature}
+							{#each m["services.allInOne.features"]().split('\n') as feature}
 								<span
 									class="px-2.5 py-1 text-xs font-medium rounded-full transition-all duration-300"
 									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
