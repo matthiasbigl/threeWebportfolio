@@ -8,6 +8,9 @@ addMessages('de', deMessages);
 // Register English as lazy-loaded
 register('en', () => import('./locales/en.json'));
 
+// Register Czech as lazy-loaded
+register('cs', () => import('./locales/cs.json'));
+
 // Initialize i18n
 init({
 	fallbackLocale: 'de',
@@ -18,7 +21,7 @@ init({
 export { locale, _ };
 
 // Helper function to switch locale
-export function setLocale(lang: 'de' | 'en') {
+export function setLocale(lang: 'de' | 'en' | 'cs') {
 	locale.set(lang);
 	if (browser) {
 		localStorage.setItem('preferred-locale', lang);
@@ -29,7 +32,7 @@ export function setLocale(lang: 'de' | 'en') {
 export function initLocaleFromStorage() {
 	if (browser) {
 		const stored = localStorage.getItem('preferred-locale');
-		if (stored === 'de' || stored === 'en') {
+		if (stored === 'de' || stored === 'en' || stored === 'cs') {
 			locale.set(stored);
 		}
 	}
