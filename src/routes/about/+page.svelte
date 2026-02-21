@@ -318,7 +318,7 @@
 							<Button href={localizeHref('/contact')} variant="primary">
 								{m["aboutPage.hero.cta"]()}
 							</Button>
-							<Button href="/#services" variant="secondary">
+							<Button href={localizeHref("/#services")} variant="secondary">
 								{m["aboutPage.hero.ctaSecondary"]()}
 							</Button>
 						</div>
