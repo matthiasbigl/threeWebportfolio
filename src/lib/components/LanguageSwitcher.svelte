@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { locale, setLocale } from '$lib/i18n';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { _, locale as localeStore } from 'svelte-i18n';
-	import { get } from 'svelte/store';
 
 	let isOpen = $state(false);
 
@@ -17,7 +17,11 @@
 	});
 
 	function handleLocaleChange(lang: 'de' | 'en' | 'cs') {
-		setLocale(lang);
+		const currentPath = $page.url.pathname;
+		const segments = currentPath.split('/');
+		segments[1] = lang;
+		const newPath = segments.join('/') || `/${lang}`;
+		goto(newPath, { replaceState: false });
 		isOpen = false;
 	}
 

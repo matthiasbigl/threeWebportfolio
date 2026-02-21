@@ -659,5 +659,37 @@
 			"subtitle": "Have a project in mind? I look forward to hearing from you and figuring out together how I can help.",
 			"button": "Get in touch"
 		}
+	},
+	"seo": {
+		"home": {
+			"title": "Matthias Bigl | Web Design & Development Vienna & Korneuburg",
+			"description": "Matthias Bigl – Web Designer & Full Stack Developer from Vienna/Korneuburg, Austria. Professional websites, webshops & interactive web experiences. Freelancer, no agency prices.",
+			"keywords": "Matthias Bigl,web design Vienna,web development Vienna,Full Stack Developer Vienna,freelance web designer Austria"
+		},
+		"about": {
+			"title": "About | Matthias Bigl – Web Designer & Developer Vienna",
+			"description": "Learn more about Matthias Bigl – Web Designer and Full Stack Developer from Korneuburg near Vienna. HTL graduate, passionate developer.",
+			"keywords": "Matthias Bigl,about,web designer Vienna,full stack developer"
+		},
+		"contact": {
+			"title": "Contact | Matthias Bigl – Web Design Vienna/Korneuburg",
+			"description": "Contact Matthias Bigl for your web project. Free initial consultation for websites, webshops and custom web experiences.",
+			"keywords": "contact,web design inquiry,free consultation,Matthias Bigl"
+		},
+		"pricing": {
+			"title": "Website Costs Austria 2026 | What Does a Website Cost? Matthias Bigl",
+			"description": "What does a website cost in Austria in 2026? Landing pages from €650, websites from €2,000, webshops from €3,250. Honest price guide by Matthias Bigl.",
+			"keywords": "website costs Austria,how much does a website cost,web design prices,homepage costs"
+		},
+		"datenschutz": {
+			"title": "Privacy Policy | Matthias Bigl – Web Designer Vienna/Korneuburg",
+			"description": "Privacy policy of Matthias Bigl, Web Designer & Full Stack Developer from Korneuburg near Vienna.",
+			"keywords": "privacy policy,GDPR,Matthias Bigl"
+		},
+		"impressum": {
+			"title": "Legal Notice | Matthias Bigl – Web Designer Vienna/Korneuburg",
+			"description": "Legal notice of Matthias Bigl, Web Designer & Full Stack Developer from Korneuburg near Vienna.",
+			"keywords": "legal notice,imprint,Matthias Bigl,web designer Vienna"
+		}
 	}
 }

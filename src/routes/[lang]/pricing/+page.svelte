@@ -5,29 +5,10 @@
 	import { marked } from 'marked';
 	import type { PageData } from './$types';
 
-	let { data }: PageData = $props();
+	let { data }: { data: PageData } = $props();
 
 	// Use SSR content as initial state, then reactively update when locale changes
 	let content = $state(data.article);
-
-	// Static German SEO metadata (avoids duplicate <head> on hydration locale switch)
-	const seoTitle = 'Website Kosten Österreich 2026 | Was kostet eine Website? Matthias Bigl';
-	const seoDescription =
-		'Was kostet eine Website 2026 in Österreich? Landingpages ab €650, Websites ab €2.000, Webshops ab €3.250. Ehrlicher Preisguide von Matthias Bigl – Webdesigner Wien/Korneuburg. Jetzt lesen!';
-	const seoKeywords = [
-		'Website Kosten Österreich',
-		'Was kostet eine Website',
-		'Was kostet eine Website 2026',
-		'Webdesign Preise 2026',
-		'Homepage Kosten Österreich',
-		'Webdesigner Wien Preise',
-		'Website erstellen lassen Kosten',
-		'Landingpage Kosten',
-		'Webshop Kosten Österreich',
-		'Matthias Bigl Preise',
-		'Webdesign günstig Wien',
-		'Website Preise Vergleich'
-	];
 
 	async function loadContent(lang: string) {
 		try {
@@ -58,16 +39,16 @@
 </script>
 
 <SEO
-	title={seoTitle}
-	description={seoDescription}
-	keywords={seoKeywords}
+	title={$_('seo.pricing.title')}
+	description={$_('seo.pricing.description')}
+	keywords={$_('seo.pricing.keywords').split(',')}
 	type="article"
-	url="https://bigls.net/pricing"
+	url={`https://bigls.net/${data.lang}/pricing`}
 	datePublished="2025-12-01"
 	dateModified="2026-02-01"
 	breadcrumbs={[
-		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
-		{ name: seoTitle, url: 'https://bigls.net/pricing' }
+		{ name: 'Matthias Bigl', url: `https://bigls.net/${data.lang}` },
+		{ name: $_('seo.pricing.title'), url: `https://bigls.net/${data.lang}/pricing` }
 	]}
 />
 

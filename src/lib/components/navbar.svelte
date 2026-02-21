@@ -13,13 +13,15 @@
 	 * tree — only the middle swaps.
 	 */
 	interface Props {
+		/** Current language from route param */
+		lang?: 'de' | 'en' | 'cs';
 		/** URL the back arrow navigates to (e.g. "/" or "/#projects") */
 		backHref?: string;
 		/** Translated label shown next to the back arrow */
 		backLabel?: string;
 	}
 
-	let { backHref, backLabel }: Props = $props();
+	let { lang = 'de', backHref, backLabel }: Props = $props();
 
 	const isSubPage = $derived(!!backHref);
 
@@ -103,7 +105,7 @@
 		<!-- ── Left: Logo ── -->
 		<div class="logo-container magnetic-btn shrink-0">
 			<a
-				href="/"
+				href={`/${lang}`}
 				class="w-12 h-12 sm:w-14 sm:h-14 md:w-10 md:h-10 text-lg sm:text-xl md:text-sm rounded-xl glass-card glass-card-hover items-center justify-center flex font-bold glow-border"
 				style="color: var(--text-primary);"
 			>
@@ -132,12 +134,11 @@
 				>
 			</a>
 		{:else}
-			<!-- Desktop Navigation (centered) -->
 			<nav
 				class="hidden md:flex items-center justify-center text-center glass-card px-6 lg:px-8 py-2 lg:py-2 font-semibold"
 			>
 				<a
-					href="/"
+					href={`/${lang}`}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
@@ -145,7 +146,7 @@
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/#services"
+					href={`/${lang}/#services`}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
@@ -153,7 +154,7 @@
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/#faq"
+					href={`/${lang}/#faq`}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
@@ -161,7 +162,7 @@
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/about"
+					href={`/${lang}/about`}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
@@ -169,7 +170,7 @@
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/contact"
+					href={`/${lang}/contact`}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
@@ -229,7 +230,7 @@
 					class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
 					style="color: var(--text-primary);"
 					onclick={() => {
-						goto('/');
+						goto(`/${lang}`);
 						isHamOpen = false;
 					}}
 				>
@@ -237,7 +238,7 @@
 				</button>
 
 				<a
-					href="/#services"
+					href={`/${lang}/#services`}
 					class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
 					style="color: var(--text-primary);"
 					onclick={() => (isHamOpen = false)}
@@ -246,7 +247,7 @@
 				</a>
 
 				<a
-					href="/#faq"
+					href={`/${lang}/#faq`}
 					class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
 					style="color: var(--text-primary);"
 					onclick={() => (isHamOpen = false)}
@@ -258,7 +259,7 @@
 					class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
 					style="color: var(--text-primary);"
 					onclick={() => {
-						goto('/about');
+						goto(`/${lang}/about`);
 						isHamOpen = false;
 					}}
 				>
@@ -269,7 +270,7 @@
 					class="mobile-menu-item nav-link magnetic-btn text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
 					style="color: var(--text-primary);"
 					onclick={() => {
-						goto('/contact');
+						goto(`/${lang}/contact`);
 						isHamOpen = false;
 					}}
 				>
