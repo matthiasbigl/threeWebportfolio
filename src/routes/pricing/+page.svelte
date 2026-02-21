@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { locale, _ } from '$lib/i18n';
+	import { getLocale, localizeHref } from '$lib/paraglide/runtime.js';
+	import * as m from '$lib/paraglide/messages.js';
 	import SEO from '$lib/components/SEO.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { marked } from 'marked';
 	import type { PageData } from './$types';
 
-	let { data }: PageData = $props();
+	interface Props {
+		data: PageData;
+	}
+	let { data }: Props = $props();
 
 	// Use SSR content as initial state, then reactively update when locale changes
 	let content = $state(data.article);
@@ -48,9 +52,9 @@
 
 	$effect(() => {
 		// Only run client-side to update if locale is not 'de' (which was already SSR'd)
-		if ($locale && $locale !== 'de') {
-			loadContent($locale);
-		} else if ($locale === 'de' && content !== data.article) {
+		if (getLocale() && getLocale() !== 'de') {
+			loadContent(getLocale());
+		} else if (getLocale() === 'de' && content !== data.article) {
 			// Fallback if user switches back to 'de'
 			content = data.article;
 		}
@@ -139,23 +143,23 @@
 										class="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold mb-3 sm:mb-4 !mt-0 !bg-none tracking-tight"
 										style="color: var(--text-heading);"
 									>
-										{$locale === 'de' ? 'Bereit für Ihr Projekt?' : 'Ready for your project?'}
+										{getLocale() === 'de' ? 'Bereit für Ihr Projekt?' : 'Ready for your project?'}
 									</h2>
 									<p
 										class="text-sm sm:text-base lg:text-lg font-light leading-relaxed max-w-lg"
 										style="color: var(--text-secondary);"
 									>
-										{$locale === 'de'
+										{getLocale() === 'de'
 											? 'Lassen Sie uns gemeinsam herausfinden, wie wir Ihre Ziele erreichen können.'
 											: "Let's find out together how we can achieve your goals."}
 									</p>
 								</div>
 								<Button
-									href="/contact"
+									href={localizeHref('/contact')}
 									variant="primary"
 									className="flex-shrink-0 no-underline !text-base sm:!text-lg"
 								>
-									{$_('hero.cta')}
+									{m["hero.cta"]()}
 									<svg
 										class="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300"
 										fill="none"

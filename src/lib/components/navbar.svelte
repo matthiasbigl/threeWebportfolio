@@ -3,7 +3,8 @@
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
-	import { _ } from 'svelte-i18n';
+	import * as m from '$lib/paraglide/messages.js';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import LanguageSwitcher from './LanguageSwitcher.svelte';
 	import ThemeToggle from './ThemeToggle.svelte';
 
@@ -103,7 +104,7 @@
 		<!-- ── Left: Logo ── -->
 		<div class="logo-container magnetic-btn shrink-0">
 			<a
-				href="/"
+				href={localizeHref("/")}
 				class="w-12 h-12 sm:w-14 sm:h-14 md:w-10 md:h-10 text-lg sm:text-xl md:text-sm rounded-xl glass-card glass-card-hover items-center justify-center flex font-bold glow-border"
 				style="color: var(--text-primary);"
 			>
@@ -114,7 +115,7 @@
 		<!-- ── Center: Nav links OR Back arrow ── -->
 		{#if isSubPage}
 			<a
-				href={backHref}
+				href={localizeHref(backHref || '/')}
 				class="back-link group flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
 				style="color: var(--text-tertiary);"
 			>
@@ -137,43 +138,43 @@
 				class="hidden md:flex items-center justify-center text-center glass-card px-6 lg:px-8 py-2 lg:py-2 font-semibold"
 			>
 				<a
-					href="/"
+					href={localizeHref("/")}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
-					{$_('nav.home')}
+					{m["nav.home"]()}
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/#services"
+					href={localizeHref("/#services")}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
-					{$_('nav.services')}
+					{m["nav.services"]()}
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/#faq"
+					href={localizeHref("/#faq")}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
-					{$_('nav.faq')}
+					{m["nav.faq"]()}
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/about"
+					href={localizeHref("/about")}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
-					{$_('nav.about')}
+					{m["nav.about"]()}
 				</a>
 				<div class="w-px h-4 bg-[var(--border-primary)] mx-1"></div>
 				<a
-					href="/contact"
+					href={localizeHref("/contact")}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>
-					{$_('nav.contact')}
+					{m["nav.contact"]()}
 				</a>
 			</nav>
 		{/if}
@@ -233,25 +234,25 @@
 						isHamOpen = false;
 					}}
 				>
-					{$_('nav.home')}
+					{m["nav.home"]()}
 				</button>
 
 				<a
-					href="/#services"
+					href={localizeHref("/#services")}
 					class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
 					style="color: var(--text-primary);"
 					onclick={() => (isHamOpen = false)}
 				>
-					{$_('nav.services')}
+					{m["nav.services"]()}
 				</a>
 
 				<a
-					href="/#faq"
+					href={localizeHref("/#faq")}
 					class="mobile-menu-item nav-link block text-lg sm:text-xl font-semibold hover:blue-gradient_text transition-all duration-300 text-center py-3 sm:py-4 rounded-lg glass-card-hover"
 					style="color: var(--text-primary);"
 					onclick={() => (isHamOpen = false)}
 				>
-					{$_('nav.faq')}
+					{m["nav.faq"]()}
 				</a>
 
 				<button
@@ -262,7 +263,7 @@
 						isHamOpen = false;
 					}}
 				>
-					{$_('nav.about')}
+					{m["nav.about"]()}
 				</button>
 
 				<button
@@ -273,7 +274,7 @@
 						isHamOpen = false;
 					}}
 				>
-					{$_('nav.contact')}
+					{m["nav.contact"]()}
 				</button>
 			</div>
 		</div>

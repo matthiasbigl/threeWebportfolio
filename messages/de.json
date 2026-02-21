@@ -1,0 +1,583 @@
+{
+	"nav": {
+		"home": "Home",
+		"about": "Über mich",
+		"services": "Leistungen",
+		"faq": "FAQ",
+		"contact": "Kontakt"
+	},
+	"hero": {
+		"greeting": "Hey, ich bin",
+		"name": "Matthias Bigl",
+		"subtitle": "Professionelles <span class=\"blue-gradient_text font-semibold\">Webdesign & Webentwicklung</span> 🇦🇹",
+		"description": "Ihre <span class=\"blue-gradient_text font-semibold\">digitale Visitenkarte</span> in Wien & Korneuburg, die rund um die Uhr neue Kunden gewinnt – während Sie sich auf Ihr Kerngeschäft konzentrieren.",
+		"cta": "Kostenlose Beratung",
+		"ctaServices": "Meine Leistungen"
+	},
+	"heroNew": {
+		"headline1": "Online-Präsenz, die wirkt",
+		"headline2": "Sie sind online unsichtbar?<br><span class=\"hero-accent\">Das ändern wir.</span>",
+		"subheadline": "Professionelle Websites, damit Ihre Kunden Sie finden. Persönlich, ohne Agentur-Stress, zum fairen Preis.",
+		"serviceOverview": "Was kann ich für Sie tun?",
+		"services": {
+			"websites": {
+				"title": "Websites",
+				"tagline": "ab €650",
+				"hover": "Professionelle Webpräsenz"
+			},
+			"webshops": {
+				"title": "Webshops",
+				"tagline": "24/7 verkaufen",
+				"hover": "Online verkaufen"
+			},
+			"custom": {
+				"title": "Maßarbeit",
+				"tagline": "Ihre Vision",
+				"hover": "Was auch immer Sie sich vorstellen"
+			},
+			"seo": {
+				"title": "SEO",
+				"tagline": "mehr Traffic",
+				"hover": "Gefunden werden"
+			},
+			"hosting": {
+				"title": "Hosting",
+				"tagline": "alles inkl.",
+				"hover": "Rundum-Sorglos"
+			}
+		}
+	},
+	"services": {
+		"title": "Mehr Kunden,",
+		"titleHighlight": "weniger Stress",
+		"subtitle": "Sie wollen online sichtbar sein, aber nicht Wochen mit Technik verschwenden? <span class=\"blue-gradient_text\">Ich übernehme das für Sie</span> – persönlich, ohne Agentur-Chaos, zum fairen Preis.",
+		"allInOne": {
+			"title": "Voller Service – von A bis Z",
+			"tagline": "Sie sagen was Sie brauchen, ich kümmere mich um den Rest.",
+			"description": "Egal was Sie sich vorstellen – ich setze es um. Von der ersten Idee bis zum laufenden Hosting.",
+			"process": {
+				"consultation": {
+					"title": "Beratung",
+					"desc": "gratis & unverbindlich"
+				},
+				"design": {
+					"title": "Design",
+					"desc": "einzigartig für Sie"
+				},
+				"development": {
+					"title": "Entwicklung",
+					"desc": "modern & sicher"
+				},
+				"launch": {
+					"title": "Launch",
+					"desc": "schnell & smooth"
+				},
+				"hosting": {
+					"title": "Hosting",
+					"desc": "inkl. forever"
+				}
+			},
+			"features": "Hosting inklusive\nUpdates & Wartung\nDirekter Support\nKein Technik-Know-how nötig"
+		},
+		"items": {
+			"experiences": {
+				"title": "Maßgeschneiderte Lösungen",
+				"description": "Was auch immer Sie sich vorstellen – ob 3D-Erlebnisse, interaktive Anwendungen oder etwas ganz Neues. Ich setze Ihre Vision um.",
+				"features": "Ihre Vision, meine Umsetzung\n3D & Interaktiv möglich\nMaßgeschneidert für Sie\nEinzigartig wie Ihr Business"
+			},
+			"fullstack": {
+				"title": "Rundum-Sorglos-Paket",
+				"description": "Technik ist nicht Ihr Ding? Kein Problem. Ich kümmere mich um alles – von der ersten Idee bis zur laufenden Betreuung. Sie müssen nur noch 'Ja' sagen.",
+				"features": "Alles aus einer Hand\nSchnelles & sicheres Hosting\nUpdates & Wartung inklusive\nImmer für Sie erreichbar"
+			},
+			"seo": {
+				"title": "SEO-optimierung",
+				"description": "Besser ranken, gefunden werden. Datenbasierte SEO-Strategien für mehr Sichtbarkeit und Traffic.",
+				"features": "Keyword-Strategie\nTechnisches Audit\nPerformance-Boost\nGoogle Ranking"
+			},
+			"webshops": {
+				"title": "Online verkaufen, einfach gemacht",
+				"description": "Ihr eigener Shop, der Bestellungen annimmt während Sie schlafen. Einfach zu verwalten, sicher für Ihre Kunden, optimiert für mehr Verkäufe.",
+				"features": "Kinderleichte Verwaltung\nSichere Zahlungen\nAutomatische Bestellungen\nWissen, was funktioniert"
+			}
+		},
+		"whyMe": {
+			"title": "Agentur-Qualität,",
+			"titleHighlight": "ohne Agentur-Preise",
+			"subtitle": "Warum für 10 Leute zahlen, wenn einer alles kann? Direkt, persönlich, ohne Umwege."
+		},
+		"benefits": {
+			"allInOne": {
+				"title": "Sie können sich zurücklehnen",
+				"description": "Hosting, Updates, Sicherheit – das läuft im Hintergrund. Sie konzentrieren sich auf Ihr Business, ich auf Ihre Website."
+			},
+			"personal": {
+				"title": "Keine Warteschleifen",
+				"description": "Sie rufen an, ich hebe ab. Keine Tickets, keine 'Ihr Anliegen wurde weitergeleitet'. Direkte Kommunikation, schnelle Lösungen."
+			},
+			"local": {
+				"title": "Kaffee statt Videocall",
+				"description": "Persönliche Treffen in Wien oder Korneuburg möglich. Manchmal ist ein Gespräch von Angesicht zu Angesicht einfach besser."
+			},
+			"prices": {
+				"title": "Mehr Website, weniger Rechnung",
+				"description": "Keine Agentur-Aufschläge für Meetings über Meetings. Sie zahlen für Ergebnisse, nicht für Overhead."
+			},
+			"tech": {
+				"title": "Zukunftssicher gebaut",
+				"description": "Keine veralteten Systeme, die in 2 Jahren Probleme machen. Moderne Technik, die mit Ihrem Business wächst."
+			},
+			"detail": {
+				"title": "Ihr Projekt = Mein Projekt",
+				"description": "Jedes Detail zählt. Ich arbeite, als wäre es meine eigene Website – denn mein Ruf hängt an Ihrer Zufriedenheit."
+			}
+		},
+		"pricing": {
+			"websites": "€650 - €2.000+",
+			"webshops": "ab €3.250",
+			"custom": "Individuell"
+		},
+		"cta": "Jetzt gratis Webdesign-Beratung",
+		"ctaSubtext": "Unverbindlich • Gratis Beratung • Keine versteckten Kosten"
+	},
+	"aboutCompact": {
+		"title": "Ihr Ansprechpartner",
+		"name": "Matthias Bigl",
+		"role": "Freelancer aus Wien & Korneuburg",
+		"description": "Ein Ansprechpartner. Keine Warteschleifen. Persönlich, nicht unpersönlich.",
+		"bio": "Absolvent der HTL Hollabrunn für Informationstechnologie. Hauptberuflich als Consultant & Full Stack Developer bei Tieto tätig – Customer Experience Projekte im Banking-Sektor. Nebenbei baue ich moderne Weblösungen für KMUs und Selbstständige.",
+		"availability": "Verfügbar für neue Projekte",
+		"differentiators": {
+			"partner": {
+				"title": "Ein Partner",
+				"desc": "nicht eine Abteilung"
+			},
+			"local": {
+				"title": "Lokal",
+				"desc": "in Wien & Korneuburg"
+			},
+			"direct": {
+				"title": "Direkt",
+				"desc": "erreichbar"
+			}
+		},
+		"cta": "Über mich"
+	},
+	"skills": {
+		"title": "Einige meiner besten",
+		"titleHighlight": "Skills",
+		"hint": "👆 Probier die Würfel zu greifen!",
+		"languages": "Sprachen",
+		"strengths": "Stärken",
+		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin",
+		"strengthsList": "Backend, UI/UX, Grafikdesign, Teamwork, Projektmanagement",
+		"languagesDescription": "Erfahrene Programmiersprachen wie Python, Java, Svelte, TypeScript und Kotlin für Full-Stack Web- und Mobile-Entwicklung.",
+		"strengthsDescription": "Kernkompetenzen wie Backend-Entwicklung, UI/UX Design, Grafikdesign, Teamarbeit und Projektmanagement.",
+		"languagesAriaLabel": "Interaktiver 3D-Würfel mit Programmiersprachen: Python, Java, Svelte, TypeScript und Kotlin. Ziehen zum Drehen.",
+		"strengthsAriaLabel": "Interaktiver 3D-Würfel mit professionellen Stärken: Backend-Entwicklung, UI/UX Design, Grafikdesign, Teamarbeit und Projektmanagement. Ziehen zum Drehen."
+	},
+	"projectDetail": {
+		"backLabel": "Alle Projekte",
+		"caseStudy": "Fallstudie",
+		"chapterVision": "Die Vision",
+		"chapterChallenge": "Die Herausforderung",
+		"chapterCraft": "Die Umsetzung",
+		"chapterOutcome": "Das Ergebnis",
+		"techStackLabel": "Technologien",
+		"metaRole": "Rolle",
+		"metaTimeline": "Zeitraum",
+		"metaType": "Typ",
+		"metaStatus": "Status",
+		"featuresTitle": "Was es besonders macht",
+		"ctaTitle": "Gefällt Ihnen, was Sie sehen?",
+		"ctaLaunch": "Live ansehen",
+		"ctaContact": "Lassen Sie uns Ihres bauen",
+		"statusLive": "Live",
+		"statusPrototype": "Prototyp",
+		"statusDevelopment": "In Entwicklung",
+		"scrollHint": "Scrollen zum Entdecken"
+	},
+	"projects": {
+		"title": "Portfolio &",
+		"titleHighlight": "Case Studies",
+		"moreOnGithub": "Weitere Open-Source Projekte auf",
+		"items": {
+			"loveline": {
+				"title": "LoveLine",
+				"subtitle": "Digitaler Bilderrahmen-Messenger",
+				"tagline": "Ein kleiner 10×10cm Bildschirm, der aufleuchtet, wenn dein Partner an dich denkt. Nachrichten, die auf deinem Nachttisch leben — nicht in deinen Benachrichtigungen.",
+				"description": "Ein persönlicher Messenger mit einem physischen 10cm-Display — wie ein kleiner Bilderrahmen, der Nachrichten deiner Liebsten anzeigt.",
+				"role": "Full-Stack Engineer & Hardware Lead",
+				"timeline": "2024 — Heute",
+				"type": "IoT · Messenger · Hardware",
+				"status": "live",
+				"sections": {
+					"context": "LoveLine ist ein Messenger — aber nicht die Art, die auf deinem Handy lebt. Es ist ein kleiner physischer Bilderrahmen, 10 mal 10 Zentimeter, der auf deinem Schreibtisch oder Nachttisch steht. Wenn dein Partner dir eine Nachricht schickt, erscheint sie einfach. Keine Benachrichtigungen, keine Apps öffnen. Nur ein ruhiger kleiner Bildschirm, der dir zeigt, dass jemand an dich denkt.",
+					"problem": "SMS und Chats fühlen sich flüchtig an. Nachrichten verschwinden im Feed zwischen Arbeitschats und Gruppenbenachrichtigungen. Nichts Physisches, nichts das bleibt. Besonders Paare in Fernbeziehungen vermissen dieses Gefühl von Präsenz — das Gefühl, im selben Raum zu sein.",
+					"solution": "Eine SvelteKit-Web-App kombiniert mit einem ESP32-betriebenen Display. Du sendest eine Nachricht oder ein Foto über die App, und es erscheint sofort auf dem physischen Rahmen bei deinem Partner. Server-Sent Events halten alles in Echtzeit. Ein KI-gestützter Date-Planer schlägt gemeinsame Aktivitäten vor, selbst aus der Ferne.",
+					"impact": "Eine Nachricht, die nicht untergeht. Ein Bildschirm, auf den man tatsächlich schaut, weil er nur zeigt, was zählt. LoveLine verwandelt eine digitale Nachricht in etwas, das sich anfühlt wie eine handgeschriebene Notiz auf dem Küchentisch."
+				},
+				"features": "10×10cm Physisches Display\nKI-gestützter 'Spark' Date-Planer\nEnd-to-End Privacy Architektur\nEchtzeit Foto- & Nachrichten-Streams\nESP32-betriebene Hardware",
+				"technologies": "SvelteKit\nESP32\nC++\nGSAP\nOpenAI API\nWebSockets",
+				"tags": "IoT\nSvelteKit\nESP32\nMessenger\nRelationship OS\nKI"
+			},
+			"robotics": {
+				"title": "ABC Sensorbox",
+				"subtitle": "Defence Embedded Systems",
+				"tagline": "Eine universell montierbare Sensorbox für die 1. ABC Umweltmessstelle — erkennt Strahlung, Gas und Sauerstoff in Echtzeit über LoRa.",
+				"description": "Universell montierbare ABC-Sensorbox für die ABC Abwehr Korneuburg mit Geiger-Müller-Zähler, MQ-Gassensoren und O₂-Überwachung.",
+				"role": "Embedded Systems Engineer",
+				"timeline": "2024",
+				"type": "Verteidigung · Embedded Systems",
+				"status": "prototype",
+				"sections": {
+					"context": "Gebaut als Teil der 1. ABC Umweltmessstelle — einer Spezialeinheit der ABC Abwehr Korneuburg im Österreichischen Bundesheer. Die Idee: eine kleine, eigenständige Sensorbox, die praktisch überall montiert werden kann. Auf einem Fahrzeug, einem Stativ, einem Roboter — egal. Sie misst und meldet einfach.",
+					"problem": "Professionelle ABC-Detektionsausrüstung ist teuer, sperrig und oft in proprietäre Ökosysteme eingebunden. Einsatzkräfte brauchen etwas, das sie schnell aufstellen, überall montieren und dem sie für genaue Messwerte vertrauen können — ohne Spezialausbildung.",
+					"solution": "Eine kompakte ESP32-basierte Sensorbox mit Geiger-Müller-Zähler zur Strahlungserkennung, einer vollen Suite an MQ-Gassensoren und einem O₂-Sensor. Die Box kommuniziert über LoRa mit 2km Reichweite und streamt Messwerte an ein Handterminal. Universell montierbar — sie geht dorthin, wo der Einsatz sie braucht.",
+					"impact": "Ein funktionierender Prototyp, der bewiesen hat, dass handelsübliche Komponenten zuverlässige ABC-Detektion im Feld liefern können. Das universell montierbare Design passt sich jedem Einsatzszenario der Einheit an."
+				},
+				"features": "Geiger-Müller Strahlungsdetektion\nMQ-Gassensor-Suite\nO₂-Überwachung\n2km LoRa-Funkstrecke\nUniversell montierbares Design",
+				"technologies": "ESP32\nC++\nLoRa\nunphone\nABC-Sensoren\nOff-the-shelf Hardware",
+				"tags": "ABC-Schutz\nCBRN\nLoRa\nRobotik\nDefense Tech\nEmbedded"
+			},
+			"grading-bot": {
+				"title": "Grading Bot",
+				"subtitle": "Diplomarbeit",
+				"tagline": "Code abgeben, Note in 30 Sekunden. Live-Bewertung für Java, TypeScript, JavaScript, Bash und PowerShell.",
+				"description": "Automatisches Code-Bewertungssystem für 5 Sprachen mit ~30s Live-Grading — meine Diplomarbeit, im Einsatz an der HTL Hollabrunn.",
+				"role": "Lead Architect & Entwickler",
+				"timeline": "2024 — Heute",
+				"type": "Diplomarbeit · EdTech",
+				"status": "live",
+				"sections": {
+					"context": "Das ist meine Diplomarbeit. Grading Bot ist ein automatisches Code-Bewertungssystem im Einsatz an der HTL Hollabrunn. Schüler geben ihre Aufgaben ab und bekommen innerhalb von etwa 30 Sekunden eine Note und detailliertes Feedback. Es unterstützt Java, TypeScript, JavaScript, Bash und PowerShell — praktisch alles, was an der Schule unterrichtet wird.",
+					"problem": "Lehrer haben Code per Hand bewertet. Hunderte Abgaben pro Aufgabe, mehrere Klassen, jede Woche. Es war langsam, inkonsistent und hat niemandem Spaß gemacht. Schüler haben tagelang auf Feedback gewartet, das oft nur eine Note und ein Kommentar war.",
+					"solution": "Jede Abgabe läuft in ihrem eigenen Docker-Container — komplett isoliert, kein Schüler-Code kann irgendetwas kaputt machen. Das System ist mit Azure AD für Authentifizierung und MS Teams für Benachrichtigungen verbunden. Ein Lehrer richtet die Aufgabe einmal ein, und der Bot erledigt den Rest. Etwa 30 Sekunden von der Abgabe bis zum Ergebnis.",
+					"impact": "Über 1.000 automatisch bewertete Aufgaben. Schüler bekommen Feedback, solange der Code noch frisch im Kopf ist. Lehrer bekommen ihre Abende zurück. Es läuft, es ist schnell, und es ist noch nie ausgefallen."
+				},
+				"features": "5 Sprachen (Java, TS, JS, Bash, PS)\n~30 Sekunden Live-Bewertung\nDocker-basierte Sandbox-Ausführung\nAzure AD & MS Teams Integration\nAutomatisierte Feedback-Reports",
+				"technologies": "SvelteKit\nDocker\nAzure AD\nPostgreSQL\nTailwind CSS",
+				"tags": "EdTech\nAutomatisierung\nCI/CD\nCoding\nDocker\nAzure"
+			},
+			"unleashed": {
+				"title": "Unleashed",
+				"subtitle": "Privacy-First Social (Eingestellt)",
+				"tagline": "Eine datenschutzorientierte Social-Plattform als PWA. Wegen Infrastrukturkosten eingestellt, aber das Konzept hat funktioniert.",
+				"description": "Ein PWA Social-Network-Experiment mit Fokus auf Privacy-First — eingestellt wegen laufender Kosten.",
+				"role": "Entwickler & Architekt",
+				"timeline": "2025",
+				"type": "PWA · Social Platform",
+				"status": "prototype",
+				"sections": {
+					"context": "Unleashed war eine Social-Plattform, gebaut als Progressive Web App. Die Idee war einfach: Social Media ohne Tracking, ohne algorithmische Manipulation, ohne den Verkauf deiner Daten. Einfach Menschen, die sich mit Menschen verbinden.",
+					"problem": "Jede große Social-Plattform monetarisiert Nutzerdaten. Privatsphäre-Einstellungen sind versteckt, Algorithmen entscheiden, was du siehst, und Opt-out bedeutet Plattform-Verlassen. Es gibt keinen Mittelweg.",
+					"solution": "Eine PWA mit Zero-Tracking-Architektur und Ende-zu-Ende-Verschlüsselung. Kein algorithmischer Feed — du siehst Beiträge chronologisch von Leuten, denen du tatsächlich folgst. Gebaut mit Kotlin und Jetpack Compose im Frontend, Supabase und Clerk im Backend.",
+					"impact": "Die Plattform hat funktioniert und das Konzept bewiesen, aber die Infrastrukturkosten waren als Solo-Projekt zu hoch. Sie wurde eingestellt, aber die Erkenntnisse über Privacy-First-Architektur fließen in jedes weitere Projekt ein."
+				},
+				"features": "Progressive Web App\nZero-Tracking-Architektur\nEnde-zu-Ende verschlüsselte Nachrichten\nChronologischer Feed (kein Algorithmus)\nPrivacy-First by Design",
+				"technologies": "Kotlin\nJetpack Compose\nClerk Auth\nSupabase\nAndroid SDK",
+				"tags": "Social Media\nDatenschutz\nMobile App\nAndroid\nKotlin"
+			},
+			"free-jazz-tattoo": {
+				"title": "Free Jazz Tattoo",
+				"subtitle": "Tattoo Studio Website",
+				"tagline": "Moderne Website für ein lokales Tattoo-Studio in Österreich — mit Galerie, Kontaktformular und integrierten Google Reviews.",
+				"description": "Professionelle Website für ein Tattoo-Studio mit Online-Galerie, Kontaktformular und Google-Reviews-Integration.",
+				"role": "Designer & Entwickler",
+				"timeline": "2024 — Heute",
+				"type": "Webdesign · SvelteKit",
+				"status": "live",
+				"sections": {
+					"context": "Free Jazz Tattoo ist ein lokales Tattoo-Studio in Österreich. Die Website dient als digitale Visitenkarte — mit einer Übersicht über den Künstler, einer Galerie der Arbeiten und allen wichtigen Kontaktinformationen.",
+					"problem": "Viele Tattoo-Studios haben veraltete Websites oder verlassen sich nur auf Social Media. Das macht es schwer, einen professionellen Eindruck zu vermitteln und neue Kunden über Google zu finden.",
+					"solution": "Eine moderne SvelteKit-Website mit einer ansprechenden Galerie, die die Kunstwerke präsentiert. Google-Reviews sind direkt eingebunden, und ein einfaches Kontaktformular macht die Buchung leicht. Das Design ist dunkel und edel — passend zur Studio-Ästhetik.",
+					"impact": "Eine professionelle Online-Präsenz, die Neukunden über Google findet und das Studio von der Konkurrenz abhebt. Klare Struktur und schnelle Ladezeiten auf allen Geräten."
+				},
+				"features": "Responsive Galerie\nGoogle Reviews Integration\nKontaktformular\nDark Mode Design\nSEO-optimiert",
+				"technologies": "SvelteKit\nTailwind CSS\nTypeScript\nVercel",
+				"tags": "Webdesign\nTattoo\nSvelteKit\nPortfolio\nLocal Business"
+			},
+			"genesys": {
+				"title": "Genesys Cloud",
+				"subtitle": "Enterprise CX",
+				"tagline": "Orchestrierung weltweiter Kommunikation. High-Availability CX Engineering für Enterprise-Kunden.",
+				"description": "Enterprise-Lösungen für Customer Experience (CX) für globale Marken.",
+				"role": "CX Berater & Engineer",
+				"timeline": "2025 — Heute",
+				"type": "Enterprise Software",
+				"status": "live",
+				"sections": {
+					"context": "Consulting an der Schnittstelle von Psychologie und Skalierung. Management komplexer Kommunikations-Architekturen für global agierende Unternehmen.",
+					"problem": "Große Kontaktcenter leiden oft unter fragmentierten Altsystemen. Latenz behindert Empathie, und getrennte Kanäle frustrieren Agenten und Kunden.",
+					"solution": "Entwurf von Interaktionsflüssen im Sub-Sekunden-Bereich auf Basis der Genesys Cloud Plattform. Individuelle Routing-Logik und einheitliche Tools transformieren Lärm in ein harmonisches Omnichannel-Erlebnis.",
+					"impact": "25 % Steigerung der Agenteneffizienz. Nahtlose Kommunikation für Millionen von Nutzern. Beleg für personalisierte Interaktion auch im Enterprise-Maßstab."
+				},
+				"features": "Enterprise Routing Orchestrierung\nEchtzeit-Interaktions-APIs\nOmnichannel CX Workflows\nSichere Datenintegration\nEntwicklung individueller Agenten-Tools",
+				"technologies": "Genesys Cloud\nTypeScript\nCloud APIs\nMicro-services",
+				"tags": "Enterprise\nCloud\nKommunikation\nCustomer Experience\nCX"
+			},
+			"portfolio": {
+				"title": "Dieses Portfolio",
+				"subtitle": "3D Web-Erlebnis",
+				"tagline": "Technische Exzellenz und Performance. Ein leistungsstarkes 3D-Experiment in moderner Web-Entwicklung.",
+				"description": "Interaktives 3D-Portfolio zur Erforschung moderner Web-Technologien.",
+				"role": "Designer & Entwickler",
+				"timeline": "2025 — Heute",
+				"type": "Kreative Entwicklung",
+				"status": "live",
+				"sections": {
+					"context": "Ein Projekt, das zeigt, dass 3D-Grafik, Animationen und SEO-Performance effektiv in einem Paket integriert werden können.",
+					"problem": "3D im Web kann oft langsam sein oder von Suchmaschinen schwer indexiert werden. Cinematic Portfolios vernachlässigen häufig die mobile Performance oder Barrierefreiheit.",
+					"solution": "Optimierte Shader, SvelteKit für Server-Side State und GSAP zur Koordination der Interaktionen. Eine 60-FPS-Experience, die für Suchmaschinen-Crawler zugänglich bleibt.",
+					"impact": "Hohe Performance-Werte über alle Metriken hinweg. Keine technischen Kompromisse bei der Kernerfahrung. Ein Nachweis, wie modernes Web-Design immersiv und gleichzeitig auffindbar sein kann."
+				},
+				"features": "Kinoreifre 3D-Szenen-Rendering\nPhysikbasierte Interaktionen\nHigh-Performance Motion Design\nVollständig responsives 3D-Canvas\nFortschrittliche SEO- & i18n-Architektur",
+				"technologies": "SvelteKit\nThree.js\nGSAP\nTypeScript\nTailwind CSS",
+				"tags": "SvelteKit\nThree.js\nGSAP\nTypeScript\n3D Web\nPortfolio"
+			},
+			"blog": {
+				"title": "Bigls Blog - Tech Einblicke",
+				"description": "Ein Tech-Blog über Projekte und Erfahrungen.",
+				"longDescription": "Teilen von technischem Wissen, Projekt-Updates und Meinungen zu modernen Web-Technologien.",
+				"tags": "Blogging\nWebentwicklung\nContent Management"
+			},
+			"github-projects": {
+				"title": "GitHub Archiv",
+				"description": "Dutzende Open-Source Repositories und Experimente.",
+				"longDescription": "Vom kleinen Skript bis zur Bibliothek - mein GitHub Profil dokumentiert meine Reise durch die Softwareentwicklung.",
+				"tags": "Open Source\nGitHub\nWebentwicklung"
+			}
+		}
+	},
+	"resume": {
+		"title": "Mein",
+		"titleHighlight": "Lebenslauf"
+	},
+	"hobbies": {
+		"title": "Meine",
+		"titleHighlight": "Hobbies",
+		"mountainHint": "Ziehen zum Drehen",
+		"mountainAlt": "Interaktive 3D-Berglandschaft mit Schneepartikeln – ziehen zum Drehen",
+		"items": {
+			"gym": {
+				"title": "GYM",
+				"description": "Ich versuche immer, meine Grenzen im Fitnessstudio zu überschreiten 💪",
+				"alt": "Hantel als Symbol für Fitnesstraining und Gym"
+			},
+			"skiing": {
+				"title": "Skifahren",
+				"description": "Die Pisten hinunterzucarven ist eines meiner Lieblingsdinge im Winter 🎿",
+				"alt": "3D-Bergszene als Darstellung des Skifahren-Hobbys"
+			},
+			"surfing": {
+				"title": "Surfen",
+				"description": "Ich surfe seit ich 6 Jahre alt bin 🤙",
+				"alt": "Matthias beim Surfen auf einer Welle im Meer"
+			}
+		}
+	},
+	"faq": {
+		"title": "Ihre Fragen,",
+		"titleHighlight": "ehrliche Antworten",
+		"subtitle": "Kein Marketing-Blabla – hier erfahren Sie, wie die Zusammenarbeit wirklich abläuft",
+		"moreQuestions": "Noch unsicher? Lassen Sie uns einfach telefonieren!",
+		"cta": "Jetzt anrufen",
+		"items": {
+			"cost": {
+				"question": "Was kostet mich das Ganze?",
+				"answer": "Hand aufs Herz: Eine Landingpage ab €650, eine vollständige Website ab €2.000, Webshops ab €3.250. Aber wichtiger: Im kostenlosen Erstgespräch finden wir heraus, was Sie WIRKLICH brauchen – nicht mehr, nicht weniger. Danach bekommen Sie ein transparentes Angebot ohne Überraschungen."
+			},
+			"duration": {
+				"question": "Wann kann ich live gehen?",
+				"answer": "Eine einfache Website? In 1-2 Wochen sind Sie online. Größere Projekte mit Shop oder Spezialfunktionen: 4-8 Wochen. Das Beste: Sie sehen zwischendurch immer den aktuellen Stand – keine bösen Überraschungen am Ende."
+			},
+			"hosting": {
+				"question": "Was passiert nach dem Launch?",
+				"answer": "Das ist das Schöne: Sie müssen sich um nichts kümmern. Hosting, Sicherheit, Updates, Backups – läuft alles automatisch im Hintergrund. Wenn mal was klemmt, bin ich einen Anruf entfernt. Sie machen Ihr Ding, ich halte Ihre Website am Laufen."
+			},
+			"edit": {
+				"question": "Kann ich selbst Texte ändern?",
+				"answer": "Selbstverständlich! Je nach Bedarf baue ich ein einfaches Verwaltungssystem ein, das Sie in 10 Minuten verstehen. Oder ich übernehme alle Änderungen für Sie – wie es Ihnen lieber ist. Sie sollen keine Technik-Kurse besuchen müssen."
+			},
+			"remote": {
+				"question": "Muss ich in Wien sein?",
+				"answer": "Nein! Die meisten meiner Kunden kenne ich nur per Video oder Telefon – funktioniert einwandfrei. Wenn Sie aber in Wien oder Umgebung sind und lieber einen Kaffee trinken wollen: Gerne!"
+			},
+			"agency": {
+				"question": "Warum keine große Agentur?",
+				"answer": "Stellen Sie sich vor: Ein Ansprechpartner statt fünf. Keine 'Das ist nicht meine Abteilung'-Antworten. Keine aufgeblähten Rechnungen für interne Meetings. Bei mir wissen Sie immer, wer an Ihrem Projekt arbeitet: Ich. Persönlich, direkt, ohne Umwege."
+			},
+			"tech": {
+				"question": "Ist meine Website zukunftssicher?",
+				"answer": "Absolut. Ich nutze moderne Technologien, die auch in 5 Jahren noch aktuell sind – keine veralteten WordPress-Themes, die regelmäßig gehackt werden. Schnell, sicher, und Sie müssen sich nie Sorgen machen, dass plötzlich nichts mehr funktioniert."
+			},
+			"process": {
+				"question": "Wie läuft das konkret ab?",
+				"answer": "Ganz einfach: 1) Wir telefonieren 15 Minuten – kostenlos, unverbindlich. 2) Ich schicke Ihnen ein klares Angebot. 3) Während der Umsetzung sehen Sie regelmäßig den Fortschritt. 4) Ihre Website geht online, und ich bin weiterhin für Sie da. Kein Stress, keine Überraschungen."
+			},
+			"seo": {
+				"question": "Werde ich auf Google gefunden?",
+				"answer": "Die Grundlagen sind immer dabei: Schnelle Ladezeiten, sauberer Code, mobile Optimierung, alle wichtigen Meta-Tags. Damit haben Sie eine solide Basis. Für intensive SEO-Kampagnen erstelle ich Ihnen gerne ein separates Angebot."
+			},
+			"existing": {
+				"question": "Ich habe schon eine Website – kannst du helfen?",
+				"answer": "Klar! Egal ob Redesign, Performance-Boost oder neue Funktionen – schicken Sie mir einfach den Link, und ich sage Ihnen ehrlich, was Sinn macht und was nicht."
+			}
+		}
+	},
+	"contact": {
+		"title": "Lassen Sie uns",
+		"titleHighlight": "loslegen",
+		"subtitle": "Sie haben eine Idee? Ich habe die Umsetzung. In 15 Minuten wissen Sie, ob wir zusammenpassen – kostenlos und unverbindlich.",
+		"getInTouch": "So erreichen",
+		"getInTouchHighlight": "Sie mich",
+		"methods": {
+			"email": {
+				"title": "E-Mail",
+				"description": "Antwort innerhalb von 24 Stunden"
+			},
+			"phone": {
+				"title": "Telefon",
+				"description": "Direkt mit mir sprechen"
+			},
+			"location": {
+				"title": "Standort",
+				"description": "Wien & Korneuburg, Österreich"
+			},
+			"github": {
+				"title": "GitHub",
+				"description": "Sehen Sie, wie ich arbeite"
+			}
+		},
+		"form": {
+			"title": "Projekt",
+			"titleHighlight": "beschreiben",
+			"name": "Ihr Name",
+			"namePlaceholder": "Wie darf ich Sie ansprechen?",
+			"email": "Ihre E-Mail",
+			"emailPlaceholder": "Wo erreiche ich Sie?",
+			"message": "Erzählen Sie mir von Ihrem Projekt",
+			"messagePlaceholder": "Was schwebt Ihnen vor? Was ist das Ziel? Keine Sorge, muss noch nicht perfekt sein...",
+			"submit": "Absenden & durchstarten",
+			"sending": "Wird gesendet..."
+		},
+		"cta": {
+			"title": "Bereit für",
+			"titleHighlight": "Ihren",
+			"titleEnd": "Online-Erfolg?",
+			"subtitle": "Der erste Schritt ist ein Gespräch. 15 Minuten, kostenlos, unverbindlich. Danach wissen Sie genau, was möglich ist und was es kostet.",
+			"emailMe": "E-Mail schreiben",
+			"downloadResume": "Mehr über mich"
+		}
+	},
+	"footer": {
+		"description": "Matthias Bigl – Freelance Webdesigner & Full Stack Developer aus Wien/Korneuburg. Ich helfe KMU, Startups & Selbstständigen mit professionellen Websites, Webshops & 3D Web-Erlebnissen online sichtbar zu werden. Ohne Agentur-Aufschläge.",
+		"navigation": "Navigation",
+		"servicesTitle": "Leistungen",
+		"contactTitle": "Kontakt",
+		"services": {
+			"websites": "Websites, die verkaufen",
+			"webshops": "Webshops & Online-Verkauf",
+			"experiences": "Wow-Erlebnisse",
+			"hosting": "Hosting & Betreuung"
+		},
+		"copyright": "Alle Rechte vorbehalten.",
+		"location": "Korneuburg / Wien, Österreich",
+		"imprint": "Impressum",
+		"privacy": "Datenschutz"
+	},
+	"imprint": {
+		"title": "Impressum",
+		"owner": "Inhaber",
+		"address": "Adresse",
+		"contact": "Kontakt",
+		"disclaimer": "Kleinunternehmerregelung",
+		"disclaimerText": "Umsatzsteuerbefreit aufgrund der Kleinunternehmerregelung gemäß § 6 Abs. 1 Z 27 UStG.",
+		"content": "Haftungsausschluss",
+		"contentText": "Trotz sorgfältiger inhaltlicher Kontrolle übernehme ich keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich."
+	},
+	"privacy": {
+		"title": "Datenschutz",
+		"intro": "Der Schutz Ihrer persönlichen Daten ist mir ein besonderes Anliegen. Ich verarbeite Ihre Daten daher ausschließlich auf Grundlage der gesetzlichen Bestimmungen (DSGVO, TKG 2003).",
+		"contact": "Kontakt mit mir",
+		"contactText": "Wenn Sie per Formular auf der Website oder per E-Mail Kontakt mit mir aufnehmen, werden Ihre angegebenen Daten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen sechs Monate bei mir gespeichert. Diese Daten gebe ich nicht ohne Ihre Einwilligung weiter.",
+		"analytics": "Google Analytics",
+		"analyticsText": "Diese Website nutzt Google Analytics zur Analyse des Nutzerverhaltens. Die Daten werden anonymisiert verarbeitet."
+	},
+	"cookies": {
+		"message": "Diese Website verwendet Cookies zur Analyse und Verbesserung der Nutzung. Sie entscheiden: Opt-in für Google Analytics.",
+		"accept": "Akzeptieren",
+		"reject": "Ablehnen",
+		"learnMore": "Mehr erfahren",
+		"bannerAria": "Cookie-Einwilligung"
+	},
+	"a11y": {
+		"avatarAlt": "Porträtfoto von Matthias Bigl – Webdesigner & Full Stack Developer aus Wien, Österreich",
+		"loading": "Wird geladen",
+		"scrollDown": "Nach unten scrollen",
+		"projectImageAlt": "Screenshot des Projekts {project} von Matthias Bigl"
+	},
+	"seo": {
+		"home": {
+			"title": "Matthias Bigl | Webdesigner & Full Stack Developer Wien & Korneuburg",
+			"description": "Matthias Bigl – Ihr Webdesigner & Full Stack Developer aus Wien/Korneuburg. Professionelle Websites, Webshops & interaktive 3D Web-Erlebnisse für KMU & Selbstständige. Keine Agentur-Preise, in 1–2 Wochen online. Jetzt kostenloses Erstgespräch!"
+		},
+		"about": {
+			"title": "Über Matthias Bigl | Webdesigner & Full Stack Developer aus Wien",
+			"description": "Erfahren Sie mehr über Matthias Bigl – Freelance Webdesigner & Full Stack Developer aus Wien/Korneuburg. Persönlich, direkt, ohne Agentur-Chaos. Skills, Hobbys und meine Geschichte."
+		},
+		"contact": {
+			"title": "Kontakt Matthias Bigl | Kostenlose Webdesign-Beratung Wien",
+			"description": "Kontaktieren Sie Matthias Bigl für Ihr Webprojekt. 15 Minuten Erstgespräch – kostenlos & unverbindlich. Freelance Webdesign aus Wien & Korneuburg. Antwort innerhalb 24h!"
+		},
+		"pricing": {
+			"title": "Website Kosten Österreich 2026 | Ehrlicher Preisleitfaden von Matthias Bigl",
+			"description": "Was kostet eine Website in Österreich 2026? Landingpages ab €650, Websites ab €2.000, Webshops ab €3.250. Transparente Preise von Matthias Bigl, ohne versteckte Kosten."
+		}
+	},
+	"language": {
+		"de": "Deutsch",
+		"en": "English",
+		"cs": "Čeština"
+	},
+	"pricing": {
+		"navTitle": "Preis-Guide 2026",
+		"backToHome": "Zurück zur Übersicht"
+	},
+	"aboutPage": {
+		"hero": {
+			"label": "Über mich",
+			"name": "Matthias Bigl",
+			"role": "Freelancer aus Wien & Korneuburg",
+			"tagline": "Ihr Partner für professionelles Webdesign und moderne Webentwicklung. Keine Agentur, kein Chaos – sondern ein Ansprechpartner, der Ihr Projekt persönlich betreut.",
+			"cta": "Kontakt aufnehmen",
+			"ctaSecondary": "Meine Leistungen"
+		},
+		"differentiators": {
+			"label": "Warum ich",
+			"title": "Was mich anders macht",
+			"partner": {
+				"title": "Ein Partner",
+				"desc": "Nicht eine Abteilung. Sie sprechen direkt mit der Person, die Ihr Projekt umsetzt – ohne Umwege, ohne Warteschleifen."
+			},
+			"local": {
+				"title": "Lokal",
+				"desc": "In Wien & Korneuburg zu Hause. Persönliche Treffen möglich – manchmal ist ein Kaffee besser als ein Videocall."
+			},
+			"direct": {
+				"title": "Direkt",
+				"desc": "Erreichbar, wenn Sie mich brauchen. Keine Tickets, keine Warteschleifen – schnelle Antworten und direkte Kommunikation."
+			}
+		},
+		"journey": {
+			"label": "Meine Geschichte",
+			"title": "Der Weg hierher",
+			"paragraphs": "Meine Reise in die Technik begann früh – mit Neugier, einem alten Computer und der Frage: \"Wie funktioniert das eigentlich?\" Diese Frage hat mich nie losgelassen.\nDie HTL Hollabrunn war meine Schule für Informationstechnologie. Dort entdeckte ich meine Leidenschaft für Softwareentwicklung – von Backend bis Frontend, von Hardware bis Cloud. Die Matura war der offizielle Start meiner professionellen Laufbahn.\nHeute arbeite ich hauptberuflich bei Tieto, einer internationalen Consulting-Firma. Als Consultant und Full Stack Developer betreue ich Customer Experience Projekte im Banking-Sektor – komplexe Enterprise-Systeme, hohe Verfügbarkeit, anspruchsvolle Kunden. Nebenbei unterstütze ich KMUs und Selbstständige mit modernen Weblösungen.\nTechnologie ist für mich mehr als nur Code. Es ist ein Werkzeug, um Probleme zu lösen und Menschen zu helfen. Ob Enterprise-Architektur oder kleine Business-Website – ich bringe die gleiche Sorgfalt und Erfahrung ein."
+		},
+		"cta": {
+			"title": "Lassen Sie uns zusammenarbeiten",
+			"subtitle": "Haben Sie ein Projekt im Kopf? Ich freue mich darauf, von Ihnen zu hören und gemeinsam herauszufinden, wie ich Ihnen helfen kann.",
+			"button": "Kontakt aufnehmen"
+		}
+	}
+}

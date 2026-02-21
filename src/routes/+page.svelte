@@ -5,53 +5,57 @@
 	import Services from '$lib/components/Services.svelte';
 	import FAQ from '$lib/components/FAQ.svelte';
 	import SEO from '$lib/components/SEO.svelte';
-	import deLocale from '$lib/i18n/locales/de.json';
-	import Button from '$lib/components/Button.svelte';
+		import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { projects } from '$lib/data/projects';
-	import { _, locale } from 'svelte-i18n';
+	import * as m from '$lib/paraglide/messages.js';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
+
+	// Helper for dynamic project message keys
+	const pm = m as unknown as Record<string, () => string>;
+	const projectMsg = (slug: string, field: string) => pm[`projects.items.${slug}.${field}`]?.() ?? '';
 
 	const heroServices = $derived([
 		{
 			id: 'websites',
 			icon: '🌐',
-			title: $_('heroNew.services.websites.title'),
-			tagline: $_('heroNew.services.websites.tagline'),
-			hover: $_('heroNew.services.websites.hover'),
+			title: m["heroNew.services.websites.title"](),
+			tagline: m["heroNew.services.websites.tagline"](),
+			hover: m["heroNew.services.websites.hover"](),
 			gradient: 'from-blue-500/20 to-blue-600/10'
 		},
 		{
 			id: 'webshops',
 			icon: '🛒',
-			title: $_('heroNew.services.webshops.title'),
-			tagline: $_('heroNew.services.webshops.tagline'),
-			hover: $_('heroNew.services.webshops.hover'),
+			title: m["heroNew.services.webshops.title"](),
+			tagline: m["heroNew.services.webshops.tagline"](),
+			hover: m["heroNew.services.webshops.hover"](),
 			gradient: 'from-purple-500/20 to-purple-600/10'
 		},
 		{
 			id: 'custom',
 			icon: '✨',
-			title: $_('heroNew.services.custom.title'),
-			tagline: $_('heroNew.services.custom.tagline'),
-			hover: $_('heroNew.services.custom.hover'),
+			title: m["heroNew.services.custom.title"](),
+			tagline: m["heroNew.services.custom.tagline"](),
+			hover: m["heroNew.services.custom.hover"](),
 			gradient: 'from-emerald-500/20 to-emerald-600/10'
 		},
 		{
 			id: 'seo',
 			icon: '📈',
-			title: $_('heroNew.services.seo.title'),
-			tagline: $_('heroNew.services.seo.tagline'),
-			hover: $_('heroNew.services.seo.hover'),
+			title: m["heroNew.services.seo.title"](),
+			tagline: m["heroNew.services.seo.tagline"](),
+			hover: m["heroNew.services.seo.hover"](),
 			gradient: 'from-orange-500/20 to-orange-600/10'
 		},
 		{
 			id: 'hosting',
 			icon: '🛡️',
-			title: $_('heroNew.services.hosting.title'),
-			tagline: $_('heroNew.services.hosting.tagline'),
-			hover: $_('heroNew.services.hosting.hover'),
+			title: m["heroNew.services.hosting.title"](),
+			tagline: m["heroNew.services.hosting.tagline"](),
+			hover: m["heroNew.services.hosting.hover"](),
 			gradient: 'from-cyan-500/20 to-cyan-600/10'
 		}
 	]);
@@ -60,22 +64,22 @@
 		{
 			id: 'partner',
 			icon: '🤝',
-			title: $_('aboutCompact.differentiators.partner.title'),
-			desc: $_('aboutCompact.differentiators.partner.desc'),
+			title: m["aboutCompact.differentiators.partner.title"](),
+			desc: m["aboutCompact.differentiators.partner.desc"](),
 			gradient: 'from-blue-500/10 via-blue-600/5 to-cyan-500/10'
 		},
 		{
 			id: 'local',
 			icon: '📍',
-			title: $_('aboutCompact.differentiators.local.title'),
-			desc: $_('aboutCompact.differentiators.local.desc'),
+			title: m["aboutCompact.differentiators.local.title"](),
+			desc: m["aboutCompact.differentiators.local.desc"](),
 			gradient: 'from-purple-500/10 via-pink-500/5 to-purple-600/10'
 		},
 		{
 			id: 'direct',
 			icon: '⚡',
-			title: $_('aboutCompact.differentiators.direct.title'),
-			desc: $_('aboutCompact.differentiators.direct.desc'),
+			title: m["aboutCompact.differentiators.direct.title"](),
+			desc: m["aboutCompact.differentiators.direct.desc"](),
 			gradient: 'from-emerald-500/10 via-teal-500/5 to-cyan-500/10'
 		}
 	]);
@@ -326,8 +330,8 @@
 </script>
 
 <SEO
-	title={deLocale.seo.home.title}
-	description={deLocale.seo.home.description}
+	title="Matthias Bigl | Webdesigner & Full Stack Developer Wien & Korneuburg"
+	description="Matthias Bigl – Ihr Webdesigner & Full Stack Developer aus Wien/Korneuburg. Professionelle Websites, Webshops & interaktive 3D Web-Erlebnisse für KMU & Selbstständige. Keine Agentur-Preise, in 1–2 Wochen online. Jetzt kostenloses Erstgespräch!"
 	url="https://bigls.net"
 	type="profile"
 	image="https://bigls.net/headshot.png"
@@ -403,7 +407,7 @@
 							class="hero-headline-1 text-sm sm:text-base font-semibold uppercase tracking-[0.2em] mb-4 sm:mb-5"
 							style="color: var(--text-tertiary);"
 						>
-							{$_('heroNew.headline1')}
+							{m["heroNew.headline1"]()}
 						</p>
 
 						<!-- Main headline — Poppins, solid color, accent on key words -->
@@ -411,7 +415,7 @@
 							class="hero-headline-2 font-poppins font-extrabold text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] xl:text-[5.5rem] mb-6 sm:mb-8 leading-[1.08] tracking-tight"
 							style="color: var(--text-heading);"
 						>
-							{@html $_('heroNew.headline2')}
+							{@html m["heroNew.headline2"]()}
 						</h1>
 
 						<!-- Subheadline — clean, no border-left gimmick -->
@@ -419,7 +423,7 @@
 							class="hero-subheadline text-sm sm:text-base lg:text-lg max-w-lg leading-relaxed font-light"
 							style="color: var(--text-secondary);"
 						>
-							{$_('heroNew.subheadline')}
+							{m["heroNew.subheadline"]()}
 						</p>
 					</div>
 				</div>
@@ -461,13 +465,13 @@
 				<!-- CTAs -->
 				<div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
 					<div class="hero-cta">
-						<Button href="/contact" variant="primary">
-							{$_('hero.cta')}
+						<Button href={localizeHref('/contact')} variant="primary">
+							{m["hero.cta"]()}
 						</Button>
 					</div>
 					<div class="hero-cta">
-						<Button href="/pricing" variant="secondary">
-							{$_('pricing.navTitle')}
+						<Button href={localizeHref('/pricing')} variant="secondary">
+							{m["pricing.navTitle"]()}
 						</Button>
 					</div>
 				</div>
@@ -505,7 +509,7 @@
 								style="color: var(--text-tertiary);"
 							>
 								<span class="w-5 h-px bg-blue-500/60"></span>
-								{$_('aboutCompact.title')}
+								{m["aboutCompact.title"]()}
 							</span>
 						</div>
 
@@ -514,14 +518,14 @@
 							class="section-title font-poppins text-4xl sm:text-5xl lg:text-6xl font-bold tracking-[-0.02em] leading-[1.1] mb-6"
 							style="color: var(--text-heading);"
 						>
-							{$_('aboutCompact.name')}
+							{m["aboutCompact.name"]()}
 						</h2>
 
 						<p
 							class="text-base sm:text-lg lg:text-xl font-light leading-relaxed mb-8 max-w-xl"
 							style="color: var(--text-secondary);"
 						>
-							{$_('aboutCompact.bio')}
+							{m["aboutCompact.bio"]()}
 						</p>
 
 						<div class="flex flex-wrap gap-3 mb-8">
@@ -548,12 +552,12 @@
 									<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
 								</span>
 								<span class="text-sm font-medium" style="color: var(--text-secondary);">
-									{$_('aboutCompact.availability')}
+									{m["aboutCompact.availability"]()}
 								</span>
 							</div>
 
-							<Button href="/about" variant="primary" className="!px-6 !py-3">
-								<span>{$_('aboutCompact.cta')}</span>
+							<Button href={localizeHref('/about')} variant="primary" className="!px-6 !py-3">
+								<span>{m["aboutCompact.cta"]()}</span>
 								<svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path
 										stroke-linecap="round"
@@ -581,7 +585,7 @@
 				<div class="flex items-center gap-3 mb-5">
 					<div class="h-px w-8 bg-blue-500/40"></div>
 					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
-						>{$_('projects.title')}</span
+						>{m["projects.title"]()}</span
 					>
 					<div class="h-px w-8 bg-blue-500/40"></div>
 				</div>
@@ -589,7 +593,7 @@
 					class="section-title font-poppins text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5 tracking-tight"
 					style="color: var(--text-heading);"
 				>
-					{$_('projects.titleHighlight')}
+					{m["projects.titleHighlight"]()}
 				</h2>
 				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
@@ -598,12 +602,10 @@
 				{#each projects as project}
 					<Card
 						tag="article"
-						title={$_(`projects.items.${project.slug}.title`)}
-						description={$_(`projects.items.${project.slug}.description`)}
+						title={projectMsg(project.slug, 'title')}
+						description={projectMsg(project.slug, 'description')}
 						image={project.image}
-						imageAlt={$_('a11y.projectImageAlt', {
-							values: { project: $_(`projects.items.${project.slug}.title`) }
-						})}
+						imageAlt={m["a11y.projectImageAlt"]({ project: projectMsg(project.slug, 'title') })}
 						link={project.isExternal ? project.link : `/projects/${project.slug}`}
 						target={project.isExternal ? '_blank' : ''}
 						rel={project.isExternal ? 'noopener noreferrer' : ''}
@@ -612,7 +614,7 @@
 			</div>
 
 			<p class="text-center mt-10 text-base sm:text-lg" style="color: var(--text-secondary);">
-				{$_('projects.moreOnGithub')}
+				{m["projects.moreOnGithub"]()}
 				<a
 					href="https://github.com/matthiasbigl"
 					target="_blank"

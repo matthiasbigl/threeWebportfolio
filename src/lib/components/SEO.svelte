@@ -1,5 +1,5 @@
 <script lang="ts">
-	import deLocale from '$lib/i18n/locales/de.json';
+	import * as m from '$lib/paraglide/messages.js';
 
 	interface SEOProps {
 		title?: string;
@@ -417,13 +417,51 @@
 		? {
 				'@context': 'https://schema.org',
 				'@type': 'FAQPage',
-				mainEntity: Object.values(deLocale.faq.items).map((item) => ({
-					'@type': 'Question',
-					name: item.question,
-					acceptedAnswer: {
-						'@type': 'Answer',
-						text: item.answer
+				mainEntity: [
+					{
+						q: m['faq.items.cost.question'](),
+						a: m['faq.items.cost.answer']()
+					},
+					{
+						q: m['faq.items.duration.question'](),
+						a: m['faq.items.duration.answer']()
+					},
+					{
+						q: m['faq.items.hosting.question'](),
+						a: m['faq.items.hosting.answer']()
+					},
+					{
+						q: m['faq.items.edit.question'](),
+						a: m['faq.items.edit.answer']()
+					},
+					{
+						q: m['faq.items.remote.question'](),
+						a: m['faq.items.remote.answer']()
+					},
+					{
+						q: m['faq.items.agency.question'](),
+						a: m['faq.items.agency.answer']()
+					},
+					{
+						q: m['faq.items.tech.question'](),
+						a: m['faq.items.tech.answer']()
+					},
+					{
+						q: m['faq.items.process.question'](),
+						a: m['faq.items.process.answer']()
+					},
+					{
+						q: m['faq.items.seo.question'](),
+						a: m['faq.items.seo.answer']()
+					},
+					{
+						q: m['faq.items.existing.question'](),
+						a: m['faq.items.existing.answer']()
 					}
+				].map(({ q, a }) => ({
+					'@type': 'Question',
+					name: q,
+					acceptedAnswer: { '@type': 'Answer', text: a }
 				}))
 			}
 		: null;

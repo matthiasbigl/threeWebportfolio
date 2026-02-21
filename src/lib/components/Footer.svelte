@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n';
+	import * as m from '$lib/paraglide/messages.js';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
 
 	const currentYear = new Date().getFullYear();
 
@@ -23,24 +24,24 @@
 
 	// Reactive quick links based on translations
 	const quickLinks = $derived([
-		{ name: $_('nav.home'), href: '/' },
-		{ name: $_('nav.services'), href: '/#services' },
+		{ name: m["nav.home"](), href: '/' },
+		{ name: m["nav.services"](), href: '/#services' },
 		{
 			name:
-				$_('pricing.navTitle') ||
-				($_('language.de') === 'Deutsch' ? 'Preis-Leitfaden' : 'Pricing Guide'),
+				m["pricing.navTitle"]() ||
+				(m["language.de"]() === 'Deutsch' ? 'Preis-Leitfaden' : 'Pricing Guide'),
 			href: '/pricing'
 		},
-		{ name: $_('nav.contact'), href: '/contact' },
-		{ name: $_('nav.faq'), href: '/#faq' },
+		{ name: m["nav.contact"](), href: '/contact' },
+		{ name: m["nav.faq"](), href: '/#faq' },
 		{ name: 'Blog', href: 'https://blog.bigls.net' }
 	]);
 
 	const services = $derived([
-		{ name: $_('footer.services.websites'), href: '/#services' },
-		{ name: $_('footer.services.webshops'), href: '/#services' },
-		{ name: $_('footer.services.experiences'), href: '/#services' },
-		{ name: $_('footer.services.hosting'), href: '/#services' }
+		{ name: m["footer.services.websites"](), href: '/#services' },
+		{ name: m["footer.services.webshops"](), href: '/#services' },
+		{ name: m["footer.services.experiences"](), href: '/#services' },
+		{ name: m["footer.services.hosting"](), href: '/#services' }
 	]);
 </script>
 
@@ -61,7 +62,7 @@
 					<span class="blue-gradient_text">Matthias Bigl</span>
 				</h3>
 				<p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
-					{$_('footer.description')}
+					{m["footer.description"]()}
 				</p>
 				<address class="not-italic space-y-3 sm:space-y-4">
 					<div class="flex items-start gap-3 group/item">
@@ -113,12 +114,12 @@
 			<!-- Quick Links -->
 			<div class="space-y-5">
 				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
-					{$_('footer.navigation')}
+					{m["footer.navigation"]()}
 				</h4>
 				<nav class="flex flex-col space-y-3" aria-label="Footer navigation">
 					{#each quickLinks as link}
 						<a
-							href={link.href}
+							href={link.href.startsWith('http') ? link.href : localizeHref(link.href)}
 							class="hover:text-blue-400 transition-colors duration-300 text-sm hover:translate-x-1 transform transition-transform"
 							style="color: var(--text-secondary);"
 							target={link.href.startsWith('http') ? '_blank' : undefined}
@@ -133,12 +134,12 @@
 			<!-- Services -->
 			<div class="space-y-5">
 				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
-					{$_('footer.servicesTitle')}
+					{m["footer.servicesTitle"]()}
 				</h4>
 				<nav class="flex flex-col space-y-3" aria-label="Services navigation">
 					{#each services as service}
 						<a
-							href={service.href}
+							href={localizeHref(service.href)}
 							class="hover:text-blue-400 transition-colors duration-300 text-sm hover:translate-x-1 transform transition-transform"
 							style="color: var(--text-secondary);"
 						>
@@ -151,7 +152,7 @@
 			<!-- Social & Contact -->
 			<div class="space-y-5">
 				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
-					{$_('footer.contactTitle')}
+					{m["footer.contactTitle"]()}
 				</h4>
 				<div class="flex space-x-3">
 					{#each socialLinks as social}
@@ -196,14 +197,14 @@
 			style="border-top: 1px solid var(--border-secondary);"
 		>
 			<p class="text-sm" style="color: var(--text-tertiary);">
-				© {currentYear} Matthias Bigl. {$_('footer.copyright')}
+				© {currentYear} Matthias Bigl. {m["footer.copyright"]()}
 			</p>
 			<div class="flex space-x-6 text-xs" style="color: var(--text-tertiary);">
-				<a href="/impressum" class="hover:text-gray-300 transition-colors duration-300"
-					>{$_('footer.imprint')}</a
+				<a href={localizeHref("/impressum")} class="hover:text-gray-300 transition-colors duration-300"
+					>{m["footer.imprint"]()}</a
 				>
-				<a href="/datenschutz" class="hover:text-gray-300 transition-colors duration-300"
-					>{$_('footer.privacy')}</a
+				<a href={localizeHref("/datenschutz")} class="hover:text-gray-300 transition-colors duration-300"
+					>{m["footer.privacy"]()}</a
 				>
 				<a href="/humans.txt" class="hover:text-gray-300 transition-colors duration-300"
 					>humans.txt</a

@@ -1,13 +1,19 @@
 import type { Handle } from '@sveltejs/kit';
+import { paraglideMiddleware } from '$lib/paraglide/server';
 
-export const handle: Handle = async ({ event, resolve }) => {
-	const response = await resolve(event, {
-		// Preload critical assets via Link headers
-		preload: ({ type }) => {
-			// Only preload JS, CSS, and fonts — skip images (lazy-loaded)
-			return type === 'js' || type === 'css' || type === 'font';
-		}
+// creating a handle to use the paraglide middleware
+const paraglideHandle: Handle = ({ event, resolve }) =>
+	paraglideMiddleware(event.request, ({ request: localizedRequest, locale }) => {
+		event.request = localizedRequest;
+		return resolve(event, {
+			transformPageChunk: ({ html }) => {
+				return html.replace('%lang%', locale);
+			}
+		});
 	});
+
+const securityHandle: Handle = async ({ event, resolve }) => {
+	const response = await resolve(event);
 
 	// Security headers
 	response.headers.set('X-Content-Type-Options', 'nosniff');
@@ -39,3 +45,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	return response;
 };
+
+export const handle: Handle = ({ event, resolve }) =>
+	paraglideHandle({ event, resolve: (e, opts) => securityHandle({ event: e, resolve: (ev) => resolve(ev, opts) }) });
+

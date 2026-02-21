@@ -1,10 +1,10 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO.svelte';
-	import deLocale from '$lib/i18n/locales/de.json';
-	import CustomCursor from '$lib/components/CustomCursor.svelte';
+		import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import { _, locale } from 'svelte-i18n';
+	import * as m from '$lib/paraglide/messages.js';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
@@ -15,15 +15,28 @@
 	}
 
 	let { data }: Props = $props();
+
+// Helper for dynamic project message keys
+function projectMsg(slug: string, field: string): string {
+const key = `projects.items.${slug}.${field}`;
+return (m as unknown as Record<string, (() => string) | undefined>)[key]?.() ?? '';
+}
+
+// Helper for array-valued project messages (newline-separated)
+function projectMsgArray(slug: string, field: string): string[] {
+const val = projectMsg(slug, field);
+return val ? val.split('\n') : [];
+}
+
 	const project = data.project;
 
 	let heroSection: HTMLElement | undefined = $state();
 	let chapterIndex = $state(0);
 
 	const statusKey = $derived(
-		$_(`projects.items.${project.slug}.status`) === 'live'
+		projectMsg(project.slug, "status") === 'live'
 			? 'statusLive'
-			: $_(`projects.items.${project.slug}.status`) === 'prototype'
+			: projectMsg(project.slug, "status") === 'prototype'
 				? 'statusPrototype'
 				: 'statusDevelopment'
 	);
@@ -187,14 +200,16 @@
 	});
 
 	// ─── Static German locale data for SEO (avoids duplicate <head> on hydration) ───
-	const deProject = (deLocale.projects.items as Record<string, any>)[project.slug] ?? {};
+	const deTitle = projectMsg(project.slug, 'title') || project.slug;
+	const deDescription = projectMsg(project.slug, 'description') || '';
+	const deTags = projectMsg(project.slug, 'tags') ? projectMsg(project.slug, 'tags').split('\n') : [];
 
 	// ─── CreativeWork structured data for each project ───
 	const projectSchema = {
 		'@context': 'https://schema.org',
 		'@type': 'CreativeWork',
-		name: deProject.title ?? project.slug,
-		description: deProject.description ?? '',
+		name: deTitle,
+		description: deDescription,
 		url: `https://bigls.net/projects/${project.slug}`,
 		image:
 			typeof project.image === 'string'
@@ -214,7 +229,7 @@
 		},
 		dateCreated: project.year,
 		genre: project.category,
-		keywords: (deProject.tags ?? []).join(', '),
+		keywords: deTags.join(', '),
 		isPartOf: {
 			'@type': 'WebSite',
 			'@id': 'https://bigls.net/#website'
@@ -223,12 +238,12 @@
 </script>
 
 <SEO
-	title="{deProject.title ?? project.slug} – Case Study | Matthias Bigl"
-	description={`${deProject.description ?? ''} – Ein Projekt von Matthias Bigl, Webdesigner & Full Stack Developer aus Wien/Korneuburg.`}
+	title="{deTitle} – Case Study | Matthias Bigl"
+	description={`${deDescription} – Ein Projekt von Matthias Bigl, Webdesigner & Full Stack Developer aus Wien/Korneuburg.`}
 	url="https://bigls.net/projects/{project.slug}"
 	type="article"
 	keywords={[
-		...(deProject.tags ?? []),
+		...deTags,
 		'Matthias Bigl',
 		'Matthias Bigl Projekt',
 		'Matthias Bigl Portfolio',
@@ -239,7 +254,7 @@
 	breadcrumbs={[
 		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
 		{ name: 'Portfolio', url: 'https://bigls.net/#projects' },
-		{ name: deProject.title ?? project.slug, url: `https://bigls.net/projects/${project.slug}` }
+		{ name: deTitle, url: `https://bigls.net/projects/${project.slug}` }
 	]}
 />
 
@@ -284,7 +299,7 @@
 					class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold tracking-wider uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20"
 				>
 					<span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-					{$_(`projectDetail.${statusKey}`)}
+					{(m as unknown as Record<string, (() => string) | undefined>)[`projectDetail.${statusKey}`]?.() ?? ""}
 				</span>
 			</div>
 
@@ -293,12 +308,12 @@
 				class="hero-title-main font-syne text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold leading-[0.9] tracking-[-0.03em] mb-1 sm:mb-2 break-words"
 				style="color: var(--text-heading);"
 			>
-				{$_(`projects.items.${project.slug}.title`)}
+				{projectMsg(project.slug, "title")}
 			</h1>
 			<h2
 				class="hero-title-sub font-syne text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-light text-blue-400/40 tracking-[-0.02em] mb-6 sm:mb-10"
 			>
-				{$_(`projects.items.${project.slug}.subtitle`)}
+				{projectMsg(project.slug, "subtitle")}
 			</h2>
 
 			<!-- Tagline -->
@@ -306,7 +321,7 @@
 				class="hero-tagline max-w-2xl text-base sm:text-lg lg:text-xl leading-relaxed font-light mb-8 sm:mb-12 lg:mb-16"
 				style="color: var(--text-secondary);"
 			>
-				{$_(`projects.items.${project.slug}.tagline`)}
+				{projectMsg(project.slug, "tagline")}
 			</p>
 
 			<!-- Meta row -->
@@ -317,28 +332,28 @@
 				<div class="hero-meta-item min-w-0">
 					<span
 						class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-blue-500/40 mb-1 sm:mb-1.5 font-syne"
-						>{$_('projectDetail.metaRole')}</span
+						>{m["projectDetail.metaRole"]()}</span
 					>
 					<span class="text-xs sm:text-sm font-medium" style="color: var(--text-secondary);"
-						>{$_(`projects.items.${project.slug}.role`)}</span
+						>{projectMsg(project.slug, "role")}</span
 					>
 				</div>
 				<div class="hero-meta-item">
 					<span
 						class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-blue-500/40 mb-1 sm:mb-1.5 font-syne"
-						>{$_('projectDetail.metaTimeline')}</span
+						>{m["projectDetail.metaTimeline"]()}</span
 					>
 					<span class="text-xs sm:text-sm font-medium" style="color: var(--text-secondary);">
-						<time>{$_(`projects.items.${project.slug}.timeline`)}</time>
+						<time>{projectMsg(project.slug, "timeline")}</time>
 					</span>
 				</div>
 				<div class="hero-meta-item">
 					<span
 						class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-blue-500/40 mb-1 sm:mb-1.5 font-syne"
-						>{$_('projectDetail.metaType')}</span
+						>{m["projectDetail.metaType"]()}</span
 					>
 					<span class="text-xs sm:text-sm font-medium" style="color: var(--text-secondary);"
-						>{$_(`projects.items.${project.slug}.type`)}</span
+						>{projectMsg(project.slug, "type")}</span
 					>
 				</div>
 			</div>
@@ -362,9 +377,7 @@
 				{#if typeof project.image === 'object'}
 					<enhanced:img
 						src={project.image}
-						alt={$_('a11y.projectImageAlt', {
-							values: { project: $_(`projects.items.${project.slug}.title`) }
-						})}
+						alt={m["a11y.projectImageAlt"]({ project: projectMsg(project.slug, "title") })}
 						class="w-full aspect-video object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
 						style="background: var(--bg-inset);"
 						loading="eager"
@@ -372,9 +385,7 @@
 				{:else}
 					<img
 						src={project.image}
-						alt={$_('a11y.projectImageAlt', {
-							values: { project: $_(`projects.items.${project.slug}.title`) }
-						})}
+						alt={m["a11y.projectImageAlt"]({ project: projectMsg(project.slug, "title") })}
 						class="w-full aspect-video object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
 						style="background: var(--bg-inset);"
 						loading="eager"
@@ -408,7 +419,7 @@
 	{/if}
 
 	<!-- NARRATIVE CHAPTERS — Alternating editorial layout -->
-	{#if $_(`projects.items.${project.slug}.sections`)}
+	{#if projectMsg(project.slug, "sections")}
 		<div class="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16">
 			<!-- Chapter 01 — Vision -->
 			<article
@@ -424,7 +435,7 @@
 						<h3
 							class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne"
 						>
-							{$_('projectDetail.chapterVision')}
+							{m["projectDetail.chapterVision"]()}
 						</h3>
 					</header>
 					<div class="lg:col-span-8">
@@ -432,7 +443,7 @@
 							class="font-syne text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold leading-[1.25] tracking-tight"
 							style="color: var(--text-heading); opacity: 0.9;"
 						>
-							{$_(`projects.items.${project.slug}.sections.context`)}
+							{projectMsg(project.slug, "sections.context")}
 						</p>
 					</div>
 				</div>
@@ -454,7 +465,7 @@
 						<h3
 							class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne lg:text-right"
 						>
-							{$_('projectDetail.chapterChallenge')}
+							{m["projectDetail.chapterChallenge"]()}
 						</h3>
 					</header>
 					<div class="lg:col-span-8 lg:order-1">
@@ -462,7 +473,7 @@
 							class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold leading-snug tracking-tight"
 							style="color: var(--text-heading); opacity: 0.8;"
 						>
-							{$_(`projects.items.${project.slug}.sections.problem`)}
+							{projectMsg(project.slug, "sections.problem")}
 						</p>
 					</div>
 				</div>
@@ -482,7 +493,7 @@
 						<h3
 							class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne"
 						>
-							{$_('projectDetail.chapterCraft')}
+							{m["projectDetail.chapterCraft"]()}
 						</h3>
 					</header>
 					<div class="lg:col-span-8">
@@ -490,7 +501,7 @@
 							class="text-base sm:text-lg lg:text-xl xl:text-2xl leading-relaxed"
 							style="color: var(--text-secondary);"
 						>
-							{$_(`projects.items.${project.slug}.sections.solution`)}
+							{projectMsg(project.slug, "sections.solution")}
 						</p>
 					</div>
 				</div>
@@ -522,7 +533,7 @@
 							<h3
 								class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-blue-400 font-syne pb-2 sm:pb-3 lg:pb-5"
 							>
-								{$_('projectDetail.chapterOutcome')}
+								{m["projectDetail.chapterOutcome"]()}
 							</h3>
 						</header>
 
@@ -536,7 +547,7 @@
 							class="font-syne text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium leading-[1.35] sm:leading-[1.3] tracking-tight max-w-4xl"
 							style="color: var(--text-heading); opacity: 0.9;"
 						>
-							{$_(`projects.items.${project.slug}.sections.impact`)}
+							{projectMsg(project.slug, "sections.impact")}
 						</p>
 					</div>
 				</section>
@@ -554,10 +565,10 @@
 				class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] font-syne whitespace-nowrap shrink-0"
 				style="color: var(--text-tertiary);"
 			>
-				{$_('projectDetail.techStackLabel')}
+				{m["projectDetail.techStackLabel"]()}
 			</h3>
 			<div class="tech-stack-row flex flex-wrap gap-2 sm:gap-3">
-				{#each ($_(`projects.items.${project.slug}.technologies`) as any) ?? [] as tech}
+				{#each projectMsgArray(project.slug, "technologies") as tech}
 					<span
 						class="tech-pill px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-blue-500/[0.06] text-blue-400/80 border border-blue-500/10 transition-all duration-300 cursor-default hover:-translate-y-0.5 hover:border-blue-500/25 hover:text-blue-400 hover:shadow-[0_0_16px_rgba(59,130,246,0.1)]"
 					>
@@ -569,21 +580,21 @@
 	</section>
 
 	<!-- FEATURES — Cards grid -->
-	{#if $_(`projects.items.${project.slug}.features`)}
+	{#if projectMsg(project.slug, "features")}
 		<section class="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 pb-20 sm:pb-32 lg:pb-40">
 			<div class="mb-10 sm:mb-16 lg:mb-20">
 				<h2
 					class="font-syne text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tight"
 					style="color: var(--text-heading);"
 				>
-					{$_('projectDetail.featuresTitle')}
+					{m["projectDetail.featuresTitle"]()}
 				</h2>
 			</div>
 
 			<div
 				class="features-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5"
 			>
-				{#each ($_(`projects.items.${project.slug}.features`) as any) ?? [] as feature, i}
+				{#each projectMsgArray(project.slug, "features") as feature, i}
 					<article
 						class="feature-card group relative p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl transition-all duration-500 overflow-hidden"
 						style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
@@ -631,7 +642,7 @@
 						class="font-syne text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-[1] mb-4 sm:mb-6"
 						style="color: var(--text-heading);"
 					>
-						{$_('projectDetail.ctaTitle')}
+						{m["projectDetail.ctaTitle"]()}
 					</h2>
 				</div>
 				<div class="flex flex-col sm:flex-row gap-3 sm:gap-4 shrink-0">
@@ -642,15 +653,15 @@
 							variant="primary"
 							className="!px-6 sm:!px-8 !py-3.5 sm:!py-4 !text-sm sm:!text-base !rounded-full !font-syne !tracking-wide"
 						>
-							{$_('projectDetail.ctaLaunch')} →
+							{m["projectDetail.ctaLaunch"]()} →
 						</Button>
 					{/if}
 					<Button
-						href="/contact"
+						href={localizeHref('/contact')}
 						variant="secondary"
 						className="!px-6 sm:!px-8 !py-3.5 sm:!py-4 !text-sm sm:!text-base !rounded-full !font-syne !tracking-wide hover:!border-blue-500/30"
 					>
-						{$_('projectDetail.ctaContact')}
+						{m["projectDetail.ctaContact"]()}
 					</Button>
 				</div>
 			</div>

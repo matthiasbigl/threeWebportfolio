@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { cookieConsent, getConsentStatus, type ConsentStatus } from '$lib/stores/cookieConsent';
-	import { _ } from 'svelte-i18n';
+	import * as m from '$lib/paraglide/messages.js';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
 
 	interface Props {
 		className?: string;
@@ -42,29 +43,29 @@
 		<div
 			class="cookie-banner glass-card"
 			role="dialog"
-			aria-label={$_('cookies.bannerAria') || 'Cookie consent'}
+			aria-label={m["cookies.bannerAria"]() || 'Cookie consent'}
 			aria-describedby="cookie-description"
 		>
 			<p id="cookie-description" class="cookie-text">
-				{$_('cookies.message')}
-				<a href="/datenschutz" class="cookie-link">{$_('cookies.learnMore')}</a>
+				{m["cookies.message"]()}
+				<a href={localizeHref("/datenschutz")} class="cookie-link">{m["cookies.learnMore"]()}</a>
 			</p>
 			<div class="cookie-buttons">
 				<button
 					type="button"
 					class="cookie-btn cookie-btn-secondary"
 					onclick={handleReject}
-					aria-label={$_('cookies.reject')}
+					aria-label={m["cookies.reject"]()}
 				>
-					{$_('cookies.reject')}
+					{m["cookies.reject"]()}
 				</button>
 				<button
 					type="button"
 					class="cookie-btn cookie-btn-primary"
 					onclick={handleAccept}
-					aria-label={$_('cookies.accept')}
+					aria-label={m["cookies.accept"]()}
 				>
-					{$_('cookies.accept')}
+					{m["cookies.accept"]()}
 				</button>
 			</div>
 		</div>
