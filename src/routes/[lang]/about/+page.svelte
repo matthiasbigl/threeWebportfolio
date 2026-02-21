@@ -236,7 +236,7 @@
 <SEO
 	title={$_('seo.about.title')}
 	description={$_('seo.about.description')}
-	url={`https://bigls.net/${data?.lang ?? 'de'}/about`}
+	url={`https://bigls.net/${data.lang}/about`}
 	type="profile"
 	image="https://bigls.net/headshot.png"
 	keywords={[

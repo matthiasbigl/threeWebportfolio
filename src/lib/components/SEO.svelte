@@ -448,16 +448,18 @@
 			: null;
 
 	// Hreflang URLs — replace lang segment in current pathname
-	const hreflangUrls = $derived(() => {
-		const segments = $page.url.pathname.split('/');
-		const pathWithoutLang = segments.slice(2).join('/');
-		const suffix = pathWithoutLang ? `/${pathWithoutLang}` : '';
-		return {
-			de: `${siteUrl}/de${suffix}`,
-			en: `${siteUrl}/en${suffix}`,
-			cs: `${siteUrl}/cs${suffix}`
-		};
-	});
+	const hreflangUrls = $derived(
+		(() => {
+			const segments = $page.url.pathname.split('/');
+			const pathWithoutLang = segments.slice(2).join('/');
+			const suffix = pathWithoutLang ? `/${pathWithoutLang}` : '';
+			return {
+				de: `${siteUrl}/de${suffix}`,
+				en: `${siteUrl}/en${suffix}`,
+				cs: `${siteUrl}/cs${suffix}`
+			};
+		})()
+	);
 </script>
 
 <svelte:head>
@@ -478,10 +480,10 @@
 	<link rel="canonical" href={url} />
 
 	<!-- Hreflang — URL-based i18n with /de, /en, /cs prefixes -->
-	<link rel="alternate" hreflang="de" href={hreflangUrls().de} />
-	<link rel="alternate" hreflang="en" href={hreflangUrls().en} />
-	<link rel="alternate" hreflang="cs" href={hreflangUrls().cs} />
-	<link rel="alternate" hreflang="x-default" href={hreflangUrls().de} />
+	<link rel="alternate" hreflang="de" href={hreflangUrls.de} />
+	<link rel="alternate" hreflang="en" href={hreflangUrls.en} />
+	<link rel="alternate" hreflang="cs" href={hreflangUrls.cs} />
+	<link rel="alternate" hreflang="x-default" href={hreflangUrls.de} />
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content={type} />

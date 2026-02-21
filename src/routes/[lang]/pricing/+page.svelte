@@ -28,11 +28,10 @@
 	}
 
 	$effect(() => {
-		// Only run client-side to update if locale is not 'de' (which was already SSR'd)
-		if ($locale && $locale !== 'de') {
+		// Re-load content if the svelte-i18n locale differs from the SSR-loaded content
+		if ($locale && $locale !== data.lang) {
 			loadContent($locale);
-		} else if ($locale === 'de' && content !== data.article) {
-			// Fallback if user switches back to 'de'
+		} else if ($locale === data.lang && content !== data.article) {
 			content = data.article;
 		}
 	});
