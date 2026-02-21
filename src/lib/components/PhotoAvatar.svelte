@@ -3,8 +3,8 @@
 	import { browser } from '$app/environment';
 	import { t } from '$lib/i18n';
 
-	let container: HTMLElement = $state();
-	let image: HTMLElement = $state();
+	let container: HTMLElement | undefined = $state();
+	let image: HTMLElement | undefined = $state();
 
 	onMount(() => {
 		if (!browser) return;
@@ -14,14 +14,17 @@
 
 			if (!container || !image) return;
 
+			const cont = container;
+			const img = image;
+
 			// Subtle hover interaction
 			const handleMouseEnter = () => {
-				gsap.to(container, {
+				gsap.to(cont, {
 					scale: 1.02,
 					duration: 0.4,
 					ease: 'power2.out'
 				});
-				gsap.to(image, {
+				gsap.to(img, {
 					scale: 1.1,
 					duration: 0.6,
 					ease: 'power2.out'
@@ -29,12 +32,12 @@
 			};
 
 			const handleMouseLeave = () => {
-				gsap.to(container, {
+				gsap.to(cont, {
 					scale: 1,
 					duration: 0.4,
 					ease: 'power2.out'
 				});
-				gsap.to(image, {
+				gsap.to(img, {
 					scale: 1.05,
 					duration: 0.6,
 					ease: 'power2.out'
@@ -42,11 +45,11 @@
 			};
 
 			const handleMouseMove = (e: MouseEvent) => {
-				const rect = container.getBoundingClientRect();
+				const rect = cont.getBoundingClientRect();
 				const x = (e.clientX - rect.left) / rect.width - 0.5;
 				const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-				gsap.to(container, {
+				gsap.to(cont, {
 					rotationY: x * 10,
 					rotationX: -y * 10,
 					duration: 0.5,
@@ -54,9 +57,9 @@
 				});
 			};
 
-			container.addEventListener('mouseenter', handleMouseEnter);
-			container.addEventListener('mouseleave', handleMouseLeave);
-			container.addEventListener('mousemove', handleMouseMove);
+			cont.addEventListener('mouseenter', handleMouseEnter);
+			cont.addEventListener('mouseleave', handleMouseLeave);
+			cont.addEventListener('mousemove', handleMouseMove);
 
 			return () => {
 				container?.removeEventListener('mouseenter', handleMouseEnter);

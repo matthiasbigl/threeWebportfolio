@@ -4,11 +4,11 @@
 	import { t, translations, locale } from '$lib/i18n';
 	import Button from './Button.svelte';
 
-	function tArr(key: string): string[] {
+	function tArr(key: string, maxItems = 50): string[] {
 		const trans = ($translations?.[$locale ?? 'de'] ?? {}) as Record<string, unknown>;
 		const result: string[] = [];
 		let i = 0;
-		while (`${key}.${i}` in trans) {
+		while (i < maxItems && `${key}.${i}` in trans) {
 			result.push(trans[`${key}.${i}`] as string);
 			i++;
 		}

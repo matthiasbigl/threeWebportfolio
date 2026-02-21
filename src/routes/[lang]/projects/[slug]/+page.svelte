@@ -28,22 +28,26 @@
 				: 'statusDevelopment'
 	);
 
-	onMount(async () => {
+	onMount(() => {
 		if (!browser) return;
 
 		if ($reducedMotion) return;
 
-		const { gsap } = await import('gsap');
-		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-		gsap.registerPlugin(ScrollTrigger);
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		let mm: any;
 
-		const mm = gsap.matchMedia();
+		(async () => {
+			const { gsap } = await import('gsap');
+			const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+			gsap.registerPlugin(ScrollTrigger);
+
+			mm = gsap.matchMedia();
 
 		mm.add(
 			{
 				reduce: '(prefers-reduced-motion: reduce)'
 			},
-			(context) => {
+			(context: gsap.Context) => {
 				if (context.conditions?.reduce) return;
 
 				const heroTl = gsap.timeline({ defaults: { ease: 'expo.out' } });
@@ -175,8 +179,9 @@
 				);
 			}
 		);
+		})();
 
-		return () => mm.revert();
+		return () => mm?.revert();
 	});
 
 	const deProject = (deLocale.projects.items as Record<string, any>)[project.slug] ?? {};

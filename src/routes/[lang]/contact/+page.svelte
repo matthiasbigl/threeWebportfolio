@@ -74,13 +74,17 @@
 		}
 	]);
 
-	onMount(async () => {
+	onMount(() => {
 		if (!browser) return;
 
 		formLoadTime = Date.now();
 
-		const { gsap } = await import('gsap');
-		const mm = gsap.matchMedia();
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		let mm: any;
+
+		(async () => {
+			const { gsap } = await import('gsap');
+			mm = gsap.matchMedia();
 
 		mm.add('(min-width: 768px)', () => {
 			gsap.fromTo(
@@ -127,8 +131,9 @@
 				gsap.to(input.parentElement, { scale: 1, duration: 0.3 });
 			});
 		});
+		})();
 
-		return () => mm.revert();
+		return () => mm?.revert();
 	});
 </script>
 

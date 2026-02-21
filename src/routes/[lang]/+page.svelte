@@ -87,14 +87,18 @@
 		}
 	]);
 
-	onMount(async () => {
+	onMount(() => {
 		if (!browser) return;
 
-		const { gsap } = await import('gsap');
-		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-		gsap.registerPlugin(ScrollTrigger);
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		let mm: any;
 
-		const mm = gsap.matchMedia();
+		(async () => {
+			const { gsap } = await import('gsap');
+			const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+			gsap.registerPlugin(ScrollTrigger);
+
+		mm = gsap.matchMedia();
 
 		mm.add(
 			{
@@ -102,7 +106,7 @@
 				isMobile: '(max-width: 767px)',
 				reduceMotion: '(prefers-reduced-motion: reduce)'
 			},
-			(context) => {
+			(context: gsap.Context) => {
 				const { isDesktop, isMobile, reduceMotion } = context.conditions!;
 
 				if (reduceMotion) return;
@@ -324,9 +328,10 @@
 				}
 			}
 		);
+		})();
 
 		return () => {
-			mm.revert();
+			mm?.revert();
 		};
 	});
 </script>

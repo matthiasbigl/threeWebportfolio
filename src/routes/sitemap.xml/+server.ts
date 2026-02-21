@@ -15,10 +15,11 @@ function escXml(s: string): string {
 }
 
 function hreflangAlternates(path: string): string {
+	const escapedPath = escXml(path);
 	const alts = langs.map((l) => `
-        <xhtml:link rel="alternate" hreflang="${l}" href="${siteUrl}/${l}${path}"/>`).join('');
+        <xhtml:link rel="alternate" hreflang="${l}" href="${siteUrl}/${l}${escapedPath}"/>`).join('');
 	const xDefault = `
-        <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}/de${path}"/>`;
+        <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}/de${escapedPath}"/>`;
 	return alts + xDefault;
 }
 

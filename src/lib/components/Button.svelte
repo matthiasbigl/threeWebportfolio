@@ -39,48 +39,58 @@
 		}, 600);
 	}
 
-	onMount(async () => {
+	onMount(() => {
 		if (!element) return;
 
-		const { gsap } = await import('gsap');
+		const el = element;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		let cleanup: (() => void) | undefined;
 
-		const handleMouseEnter = (e: Event) => {
-			const target = e.currentTarget as HTMLElement;
-			gsap.to(target, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
-		};
+		(async () => {
+			try {
+				const { gsap } = await import('gsap');
 
-		const handleMouseLeave = (e: Event) => {
-			const target = e.currentTarget as HTMLElement;
-			gsap.to(target, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
-		};
+			const handleMouseEnter = (e: Event) => {
+				const target = e.currentTarget as HTMLElement;
+				gsap.to(target, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
+			};
 
-		const handleMouseMove = (e: MouseEvent) => {
-			const target = e.currentTarget as HTMLElement;
-			const rect = target.getBoundingClientRect();
-			const x = e.clientX - rect.left - rect.width / 2;
-			const y = e.clientY - rect.top - rect.height / 2;
+			const handleMouseLeave = (e: Event) => {
+				const target = e.currentTarget as HTMLElement;
+				gsap.to(target, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+			};
 
-			gsap.to(target, {
-				x: x * 0.3,
-				y: y * 0.3,
-				duration: 0.3,
-				ease: 'power2.out'
-			});
-		};
+			const handleMouseMove = (e: MouseEvent) => {
+				const target = e.currentTarget as HTMLElement;
+				const rect = target.getBoundingClientRect();
+				const x = e.clientX - rect.left - rect.width / 2;
+				const y = e.clientY - rect.top - rect.height / 2;
 
-		element.addEventListener('mouseenter', handleMouseEnter);
-		element.addEventListener('mouseleave', handleMouseLeave);
-		element.addEventListener('mousemove', handleMouseMove);
-		element.addEventListener('click', createRipple);
+				gsap.to(target, {
+					x: x * 0.3,
+					y: y * 0.3,
+					duration: 0.3,
+					ease: 'power2.out'
+				});
+			};
 
-		return () => {
-			if (element) {
-				element.removeEventListener('mouseenter', handleMouseEnter);
-				element.removeEventListener('mouseleave', handleMouseLeave);
-				element.removeEventListener('mousemove', handleMouseMove);
-				element.removeEventListener('click', createRipple);
+			el.addEventListener('mouseenter', handleMouseEnter);
+			el.addEventListener('mouseleave', handleMouseLeave);
+			el.addEventListener('mousemove', handleMouseMove);
+			el.addEventListener('click', createRipple);
+
+			cleanup = () => {
+				el.removeEventListener('mouseenter', handleMouseEnter);
+				el.removeEventListener('mouseleave', handleMouseLeave);
+				el.removeEventListener('mousemove', handleMouseMove);
+				el.removeEventListener('click', createRipple);
+			};
+			} catch (e) {
+				console.error('Failed to load GSAP for Button', e);
 			}
-		};
+		})();
+
+		return () => cleanup?.();
 	});
 
 	const baseClasses =
