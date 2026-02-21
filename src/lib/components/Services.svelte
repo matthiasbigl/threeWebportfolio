@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import * as m from '$lib/paraglide/messages.js';
-	import { getLocale } from '$lib/paraglide/runtime.js';
+	import { getLocale, localizeHref } from '$lib/paraglide/runtime.js';
 	import Button from './Button.svelte';
 
 	const processSteps = $derived([
@@ -632,7 +632,7 @@
 					</div>
 
 					<Button
-						href="/pricing"
+						href={localizeHref('/pricing')}
 						variant="inverted"
 						className="relative z-10 !text-sm sm:!text-base !px-7 !py-3.5 sm:!px-8 sm:!py-4"
 					>
@@ -656,7 +656,7 @@
 		</div>
 
 		<div class="mt-24 text-center">
-			<Button href="/contact">
+			<Button href={localizeHref('/contact')}>
 				{m["services.cta"]()} &rarr;
 			</Button>
 		</div>

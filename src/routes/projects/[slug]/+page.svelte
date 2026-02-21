@@ -4,6 +4,7 @@
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import * as m from '$lib/paraglide/messages.js';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
@@ -656,7 +657,7 @@ return val ? val.split('\n') : [];
 						</Button>
 					{/if}
 					<Button
-						href="/contact"
+						href={localizeHref('/contact')}
 						variant="secondary"
 						className="!px-6 sm:!px-8 !py-3.5 sm:!py-4 !text-sm sm:!text-base !rounded-full !font-syne !tracking-wide hover:!border-blue-500/30"
 					>

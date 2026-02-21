@@ -10,6 +10,7 @@
 	import { browser } from '$app/environment';
 	import { projects } from '$lib/data/projects';
 	import * as m from '$lib/paraglide/messages.js';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
 
 	// Helper for dynamic project message keys
@@ -464,12 +465,12 @@
 				<!-- CTAs -->
 				<div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
 					<div class="hero-cta">
-						<Button href="/contact" variant="primary">
+						<Button href={localizeHref('/contact')} variant="primary">
 							{m["hero.cta"]()}
 						</Button>
 					</div>
 					<div class="hero-cta">
-						<Button href="/pricing" variant="secondary">
+						<Button href={localizeHref('/pricing')} variant="secondary">
 							{m["pricing.navTitle"]()}
 						</Button>
 					</div>
@@ -555,7 +556,7 @@
 								</span>
 							</div>
 
-							<Button href="/about" variant="primary" className="!px-6 !py-3">
+							<Button href={localizeHref('/about')} variant="primary" className="!px-6 !py-3">
 								<span>{m["aboutCompact.cta"]()}</span>
 								<svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path

@@ -104,7 +104,7 @@
 		<!-- ── Left: Logo ── -->
 		<div class="logo-container magnetic-btn shrink-0">
 			<a
-				href="/"
+				href={localizeHref("/")}
 				class="w-12 h-12 sm:w-14 sm:h-14 md:w-10 md:h-10 text-lg sm:text-xl md:text-sm rounded-xl glass-card glass-card-hover items-center justify-center flex font-bold glow-border"
 				style="color: var(--text-primary);"
 			>
@@ -115,7 +115,7 @@
 		<!-- ── Center: Nav links OR Back arrow ── -->
 		{#if isSubPage}
 			<a
-				href={backHref}
+				href={localizeHref(backHref ?? '/')}
 				class="back-link group flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
 				style="color: var(--text-tertiary);"
 			>
@@ -138,7 +138,7 @@
 				class="hidden md:flex items-center justify-center text-center glass-card px-6 lg:px-8 py-2 lg:py-2 font-semibold"
 			>
 				<a
-					href="/"
+					href={localizeHref("/")}
 					class="nav-link magnetic-btn hover:blue-gradient_text transition-all duration-300 hover:scale-110 px-3 lg:px-4 py-1 relative overflow-hidden text-xs lg:text-sm"
 					style="color: var(--text-primary);"
 				>

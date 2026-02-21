@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import * as m from '$lib/paraglide/messages.js';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import PhotoAvatar from '$lib/components/PhotoAvatar.svelte';
 	import ParticleNetwork from '$lib/components/ParticleNetwork.svelte';
 	import Cube from '$lib/components/Cube.svelte';
@@ -314,7 +315,7 @@
 						</p>
 
 						<div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-							<Button href="/contact" variant="primary">
+							<Button href={localizeHref('/contact')} variant="primary">
 								{m["aboutPage.hero.cta"]()}
 							</Button>
 							<Button href="/#services" variant="secondary">
@@ -666,7 +667,7 @@
 				>
 					{m["aboutPage.cta.subtitle"]()}
 				</p>
-				<Button href="/contact" variant="primary">
+				<Button href={localizeHref('/contact')} variant="primary">
 					{m["aboutPage.cta.button"]()}
 				</Button>
 			</div>

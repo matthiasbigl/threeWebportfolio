@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getLocale } from '$lib/paraglide/runtime.js';
+	import { getLocale, localizeHref } from '$lib/paraglide/runtime.js';
 	import * as m from '$lib/paraglide/messages.js';
 	import SEO from '$lib/components/SEO.svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -155,7 +155,7 @@
 									</p>
 								</div>
 								<Button
-									href="/contact"
+									href={localizeHref('/contact')}
 									variant="primary"
 									className="flex-shrink-0 no-underline !text-base sm:!text-lg"
 								>

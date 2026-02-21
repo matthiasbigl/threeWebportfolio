@@ -3,6 +3,7 @@
 	import { browser } from '$app/environment';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
 	import * as m from '$lib/paraglide/messages.js';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import Button from './Button.svelte';
 
 	let openIndex = $state<number | null>(null);
@@ -135,7 +136,7 @@
 		<!-- CTA -->
 		<div class="text-center mt-14 sm:mt-16">
 			<p class="mb-5 text-sm" style="color: var(--text-tertiary);">{m["faq.moreQuestions"]()}</p>
-			<Button href="/contact" variant="secondary" className="!px-6 !py-3 !text-sm !rounded-xl">
+			<Button href={localizeHref('/contact')} variant="secondary" className="!px-6 !py-3 !text-sm !rounded-xl">
 				<span class="font-semibold">{m["faq.cta"]()}</span>
 				<svg
 					class="w-4 h-4 text-blue-400/70 group-hover:translate-x-1 transition-transform duration-300"
