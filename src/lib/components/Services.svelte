@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { _, locale, json } from 'svelte-i18n';
+	import { page } from '$app/stores';
 	import Button from './Button.svelte';
 
 	const processSteps = $derived([
@@ -631,7 +632,7 @@
 					</div>
 
 					<Button
-						href="/pricing"
+						href={`/${$page.data.lang ?? 'de'}/pricing`}
 						variant="inverted"
 						className="relative z-10 !text-sm sm:!text-base !px-7 !py-3.5 sm:!px-8 sm:!py-4"
 					>
@@ -655,7 +656,7 @@
 		</div>
 
 		<div class="mt-24 text-center">
-			<Button href="/contact">
+			<Button href={`/${$page.data.lang ?? 'de'}/contact`}>
 				{$_('services.cta')} &rarr;
 			</Button>
 		</div>

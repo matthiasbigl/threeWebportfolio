@@ -24,6 +24,6 @@ export { locale, _ };
 export function setLocale(lang: 'de' | 'en' | 'cs') {
 	locale.set(lang);
 	if (browser) {
-		document.cookie = `preferred-locale=${lang};path=/;max-age=31536000;SameSite=Lax`;
+		document.cookie = `preferred-locale=${lang};path=/;max-age=31536000;SameSite=Lax;Secure`;
 	}
 }

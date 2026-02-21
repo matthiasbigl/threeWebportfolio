@@ -18,14 +18,15 @@
 
 	function handleLocaleChange(lang: 'de' | 'en' | 'cs') {
 		const currentPath = $page.url.pathname;
+		const hash = $page.url.hash;
 		// Handle root path or paths with a lang segment
 		const segments = currentPath.split('/');
 		if (segments.length >= 2 && segments[1]) {
 			segments[1] = lang;
-			const newPath = segments.join('/');
+			const newPath = segments.join('/') + hash;
 			goto(newPath, { replaceState: false });
 		} else {
-			goto(`/${lang}`, { replaceState: false });
+			goto(`/${lang}${hash}`, { replaceState: false });
 		}
 		isOpen = false;
 	}
