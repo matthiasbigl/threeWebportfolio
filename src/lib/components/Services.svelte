@@ -9,32 +9,32 @@
 		{
 			id: 'consultation',
 			number: '01',
-			title: m["services.allInOne.process.consultation.title"](),
-			desc: m["services.allInOne.process.consultation.desc"]()
+			title: m['services.allInOne.process.consultation.title'](),
+			desc: m['services.allInOne.process.consultation.desc']()
 		},
 		{
 			id: 'design',
 			number: '02',
-			title: m["services.allInOne.process.design.title"](),
-			desc: m["services.allInOne.process.design.desc"]()
+			title: m['services.allInOne.process.design.title'](),
+			desc: m['services.allInOne.process.design.desc']()
 		},
 		{
 			id: 'development',
 			number: '03',
-			title: m["services.allInOne.process.development.title"](),
-			desc: m["services.allInOne.process.development.desc"]()
+			title: m['services.allInOne.process.development.title'](),
+			desc: m['services.allInOne.process.development.desc']()
 		},
 		{
 			id: 'launch',
 			number: '04',
-			title: m["services.allInOne.process.launch.title"](),
-			desc: m["services.allInOne.process.launch.desc"]()
+			title: m['services.allInOne.process.launch.title'](),
+			desc: m['services.allInOne.process.launch.desc']()
 		},
 		{
 			id: 'hosting',
 			number: '05',
-			title: m["services.allInOne.process.hosting.title"](),
-			desc: m["services.allInOne.process.hosting.desc"]()
+			title: m['services.allInOne.process.hosting.title'](),
+			desc: m['services.allInOne.process.hosting.desc']()
 		}
 	]);
 
@@ -42,50 +42,74 @@
 		{
 			id: 'websites',
 			icon: '🌐',
-			title: m["services.items.fullstack.title"](),
-			description: m["services.items.fullstack.description"](),
-			features: m["services.items.fullstack.features"]().split('\n'),
+			title: m['services.items.fullstack.title'](),
+			description: m['services.items.fullstack.description'](),
+			features: m['services.items.fullstack.features']().split('\n'),
 			gradient: 'from-blue-500/10 via-cyan-500/10 to-blue-600/10',
 			border: 'group-hover:border-blue-500/50',
+			accent: '#3b82f6',
+			accentGlow: 'rgba(59, 130, 246, 0.15)',
 			colSpan: 'md:col-span-3 lg:col-span-3',
 			delay: 0
 		},
 		{
 			id: 'webshops',
 			icon: '🛒',
-			title: m["services.items.webshops.title"](),
-			description: m["services.items.webshops.description"](),
-			features: m["services.items.webshops.features"]().split('\n'),
+			title: m['services.items.webshops.title'](),
+			description: m['services.items.webshops.description'](),
+			features: m['services.items.webshops.features']().split('\n'),
 			gradient: 'from-purple-500/10 via-pink-500/10 to-purple-600/10',
 			border: 'group-hover:border-purple-500/50',
+			accent: '#a855f7',
+			accentGlow: 'rgba(168, 85, 247, 0.15)',
 			colSpan: 'md:col-span-3 lg:col-span-3',
 			delay: 0.1
 		},
 		{
 			id: 'seo',
 			icon: '📈',
-			title: m["services.items.seo.title"](),
-			description: m["services.items.seo.description"](),
-			features: m["services.items.seo.features"]().split('\n'),
+			title: m['services.items.seo.title'](),
+			description: m['services.items.seo.description'](),
+			features: m['services.items.seo.features']().split('\n'),
 			gradient: 'from-orange-500/10 via-amber-500/10 to-orange-600/10',
 			border: 'group-hover:border-orange-500/50',
+			accent: '#f97316',
+			accentGlow: 'rgba(249, 115, 22, 0.15)',
 			colSpan: 'md:col-span-2',
 			delay: 0.2
 		},
 		{
 			id: 'custom',
 			icon: '✨',
-			title: m["services.items.experiences.title"](),
-			description: m["services.items.experiences.description"](),
-			features: m["services.items.experiences.features"]().split('\n'),
+			title: m['services.items.experiences.title'](),
+			description: m['services.items.experiences.description'](),
+			features: m['services.items.experiences.features']().split('\n'),
 			gradient: 'from-emerald-500/10 via-teal-500/10 to-emerald-600/10',
 			border: 'group-hover:border-emerald-500/50',
+			accent: '#10b981',
+			accentGlow: 'rgba(16, 185, 129, 0.15)',
 			colSpan: 'md:col-span-4',
 			delay: 0.3
 		}
 	]);
 
 	let hoveredStepIndex = $state(-1);
+	let bentoScrollProgress = $state(0);
+	let activeBentoIndex = $state(0);
+
+	function handleBentoScroll(e: Event) {
+		const target = e.target as HTMLElement;
+		if (!target) return;
+		const scrollLeft = target.scrollLeft;
+		const maxScroll = target.scrollWidth - target.clientWidth;
+
+		if (maxScroll > 0) {
+			bentoScrollProgress = scrollLeft / maxScroll;
+			// Calculate active card index based on scroll position
+			const cardWidth = target.scrollWidth / services.length;
+			activeBentoIndex = Math.round(scrollLeft / cardWidth);
+		}
+	}
 
 	const benefitIcons: Record<string, string> = {
 		allInOne: '🛡️',
@@ -102,7 +126,10 @@
 		benefitOrder.map((key) => ({
 			id: key,
 			icon: benefitIcons[key] || '⭐',
-			title: (m as unknown as Record<string, (() => string) | undefined>)[`services.benefits.${key}.title`]?.() ?? ''
+			title:
+				(m as unknown as Record<string, (() => string) | undefined>)[
+					`services.benefits.${key}.title`
+				]?.() ?? ''
 		}))
 	);
 
@@ -343,7 +370,7 @@
 			<div class="flex items-center gap-3 mb-4 sm:mb-6">
 				<div class="h-px w-8 bg-blue-500"></div>
 				<span class="text-blue-400 text-xs font-bold uppercase tracking-[0.2em]">
-					{m["services.title"]()}
+					{m['services.title']()}
 				</span>
 			</div>
 
@@ -351,14 +378,14 @@
 				class="text-3xl sm:text-5xl lg:text-7xl font-bold mb-5 sm:mb-8 tracking-tight leading-[0.95] sm:leading-[0.9]"
 				style="color: var(--text-heading);"
 			>
-				{m["services.titleHighlight"]()}
+				{m['services.titleHighlight']()}
 			</h2>
 
 			<p
 				class="text-base sm:text-xl font-light leading-relaxed max-w-2xl pl-4 sm:pl-6"
 				style="color: var(--text-secondary); border-left: 2px solid var(--border-primary);"
 			>
-				{@html m["services.subtitle"]()}
+				{@html m['services.subtitle']()}
 			</p>
 		</div>
 
@@ -397,19 +424,19 @@
 									class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight"
 									style="color: var(--text-heading);"
 								>
-									{m["services.allInOne.title"]()}
+									{m['services.allInOne.title']()}
 								</h3>
 								<p
 									class="text-sm sm:text-base font-light mt-0.5"
 									style="color: var(--text-secondary);"
 								>
-									{m["services.allInOne.tagline"]()}
+									{m['services.allInOne.tagline']()}
 								</p>
 							</div>
 						</div>
 
 						<div class="flex flex-wrap gap-1.5 sm:gap-2 sm:justify-end">
-							{#each m["services.allInOne.features"]().split('\n') as feature}
+							{#each m['services.allInOne.features']().split('\n') as feature}
 								<span
 									class="px-2.5 py-1 text-xs font-medium rounded-full transition-all duration-300"
 									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
@@ -505,12 +532,24 @@
 			</div>
 		</div>
 
-		<div class="bento-grid grid grid-cols-1 md:grid-cols-6 gap-3 md:gap-4 lg:gap-5 mb-10 sm:mb-12">
-			{#each services as service}
+		<div
+			class="bento-grid flex md:grid md:grid-cols-6 overflow-x-auto md:overflow-visible gap-4 md:gap-4 lg:gap-5 mb-6 sm:mb-8 md:mb-10 lg:mb-12 pb-4 md:pb-0 px-4 md:px-0 snap-x snap-mandatory md:snap-none"
+			onscroll={handleBentoScroll}
+		>
+			{#each services as service, i}
 				<article
-					class="bento-item group relative {service.colSpan} rounded-xl sm:rounded-2xl overflow-hidden border isolate backdrop-blur-md"
+					class="bento-item group relative {service.colSpan} flex-shrink-0 w-[280px] sm:w-[320px] md:w-auto rounded-2xl overflow-hidden border isolate backdrop-blur-md snap-start md:snap-none {activeBentoIndex ===
+					i
+						? 'bento-active'
+						: ''}"
 					style="border-color: var(--glass-border);"
 				>
+					<!-- Colored top accent line (visible always, stronger on mobile) -->
+					<div
+						class="absolute top-0 left-0 right-0 h-[2px] md:h-px z-20"
+						style="background: linear-gradient(90deg, transparent, {service.accent}, transparent);"
+					></div>
+
 					<div
 						class="absolute inset-0 transition-colors duration-500"
 						style="background: var(--glass-bg);"
@@ -523,6 +562,12 @@
 						class="absolute inset-0 bg-gradient-to-br {service.gradient} opacity-20 transition-opacity duration-500 group-hover:opacity-50"
 					></div>
 
+					<!-- Subtle top-corner glow on mobile -->
+					<div
+						class="absolute -top-8 -left-8 w-32 h-32 rounded-full blur-3xl opacity-30 md:opacity-0 pointer-events-none"
+						style="background: {service.accentGlow};"
+					></div>
+
 					<div
 						class="card-spotlight absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-soft-light"
 					></div>
@@ -532,50 +577,113 @@
 					></div>
 
 					<div
-						class="relative z-10 h-full p-4 sm:p-6 lg:p-8 flex flex-col justify-between min-h-[220px] sm:min-h-[300px] transition-transform duration-500 group-hover:scale-[1.01]"
+						class="relative z-10 h-full p-5 sm:p-6 lg:p-8 flex flex-col justify-between min-h-[270px] sm:min-h-[300px] transition-transform duration-500 group-hover:scale-[1.01]"
 					>
 						<div>
-							<div
-								class="w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center text-xl sm:text-2xl mb-5 sm:mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg"
-								style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
-							>
-								{service.icon}
+							<!-- Icon + title inline on mobile, stacked on desktop -->
+							<div class="flex items-start gap-3 md:block mb-2.5 sm:mb-3">
+								<div
+									class="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-xl flex items-center justify-center text-lg sm:text-xl md:text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg md:mb-5"
+									style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+								>
+									{service.icon}
+								</div>
+								<div class="flex-1 min-w-0">
+									<div class="flex items-center justify-between md:hidden">
+										<h3
+											class="text-lg font-bold tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-300 transition-all duration-300"
+											style="color: var(--text-heading);"
+										>
+											{service.title}
+										</h3>
+										<span
+											class="text-[10px] font-semibold tracking-widest uppercase opacity-30 flex-shrink-0 ml-2"
+											style="color: {service.accent};"
+										>
+											{String(i + 1).padStart(2, '0')}/{String(services.length).padStart(2, '0')}
+										</span>
+									</div>
+									<!-- Desktop-only title (hidden on mobile since it's shown inline above) -->
+									<h3
+										class="hidden md:block text-lg lg:text-xl font-bold mb-2.5 sm:mb-3 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-300 transition-all duration-300"
+										style="color: var(--text-heading);"
+									>
+										{service.title}
+									</h3>
+								</div>
 							</div>
 
-							<h3
-								class="text-[15px] sm:text-lg lg:text-xl font-bold mb-1.5 sm:mb-3 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-300 transition-all duration-300"
-								style="color: var(--text-heading);"
-							>
-								{service.title}
-							</h3>
-						</div>
-
-						<div class="flex flex-col h-full justify-between">
 							<p
-								class="text-xs sm:text-sm font-light leading-relaxed mb-3 sm:mb-5 pl-3 sm:pl-4 transition-colors duration-500"
-								style="color: var(--text-secondary); border-left: 1px solid var(--border-primary);"
+								class="text-[13px] sm:text-sm font-light leading-relaxed mb-5 sm:mb-5 pl-3 sm:pl-4 transition-colors duration-500"
+								style="color: var(--text-secondary); border-left: 2px solid {service.accent}40;"
 							>
 								{service.description}
 							</p>
-
-							<div class="flex items-center justify-between">
-								<ul
-									class="flex flex-wrap sm:flex-nowrap gap-1.5 mb-2 sm:mb-4 sm:overflow-x-auto sm:scrollbar-hide sm:mask-fade-right"
-								>
-									{#each service.features as feature}
-										<li
-											class="flex-shrink-0 px-2.5 py-1 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
-											style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
-										>
-											{feature}
-										</li>
-									{/each}
-								</ul>
-							</div>
 						</div>
+
+						<ul
+							class="marquee-container-fast flex overflow-hidden -mx-5 px-5 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+						>
+							<div class="marquee-track-fast flex items-center gap-1.5 sm:gap-2">
+								{#each service.features as feature}
+									<li
+										class="marquee-item flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
+										style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+									>
+										{feature}
+									</li>
+								{/each}
+								{#each service.features as feature}
+									<li
+										class="marquee-item flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
+										style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+									>
+										{feature}
+									</li>
+								{/each}
+							</div>
+						</ul>
 					</div>
 				</article>
 			{/each}
+		</div>
+
+		<!-- Mobile scroll indicators -->
+		<div class="flex md:hidden flex-col items-center gap-3 mb-10 sm:mb-12">
+			<!-- Dot indicators -->
+			<div class="flex items-center gap-2.5">
+				{#each services as service, i}
+					<button
+						class="rounded-full transition-all duration-300 ease-out {activeBentoIndex === i
+							? 'w-7 h-2 shadow-sm'
+							: 'w-2 h-2 opacity-30 hover:opacity-60'}"
+						style="background: {activeBentoIndex === i
+							? service.accent
+							: 'var(--text-secondary)'}; {activeBentoIndex === i
+							? `box-shadow: 0 0 8px ${service.accentGlow};`
+							: ''}"
+						aria-label="Scroll to service {i + 1}"
+						onclick={() => {
+							const grid = document.querySelector('.bento-grid');
+							if (!grid) return;
+							const cardWidth = grid.scrollWidth / services.length;
+							grid.scrollTo({ left: cardWidth * i, behavior: 'smooth' });
+						}}
+					></button>
+				{/each}
+			</div>
+
+			<!-- Progress bar -->
+			<div
+				class="w-20 h-[3px] rounded-full overflow-hidden"
+				style="background: var(--border-primary);"
+			>
+				<div
+					class="h-full rounded-full transition-all duration-150 ease-out"
+					style="background: {services[activeBentoIndex]?.accent ??
+						'var(--text-heading)'}; width: {bentoScrollProgress * 100}%;"
+				></div>
+			</div>
 		</div>
 
 		<div class="flex flex-col gap-10 lg:gap-12">
@@ -636,7 +744,7 @@
 						variant="inverted"
 						className="relative z-10 !text-sm sm:!text-base !px-7 !py-3.5 sm:!px-8 sm:!py-4"
 					>
-						<span>{m["pricing.navTitle"]()}</span>
+						<span>{m['pricing.navTitle']()}</span>
 						<svg
 							class="w-4 h-4 group-hover:translate-x-1 transition-transform"
 							fill="none"
@@ -657,7 +765,7 @@
 
 		<div class="mt-24 text-center">
 			<Button href={localizeHref('/contact')}>
-				{m["services.cta"]()} &rarr;
+				{m['services.cta']()} &rarr;
 			</Button>
 		</div>
 	</div>
@@ -696,6 +804,82 @@
 	}
 	.process-flow::-webkit-scrollbar {
 		display: none;
+	}
+
+	.bento-grid {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+	.bento-grid::-webkit-scrollbar {
+		display: none;
+	}
+
+	.scrollbar-hide {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;
+	}
+
+	.marquee-container,
+	.marquee-container-fast {
+		mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+		-webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+	}
+
+	.marquee-track {
+		animation: marquee 35s linear infinite;
+	}
+	.marquee-track-fast {
+		animation: marquee 25s linear infinite;
+	}
+	.all-in-one-card:hover .marquee-track,
+	.bento-item:hover .marquee-track-fast {
+		animation-play-state: paused;
+	}
+
+	@keyframes marquee {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(-50%);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.marquee-track,
+		.marquee-track-fast {
+			animation: none;
+		}
+	}
+
+	@media (max-width: 767px) {
+		.bento-grid {
+			mask-image: linear-gradient(to right, black 85%, transparent 100%);
+			-webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+		}
+
+		.bento-item {
+			box-shadow:
+				0 4px 24px -4px rgba(0, 0, 0, 0.08),
+				0 1px 4px rgba(0, 0, 0, 0.04);
+			transform: scale(0.95);
+			opacity: 0.7;
+			transition:
+				transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+				opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+				box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+
+		.bento-item.bento-active {
+			transform: scale(1);
+			opacity: 1;
+			box-shadow:
+				0 8px 32px -4px rgba(0, 0, 0, 0.12),
+				0 2px 8px rgba(0, 0, 0, 0.06);
+		}
 	}
 
 	@media (max-width: 1023px) {

@@ -21,7 +21,7 @@ export const projects: Project[] = [
 		slug: 'loveline',
 		image: lovelineImg,
 		link: 'https://loveline.bigls.net',
-		year: '2024',
+		year: 'Ongoing',
 		category: 'IoT · Web',
 		color: '#f43f5e',
 		accentGradient: 'from-rose-500/20 via-pink-500/10 to-fuchsia-500/5'
@@ -30,7 +30,7 @@ export const projects: Project[] = [
 		slug: 'robotics',
 		image: 'https://www.langenegg.at/wp-content/uploads/2020/08/Bundesheer-460x460-300x300.jpg',
 		link: '#',
-		year: '2024',
+		year: '2025',
 		category: 'Defence · Embedded',
 		color: '#22c55e',
 		accentGradient: 'from-emerald-500/20 via-green-500/10 to-teal-500/5'
@@ -49,7 +49,7 @@ export const projects: Project[] = [
 		image:
 			'https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJRWTdZNThNQ000RWl1WnRKTUZXYUM4QzhudS5wbmcifQ?width=400?type=png',
 		link: '#',
-		year: '2025',
+		year: '2022',
 		category: 'Mobile · Privacy',
 		color: '#06b6d4',
 		accentGradient: 'from-cyan-500/20 via-sky-500/10 to-blue-500/5'
