@@ -253,7 +253,7 @@
 				"tags": ["IoT", "SvelteKit", "ESP32", "Messenger", "Relationship OS", "AI"]
 			},
 			"robotics": {
-				"title": "ABC Sensorbox",
+				"title": "ABC<br>Sensorbox",
 				"subtitle": "Obranné vestavěné systémy",
 				"tagline": "Univerzálně montovatelná senzorová krabice pro 1. ABC měřicí stanoviště – detekuje záření, plyn a kyslík v reálném čase přes LoRa.",
 				"description": "Univerzálně montovatelná ABC senzorová krabice pro ABC obranu Korneuburg s Geiger-Müllerovým čítačem, MQ plynovými senzory a monitoringem O₂.",
@@ -274,18 +274,11 @@
 					"LoRa rádiové spojení 2 km",
 					"Univerzálně montovatelný design"
 				],
-				"technologies": [
-					"ESP32",
-					"C++",
-					"LoRa",
-					"unphone",
-					"ABC senzory",
-					"Komerční hardware"
-				],
+				"technologies": ["ESP32", "C++", "LoRa", "unphone", "ABC senzory", "Komerční hardware"],
 				"tags": ["ABC ochrana", "CBRN", "LoRa", "Robotika", "Defense Tech", "Embedded"]
 			},
 			"grading-bot": {
-				"title": "Grading Bot",
+				"title": "Grading<br>Bot",
 				"subtitle": "Diplomová práce",
 				"tagline": "Odevzdejte kód, výsledek za 30 sekund. Živé hodnocení pro Java, TypeScript, JavaScript, Bash a PowerShell.",
 				"description": "Automatický systém hodnocení kódu pro 5 jazyků s živým hodnocením za ~30 sekund – moje diplomová práce, nasazená na HTL Hollabrunn.",
@@ -335,7 +328,7 @@
 				"tags": ["Sociální sítě", "Soukromí", "Mobilní aplikace", "Android", "Kotlin"]
 			},
 			"free-jazz-tattoo": {
-				"title": "Free Jazz Tattoo",
+				"title": "Free Jazz<br>Tattoo",
 				"subtitle": "Webové stránky tetovacího studia",
 				"tagline": "Moderní web pro místní tetovací studio v Rakousku – s galerií, kontaktním formulářem a integrovanými recenzemi Google.",
 				"description": "Profesionální web pro tetovací studio s online galerií, kontaktním formulářem a integrací recenzí Google.",
@@ -360,7 +353,7 @@
 				"tags": ["Webdesign", "Tetování", "SvelteKit", "Portfolio", "Místní byznys"]
 			},
 			"genesys": {
-				"title": "Genesys Cloud",
+				"title": "Genesys<br>Cloud",
 				"subtitle": "Enterprise CX",
 				"tagline": "Orchestrace světové komunikace. High-availability CX engineering pro enterprise zákazníky.",
 				"description": "Podniková řešení zákaznické zkušenosti (CX) pro globální značky.",
@@ -385,7 +378,7 @@
 				"tags": ["Enterprise", "Cloud", "Komunikace", "Zákaznická zkušenost", "CX"]
 			},
 			"portfolio": {
-				"title": "Toto portfolio",
+				"title": "Toto<br>portfolio",
 				"subtitle": "3D webový zážitek",
 				"tagline": "Technická excelence a výkon. Silný 3D experiment v moderním webovém vývoji.",
 				"description": "Interaktivní 3D portfolio pro zkoumání moderních webových technologií.",
@@ -410,13 +403,13 @@
 				"tags": ["SvelteKit", "Three.js", "GSAP", "TypeScript", "3D Web", "Portfolio"]
 			},
 			"blog": {
-				"title": "Biglův blog – technické postřehy",
+				"title": "Biglův blog",
 				"description": "Technický blog o projektech a zkušenostech.",
 				"longDescription": "Sdílení technických znalostí, aktualizací projektů a názorů na moderní webové technologie.",
 				"tags": ["Blogování", "Webový vývoj", "Content Management"]
 			},
 			"github-projects": {
-				"title": "GitHub archiv",
+				"title": "GitHub<br>archiv",
 				"description": "Desítky open-source repozitářů a experimentů.",
 				"longDescription": "Od malého skriptu po knihovnu – můj GitHub profil dokumentuje moji cestu softwarovým vývojem.",
 				"tags": ["Open Source", "GitHub", "Webový vývoj"]

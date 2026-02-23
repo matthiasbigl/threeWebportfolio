@@ -254,7 +254,7 @@
 				"tags": ["IoT", "SvelteKit", "ESP32", "Personal Messenger", "Relationship OS", "AI"]
 			},
 			"robotics": {
-				"title": "ABC Sensor Box",
+				"title": "ABC<br>Sensor<br>Box",
 				"subtitle": "Defence Embedded Systems",
 				"tagline": "A universally mountable sensor box for the 1. ABC Umweltmessstelle — detecting radiation, gas, and oxygen levels in real-time over LoRa.",
 				"description": "Universally mountable CBRN sensor box built for the ABC Abwehr Korneuburg with Geiger-Müller counter, MQ gas sensors, and O₂ monitoring.",
@@ -286,7 +286,7 @@
 				"tags": ["ABC-Schutz", "CBRN", "LoRa", "Robotics", "Defense Tech", "Embedded"]
 			},
 			"grading-bot": {
-				"title": "Grading Bot",
+				"title": "Grading<br>Bot",
 				"subtitle": "Diploma Thesis",
 				"tagline": "Submit your code, get your grade in 30 seconds. Live automated evaluation for Java, TypeScript, JavaScript, Bash, and PowerShell.",
 				"description": "Automated code evaluation system supporting 5 languages with ~30s live grading — my diploma thesis, deployed at HTL Hollabrunn.",
@@ -336,7 +336,7 @@
 				"tags": ["Social Media", "Privacy", "Mobile App", "Android", "Kotlin"]
 			},
 			"free-jazz-tattoo": {
-				"title": "Free Jazz Tattoo",
+				"title": "Free Jazz<br>Tattoo",
 				"subtitle": "Tattoo Studio Website",
 				"tagline": "Modern website for a local tattoo studio in Austria — featuring gallery, contact form, and integrated Google Reviews.",
 				"description": "Professional website for a tattoo studio with online gallery, contact form, and Google Reviews integration.",
@@ -361,7 +361,7 @@
 				"tags": ["Web Design", "Tattoo", "SvelteKit", "Portfolio", "Local Business"]
 			},
 			"genesys": {
-				"title": "Genesys Cloud",
+				"title": "Genesys<br>Cloud",
 				"subtitle": "Enterprise CX",
 				"tagline": "Orchestrating global conversations. High-availability CX engineering for the enterprise.",
 				"description": "Enterprise-grade customer experience solutions for global brands.",
@@ -386,7 +386,7 @@
 				"tags": ["Enterprise", "Cloud", "Communications", "Customer Experience", "CX"]
 			},
 			"portfolio": {
-				"title": "This Portfolio",
+				"title": "This<br>Portfolio",
 				"subtitle": "3D Web Experience",
 				"tagline": "Technical excellence and performance. High-performance 3D experiment in modern web engineering.",
 				"description": "Interactive 3D portfolio exploring modern web technologies.",
@@ -411,13 +411,13 @@
 				"tags": ["SvelteKit", "Three.js", "GSAP", "TypeScript", "3D Web", "Portfolio"]
 			},
 			"blog": {
-				"title": "Bigls Blog - Tech Insights",
+				"title": "Bigls Blog",
 				"description": "A tech blog sharing development experiences and projects.",
 				"longDescription": "A platform for sharing technical knowledge, project updates, and opinions on the latest web technologies.",
 				"tags": ["Blogging", "Web Development", "Content Management"]
 			},
 			"github-projects": {
-				"title": "GitHub Archive",
+				"title": "GitHub<br>Archive",
 				"description": "Dozens of open-source repositories and experiments.",
 				"longDescription": "From small scripts to full-blown libraries, my GitHub profile is an archive of my journey through software engineering.",
 				"tags": ["Open Source", "GitHub", "Web Development"]

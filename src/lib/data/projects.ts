@@ -22,7 +22,7 @@ export const projects: Project[] = [
 		image: lovelineImg,
 		link: 'https://loveline.bigls.net',
 		year: 'Ongoing',
-		category: 'IoT · Web',
+		category: 'IoT<br>Web',
 		color: '#f43f5e',
 		accentGradient: 'from-rose-500/20 via-pink-500/10 to-fuchsia-500/5'
 	},
@@ -31,7 +31,7 @@ export const projects: Project[] = [
 		image: 'https://www.langenegg.at/wp-content/uploads/2020/08/Bundesheer-460x460-300x300.jpg',
 		link: '#',
 		year: '2025',
-		category: 'Defence · Embedded',
+		category: 'Defence<br>Embedded',
 		color: '#22c55e',
 		accentGradient: 'from-emerald-500/20 via-green-500/10 to-teal-500/5'
 	},
@@ -40,7 +40,7 @@ export const projects: Project[] = [
 		image: gradingbotImg,
 		link: 'https://gradingbot.htl-hl.ac.at',
 		year: '2024',
-		category: 'EdTech · DevOps',
+		category: 'EdTech<br>DevOps',
 		color: '#a855f7',
 		accentGradient: 'from-purple-500/20 via-violet-500/10 to-indigo-500/5'
 	},
@@ -50,7 +50,7 @@ export const projects: Project[] = [
 			'https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJRWTdZNThNQ000RWl1WnRKTUZXYUM4QzhudS5wbmcifQ?width=400?type=png',
 		link: '#',
 		year: '2022',
-		category: 'Mobile · Privacy',
+		category: 'Mobile<br>Privacy',
 		color: '#06b6d4',
 		accentGradient: 'from-cyan-500/20 via-sky-500/10 to-blue-500/5'
 	},
@@ -59,7 +59,7 @@ export const projects: Project[] = [
 		image: freejazztattooImg,
 		link: 'https://free-jazz-tattoo.vercel.app',
 		year: '2024',
-		category: 'Web · Design',
+		category: 'Web<br>Design',
 		color: '#f59e0b',
 		accentGradient: 'from-amber-500/20 via-orange-500/10 to-yellow-500/5'
 	},
@@ -68,7 +68,7 @@ export const projects: Project[] = [
 		image: svelteImg,
 		link: '#',
 		year: '2025',
-		category: '3D · Creative',
+		category: '3D<br>Creative',
 		color: '#3b82f6',
 		accentGradient: 'from-blue-500/20 via-indigo-500/10 to-violet-500/5'
 	},
@@ -88,7 +88,7 @@ export const projects: Project[] = [
 		link: 'https://github.com/matthiasbigl',
 		isExternal: true,
 		year: 'Ongoing',
-		category: 'Open Source',
+		category: 'Open<br>Source',
 		color: '#64748b',
 		accentGradient: 'from-slate-500/20 via-gray-500/10 to-zinc-500/5'
 	}
