@@ -20,17 +20,17 @@ Vienna/Austria. Node >= 22 required.
 ## Build / Dev / Lint Commands
 
 ```bash
-npm run dev            # Start Vite dev server
-npm run build          # Production build (vite build)
-npm run preview        # Preview production build locally
-npm run check          # TypeScript + Svelte type checking (svelte-kit sync && svelte-check)
-npm run check:watch    # Type checking in watch mode
-npm run lint           # Run Prettier check + ESLint (prettier --check . && eslint .)
-npm run format         # Auto-format all files with Prettier
+bun run dev            # Start Vite dev server
+bun run build          # Production build (vite build)
+bun run preview        # Preview production build locally
+bun run check          # TypeScript + Svelte type checking (svelte-kit sync && svelte-check)
+bun run check:watch    # Type checking in watch mode
+bun run lint           # Run Prettier check + ESLint (prettier --check . && eslint .)
+bun run format         # Auto-format all files with Prettier
 ```
 
 There is **no test suite** — no vitest, jest, or playwright. No test runner or test files exist.
-Validate changes with `npm run check` and `npm run build`.
+Validate changes with `bun run check` and `bun run build`.
 
 ## Tech Stack
 
