@@ -599,17 +599,22 @@
 				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
 
-			<div class="stagger-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-				{#each projects as project}
+			<div class="stagger-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+				{#each projects as project, i}
 					<Card
 						tag="article"
 						title={projectMsg(project.slug, 'title')}
 						description={projectMsg(project.slug, 'description')}
 						image={project.image}
+						imageObjectFit="cover"
 						imageAlt={m['a11y.projectImageAlt']({ project: projectMsg(project.slug, 'title') })}
 						link={project.isExternal ? project.link : localizeHref(`/projects/${project.slug}`)}
 						target={project.isExternal ? '_blank' : ''}
 						rel={project.isExternal ? 'noopener noreferrer' : ''}
+						color={project.color}
+						year={project.year}
+						category={project.category}
+						className={i < 2 ? 'lg:col-span-2' : ''}
 					/>
 				{/each}
 			</div>
