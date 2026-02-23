@@ -435,7 +435,8 @@
 							</div>
 						</div>
 
-						<div class="flex flex-wrap gap-1.5 sm:gap-2 sm:justify-end">
+						<!-- Desktop pills with checkmarks -->
+						<div class="hidden md:flex flex-wrap gap-1.5 sm:gap-2 sm:justify-end">
 							{#each m['services.allInOne.features']().split('\n') as feature}
 								<span
 									class="px-2.5 py-1 text-xs font-medium rounded-full transition-all duration-300"
@@ -446,6 +447,28 @@
 							{/each}
 						</div>
 					</div>
+
+					<!-- Mobile marquee pills -->
+					<ul class="marquee-container-fast flex overflow-hidden -mx-5 px-5 md:hidden">
+						<div class="marquee-track-fast flex items-center gap-1.5">
+							{#each m['services.allInOne.features']().split('\n') as feature}
+								<li
+									class="marquee-item flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-xs font-medium rounded-full whitespace-nowrap transition-all duration-300"
+									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+								>
+									{feature}
+								</li>
+							{/each}
+							{#each m['services.allInOne.features']().split('\n') as feature}
+								<li
+									class="marquee-item flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-xs font-medium rounded-full whitespace-nowrap transition-all duration-300"
+									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+								>
+									{feature}
+								</li>
+							{/each}
+						</div>
+					</ul>
 
 					<div class="relative rounded-lg">
 						<div
@@ -516,7 +539,7 @@
 											{step.title}
 										</h5>
 										<p
-											class="text-[10px] sm:text-xs leading-relaxed process-step-desc {isNextOfHovered
+											class="text-[10px] sm:text-xs leading-relaxed text-center process-step-desc {isNextOfHovered
 												? 'step-desc-next'
 												: ''}"
 											style="color: var(--text-tertiary);"
@@ -538,7 +561,7 @@
 		>
 			{#each services as service, i}
 				<article
-					class="bento-item group relative {service.colSpan} flex-shrink-0 w-[280px] sm:w-[320px] md:w-auto rounded-2xl overflow-hidden border isolate backdrop-blur-md snap-start md:snap-none {activeBentoIndex ===
+					class="bento-item group relative {service.colSpan} flex-shrink-0 w-[92vw] md:w-auto rounded-2xl overflow-hidden border isolate backdrop-blur-md snap-center md:snap-none {activeBentoIndex ===
 					i
 						? 'bento-active'
 						: ''}"
@@ -577,7 +600,7 @@
 					></div>
 
 					<div
-						class="relative z-10 h-full p-5 sm:p-6 lg:p-8 flex flex-col justify-between min-h-[270px] sm:min-h-[300px] transition-transform duration-500 group-hover:scale-[1.01]"
+						class="relative z-10 h-full p-5 sm:p-6 lg:p-8 flex flex-col justify-between min-h-auto md:min-h-[300px] transition-transform duration-500 group-hover:scale-[1.01]"
 					>
 						<div>
 							<!-- Icon + title inline on mobile, stacked on desktop -->
@@ -596,12 +619,6 @@
 										>
 											{service.title}
 										</h3>
-										<span
-											class="text-[10px] font-semibold tracking-widest uppercase opacity-30 flex-shrink-0 ml-2"
-											style="color: {service.accent};"
-										>
-											{String(i + 1).padStart(2, '0')}/{String(services.length).padStart(2, '0')}
-										</span>
 									</div>
 									<!-- Desktop-only title (hidden on mobile since it's shown inline above) -->
 									<h3
@@ -857,8 +874,7 @@
 
 	@media (max-width: 767px) {
 		.bento-grid {
-			mask-image: linear-gradient(to right, black 85%, transparent 100%);
-			-webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+			/* No mask - clean edges like all-in-one card */
 		}
 
 		.bento-item {
