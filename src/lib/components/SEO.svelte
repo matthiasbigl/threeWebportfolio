@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages.js';
+	import { getLocale, locales, localizeHref } from '$lib/paraglide/runtime.js';
 
 	interface SEOProps {
 		title?: string;
@@ -142,6 +143,22 @@
 		datePublished = '',
 		dateModified = ''
 	}: SEOProps = $props();
+
+	const currentLocale = getLocale();
+
+	const localizedUrl = $derived(localizeHref(url, { locale: currentLocale }));
+
+	const localeToOgLocale: Record<string, string> = {
+		de: 'de_AT',
+		en: 'en_US',
+		cs: 'cs_CZ'
+	};
+
+	const localeToLanguage: Record<string, string> = {
+		de: 'German',
+		en: 'English',
+		cs: 'Czech'
+	};
 
 	const siteName = 'Matthias Bigl – Webdesign & Webentwicklung Wien';
 	const author = 'Matthias Bigl';
@@ -381,7 +398,7 @@
 			'Matthias Bigl – Webdesigner & Full Stack Developer aus Wien/Korneuburg. Professionelle Websites, Webshops & interaktive Web-Erlebnisse für KMU und Selbstständige.',
 		author: { '@id': `${siteUrl}/#person` },
 		publisher: { '@id': `${siteUrl}/#person` },
-		inLanguage: ['de-AT', 'en'],
+		inLanguage: locales.map((l) => localeToOgLocale[l] ?? l),
 		copyrightYear: new Date().getFullYear(),
 		copyrightHolder: { '@id': `${siteUrl}/#person` },
 		potentialAction: {
@@ -400,12 +417,12 @@
 	const profilePageSchema = {
 		'@context': 'https://schema.org',
 		'@type': 'ProfilePage',
-		'@id': `${url}/#profilepage`,
+		'@id': `${localizedUrl}/#profilepage`,
 		mainEntity: { '@id': `${siteUrl}/#person` },
 		name: title,
 		description: description,
-		url: url,
-		inLanguage: ['de-AT', 'en'],
+		url: localizedUrl,
+		inLanguage: localeToOgLocale[currentLocale] ?? currentLocale,
 		isPartOf: { '@id': `${siteUrl}/#website` }
 	};
 
@@ -499,15 +516,17 @@
 			? 'noindex, nofollow'
 			: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
 	/>
-	<link rel="canonical" href={url} />
+	<link rel="canonical" href={localizedUrl} />
 
-	<!-- Hreflang omitted: site uses client-side i18n with a single URL per page.
-	     Hreflang requires distinct URLs per language (e.g. /de/... /en/...).
-	     Will be re-added after migrating to URL-based i18n (Paraglide). -->
+	<!-- Hreflang tags for multilingual SEO -->
+	{#each locales as loc}
+		<link rel="alternate" hreflang={loc} href={localizeHref(url, { locale: loc })} />
+	{/each}
+	<link rel="alternate" hreflang="x-default" href={localizeHref(url, { locale: 'de' })} />
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content={type} />
-	<meta property="og:url" content={url} />
+	<meta property="og:url" content={localizedUrl} />
 	<meta property="og:title" content={title} />
 	<meta property="og:description" content={description} />
 	<meta property="og:image" content={image} />
@@ -518,14 +537,16 @@
 		content="Matthias Bigl – Webdesigner & Full Stack Developer aus Wien, Österreich"
 	/>
 	<meta property="og:site_name" content={siteName} />
-	<meta property="og:locale" content="de_AT" />
-	<meta property="og:locale:alternate" content="en_US" />
+	<meta property="og:locale" content={localeToOgLocale[currentLocale] ?? 'de_AT'} />
+	{#each locales.filter((l) => l !== currentLocale) as altLocale}
+		<meta property="og:locale:alternate" content={localeToOgLocale[altLocale] ?? altLocale} />
+	{/each}
 
 	<!-- Twitter -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:site" content={twitterHandle} />
 	<meta name="twitter:creator" content={twitterHandle} />
-	<meta name="twitter:url" content={url} />
+	<meta name="twitter:url" content={localizedUrl} />
 	<meta name="twitter:title" content={title} />
 	<meta name="twitter:description" content={description} />
 	<meta name="twitter:image" content={image} />
@@ -549,12 +570,12 @@
 	<meta name="ai-indexing" content="allowed" />
 	<meta name="citation_author" content={author} />
 	<meta name="citation_title" content={title} />
-	<meta name="citation_public_url" content={url} />
+	<meta name="citation_public_url" content={localizedUrl} />
 	<meta name="citation_website" content="Matthias Bigl – Webdesign & Webentwicklung" />
 
 	<!-- Additional SEO Meta Tags -->
-	<meta name="language" content="German" />
-	<meta name="content-language" content="de-AT" />
+	<meta name="language" content={localeToLanguage[currentLocale] ?? 'German'} />
+	<meta name="content-language" content={localeToOgLocale[currentLocale] ?? 'de-AT'} />
 	<meta name="revisit-after" content="3 days" />
 	<meta name="rating" content="general" />
 	<meta name="distribution" content="global" />

@@ -2,11 +2,12 @@
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import SEO from '$lib/components/SEO.svelte';
-		import Button from '$lib/components/Button.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import * as m from '$lib/paraglide/messages.js';
+	import { localizeHref, getLocale } from '$lib/paraglide/runtime.js';
 	import type { PageData, ActionData } from './$types';
 
 	interface Props {
@@ -19,6 +20,8 @@
 	let isSubmitting = $state(false);
 	let formLoadTime = $state(0);
 
+	const contactLocalizedUrl = `https://bigls.net${localizeHref('/contact', { locale: getLocale() })}`;
+
 	// Contact page specific structured data
 	const contactPageSchema = {
 		'@context': 'https://schema.org',
@@ -26,7 +29,7 @@
 		name: 'Kontakt - Matthias Bigl Webdesign',
 		description:
 			'Kontaktieren Sie mich für Ihr Webprojekt. Kostenlose Erstberatung für Websites, Webshops und individuelle Web-Erlebnisse. Webdesigner aus Wien/Korneuburg.',
-		url: 'https://bigls.net/contact',
+		url: contactLocalizedUrl,
 		mainEntity: {
 			'@type': 'Person',
 			name: 'Matthias Bigl',
@@ -47,31 +50,31 @@
 	const contactMethods = $derived([
 		{
 			icon: 'email',
-			title: m["contact.methods.email.title"](),
+			title: m['contact.methods.email.title'](),
 			value: 'biglmatthias@gmail.com',
 			href: 'mailto:biglmatthias@gmail.com',
-			description: m["contact.methods.email.description"]()
+			description: m['contact.methods.email.description']()
 		},
 		{
 			icon: 'phone',
-			title: m["contact.methods.phone.title"](),
+			title: m['contact.methods.phone.title'](),
 			value: '+43 660 459 6636',
 			href: 'tel:+436604596636',
-			description: m["contact.methods.phone.description"]()
+			description: m['contact.methods.phone.description']()
 		},
 		{
 			icon: 'location',
-			title: m["contact.methods.location.title"](),
+			title: m['contact.methods.location.title'](),
 			value: 'Korneuburg, Austria',
 			href: 'https://maps.google.com/?q=Korneuburg,Austria',
-			description: m["contact.methods.location.description"]()
+			description: m['contact.methods.location.description']()
 		},
 		{
 			icon: 'github',
-			title: m["contact.methods.github.title"](),
+			title: m['contact.methods.github.title'](),
 			value: '@matthiasbigl',
 			href: 'https://github.com/matthiasbigl',
-			description: m["contact.methods.github.description"]()
+			description: m['contact.methods.github.description']()
 		}
 	]);
 
@@ -202,13 +205,14 @@
 		<!-- Hero Section -->
 		<section class="contact-hero text-center mb-16 lg:mb-24">
 			<h1 class="font-poppins text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 text-glow">
-				{m["contact.title"]()} <span class="blue-gradient_text">{m["contact.titleHighlight"]()}</span>
+				{m['contact.title']()}
+				<span class="blue-gradient_text">{m['contact.titleHighlight']()}</span>
 			</h1>
 			<p
 				class="text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed"
 				style="color: var(--text-secondary);"
 			>
-				{m["contact.subtitle"]()}
+				{m['contact.subtitle']()}
 			</p>
 		</section>
 
@@ -219,8 +223,8 @@
 					class="font-poppins text-2xl lg:text-3xl font-bold mb-8"
 					style="color: var(--text-secondary);"
 				>
-					{m["contact.getInTouch"]()}
-					<span class="blue-gradient_text">{m["contact.getInTouchHighlight"]()}</span>
+					{m['contact.getInTouch']()}
+					<span class="blue-gradient_text">{m['contact.getInTouchHighlight']()}</span>
 				</h2>
 
 				<div class="grid gap-6">
@@ -333,8 +337,8 @@
 						class="font-poppins text-2xl lg:text-3xl font-bold mb-8"
 						style="color: var(--text-secondary);"
 					>
-						{m["contact.form.title"]()}
-						<span class="blue-gradient_text">{m["contact.form.titleHighlight"]()}</span>
+						{m['contact.form.title']()}
+						<span class="blue-gradient_text">{m['contact.form.titleHighlight']()}</span>
 					</h2>
 
 					<form
@@ -371,7 +375,7 @@
 								class="block text-sm font-medium mb-2"
 								style="color: var(--text-secondary);"
 							>
-								{m["contact.form.name"]()}
+								{m['contact.form.name']()}
 							</label>
 							<div class="relative">
 								<input
@@ -383,7 +387,7 @@
 									maxlength="100"
 									class="form-input w-full px-4 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:bg-white/10 transition-all duration-300"
 									style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
-									placeholder={m["contact.form.namePlaceholder"]()}
+									placeholder={m['contact.form.namePlaceholder']()}
 									class:border-red-500={form?.errors?.name}
 								/>
 								<div
@@ -401,7 +405,7 @@
 								class="block text-sm font-medium mb-2"
 								style="color: var(--text-secondary);"
 							>
-								{m["contact.form.email"]()}
+								{m['contact.form.email']()}
 							</label>
 							<div class="relative">
 								<input
@@ -413,7 +417,7 @@
 									maxlength="254"
 									class="form-input w-full px-4 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:bg-white/10 transition-all duration-300"
 									style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
-									placeholder={m["contact.form.emailPlaceholder"]()}
+									placeholder={m['contact.form.emailPlaceholder']()}
 									class:border-red-500={form?.errors?.email}
 								/>
 								<div
@@ -431,7 +435,7 @@
 								class="block text-sm font-medium mb-2"
 								style="color: var(--text-secondary);"
 							>
-								{m["contact.form.message"]()}
+								{m['contact.form.message']()}
 							</label>
 							<div class="relative">
 								<textarea
@@ -443,7 +447,7 @@
 									rows="6"
 									class="form-input w-full px-4 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:bg-white/10 transition-all duration-300 resize-none"
 									style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
-									placeholder={m["contact.form.messagePlaceholder"]()}
+									placeholder={m['contact.form.messagePlaceholder']()}
 									class:border-red-500={form?.errors?.message}
 								></textarea>
 								<div
@@ -482,9 +486,9 @@
 											d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
 										></path>
 									</svg>
-									{m["contact.form.sending"]()}
+									{m['contact.form.sending']()}
 								{:else}
-									{m["contact.form.submit"]()}
+									{m['contact.form.submit']()}
 								{/if}
 							</span>
 							<div
@@ -512,18 +516,20 @@
 		<div class="text-center mt-16 lg:mt-24">
 			<div class="glass-card p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto">
 				<h3 class="font-poppins text-2xl lg:text-3xl font-bold mb-4 text-glow">
-					{m["contact.cta.title"]()}
-					<span class="blue-gradient_text">{m["contact.cta.titleHighlight"]()}</span>{m["contact.cta.titleEnd"]()}
+					{m['contact.cta.title']()}
+					<span class="blue-gradient_text">{m['contact.cta.titleHighlight']()}</span>{m[
+						'contact.cta.titleEnd'
+					]()}
 				</h3>
 				<p class="text-lg mb-8 max-w-2xl mx-auto" style="color: var(--text-secondary);">
-					{m["contact.cta.subtitle"]()}
+					{m['contact.cta.subtitle']()}
 				</p>
 				<div class="flex flex-col sm:flex-row gap-4 justify-center">
 					<Button href="mailto:biglmatthias@gmail.com" variant="secondary">
-						{m["contact.cta.emailMe"]()}
+						{m['contact.cta.emailMe']()}
 					</Button>
 					<Button href="/assets/resume.pdf" external={true} variant="secondary">
-						{m["contact.cta.downloadResume"]()}
+						{m['contact.cta.downloadResume']()}
 					</Button>
 				</div>
 			</div>
