@@ -39,16 +39,37 @@
 			<div
 				class="flex sm:flex-col gap-4 sm:gap-1 text-xs sm:text-sm font-mono tracking-widest uppercase opacity-60 group-hover:text-[var(--bg-body)] transition-colors duration-500"
 			>
-				{#if category}<span>{category}</span>{/if}
+				{#if category}<span>{@html category}</span>{/if}
 				{#if year}<span>{year}</span>{/if}
 			</div>
 
-			<!-- Title -->
-			<h3
-				class="text-4xl sm:text-6xl md:text-7xl font-poppins font-extrabold tracking-tighter uppercase group-hover:text-[var(--bg-body)] transition-colors duration-500"
-			>
-				{title}
-			</h3>
+			<!-- Title & Mobile Image Wrapper -->
+			<div class="flex-1 flex flex-col">
+				<h3
+					class="text-4xl sm:text-6xl md:text-7xl font-poppins font-extrabold tracking-tighter uppercase group-hover:text-[var(--bg-body)] transition-colors duration-500"
+				>
+					{@html title}
+				</h3>
+
+				<!-- Mobile Image (visible only < lg) -->
+				<div
+					class="block lg:hidden w-full h-48 sm:h-64 relative mt-6 sm:mt-8 rounded-xl overflow-hidden flex items-center justify-center p-2 group-hover:bg-[var(--bg-body)]/5 transition-colors duration-500"
+				>
+					{#if image && typeof image === 'object'}
+						<enhanced:img
+							src={image}
+							alt={imageAlt}
+							class="w-full h-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transition-transform duration-700 ease-expo group-hover:scale-105"
+						/>
+					{:else if image}
+						<img
+							src={image}
+							alt={imageAlt}
+							class="w-full h-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transition-transform duration-700 ease-expo group-hover:scale-105"
+						/>
+					{/if}
+				</div>
+			</div>
 		</div>
 
 		<!-- Hover Reveal Image (Desktop) -->
