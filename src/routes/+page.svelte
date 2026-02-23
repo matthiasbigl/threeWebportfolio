@@ -194,6 +194,52 @@
 						);
 					});
 
+					// Project rows — staggered slide-in from alternating sides
+					const projectList = document.querySelector('.project-list');
+					if (projectList) {
+						const rows = projectList.querySelectorAll('.project-row-item');
+						rows.forEach((row, i) => {
+							const fromLeft = i % 2 === 0;
+							gsap.fromTo(
+								row,
+								{
+									opacity: 0,
+									x: fromLeft ? -80 : 80,
+									rotateY: fromLeft ? -4 : 4
+								},
+								{
+									opacity: 1,
+									x: 0,
+									rotateY: 0,
+									duration: 0.7,
+									ease: 'power3.out',
+									scrollTrigger: {
+										trigger: row,
+										start: 'top 88%'
+									}
+								}
+							);
+						});
+
+						// External CTA links — fade in after project rows
+						const ctaLinks = document.querySelectorAll('.external-cta');
+						gsap.fromTo(
+							ctaLinks,
+							{ opacity: 0, y: 20 },
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.5,
+								stagger: 0.1,
+								ease: 'power2.out',
+								scrollTrigger: {
+									trigger: ctaLinks[0],
+									start: 'top 90%'
+								}
+							}
+						);
+					}
+
 					const aboutSection = document.querySelector('.about-section');
 					if (aboutSection) {
 						gsap.fromTo(
@@ -599,8 +645,9 @@
 				<div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
 			</div>
 
-			<div class="stagger-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-				{#each projects as project, i}
+			<!-- Project rows — editorial list layout -->
+			<div class="project-list max-w-4xl mx-auto flex flex-col gap-2 sm:gap-3">
+				{#each projects.filter((p) => !p.isExternal) as project, i}
 					<Card
 						tag="article"
 						title={projectMsg(project.slug, 'title')}
@@ -614,20 +661,79 @@
 						color={project.color}
 						year={project.year}
 						category={project.category}
-						className={i < 2 ? 'lg:col-span-2' : ''}
 					/>
 				{/each}
 			</div>
 
-			<p class="text-center mt-10 text-base sm:text-lg" style="color: var(--text-secondary);">
-				{m['projects.moreOnGithub']()}
-				<a
-					href="https://github.com/matthiasbigl"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="blue-gradient_text hover:underline font-medium">GitHub</a
-				>!
-			</p>
+			<!-- External links CTA row -->
+			<div class="max-w-4xl mx-auto mt-6 sm:mt-8 flex flex-col sm:flex-row gap-2 sm:gap-3">
+				{#each projects.filter((p) => p.isExternal) as project}
+					<a
+						href={project.link}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="external-cta group flex items-center gap-3 px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl flex-1 transition-all duration-300"
+						style="--cta-accent: {project.color};"
+					>
+						<!-- Icon -->
+						<div
+							class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden"
+							style="background: {project.color}15;"
+						>
+							{#if project.slug === 'blog'}
+								<svg
+									class="w-4 h-4 sm:w-5 sm:h-5"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke={project.color}
+									stroke-width="2"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+									/>
+								</svg>
+							{:else}
+								<svg class="w-4 h-4 sm:w-5 sm:h-5" fill={project.color} viewBox="0 0 24 24">
+									<path
+										d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+									/>
+								</svg>
+							{/if}
+						</div>
+
+						<!-- Text -->
+						<div class="flex-1 min-w-0">
+							<span
+								class="text-sm sm:text-base font-semibold block"
+								style="color: var(--text-heading);"
+							>
+								{projectMsg(project.slug, 'title')}
+							</span>
+							<span class="text-[11px] sm:text-xs block" style="color: var(--text-secondary);">
+								{projectMsg(project.slug, 'description')}
+							</span>
+						</div>
+
+						<!-- External arrow -->
+						<svg
+							class="w-4 h-4 flex-shrink-0 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+							style="color: {project.color};"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+							/>
+						</svg>
+					</a>
+				{/each}
+			</div>
 		</div>
 	</section>
 
@@ -781,6 +887,18 @@
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+	}
+
+	/* External CTA links */
+	.external-cta {
+		background: var(--card-bg);
+		border: 1px solid var(--glass-border);
+	}
+
+	.external-cta:hover {
+		background: var(--card-bg-hover, var(--card-bg));
+		border-color: var(--cta-accent);
+		box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.1);
 	}
 
 	@media (max-width: 1023px) {

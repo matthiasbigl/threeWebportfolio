@@ -41,95 +41,97 @@
 
 {#if hasProjectMeta}
 	<!-- ═══════════════════════════════════════════════════════════
-	     CINEMATIC PROJECT CARD — full-bleed image, overlay text
+	     EDITORIAL PROJECT ROW — compact horizontal, thumbnail + text
 	     ═══════════════════════════════════════════════════════════ -->
-	<div class="stagger-item h-full {className}">
-		{@const Wrapper = link ? 'a' : 'div'}
-		<svelte:element
-			this={Wrapper}
-			href={link || undefined}
-			target={target || undefined}
-			rel={rel || undefined}
-			class="project-card block h-full rounded-2xl relative group overflow-hidden"
-			style="--accent: {color || '#3b82f6'}; --accent-glow: {color || '#3b82f6'}33;"
+	{#snippet projectRowInner()}
+		<!-- Accent left edge -->
+		<div
+			class="absolute top-0 left-0 bottom-0 w-[3px] z-30 rounded-full"
+			style="background: {color || '#3b82f6'};"
+		></div>
+
+		<div
+			class="flex items-center gap-4 sm:gap-5 lg:gap-6 px-4 sm:px-5 lg:px-6 py-3 sm:py-4 relative z-10"
 		>
-			<!-- Accent top edge -->
+			<!-- Thumbnail -->
 			<div
-				class="absolute top-0 left-0 right-0 h-[2px] z-30"
-				style="background: linear-gradient(90deg, transparent 10%, {color ||
-					'#3b82f6'}, transparent 90%);"
-			></div>
-
-			<!-- Image area — full card height -->
-			<div class="project-card-image relative w-full aspect-[4/3] sm:aspect-[3/2] overflow-hidden">
-				<!-- Colored tint overlay -->
+				class="project-thumb relative flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-xl overflow-hidden p-1.5 sm:p-2"
+				style="box-shadow: 0 4px 16px {color || '#3b82f6'}33, 0 2px 6px {color ||
+					'#3b82f6'}22; background: var(--bg-surface, rgba(255,255,255,0.05));"
+			>
+				<!-- Colored border ring -->
 				<div
-					class="absolute inset-0 z-10 opacity-[0.08] group-hover:opacity-[0.12] transition-opacity duration-500"
-					style="background: {color || '#3b82f6'};"
-				></div>
-
-				<!-- Bottom gradient for text readability -->
-				<div
-					class="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
-				></div>
-
-				<!-- Hover vignette -->
-				<div
-					class="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-					style="background: radial-gradient(ellipse at center, transparent 40%, {color ||
-						'#3b82f6'}15 100%);"
+					class="absolute inset-0 rounded-xl z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+					style="box-shadow: inset 0 0 0 2px {color || '#3b82f6'}88;"
 				></div>
 
 				{#if children}
-					<div class="absolute inset-0 flex items-center justify-center z-[5]">
+					<div class="absolute inset-0 flex items-center justify-center z-[5] bg-black/5">
 						{@render children()}
 					</div>
 				{:else if image && typeof image === 'object'}
 					<enhanced:img
 						src={image}
 						alt={altText}
-						class="project-img absolute inset-0 w-full h-full object-cover"
-						style="object-fit: {imageObjectFit};"
+						class="project-img relative w-full h-full rounded-md object-contain"
 						loading="eager"
 					/>
 				{:else if typeof image === 'string' && image}
 					<img
 						src={image}
 						alt={altText}
-						class="project-img absolute inset-0 w-full h-full object-cover"
-						style="object-fit: {imageObjectFit};"
+						class="project-img relative w-full h-full rounded-md object-contain"
 						loading="eager"
 					/>
 				{/if}
 			</div>
 
-			<!-- Floating metadata chips -->
-			<div class="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 flex items-center gap-1.5">
-				{#if category}
-					<span
-						class="px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold tracking-wide uppercase rounded-md backdrop-blur-md border"
-						style="background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.1);"
-					>
-						{category}
-					</span>
-				{/if}
-				{#if year}
-					<span
-						class="px-2 py-0.5 text-[10px] sm:text-[11px] font-bold tracking-wider rounded-md backdrop-blur-md"
-						style="background: {color || '#3b82f6'}CC; color: white;"
-					>
-						{year}
-					</span>
-				{/if}
+			<!-- Text content -->
+			<div class="flex-1 min-w-0">
+				<!-- Category + Year -->
+				<div class="flex items-center gap-2 mb-1 sm:mb-1.5">
+					{#if category}
+						<span
+							class="text-[10px] sm:text-[11px] font-semibold tracking-wide uppercase"
+							style="color: {color || '#3b82f6'};"
+						>
+							{category}
+						</span>
+					{/if}
+					{#if year}
+						<span
+							class="text-[10px] sm:text-[11px] font-medium tracking-wider"
+							style="color: var(--text-tertiary, var(--text-secondary));"
+						>
+							{year}
+						</span>
+					{/if}
+				</div>
+
+				<!-- Title -->
+				<h3
+					class="text-sm sm:text-base lg:text-lg font-bold tracking-tight leading-tight mb-1 sm:mb-1.5 group-hover:translate-x-0.5 transition-transform duration-300"
+					style="color: var(--text-heading);"
+				>
+					{title}
+				</h3>
+
+				<!-- Description — unclamped, full text -->
+				<p
+					class="text-[11px] sm:text-[12px] lg:text-[13px] leading-relaxed line-clamp-2 sm:line-clamp-none"
+					style="color: var(--text-secondary);"
+				>
+					{description}
+				</p>
 			</div>
 
-			<!-- Arrow indicator -->
+			<!-- Arrow -->
 			<div
-				class="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 backdrop-blur-md"
-				style="background: {color || '#3b82f6'}; color: white;"
+				class="project-arrow flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center opacity-40 group-hover:opacity-100 transition-all duration-300"
+				style="background: {color || '#3b82f6'}15; color: {color || '#3b82f6'};"
 			>
 				<svg
-					class="w-3.5 h-3.5"
+					class="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300"
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"
@@ -138,31 +140,37 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
 				</svg>
 			</div>
+		</div>
 
-			<!-- Text overlay at bottom -->
-			<div class="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-5">
-				<h3
-					class="text-base sm:text-lg font-bold text-white mb-1 tracking-tight leading-snug group-hover:translate-x-1 transition-transform duration-300"
-				>
-					{title}
-				</h3>
-				<p
-					class="text-[12px] sm:text-[13px] font-light leading-relaxed text-white/60 group-hover:text-white/80 transition-colors duration-300 line-clamp-2"
-				>
-					{description}
-				</p>
-			</div>
+		<!-- Hover accent glow (bottom edge) -->
+		<div
+			class="absolute bottom-0 left-0 right-0 h-px z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+			style="background: linear-gradient(90deg, {color || '#3b82f6'}, transparent 80%);"
+		></div>
 
-			<!-- Shimmer -->
-			<div class="project-shimmer" aria-hidden="true"></div>
+		<!-- Shimmer -->
+		<div class="project-shimmer" aria-hidden="true"></div>
+	{/snippet}
 
-			<!-- Bottom accent glow on hover -->
+	<div class="project-row-item {className}">
+		{#if link}
+			<a
+				href={link}
+				target={target || undefined}
+				rel={rel || undefined}
+				class="project-row block relative group overflow-hidden rounded-xl"
+				style="--accent: {color || '#3b82f6'}; --accent-glow: {color || '#3b82f6'}33;"
+			>
+				{@render projectRowInner()}
+			</a>
+		{:else}
 			<div
-				class="absolute bottom-0 left-0 right-0 h-px z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-				style="background: linear-gradient(90deg, transparent, {color ||
-					'#3b82f6'}, transparent); box-shadow: 0 0 12px {color || '#3b82f6'}66;"
-			></div>
-		</svelte:element>
+				class="project-row block relative group overflow-hidden rounded-xl"
+				style="--accent: {color || '#3b82f6'}; --accent-glow: {color || '#3b82f6'}33;"
+			>
+				{@render projectRowInner()}
+			</div>
+		{/if}
 	</div>
 {:else}
 	<!-- ═══════════════════════════════════════════════════════════
@@ -290,38 +298,66 @@
 
 <style>
 	/* ═══════════════════════════════════════════
-	   PROJECT CARD — Cinematic style
+	   PROJECT ROW — Editorial compact style
 	   ═══════════════════════════════════════════ */
-	.project-card {
-		background: var(--bg-surface);
+	.project-row {
+		background: var(--card-bg);
 		border: 1px solid var(--glass-border);
 		transition:
-			transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
-			box-shadow 0.45s cubic-bezier(0.23, 1, 0.32, 1),
-			border-color 0.4s ease;
+			transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+			box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+			border-color 0.35s ease,
+			background 0.35s ease;
 		will-change: transform;
 	}
 
-	.project-card:hover {
-		transform: translateY(-6px);
+	.project-row:hover {
+		background: var(--card-bg-hover, var(--card-bg));
 		border-color: var(--accent);
 		box-shadow:
-			0 20px 40px -12px rgba(0, 0, 0, 0.2),
-			0 0 0 1px var(--accent-glow),
-			0 0 30px var(--accent-glow);
+			0 8px 24px -8px rgba(0, 0, 0, 0.15),
+			0 0 0 1px var(--accent-glow);
 	}
 
-	.project-card:active {
-		transform: translateY(-2px) scale(0.99);
+	.project-row:active {
+		transform: scale(0.995);
 		transition-duration: 0.1s;
+	}
+
+	.project-row-item {
+		/* For GSAP animation targets */
+	}
+
+	.project-thumb {
+		transition:
+			transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+			box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+	}
+
+	.project-row:hover .project-thumb {
+		transform: scale(1.05);
+		box-shadow:
+			0 6px 24px var(--accent-glow),
+			0 2px 8px var(--accent-glow);
 	}
 
 	.project-img {
 		transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 	}
 
-	.project-card:hover .project-img {
+	.project-row:hover .project-img {
 		transform: scale(1.06);
+	}
+
+	.project-arrow {
+		transition:
+			opacity 0.3s ease,
+			background 0.3s ease;
+	}
+
+	.project-row:hover .project-arrow {
+		background: var(--accent) !important;
+		color: white !important;
 	}
 
 	.project-shimmer {
@@ -333,9 +369,9 @@
 			105deg,
 			transparent 0%,
 			transparent 40%,
-			rgba(255, 255, 255, 0.06) 45%,
-			rgba(255, 255, 255, 0.12) 50%,
-			rgba(255, 255, 255, 0.06) 55%,
+			rgba(255, 255, 255, 0.04) 45%,
+			rgba(255, 255, 255, 0.08) 50%,
+			rgba(255, 255, 255, 0.04) 55%,
 			transparent 60%,
 			transparent 100%
 		);
@@ -343,7 +379,7 @@
 		z-index: 25;
 	}
 
-	.project-card:hover .project-shimmer {
+	.project-row:hover .project-shimmer {
 		opacity: 1;
 		animation: project-shimmer 0.7s ease-out forwards;
 	}
@@ -509,9 +545,11 @@
 	   Reduced motion — both card types
 	   ═══════════════════════════════════════════ */
 	@media (prefers-reduced-motion: reduce) {
-		.project-card,
+		.project-row,
 		.project-img,
+		.project-thumb,
 		.project-shimmer,
+		.project-arrow,
 		.card-inset,
 		.card-image,
 		.shimmer-overlay,
@@ -521,15 +559,16 @@
 			animation-duration: 0.01ms !important;
 		}
 
-		.project-card:hover {
+		.project-row:hover {
 			transform: none;
 		}
 
-		.project-card:hover .project-img {
+		.project-row:hover .project-img,
+		.project-row:hover .project-thumb {
 			transform: none;
 		}
 
-		.project-card:hover .project-shimmer {
+		.project-row:hover .project-shimmer {
 			animation: none;
 			opacity: 0;
 		}
@@ -548,7 +587,7 @@
 		}
 
 		.card-inset:active,
-		.project-card:active {
+		.project-row:active {
 			transform: none;
 		}
 	}
