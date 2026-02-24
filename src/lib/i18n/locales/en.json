@@ -157,7 +157,16 @@
 			"custom": "Custom"
 		},
 		"cta": "Get Free Webdesign Consultation ",
-		"ctaSubtext": "No strings attached • Free Consult • No hidden costs"
+		"ctaSubtext": "No strings attached • Free Consult • No hidden costs",
+		"pricingCard": {
+			"badge": "No Surprises",
+			"title": "Transparent Pricing",
+			"description": "Download my complete 2026 pricing guide and find out exactly what your project costs right away. No hidden fees, no nasty surprises."
+		},
+		"finalCta": {
+			"headline": "Sounds interesting?",
+			"subline": "Let's talk about your next project."
+		}
 	},
 	"aboutCompact": {
 		"title": "Your Point of Contact",
@@ -188,11 +197,11 @@
 		"hint": "👆 Try grabbing the cubes!",
 		"languages": "Languages",
 		"strengths": "Strengths",
-		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin",
+		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin, React, Next.js",
 		"strengthsList": "Backend, UI/UX, Graphic Design, Teamwork, Project Management",
-		"languagesDescription": "Proficient programming languages including Python, Java, Svelte, TypeScript, and Kotlin for full-stack web and mobile development.",
+		"languagesDescription": "Proficient programming languages including Python, Java, Svelte, TypeScript, Kotlin, React, and Next.js for full-stack web and mobile development.",
 		"strengthsDescription": "Core professional strengths including backend development, UI/UX design, graphic design, teamwork, and project management.",
-		"languagesAriaLabel": "Interactive 3D cube showcasing programming languages: Python, Java, Svelte, TypeScript, and Kotlin. Drag to rotate.",
+		"languagesAriaLabel": "Interactive 3D cube showcasing programming languages: Python, Java, Svelte, TypeScript, Kotlin, React, and Next.js. Drag to rotate.",
 		"strengthsAriaLabel": "Interactive 3D cube showcasing professional strengths: Backend Development, UI/UX Design, Graphic Design, Teamwork, and Project Management. Drag to rotate."
 	},
 	"projectDetail": {

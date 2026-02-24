@@ -163,7 +163,16 @@
 			"custom": "Individuálně"
 		},
 		"cta": "Bezplatná konzultace webdesignu",
-		"ctaSubtext": "Nezávazně • Zdarma • Bez skrytých poplatků"
+		"ctaSubtext": "Nezávazně • Zdarma • Bez skrytých poplatků",
+		"pricingCard": {
+			"badge": "Jasná řeč",
+			"title": "Transparentní ceny",
+			"description": "Stáhněte si můj kompletní cenový průvodce 2026 a okamžitě zjistěte, co stojí váš projekt. Žádné skryté poplatky, žádné nepříjemné překvapení."
+		},
+		"finalCta": {
+			"headline": "Zní to zajímavě?",
+			"subline": "Pojďme mluvit o vašem dalším projektu."
+		}
 	},
 	"aboutCompact": {
 		"title": "Váš kontakt",
@@ -194,11 +203,11 @@
 		"hint": "👆 Zkuste uchopit kostky!",
 		"languages": "Jazyky",
 		"strengths": "Silné stránky",
-		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin",
+		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin, React, Next.js",
 		"strengthsList": "Backend, UI/UX, Grafický design, Týmová práce, Projektový management",
-		"languagesDescription": "Zkušenosti s programovacími jazyky jako Python, Java, Svelte, TypeScript a Kotlin pro full-stack webový a mobilní vývoj.",
+		"languagesDescription": "Zkušenosti s programovacími jazyky jako Python, Java, Svelte, TypeScript, Kotlin, React a Next.js pro full-stack webový a mobilní vývoj.",
 		"strengthsDescription": "Klíčové kompetence jako vývoj backendu, UI/UX design, grafický design, týmová práce a projektový management.",
-		"languagesAriaLabel": "Interaktivní 3D kostka s programovacími jazyky: Python, Java, Svelte, TypeScript a Kotlin. Táhněte pro otočení.",
+		"languagesAriaLabel": "Interaktivní 3D kostka s programovacími jazyky: Python, Java, Svelte, TypeScript, Kotlin, React a Next.js. Táhněte pro otočení.",
 		"strengthsAriaLabel": "Interaktivní 3D kostka s profesionálními silnými stránkami: vývoj backendu, UI/UX design, grafický design, týmová práce a projektový management. Táhněte pro otočení."
 	},
 	"projectDetail": {
