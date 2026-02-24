@@ -138,7 +138,16 @@
 			"custom": "Individuell"
 		},
 		"cta": "Jetzt gratis Webdesign-Beratung",
-		"ctaSubtext": "Unverbindlich • Gratis Beratung • Keine versteckten Kosten"
+		"ctaSubtext": "Unverbindlich • Gratis Beratung • Keine versteckten Kosten",
+		"pricingCard": {
+			"badge": "Klartext",
+			"title": "Transparente Preise",
+			"description": "Laden Sie meinen vollständigen Preisführer 2026 herunter und erfahren Sie sofort, was Ihr Projekt kostet. Keine versteckten Gebühren, keine bösen Überraschungen."
+		},
+		"finalCta": {
+			"headline": "Klingt interessant?",
+			"subline": "Lassen Sie uns über Ihr nächstes Projekt sprechen."
+		}
 	},
 	"aboutCompact": {
 		"title": "Ihr Ansprechpartner",
@@ -572,12 +581,45 @@
 		"journey": {
 			"label": "Meine Geschichte",
 			"title": "Der Weg hierher",
-			"paragraphs": "Meine Reise in die Technik begann früh – mit Neugier, einem alten Computer und der Frage: \"Wie funktioniert das eigentlich?\" Diese Frage hat mich nie losgelassen.\nDie HTL Hollabrunn war meine Schule für Informationstechnologie. Dort entdeckte ich meine Leidenschaft für Softwareentwicklung – von Backend bis Frontend, von Hardware bis Cloud. Die Matura war der offizielle Start meiner professionellen Laufbahn.\nHeute arbeite ich hauptberuflich bei Tieto, einer internationalen Consulting-Firma. Als Consultant und Full Stack Developer betreue ich Customer Experience Projekte im Banking-Sektor – komplexe Enterprise-Systeme, hohe Verfügbarkeit, anspruchsvolle Kunden. Nebenbei unterstütze ich KMUs und Selbstständige mit modernen Weblösungen.\nTechnologie ist für mich mehr als nur Code. Es ist ein Werkzeug, um Probleme zu lösen und Menschen zu helfen. Ob Enterprise-Architektur oder kleine Business-Website – ich bringe die gleiche Sorgfalt und Erfahrung ein."
+			"steps": {
+				"beginning": {
+					"title": "Der Anfang",
+					"text": "Meine Reise in die Technik begann früh – mit Neugier, einem alten Computer und der Frage: \"Wie funktioniert das eigentlich?\" Diese Frage hat mich nie losgelassen."
+				},
+				"education": {
+					"title": "Ausbildung",
+					"text": "Die HTL Hollabrunn war meine Schule für Informationstechnologie. Dort entdeckte ich meine Leidenschaft für Softwareentwicklung – von Backend bis Frontend, von Hardware bis Cloud. Die Matura war der offizielle Start meiner professionellen Laufbahn."
+				},
+				"professional": {
+					"title": "Berufsleben",
+					"text": "Heute arbeite ich hauptberuflich bei Tieto, einer internationalen Consulting-Firma. Als Consultant und Full Stack Developer betreue ich Customer Experience Projekte im Banking-Sektor – komplexe Enterprise-Systeme, hohe Verfügbarkeit, anspruchsvolle Kunden. Nebenbei unterstütze ich KMUs und Selbstständige mit modernen Weblösungen."
+				},
+				"philosophy": {
+					"title": "Die Philosophie",
+					"text": "Technologie ist für mich mehr als nur Code. Es ist ein Werkzeug, um Probleme zu lösen und Menschen zu helfen. Ob Enterprise-Architektur oder kleine Business-Website – ich bringe die gleiche Sorgfalt und Erfahrung ein."
+				}
+			}
 		},
 		"cta": {
 			"title": "Lassen Sie uns zusammenarbeiten",
 			"subtitle": "Haben Sie ein Projekt im Kopf? Ich freue mich darauf, von Ihnen zu hören und gemeinsam herauszufinden, wie ich Ihnen helfen kann.",
 			"button": "Kontakt aufnehmen"
+		}
+	},
+	"aboutPageNew": {
+		"philosophy": {
+			"label": "Meine Philosophie",
+			"title": "Code ist nur das Medium. Das Ziel ist das Erlebnis.",
+			"text": "Ich glaube, dass eine gute Website nicht nur gut aussehen darf – sie muss sich richtig anfühlen. Sie muss schnell, barrierefrei und unvergesslich sein. Ich baue digitale Werkzeuge, die echte Probleme lösen, ohne unnötigen Ballast."
+		},
+		"experience": {
+			"label": "Erfahrung",
+			"title": "Mein Weg"
+		},
+		"hobbiesNew": {
+			"label": "Off-screen",
+			"title": "Wenn ich nicht code",
+			"desc": "Ausgleich der digitalen Welt durch physische Herausforderungen."
 		}
 	}
 }

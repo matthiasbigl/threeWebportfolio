@@ -138,7 +138,16 @@
 			"custom": "Individuálně"
 		},
 		"cta": "Bezplatná konzultace webdesignu",
-		"ctaSubtext": "Nezávazně • Zdarma • Bez skrytých poplatků"
+		"ctaSubtext": "Nezávazně • Zdarma • Bez skrytých poplatků",
+		"pricingCard": {
+			"badge": "Jasná řeč",
+			"title": "Transparentní ceny",
+			"description": "Stáhněte si můj kompletní cenový průvodce 2026 a okamžitě zjistěte, co stojí váš projekt. Žádné skryté poplatky, žádné nepříjemné překvapení."
+		},
+		"finalCta": {
+			"headline": "Zní to zajímavě?",
+			"subline": "Pojďme mluvit o vašem dalším projektu."
+		}
 	},
 	"aboutCompact": {
 		"title": "Váš kontakt",
@@ -572,7 +581,24 @@
 		"journey": {
 			"label": "Můj příběh",
 			"title": "Cesta sem",
-			"paragraphs": "Moje cesta do technologie začala brzy – s zvědavostí, starým počítačem a otázkou: 'Jak to vlastně funguje?' Tato otázka mě nikdy neopustila.\nHTL Hollabrunn byl moje škola pro informační technologie. Tam jsem objevil svou vášeň pro vývoj softwaru – od backendu po frontend, od hardwaru po cloud. Maturita byl oficiální začátek mé profesní kariéry.\nDnes pracuji na plný úvazek ve společnosti Tieto, mezinárodní poradenské firmě. Jako konzultant a Full Stack Developer vedu projekty zákaznické zkušenosti v bankovním sektoru – komplexní podnikové systémy, vysoká dostupnost, náročné zákazníky. Ve volném čase podporuji malé a střední podniky a živnostníky s moderními webovými řešeními.\nTechnologie je pro mě více než jen kód. Je to nástroj k řešení problémů a pomoci lidem. Ať jde o podnikovou architekturu nebo malý podnikový web – přistupuji k tomu se stejnou péčí a zkušeností."
+			"steps": {
+				"beginning": {
+					"title": "Začátek",
+					"text": "Moje cesta do technologie začala brzy – s zvědavostí, starým počítačem a otázkou: \"Jak to vlastně funguje?\" Tato otázka mě nikdy neopustila."
+				},
+				"education": {
+					"title": "Vzdělání",
+					"text": "HTL Hollabrunn byl moje škola pro informační technologie. Tam jsem objevil svou vášeň pro vývoj softwaru – od backendu po frontend, od hardwaru po cloud. Maturita byl oficiální začátek mé profesní kariéry."
+				},
+				"professional": {
+					"title": "Profesní život",
+					"text": "Dnes pracuji na plný úvazek ve společnosti Tieto, mezinárodní poradenské firmě. Jako konzultant a Full Stack Developer vedu projekty zákaznické zkušenosti v bankovním sektoru – komplexní podnikové systémy, vysoká dostupnost, náročné zákazníky. Ve volném čase podporuji malé a střední podniky a živnostníky s moderními webovými řešeními."
+				},
+				"philosophy": {
+					"title": "Filozofie",
+					"text": "Technologie je pro mě více než jen kód. Je to nástroj k řešení problémů a pomoci lidem. Ať jde o podnikovou architekturu nebo malý podnikový web – přistupuji k tomu se stejnou péčí a zkušeností."
+				}
+			}
 		},
 		"cta": {
 			"title": "Pojďme spolupracovat",

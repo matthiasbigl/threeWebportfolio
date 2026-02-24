@@ -163,7 +163,16 @@
 			"custom": "Individuell"
 		},
 		"cta": "Jetzt gratis Webdesign-Beratung",
-		"ctaSubtext": "Unverbindlich • Gratis Beratung • Keine versteckten Kosten"
+		"ctaSubtext": "Unverbindlich • Gratis Beratung • Keine versteckten Kosten",
+		"pricingCard": {
+			"badge": "Klartext",
+			"title": "Transparente Preise",
+			"description": "Laden Sie meinen vollständigen Preisführer 2026 herunter und erfahren Sie sofort, was Ihr Projekt kostet. Keine versteckten Gebühren, keine bösen Überraschungen."
+		},
+		"finalCta": {
+			"headline": "Klingt interessant?",
+			"subline": "Lassen Sie uns über Ihr nächstes Projekt sprechen."
+		}
 	},
 	"aboutCompact": {
 		"title": "Ihr Ansprechpartner",
@@ -194,11 +203,11 @@
 		"hint": "👆 Probier die Würfel zu greifen!",
 		"languages": "Sprachen",
 		"strengths": "Stärken",
-		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin",
+		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin, React, Next.js",
 		"strengthsList": "Backend, UI/UX, Grafikdesign, Teamwork, Projektmanagement",
-		"languagesDescription": "Erfahrene Programmiersprachen wie Python, Java, Svelte, TypeScript und Kotlin für Full-Stack Web- und Mobile-Entwicklung.",
+		"languagesDescription": "Erfahrene Programmiersprachen wie Python, Java, Svelte, TypeScript, Kotlin, React und Next.js für Full-Stack Web- und Mobile-Entwicklung.",
 		"strengthsDescription": "Kernkompetenzen wie Backend-Entwicklung, UI/UX Design, Grafikdesign, Teamarbeit und Projektmanagement.",
-		"languagesAriaLabel": "Interaktiver 3D-Würfel mit Programmiersprachen: Python, Java, Svelte, TypeScript und Kotlin. Ziehen zum Drehen.",
+		"languagesAriaLabel": "Interaktiver 3D-Würfel mit Programmiersprachen: Python, Java, Svelte, TypeScript, Kotlin, React und Next.js. Ziehen zum Drehen.",
 		"strengthsAriaLabel": "Interaktiver 3D-Würfel mit professionellen Stärken: Backend-Entwicklung, UI/UX Design, Grafikdesign, Teamarbeit und Projektmanagement. Ziehen zum Drehen."
 	},
 	"projectDetail": {

@@ -137,7 +137,16 @@
 			"custom": "Custom"
 		},
 		"cta": "Get Free Webdesign Consultation ",
-		"ctaSubtext": "No strings attached • Free Consult • No hidden costs"
+		"ctaSubtext": "No strings attached • Free Consult • No hidden costs",
+		"pricingCard": {
+			"badge": "No Surprises",
+			"title": "Transparent Pricing",
+			"description": "Download my complete 2026 pricing guide and find out exactly what your project costs right away. No hidden fees, no nasty surprises."
+		},
+		"finalCta": {
+			"headline": "Sounds interesting?",
+			"subline": "Let's talk about your next project."
+		}
 	},
 	"aboutCompact": {
 		"title": "Your Point of Contact",
@@ -571,12 +580,45 @@
 		"journey": {
 			"label": "My Story",
 			"title": "The path here",
-			"paragraphs": "My journey into tech started early – with curiosity, an old computer, and the question: \"How does this actually work?\" That question never let me go.\nHTL Hollabrunn was my school for Information Technology. There I discovered my passion for software development – from backend to frontend, from hardware to cloud. Graduation marked the official start of my professional career.\nToday I work full-time at Tieto, an international consulting firm. As Consultant and Full Stack Developer, I manage Customer Experience projects in the banking sector – complex enterprise systems, high availability, demanding clients. On the side, I support SMBs and freelancers with modern web solutions.\nTechnology is more than just code to me. It's a tool to solve problems and help people. Whether enterprise architecture or small business website – I bring the same care and experience."
+			"steps": {
+				"beginning": {
+					"title": "The Beginning",
+					"text": "My journey into tech started early – with curiosity, an old computer, and the question: \"How does this actually work?\" That question never let me go."
+				},
+				"education": {
+					"title": "Education",
+					"text": "HTL Hollabrunn was my school for Information Technology. There I discovered my passion for software development – from backend to frontend, from hardware to cloud. Graduation marked the official start of my professional career."
+				},
+				"professional": {
+					"title": "Professional Life",
+					"text": "Today I work full-time at Tieto, an international consulting firm. As Consultant and Full Stack Developer, I manage Customer Experience projects in the banking sector – complex enterprise systems, high availability, demanding clients. On the side, I support SMBs and freelancers with modern web solutions."
+				},
+				"philosophy": {
+					"title": "The Philosophy",
+					"text": "Technology is more than just code to me. It's a tool to solve problems and help people. Whether enterprise architecture or small business website – I bring the same care and experience."
+				}
+			}
 		},
 		"cta": {
 			"title": "Let's work together",
 			"subtitle": "Have a project in mind? I look forward to hearing from you and figuring out together how I can help.",
 			"button": "Get in touch"
+		}
+	},
+	"aboutPageNew": {
+		"philosophy": {
+			"label": "My Philosophy",
+			"title": "Code is just the medium. The goal is the experience.",
+			"text": "I believe that a great website shouldn't just look good—it should feel right. It needs to be fast, accessible, and memorable. I build digital tools that solve real problems, without the bloat."
+		},
+		"experience": {
+			"label": "Experience",
+			"title": "Where I've been"
+		},
+		"hobbiesNew": {
+			"label": "Off-screen",
+			"title": "When I'm not coding",
+			"desc": "Balancing the digital world with physical challenges."
 		}
 	}
 }

@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import * as m from '$lib/paraglide/messages.js';
-	import { getLocale, localizeHref } from '$lib/paraglide/runtime.js';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import Button from './Button.svelte';
 
 	const processSteps = $derived([
@@ -96,6 +96,31 @@
 	let hoveredStepIndex = $state(-1);
 	let bentoScrollProgress = $state(0);
 	let activeBentoIndex = $state(0);
+
+	function hexToRgb(hex: string) {
+		const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		return result
+			? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
+			: [0, 0, 0];
+	}
+
+	const morphedColor = $derived.by(() => {
+		if (services.length < 2) return services[0]?.accent || '#3b82f6';
+		const totalIntervals = services.length - 1;
+		const exactPos = bentoScrollProgress * totalIntervals;
+		const index1 = Math.floor(exactPos);
+		const index2 = Math.min(Math.ceil(exactPos), totalIntervals);
+		const factor = exactPos - index1;
+
+		const rgb1 = hexToRgb(services[index1].accent);
+		const rgb2 = hexToRgb(services[index2].accent);
+
+		const r = Math.round(rgb1[0] + factor * (rgb2[0] - rgb1[0]));
+		const g = Math.round(rgb1[1] + factor * (rgb2[1] - rgb1[1]));
+		const b = Math.round(rgb1[2] + factor * (rgb2[2] - rgb1[2]));
+
+		return `rgb(${r}, ${g}, ${b})`;
+	});
 
 	function handleBentoScroll(e: Event) {
 		const target = e.target as HTMLElement;
@@ -351,7 +376,7 @@
 
 <section
 	id="services"
-	class="relative py-20 lg:py-32 overflow-hidden selection:bg-blue-500/30 selection:text-white"
+	class="relative pt-20 lg:pt-32 pb-12 lg:pb-20 overflow-hidden selection:bg-blue-500/30 selection:text-white"
 >
 	<div class="absolute inset-0 pointer-events-none">
 		<div
@@ -675,7 +700,7 @@
 							? 'w-7 h-2 shadow-sm'
 							: 'w-2 h-2 opacity-30 hover:opacity-60'}"
 						style="background: {activeBentoIndex === i
-							? service.accent
+							? morphedColor
 							: 'var(--text-secondary)'}; {activeBentoIndex === i
 							? `box-shadow: 0 0 8px ${service.accentGlow};`
 							: ''}"
@@ -696,9 +721,8 @@
 				style="background: var(--border-primary);"
 			>
 				<div
-					class="h-full rounded-full transition-all duration-150 ease-out"
-					style="background: {services[activeBentoIndex]?.accent ??
-						'var(--text-heading)'}; width: {bentoScrollProgress * 100}%;"
+					class="h-full rounded-full"
+					style="background: {morphedColor}; width: {bentoScrollProgress * 100}%;"
 				></div>
 			</div>
 		</div>
@@ -723,67 +747,114 @@
 			</div>
 
 			<div
-				class="relative group rounded-2xl overflow-hidden"
-				style="border: 1px solid var(--glass-border);"
+				class="relative group rounded-3xl overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-blue-500/10"
+				style="border: 1px solid var(--glass-border); background: var(--bg-surface);"
 			>
-				<div class="absolute inset-0" style="background: var(--glass-bg);"></div>
 				<div
-					class="absolute inset-0 bg-gradient-to-r from-blue-600/[0.06] via-purple-600/[0.04] to-blue-600/[0.06]"
+					class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-700"
 				></div>
 
 				<div
-					class="relative h-full p-5 sm:p-10 lg:p-12 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8"
+					class="absolute -top-32 -right-32 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] group-hover:bg-blue-500/20 transition-colors duration-700 pointer-events-none"
+				></div>
+				<div
+					class="absolute -bottom-32 -left-32 w-80 h-80 bg-purple-500/10 rounded-full blur-[100px] group-hover:bg-purple-500/20 transition-colors duration-700 pointer-events-none"
+				></div>
+
+				<div
+					class="relative h-full p-8 sm:p-12 lg:p-16 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 isolate"
 				>
 					<div
-						class="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"
+						class="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay"
 					></div>
 
-					<div class="relative z-10 max-w-xl text-center md:text-left">
+					<div class="relative z-10 w-full md:max-w-2xl text-center md:text-left space-y-5">
+						<div
+							class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-xs sm:text-sm font-bold uppercase tracking-[0.15em] border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]"
+						>
+							<span
+								class="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.8)]"
+							></span>
+							{m['services.pricingCard.badge']()}
+						</div>
+
 						<h3
-							class="text-xl sm:text-2xl font-bold mb-2 flex items-center justify-center md:justify-start gap-2.5"
+							class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight"
 							style="color: var(--text-heading);"
 						>
-							<span class="text-2xl">💎</span>
-							{getLocale() === 'de' ? 'Transparente Preise' : 'Transparent Pricing'}
+							{m['services.pricingCard.title']()}
 						</h3>
+
 						<p
-							class="font-light leading-relaxed text-sm sm:text-base"
+							class="text-base sm:text-lg lg:text-xl font-light leading-relaxed max-w-xl mx-auto md:mx-0"
 							style="color: var(--text-secondary);"
 						>
-							{getLocale() === 'de'
-								? 'Laden Sie meinen vollständigen Preisführer 2026 herunter.'
-								: 'Download my complete 2026 pricing guide.'}
+							{m['services.pricingCard.description']()}
 						</p>
 					</div>
 
 					<Button
 						href={localizeHref('/pricing')}
 						variant="inverted"
-						className="relative z-10 !text-sm sm:!text-base !px-7 !py-3.5 sm:!px-8 sm:!py-4"
+						className="relative z-10 flex-shrink-0 !text-base sm:!text-lg !px-8 !py-4 sm:!px-10 sm:!py-5 transition-all duration-300 hover:scale-105 group/btn border border-white/10"
 					>
-						<span>{m['pricing.navTitle']()}</span>
-						<svg
-							class="w-4 h-4 group-hover:translate-x-1 transition-transform"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2.5"
-								d="M17 8l4 4m0 0l-4 4m4-4H3"
-							/>
-						</svg>
+						<span class="flex items-center gap-3">
+							<span>{m['pricing.navTitle']()}</span>
+							<svg
+								class="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform duration-300"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M17 8l4 4m0 0l-4 4m4-4H3"
+								/>
+							</svg>
+						</span>
 					</Button>
 				</div>
 			</div>
 		</div>
 
-		<div class="mt-24 text-center">
-			<Button href={localizeHref('/contact')}>
-				{m['services.cta']()} &rarr;
-			</Button>
+		<div class="mt-16 md:mt-24 pt-8 border-t" style="border-color: var(--border-primary);">
+			<div
+				class="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 max-w-5xl mx-auto"
+			>
+				<div class="text-center md:text-left self-center">
+					<h2
+						class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3"
+						style="color: var(--text-heading);"
+					>
+						{m['services.finalCta.headline']()}
+					</h2>
+					<p class="text-base sm:text-lg font-light" style="color: var(--text-secondary);">
+						{m['services.finalCta.subline']()}
+					</p>
+				</div>
+				<Button
+					href={localizeHref('/contact')}
+					className="cta-magnetic flex-shrink-0 inline-flex items-center justify-center gap-3 !px-8 !py-5 sm:!px-10 sm:!py-6 rounded-2xl border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 !text-lg"
+					style="background: var(--bg-surface); border-color: var(--border-primary); color: var(--text-heading);"
+				>
+					<span class="font-medium">{m['services.cta']()}</span>
+					<svg
+						class="w-6 h-6 transition-transform duration-300 group-hover:translate-x-1"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M17 8l4 4m0 0l-4 4m4-4H3"
+						/>
+					</svg>
+				</Button>
+			</div>
 		</div>
 	</div>
 </section>
