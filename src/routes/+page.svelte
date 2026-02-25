@@ -116,6 +116,7 @@
 							{
 								xPercent: -40,
 								ease: 'none',
+								force3D: true,
 								scrollTrigger: {
 									trigger: '#hero',
 									start: 'top bottom',
@@ -335,9 +336,9 @@
 						// Outer light rays — pop in like sparks
 						gsap.fromTo(
 							'.vibe-ray',
-							{ opacity: 0, scale: 0, transformOrigin: 'center' },
+							{ opacity: 0, scale: 0, svgOrigin: '100 95' },
 							{
-								opacity: 1,
+								opacity: 0.6,
 								scale: 1,
 								duration: 1,
 								delay: 2,
@@ -470,6 +471,7 @@
 							{
 								xPercent: -25,
 								ease: 'none',
+								force3D: true,
 								scrollTrigger: {
 									trigger: '#hero',
 									start: 'top bottom',
@@ -615,9 +617,9 @@
 						// Outer light rays — pop in on mobile
 						gsap.fromTo(
 							'.vibe-ray',
-							{ opacity: 0, scale: 0, transformOrigin: 'center' },
+							{ opacity: 0, scale: 0, svgOrigin: '100 95' },
 							{
-								opacity: 1,
+								opacity: 0.6,
 								scale: 1,
 								duration: 1,
 								delay: 1.5,
@@ -704,11 +706,11 @@
 	>
 		<!-- Parallax watermark text — bottom-right, very subtle, partially clipped -->
 		<div
-			class="hero-bg-text absolute bottom-[-16%] right-[-15%] pointer-events-none select-none z-[1]"
+			class="hero-bg-text absolute bottom-[-16%] right-[-15%] pointer-events-none select-none z-[1] will-change-transform"
 		>
 			<span
 				class="font-syne font-black text-[28vw] md:text-[18vw] tracking-tighter whitespace-nowrap"
-				style="color: var(--text-heading); opacity: 0.018; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);"
+				style="color: var(--text-heading); opacity: 0.035;"
 			>
 				DIGITAL
 			</span>
@@ -913,30 +915,97 @@
 								/>
 								<!-- Swirly filament -->
 								<path
-									class="vibe-path"
+									class="vibe-path vibe-filament"
 									d="M90 150 C 90 120, 130 110, 110 80 C 90 50, 70 100, 110 110 C 130 115, 110 150, 110 150"
 									stroke="url(#vibe-grad)"
 									stroke-width="4"
 									stroke-linecap="round"
 								/>
 								<!-- Small sparks/stars (inner ring) -->
-								<path
-									class="vibe-spark"
-									d="M30 40 L 40 50 M 170 40 L 160 50 M 100 0 L 100 10 M 15 90 L 25 90 M 185 90 L 175 90"
-									stroke="url(#vibe-grad)"
-									stroke-width="3"
-									stroke-linecap="round"
-								/>
-								<!-- Outer light rays (offset from inner sparks) -->
-								<path
-									class="vibe-ray"
-									d="M50 -10 L56 2 M150 -10 L144 2 M-2 55 L10 58 M202 55 L190 58 M8 130 L20 125 M192 130 L180 125 M55 155 L62 148 M145 155 L138 148"
-									stroke="url(#vibe-grad)"
-									stroke-width="3"
-									stroke-linecap="round"
-									opacity="0.6"
-									fill="none"
-								/>
+								<g class="vibe-sparks-group">
+									<path
+										class="vibe-spark"
+										d="M30 40 L 40 50 M 170 40 L 160 50 M 100 0 L 100 10 M 15 90 L 25 90 M 185 90 L 175 90"
+										stroke="url(#vibe-grad)"
+										stroke-width="3"
+										stroke-linecap="round"
+									/>
+								</g>
+								<!-- Outer light rays (wrapped in group for hover scale) -->
+								<g class="vibe-rays-group">
+									<path
+										class="vibe-ray"
+										d="M50 -10 L56 2"
+										stroke="url(#vibe-grad)"
+										stroke-width="3"
+										stroke-linecap="round"
+										opacity="0.6"
+										fill="none"
+									/>
+									<path
+										class="vibe-ray"
+										d="M150 -10 L144 2"
+										stroke="url(#vibe-grad)"
+										stroke-width="3"
+										stroke-linecap="round"
+										opacity="0.6"
+										fill="none"
+									/>
+									<path
+										class="vibe-ray"
+										d="M-2 55 L10 58"
+										stroke="url(#vibe-grad)"
+										stroke-width="3"
+										stroke-linecap="round"
+										opacity="0.6"
+										fill="none"
+									/>
+									<path
+										class="vibe-ray"
+										d="M202 55 L190 58"
+										stroke="url(#vibe-grad)"
+										stroke-width="3"
+										stroke-linecap="round"
+										opacity="0.6"
+										fill="none"
+									/>
+									<path
+										class="vibe-ray"
+										d="M8 130 L20 125"
+										stroke="url(#vibe-grad)"
+										stroke-width="3"
+										stroke-linecap="round"
+										opacity="0.6"
+										fill="none"
+									/>
+									<path
+										class="vibe-ray"
+										d="M192 130 L180 125"
+										stroke="url(#vibe-grad)"
+										stroke-width="3"
+										stroke-linecap="round"
+										opacity="0.6"
+										fill="none"
+									/>
+									<path
+										class="vibe-ray"
+										d="M55 155 L62 148"
+										stroke="url(#vibe-grad)"
+										stroke-width="3"
+										stroke-linecap="round"
+										opacity="0.6"
+										fill="none"
+									/>
+									<path
+										class="vibe-ray"
+										d="M145 155 L138 148"
+										stroke="url(#vibe-grad)"
+										stroke-width="3"
+										stroke-linecap="round"
+										opacity="0.6"
+										fill="none"
+									/>
+								</g>
 							</g>
 							<defs>
 								<linearGradient
@@ -950,6 +1019,33 @@
 									<stop stop-color="#3B82F6" />
 									<stop offset="1" stop-color="#8B5CF6" />
 								</linearGradient>
+								<linearGradient
+									id="vibe-warm"
+									x1="90"
+									y1="150"
+									x2="110"
+									y2="50"
+									gradientUnits="userSpaceOnUse"
+								>
+									<stop stop-color="#FDE68A" />
+									<stop offset="0.5" stop-color="#FFFBEB" />
+									<stop offset="1" stop-color="#FDE68A" />
+								</linearGradient>
+								<filter id="vibe-filament-glow" x="-50%" y="-50%" width="200%" height="200%">
+									<feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+									<feMerge>
+										<feMergeNode in="blur" />
+										<feMergeNode in="blur" />
+										<feMergeNode in="SourceGraphic" />
+									</feMerge>
+								</filter>
+								<filter id="vibe-ray-glow" x="-50%" y="-50%" width="200%" height="200%">
+									<feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+									<feMerge>
+										<feMergeNode in="blur" />
+										<feMergeNode in="SourceGraphic" />
+									</feMerge>
+								</filter>
 							</defs>
 						</svg>
 					</div>
@@ -1055,7 +1151,7 @@
 	>
 		<div class="parallax-bg parallax-bg-2"></div>
 
-		<div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative mx-auto px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-20 max-w-[100rem]">
 			<div class="flex flex-col items-center mb-14 lg:mb-20">
 				<div class="flex items-center gap-3 mb-5">
 					<div class="h-px w-8 bg-blue-500/40"></div>
@@ -1074,9 +1170,7 @@
 			</div>
 
 			<!-- Project rows — brutalist typography layout -->
-			<div
-				class="project-list max-w-[100rem] mx-auto border-t border-[var(--border-primary)] flex flex-col"
-			>
+			<div class="project-list border-t border-[var(--border-primary)] flex flex-col">
 				{#each projects as project, i}
 					<ProjectRow
 						title={projectMsg(project.slug, 'title')}
@@ -1255,6 +1349,48 @@
 		background: var(--card-bg-hover, var(--card-bg));
 		border-color: var(--cta-accent);
 		box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.1);
+	}
+
+	/* Vibe SVG hover — desktop only */
+	@media (min-width: 1024px) {
+		.vibe-rays-group {
+			transform-origin: 100px 95px;
+			transition:
+				transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+				opacity 0.5s ease,
+				filter 0.5s ease;
+		}
+
+		.vibe-svg-wrap:hover .vibe-rays-group {
+			transform: scale(1.35);
+			opacity: 1;
+			filter: url(#vibe-ray-glow);
+		}
+
+		.vibe-sparks-group {
+			transform-origin: 100px 95px;
+			transition:
+				transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+				filter 0.5s ease;
+		}
+
+		.vibe-svg-wrap:hover .vibe-sparks-group {
+			transform: scale(1.2);
+			filter: url(#vibe-ray-glow);
+		}
+
+		.vibe-filament {
+			transition:
+				stroke 0.4s ease,
+				filter 0.4s ease,
+				stroke-width 0.4s ease;
+		}
+
+		.vibe-svg-wrap:hover .vibe-filament {
+			stroke: url(#vibe-warm);
+			stroke-width: 5;
+			filter: url(#vibe-filament-glow);
+		}
 	}
 
 	@media (max-width: 1023px) {

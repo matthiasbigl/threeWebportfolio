@@ -98,15 +98,43 @@
 			}, resumeDelay);
 		}
 
-		// Touch handlers
-		function onTouchStart() {
+		// --- Touch handling with direction lock ---
+		let touchStartX = 0;
+		let touchStartY = 0;
+		let touchLocked: 'horizontal' | 'vertical' | null = null;
+
+		function onTouchStart(e: TouchEvent) {
 			pauseAutoScroll();
+			touchStartX = e.touches[0].clientX;
+			touchStartY = e.touches[0].clientY;
+			touchLocked = null;
 		}
+
+		function onTouchMove(e: TouchEvent) {
+			if (!container) return;
+
+			const dx = e.touches[0].clientX - touchStartX;
+			const dy = e.touches[0].clientY - touchStartY;
+
+			// Determine direction lock on first significant movement
+			if (!touchLocked) {
+				if (Math.abs(dx) < 5 && Math.abs(dy) < 5) return;
+				touchLocked = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+			}
+
+			// If vertical, bail out and let page scroll normally
+			if (touchLocked === 'vertical') return;
+
+			// Horizontal swipe — prevent page scroll; native scrollLeft handles movement
+			e.preventDefault();
+		}
+
 		function onTouchEnd() {
+			touchLocked = null;
 			scheduleResume();
 		}
 
-		// Mouse drag handlers (for desktop drag-scroll)
+		// --- Mouse drag handlers (desktop drag-scroll) ---
 		let isDragging = false;
 		let startX = 0;
 		let scrollStart = 0;
@@ -130,22 +158,23 @@
 		function onMouseUp() {
 			if (!isDragging) return;
 			isDragging = false;
-			container!.style.cursor = '';
-			container!.style.userSelect = '';
+			if (container) {
+				container.style.cursor = '';
+				container.style.userSelect = '';
+			}
 			scheduleResume();
 		}
 
-		// Hover pause (like the old CSS hover-pause)
+		// Hover pause
 		function onMouseEnter() {
 			if (!isDragging) pauseAutoScroll();
 		}
+
 		function onMouseLeave() {
-			if (isDragging) {
-				isDragging = false;
-				container!.style.cursor = '';
-				container!.style.userSelect = '';
+			// Don't cancel an active drag — mousemove/mouseup on window handle it
+			if (!isDragging) {
+				scheduleResume();
 			}
-			scheduleResume();
 		}
 
 		// Seamless loop: if user scrolls past the halfway point, wrap around
@@ -161,29 +190,29 @@
 		}
 
 		container.addEventListener('touchstart', onTouchStart, { passive: true });
+		container.addEventListener('touchmove', onTouchMove, { passive: false });
 		container.addEventListener('touchend', onTouchEnd, { passive: true });
 		container.addEventListener('mousedown', onMouseDown);
-		container.addEventListener('mousemove', onMouseMove);
-		container.addEventListener('mouseup', onMouseUp);
+		// Listen on window so dragging works even when cursor leaves the container
+		window.addEventListener('mousemove', onMouseMove);
+		window.addEventListener('mouseup', onMouseUp);
 		container.addEventListener('mouseenter', onMouseEnter);
 		container.addEventListener('mouseleave', onMouseLeave);
 		container.addEventListener('scroll', onScroll, { passive: true });
-		// Also listen on window for mouseup in case cursor leaves container
-		window.addEventListener('mouseup', onMouseUp);
 
 		return () => {
 			destroyed = true;
 			tween?.kill();
 			if (resumeTimer) clearTimeout(resumeTimer);
 			container?.removeEventListener('touchstart', onTouchStart);
+			container?.removeEventListener('touchmove', onTouchMove);
 			container?.removeEventListener('touchend', onTouchEnd);
 			container?.removeEventListener('mousedown', onMouseDown);
-			container?.removeEventListener('mousemove', onMouseMove);
-			container?.removeEventListener('mouseup', onMouseUp);
+			window.removeEventListener('mousemove', onMouseMove);
+			window.removeEventListener('mouseup', onMouseUp);
 			container?.removeEventListener('mouseenter', onMouseEnter);
 			container?.removeEventListener('mouseleave', onMouseLeave);
 			container?.removeEventListener('scroll', onScroll);
-			window.removeEventListener('mouseup', onMouseUp);
 		};
 	});
 </script>
