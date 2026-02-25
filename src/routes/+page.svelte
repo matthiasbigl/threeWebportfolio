@@ -14,6 +14,8 @@
 	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
 
+	let vibeActive = $state(false);
+
 	// Helper for dynamic project message keys
 	const pm = m as unknown as Record<string, () => string>;
 	const projectMsg = (slug: string, field: string) =>
@@ -878,9 +880,23 @@
 				</div>
 
 				<!-- SVG Container -->
-				<div class="lg:col-span-5 flex justify-center lg:justify-end mt-10 lg:mt-0">
+				<div class="lg:col-span-5 flex flex-col items-center lg:items-end mt-10 lg:mt-0">
 					<div
 						class="vibe-svg-wrap relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 flex justify-center items-center"
+						class:vibe-active={vibeActive}
+						onclick={() => {
+							if (window.matchMedia('(hover: none)').matches) vibeActive = !vibeActive;
+						}}
+						role="button"
+						tabindex="0"
+						onkeydown={(e) => {
+							if (
+								(e.key === 'Enter' || e.key === ' ') &&
+								window.matchMedia('(hover: none)').matches
+							)
+								vibeActive = !vibeActive;
+						}}
+						aria-label={m['vibe.hint.tap']()}
 					>
 						<!-- Glow effect behind SVG -->
 						<div
@@ -1049,6 +1065,11 @@
 							</defs>
 						</svg>
 					</div>
+					<!-- Interaction hint -->
+					<p class="vibe-hint mt-3 text-xs font-medium opacity-50 select-none pointer-events-none">
+						<span class="vibe-hint-tap">{m['vibe.hint.tap']()}</span>
+						<span class="vibe-hint-hover">{m['vibe.hint.hover']()}</span>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -1397,6 +1418,63 @@
 		.about-avatar-container,
 		.about-diff-card {
 			transform-style: flat;
+		}
+	}
+
+	/* Vibe SVG touch toggle — mobile */
+	@media (hover: none) {
+		.vibe-rays-group {
+			transform-origin: 100px 95px;
+			transition:
+				transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+				opacity 0.5s ease,
+				filter 0.5s ease;
+		}
+
+		.vibe-svg-wrap.vibe-active .vibe-rays-group {
+			transform: scale(1.35);
+			opacity: 1;
+			filter: url(#vibe-ray-glow);
+		}
+
+		.vibe-sparks-group {
+			transform-origin: 100px 95px;
+			transition:
+				transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+				filter 0.5s ease;
+		}
+
+		.vibe-svg-wrap.vibe-active .vibe-sparks-group {
+			transform: scale(1.2);
+			filter: url(#vibe-ray-glow);
+		}
+
+		.vibe-filament {
+			transition:
+				stroke 0.4s ease,
+				filter 0.4s ease,
+				stroke-width 0.4s ease;
+		}
+
+		.vibe-svg-wrap.vibe-active .vibe-filament {
+			stroke: url(#vibe-warm);
+			stroke-width: 5;
+			filter: url(#vibe-filament-glow);
+		}
+	}
+
+	/* Interaction hint visibility */
+	.vibe-hint-hover {
+		display: none;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.vibe-hint-tap {
+			display: none;
+		}
+
+		.vibe-hint-hover {
+			display: inline;
 		}
 	}
 </style>
