@@ -409,7 +409,7 @@
 
 			<p
 				class="text-base sm:text-xl font-light leading-relaxed max-w-2xl pl-4 sm:pl-6"
-				style="color: var(--text-secondary); border-left: 2px solid var(--border-primary);"
+				style="color: var(--text-secondary); border-left: 2px solid var(--border-accent);"
 			>
 				{@html m['services.subtitle']()}
 			</p>
@@ -437,66 +437,78 @@
 
 			<div class="relative z-10 p-5 sm:p-6 lg:p-8">
 				<div class="flex flex-col gap-5 lg:gap-6">
-					<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-						<div class="flex items-center gap-3">
-							<div
-								class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-xl flex items-center justify-center text-xl sm:text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg"
-								style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
-							>
-								🔧
-							</div>
-							<div>
+					<!-- Card header: icon + title/tagline + "Alles inklusive" badge -->
+					<div class="flex items-start gap-3 sm:gap-4">
+						<div
+							class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-xl flex items-center justify-center text-xl sm:text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg mt-0.5"
+							style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+						>
+							🔧
+						</div>
+						<div class="flex-1 min-w-0">
+							<div class="flex flex-wrap items-baseline gap-x-2.5 gap-y-1 mb-0.5">
 								<h3
 									class="font-syne text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight"
 									style="color: var(--text-heading);"
 								>
 									{m['services.allInOne.title']()}
 								</h3>
-								<p
-									class="text-sm sm:text-base font-light mt-0.5"
-									style="color: var(--text-secondary);"
+								<span
+									class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full flex-shrink-0 bg-blue-500/10 text-blue-400 border border-blue-500/20"
 								>
-									{m['services.allInOne.tagline']()}
-								</p>
+									<span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+									Alles inklusive
+								</span>
+							</div>
+							<p
+								class="text-sm sm:text-base font-light"
+								style="color: var(--text-secondary);"
+							>
+								{m['services.allInOne.tagline']()}
+							</p>
+						</div>
+					</div>
+
+					<!-- Feature chips — unified, always visible, replaces desktop pills + mobile marquee -->
+					<div class="flex flex-wrap gap-2">
+						{#each m['services.allInOne.features']().split('\n') as feature}
+							<span
+								class="all-in-one-feature-chip inline-flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-[13px] font-medium rounded-full select-none"
+								style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+							>
+								<span
+									class="w-[18px] h-[18px] rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0 bg-blue-500/20 text-blue-400 border border-blue-500/20"
+								>✓</span>
+								{feature}
+							</span>
+						{/each}
+					</div>
+
+					<!-- Process steps: label + mobile scroll hint -->
+					<div class="relative rounded-lg">
+						<div class="flex items-center justify-between mb-2.5">
+							<span
+								class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.18em]"
+								style="color: var(--text-tertiary);"
+							>Wie ich arbeite</span>
+							<div class="lg:hidden flex items-center gap-1 opacity-60" aria-hidden="true">
+								<span class="text-[10px]" style="color: var(--text-tertiary);">5 Schritte</span>
+								<svg
+									class="w-3 h-3 process-scroll-hint-arrow"
+									style="color: var(--text-tertiary);"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2.5"
+										d="M9 5l7 7-7 7"
+									/>
+								</svg>
 							</div>
 						</div>
-
-						<!-- Desktop pills with checkmarks -->
-						<div class="hidden md:flex flex-wrap gap-1.5 sm:gap-2 sm:justify-end">
-							{#each m['services.allInOne.features']().split('\n') as feature}
-								<span
-									class="px-2.5 py-1 text-xs font-medium rounded-full transition-all duration-300"
-									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
-								>
-									✓ {feature}
-								</span>
-							{/each}
-						</div>
-					</div>
-
-					<!-- Mobile marquee pills -->
-					<div class="md:hidden -mx-5 px-5">
-						<Marquee gap={6} speed="fast">
-							{#each m['services.allInOne.features']().split('\n') as feature}
-								<span
-									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-xs font-medium rounded-full whitespace-nowrap transition-all duration-300"
-									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
-								>
-									{feature}
-								</span>
-							{/each}
-							{#each m['services.allInOne.features']().split('\n') as feature}
-								<span
-									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-xs font-medium rounded-full whitespace-nowrap transition-all duration-300"
-									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
-								>
-									{feature}
-								</span>
-							{/each}
-						</Marquee>
-					</div>
-
-					<div class="relative rounded-lg">
 						<div
 							class="process-flow flex items-stretch gap-1 sm:gap-2 overflow-x-auto py-2 -mx-1 px-1 sm:-mx-2 sm:px-2"
 						>
@@ -579,6 +591,16 @@
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<!-- Round 2: Section divider label between all-in-one card and individual service cards -->
+		<div class="flex items-center gap-3 mb-5 sm:mb-6">
+			<div class="h-px flex-1" style="background: var(--border-primary);"></div>
+			<span
+				class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] px-1"
+				style="color: var(--text-tertiary);"
+			>Einzelne Leistungen</span>
+			<div class="h-px flex-1" style="background: var(--border-primary);"></div>
 		</div>
 
 		<div
@@ -728,7 +750,7 @@
 			<div class="grid grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
 				{#each benefits as benefit}
 					<div
-						class="rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col items-center justify-center text-center gap-1.5 sm:gap-2.5 transition-all duration-300 group hover:scale-[1.02]"
+						class="rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col items-center justify-center text-center gap-1.5 sm:gap-2.5 transition-all duration-300 group hover:scale-[1.03] hover:shadow-sm"
 						style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
 					>
 						<span
@@ -736,7 +758,7 @@
 							>{benefit.icon}</span
 						>
 						<span
-							class="text-[10px] sm:text-xs font-medium transition-colors leading-tight"
+							class="text-[11px] sm:text-xs font-medium transition-colors leading-tight"
 							style="color: var(--text-secondary);">{benefit.title}</span
 						>
 					</div>
@@ -830,10 +852,13 @@
 					<p class="text-base sm:text-lg font-light" style="color: var(--text-secondary);">
 						{m['services.finalCta.subline']()}
 					</p>
+					<p class="text-xs mt-2 opacity-60" style="color: var(--text-tertiary);">
+						{m['services.ctaSubtext']()}
+					</p>
 				</div>
 				<Button
 					href={localizeHref('/contact')}
-					className="cta-magnetic flex-shrink-0 inline-flex items-center justify-center gap-3 !px-8 !py-5 sm:!px-10 sm:!py-6 rounded-2xl border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 !text-lg"
+					className="group cta-magnetic flex-shrink-0 inline-flex items-center justify-center gap-3 !px-8 !py-5 sm:!px-10 sm:!py-6 rounded-2xl border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 !text-lg"
 					style="background: var(--bg-surface); border-color: var(--border-primary); color: var(--text-heading);"
 				>
 					<span class="font-medium">{m['services.cta']()}</span>
@@ -1115,6 +1140,68 @@
 	@media (max-width: 767px) {
 		.process-step-item:last-child {
 			padding-right: 1rem;
+		}
+	}
+
+	/* ═══════════════════════════════════════════════
+	   ROUND 1 — Feature chip interactions
+	   ═══════════════════════════════════════════════ */
+	.all-in-one-feature-chip {
+		transition:
+			border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+			box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+			transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.all-in-one-feature-chip:hover {
+		border-color: var(--border-accent) !important;
+		box-shadow: 0 0 14px var(--blue-glow);
+		transform: translateY(-1px);
+	}
+
+	/* Round 3: touch feedback */
+	.all-in-one-feature-chip:active {
+		transform: scale(0.96);
+		box-shadow: none;
+	}
+
+	/* ═══════════════════════════════════════════════
+	   ROUND 1 — Process steps scroll hint animation
+	   ═══════════════════════════════════════════════ */
+	.process-scroll-hint-arrow {
+		animation: scroll-hint-bounce 2s ease-in-out infinite;
+	}
+
+	@keyframes scroll-hint-bounce {
+		0%,
+		100% {
+			transform: translateX(0);
+			opacity: 0.6;
+		}
+		50% {
+			transform: translateX(4px);
+			opacity: 1;
+		}
+	}
+
+	/* ═══════════════════════════════════════════════
+	   ROUND 3 — Focus-visible ring for keyboard nav
+	   ═══════════════════════════════════════════════ */
+	.process-step-item:focus-visible .process-step-card {
+		outline: 2px solid var(--border-accent);
+		outline-offset: 2px;
+	}
+
+	/* Reduced motion: disable chip and scroll hint animations */
+	@media (prefers-reduced-motion: reduce) {
+		.all-in-one-feature-chip:hover {
+			transform: none;
+		}
+		.all-in-one-feature-chip:active {
+			transform: none;
+		}
+		.process-scroll-hint-arrow {
+			animation: none;
 		}
 	}
 </style>
