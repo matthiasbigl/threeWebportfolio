@@ -437,81 +437,47 @@
 
 			<div class="relative z-10 p-5 sm:p-6 lg:p-8">
 				<div class="flex flex-col gap-5 lg:gap-6">
-					<!-- Card header: icon + title/tagline + "Alles inklusive" badge -->
 					<div class="flex items-start gap-3 sm:gap-4">
-						<div
-							class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-xl flex items-center justify-center text-xl sm:text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg mt-0.5"
-							style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
-						>
-							🔧
-						</div>
-						<div class="flex-1 min-w-0">
-							<div class="flex flex-wrap items-baseline gap-x-2.5 gap-y-1 mb-0.5">
-								<h3
-									class="font-syne text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight"
-									style="color: var(--text-heading);"
-								>
-									{m['services.allInOne.title']()}
-								</h3>
-								<span
-									class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full flex-shrink-0 bg-blue-500/10 text-blue-400 border border-blue-500/20"
-								>
-									<span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-									Alles inklusive
-								</span>
-							</div>
-							<p
-								class="text-sm sm:text-base font-light"
-								style="color: var(--text-secondary);"
-							>
-								{m['services.allInOne.tagline']()}
-							</p>
-						</div>
+					<div
+						class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-xl flex items-center justify-center text-xl sm:text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg mt-0.5"
+						style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+					>
+						🔧
 					</div>
-
-					<!-- Feature chips — unified, always visible, replaces desktop pills + mobile marquee -->
-					<div class="flex flex-wrap gap-2">
-						{#each m['services.allInOne.features']().split('\n') as feature}
-							<span
-								class="all-in-one-feature-chip inline-flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-[13px] font-medium rounded-full select-none"
-								style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
-							>
-								<span
-									class="w-[18px] h-[18px] rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0 bg-blue-500/20 text-blue-400 border border-blue-500/20"
-								>✓</span>
-								{feature}
-							</span>
-						{/each}
-					</div>
-
-					<!-- Process steps: label + mobile scroll hint -->
-					<div class="relative rounded-lg">
-						<div class="flex items-center justify-between mb-2.5">
-							<span
-								class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.18em]"
-								style="color: var(--text-tertiary);"
-							>Wie ich arbeite</span>
-							<div class="lg:hidden flex items-center gap-1 opacity-60" aria-hidden="true">
-								<span class="text-[10px]" style="color: var(--text-tertiary);">5 Schritte</span>
-								<svg
-									class="w-3 h-3 process-scroll-hint-arrow"
-									style="color: var(--text-tertiary);"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2.5"
-										d="M9 5l7 7-7 7"
-									/>
-								</svg>
-							</div>
-						</div>
-						<div
-							class="process-flow flex items-stretch gap-1 sm:gap-2 overflow-x-auto py-2 -mx-1 px-1 sm:-mx-2 sm:px-2"
+					<div class="flex-1 min-w-0">
+						<h3
+							class="font-syne text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight mb-0.5"
+							style="color: var(--text-heading);"
 						>
+							{m['services.allInOne.title']()}
+						</h3>
+						<p
+							class="text-sm sm:text-base font-light"
+							style="color: var(--text-secondary);"
+						>
+							{m['services.allInOne.tagline']()}
+						</p>
+					</div>
+				</div>
+
+				<!-- Feature chips — simple, flat, 2-col grid on mobile -->
+				<div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+					{#each m['services.allInOne.features']().split('\n') as feature}
+						<span
+							class="all-in-one-feature-chip inline-flex items-center gap-1 px-3 py-1.5 text-xs sm:text-[13px] font-medium rounded-full select-none"
+							style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+						>
+							<span class="text-blue-400 font-bold">✓</span>
+							{feature}
+						</span>
+					{/each}
+				</div>
+
+				<!-- Process steps -->
+				<div class="relative rounded-lg">
+					<div
+						class="process-flow flex items-stretch gap-1 sm:gap-2 overflow-x-auto py-2 -mx-1 px-1 sm:-mx-2 sm:px-2"
+					>
 							{#each processSteps as step, i}
 								{@const isHovered = hoveredStepIndex === i}
 								{@const isNextOfHovered = hoveredStepIndex >= 0 && i === hoveredStepIndex + 1}
@@ -604,15 +570,11 @@
 		</div>
 
 		<div
-			class="bento-grid flex md:grid md:grid-cols-6 overflow-x-auto md:overflow-visible gap-4 md:gap-4 lg:gap-5 mb-6 sm:mb-8 md:mb-10 lg:mb-12 pb-4 md:pb-0 px-4 md:px-0 snap-x snap-mandatory md:snap-none"
-			onscroll={handleBentoScroll}
+			class="bento-grid grid grid-cols-1 md:grid-cols-6 gap-4 lg:gap-5 mb-6 sm:mb-8 md:mb-10 lg:mb-12"
 		>
 			{#each services as service, i}
 				<article
-					class="bento-item group relative {service.colSpan} flex-shrink-0 w-[92vw] md:w-auto rounded-2xl overflow-hidden border isolate backdrop-blur-md snap-center md:snap-none {activeBentoIndex ===
-					i
-						? 'bento-active'
-						: ''}"
+					class="bento-item group relative {service.colSpan} w-full rounded-2xl overflow-hidden border isolate backdrop-blur-md"
 					style="border-color: var(--glass-border);"
 				>
 					<!-- Colored top accent line (visible always, stronger on mobile) -->
@@ -709,42 +671,7 @@
 			{/each}
 		</div>
 
-		<!-- Mobile scroll indicators -->
-		<div class="flex md:hidden flex-col items-center gap-3 mb-10 sm:mb-12">
-			<!-- Dot indicators -->
-			<div class="flex items-center gap-2.5">
-				{#each services as service, i}
-					<button
-						class="rounded-full transition-all duration-300 ease-out {activeBentoIndex === i
-							? 'w-7 h-2 shadow-sm'
-							: 'w-2 h-2 opacity-30 hover:opacity-60'}"
-						style="background: {activeBentoIndex === i
-							? morphedColor
-							: 'var(--text-secondary)'}; {activeBentoIndex === i
-							? `box-shadow: 0 0 8px ${service.accentGlow};`
-							: ''}"
-						aria-label="Scroll to service {i + 1}"
-						onclick={() => {
-							const grid = document.querySelector('.bento-grid');
-							if (!grid) return;
-							const cardWidth = grid.scrollWidth / services.length;
-							grid.scrollTo({ left: cardWidth * i, behavior: 'smooth' });
-						}}
-					></button>
-				{/each}
-			</div>
-
-			<!-- Progress bar -->
-			<div
-				class="w-20 h-[3px] rounded-full overflow-hidden"
-				style="background: var(--border-primary);"
-			>
-				<div
-					class="h-full rounded-full"
-					style="background: {morphedColor}; width: {bentoScrollProgress * 100}%;"
-				></div>
-			</div>
-		</div>
+		<!-- Mobile scroll indicators: hidden (cards now stack vertically) -->
 
 		<div class="flex flex-col gap-10 lg:gap-12">
 			<div class="grid grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
@@ -916,45 +843,11 @@
 		display: none;
 	}
 
-	.bento-grid {
-		scrollbar-width: none;
-		-ms-overflow-style: none;
-	}
-	.bento-grid::-webkit-scrollbar {
-		display: none;
-	}
-
-	.scrollbar-hide {
-		scrollbar-width: none;
-		-ms-overflow-style: none;
-	}
-	.scrollbar-hide::-webkit-scrollbar {
-		display: none;
-	}
-
 	@media (max-width: 767px) {
-		.bento-grid {
-			/* No mask - clean edges like all-in-one card */
-		}
-
 		.bento-item {
 			box-shadow:
 				0 4px 24px -4px rgba(0, 0, 0, 0.08),
 				0 1px 4px rgba(0, 0, 0, 0.04);
-			transform: scale(0.95);
-			opacity: 0.7;
-			transition:
-				transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-				opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-				box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-		}
-
-		.bento-item.bento-active {
-			transform: scale(1);
-			opacity: 1;
-			box-shadow:
-				0 8px 32px -4px rgba(0, 0, 0, 0.12),
-				0 2px 8px rgba(0, 0, 0, 0.06);
 		}
 	}
 
@@ -1144,7 +1037,7 @@
 	}
 
 	/* ═══════════════════════════════════════════════
-	   ROUND 1 — Feature chip interactions
+	   Feature chip interactions
 	   ═══════════════════════════════════════════════ */
 	.all-in-one-feature-chip {
 		transition:
@@ -1159,49 +1052,26 @@
 		transform: translateY(-1px);
 	}
 
-	/* Round 3: touch feedback */
 	.all-in-one-feature-chip:active {
 		transform: scale(0.96);
 		box-shadow: none;
 	}
 
 	/* ═══════════════════════════════════════════════
-	   ROUND 1 — Process steps scroll hint animation
-	   ═══════════════════════════════════════════════ */
-	.process-scroll-hint-arrow {
-		animation: scroll-hint-bounce 2s ease-in-out infinite;
-	}
-
-	@keyframes scroll-hint-bounce {
-		0%,
-		100% {
-			transform: translateX(0);
-			opacity: 0.6;
-		}
-		50% {
-			transform: translateX(4px);
-			opacity: 1;
-		}
-	}
-
-	/* ═══════════════════════════════════════════════
-	   ROUND 3 — Focus-visible ring for keyboard nav
+	   Focus-visible ring for keyboard nav
 	   ═══════════════════════════════════════════════ */
 	.process-step-item:focus-visible .process-step-card {
 		outline: 2px solid var(--border-accent);
 		outline-offset: 2px;
 	}
 
-	/* Reduced motion: disable chip and scroll hint animations */
+	/* Reduced motion: disable chip animations */
 	@media (prefers-reduced-motion: reduce) {
 		.all-in-one-feature-chip:hover {
 			transform: none;
 		}
 		.all-in-one-feature-chip:active {
 			transform: none;
-		}
-		.process-scroll-hint-arrow {
-			animation: none;
 		}
 	}
 </style>
