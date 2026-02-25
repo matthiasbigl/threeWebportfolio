@@ -157,7 +157,8 @@
 		"finalCta": {
 			"headline": "Sounds interesting?",
 			"subline": "Let's talk about your next project."
-		}
+		},
+		"sectionDivider": "My Services"
 	},
 	"aboutCompact": {
 		"title": "Your Point of Contact",

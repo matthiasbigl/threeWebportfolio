@@ -12,6 +12,8 @@
 		duration?: number;
 		/** Extra classes on the outer container */
 		className?: string;
+		/** Inline styles on the outer container */
+		style?: string;
 		/** Speed multiplier — use 'fast' (25s) or 'slow' (35s) presets */
 		speed?: 'fast' | 'slow';
 		/** Resume delay after user interaction in ms (default 2000) */
@@ -23,6 +25,7 @@
 		gap = 6,
 		duration,
 		className = '',
+		style = '',
 		speed = 'fast',
 		resumeDelay = 2000
 	}: Props = $props();
@@ -238,6 +241,7 @@
 <div
 	bind:this={container}
 	class="marquee-container flex overflow-hidden cursor-grab {className}"
+	{style}
 	role="marquee"
 >
 	<div bind:this={track} class="marquee-track flex items-center flex-nowrap" style="gap: {gap}px;">

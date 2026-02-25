@@ -409,7 +409,7 @@
 
 			<p
 				class="text-base sm:text-xl font-light leading-relaxed max-w-2xl pl-4 sm:pl-6"
-				style="color: var(--text-secondary); border-left: 2px solid var(--border-primary);"
+				style="color: var(--text-secondary); border-left: 2px solid var(--border-accent);"
 			>
 				{@html m['services.subtitle']()}
 			</p>
@@ -437,69 +437,47 @@
 
 			<div class="relative z-10 p-5 sm:p-6 lg:p-8">
 				<div class="flex flex-col gap-5 lg:gap-6">
-					<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-						<div class="flex items-center gap-3">
-							<div
-								class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-xl flex items-center justify-center text-xl sm:text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg"
-								style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
-							>
-								🔧
-							</div>
-							<div>
-								<h3
-									class="font-syne text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight"
-									style="color: var(--text-heading);"
-								>
-									{m['services.allInOne.title']()}
-								</h3>
-								<p
-									class="text-sm sm:text-base font-light mt-0.5"
-									style="color: var(--text-secondary);"
-								>
-									{m['services.allInOne.tagline']()}
-								</p>
-							</div>
-						</div>
-
-						<!-- Desktop pills with checkmarks -->
-						<div class="hidden md:flex flex-wrap gap-1.5 sm:gap-2 sm:justify-end">
-							{#each m['services.allInOne.features']().split('\n') as feature}
-								<span
-									class="px-2.5 py-1 text-xs font-medium rounded-full transition-all duration-300"
-									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
-								>
-									✓ {feature}
-								</span>
-							{/each}
-						</div>
+					<div class="flex items-start gap-3 sm:gap-4">
+					<div
+						class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-xl flex items-center justify-center text-xl sm:text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg mt-0.5"
+						style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+					>
+						🔧
 					</div>
-
-					<!-- Mobile marquee pills -->
-					<div class="md:hidden -mx-5 px-5">
-						<Marquee gap={6} speed="fast">
-							{#each m['services.allInOne.features']().split('\n') as feature}
-								<span
-									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-xs font-medium rounded-full whitespace-nowrap transition-all duration-300"
-									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
-								>
-									{feature}
-								</span>
-							{/each}
-							{#each m['services.allInOne.features']().split('\n') as feature}
-								<span
-									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-xs font-medium rounded-full whitespace-nowrap transition-all duration-300"
-									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
-								>
-									{feature}
-								</span>
-							{/each}
-						</Marquee>
-					</div>
-
-					<div class="relative rounded-lg">
-						<div
-							class="process-flow flex items-stretch gap-1 sm:gap-2 overflow-x-auto py-2 -mx-1 px-1 sm:-mx-2 sm:px-2"
+					<div class="flex-1 min-w-0">
+						<h3
+							class="font-syne text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight mb-0.5"
+							style="color: var(--text-heading);"
 						>
+							{m['services.allInOne.title']()}
+						</h3>
+						<p
+							class="text-sm sm:text-base font-light"
+							style="color: var(--text-secondary);"
+						>
+							{m['services.allInOne.tagline']()}
+						</p>
+					</div>
+				</div>
+
+				<!-- Feature chips — simple, flat, 2-col grid on mobile -->
+				<div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+					{#each m['services.allInOne.features']().split('\n') as feature}
+						<span
+							class="all-in-one-feature-chip inline-flex items-center gap-1 px-3 py-1.5 text-xs sm:text-[13px] font-medium rounded-full select-none"
+							style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+						>
+							<span class="text-blue-400 font-bold">✓</span>
+							{feature}
+						</span>
+					{/each}
+				</div>
+
+				<!-- Process steps -->
+				<div class="relative rounded-lg">
+					<div
+						class="process-flow flex items-stretch gap-1 sm:gap-2 overflow-x-auto py-2 -mx-1 px-1 sm:-mx-2 sm:px-2"
+					>
 							{#each processSteps as step, i}
 								{@const isHovered = hoveredStepIndex === i}
 								{@const isNextOfHovered = hoveredStepIndex >= 0 && i === hoveredStepIndex + 1}
@@ -581,16 +559,22 @@
 			</div>
 		</div>
 
+		<!-- Section divider label between all-in-one card and individual service cards -->
+		<div class="flex items-center gap-3 mb-5 sm:mb-6">
+			<div class="h-px flex-1" style="background: var(--border-primary);"></div>
+			<span
+				class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] px-1"
+				style="color: var(--text-tertiary);"
+			>{m['services.sectionDivider']()}</span>
+			<div class="h-px flex-1" style="background: var(--border-primary);"></div>
+		</div>
+
 		<div
-			class="bento-grid flex md:grid md:grid-cols-6 overflow-x-auto md:overflow-visible gap-4 md:gap-4 lg:gap-5 mb-6 sm:mb-8 md:mb-10 lg:mb-12 pb-4 md:pb-0 px-4 md:px-0 snap-x snap-mandatory md:snap-none"
-			onscroll={handleBentoScroll}
+			class="bento-grid grid grid-cols-1 md:grid-cols-6 gap-4 lg:gap-5 mb-6 sm:mb-8 md:mb-10 lg:mb-12"
 		>
 			{#each services as service, i}
 				<article
-					class="bento-item group relative {service.colSpan} flex-shrink-0 w-[92vw] md:w-auto rounded-2xl overflow-hidden border isolate backdrop-blur-md snap-center md:snap-none {activeBentoIndex ===
-					i
-						? 'bento-active'
-						: ''}"
+					class="bento-item group relative {service.colSpan} w-full rounded-2xl overflow-hidden border isolate backdrop-blur-md"
 					style="border-color: var(--glass-border);"
 				>
 					<!-- Colored top accent line (visible always, stronger on mobile) -->
@@ -664,22 +648,29 @@
 							</p>
 						</div>
 
-						<Marquee gap={6} speed="fast" className="-mx-5 px-5 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+						<Marquee
+							gap={0}
+							speed="fast"
+							className="-mx-5 sm:-mx-6 lg:-mx-8 py-2"
+							style="background: {service.accent}0d; border-top: 1px solid {service.accent}33; border-bottom: 1px solid {service.accent}33;"
+						>
 							{#each service.features as feature}
 								<span
-									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
-									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+									class="font-syne flex-shrink-0 px-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.14em] whitespace-nowrap"
+									style="color: {service.accent}cc;"
 								>
 									{feature}
 								</span>
+								<span class="flex-shrink-0 select-none" style="color: {service.accent}44;">|</span>
 							{/each}
 							{#each service.features as feature}
 								<span
-									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
-									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+									class="font-syne flex-shrink-0 px-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.14em] whitespace-nowrap"
+									style="color: {service.accent}cc;"
 								>
 									{feature}
 								</span>
+								<span class="flex-shrink-0 select-none" style="color: {service.accent}44;">|</span>
 							{/each}
 						</Marquee>
 					</div>
@@ -687,48 +678,13 @@
 			{/each}
 		</div>
 
-		<!-- Mobile scroll indicators -->
-		<div class="flex md:hidden flex-col items-center gap-3 mb-10 sm:mb-12">
-			<!-- Dot indicators -->
-			<div class="flex items-center gap-2.5">
-				{#each services as service, i}
-					<button
-						class="rounded-full transition-all duration-300 ease-out {activeBentoIndex === i
-							? 'w-7 h-2 shadow-sm'
-							: 'w-2 h-2 opacity-30 hover:opacity-60'}"
-						style="background: {activeBentoIndex === i
-							? morphedColor
-							: 'var(--text-secondary)'}; {activeBentoIndex === i
-							? `box-shadow: 0 0 8px ${service.accentGlow};`
-							: ''}"
-						aria-label="Scroll to service {i + 1}"
-						onclick={() => {
-							const grid = document.querySelector('.bento-grid');
-							if (!grid) return;
-							const cardWidth = grid.scrollWidth / services.length;
-							grid.scrollTo({ left: cardWidth * i, behavior: 'smooth' });
-						}}
-					></button>
-				{/each}
-			</div>
-
-			<!-- Progress bar -->
-			<div
-				class="w-20 h-[3px] rounded-full overflow-hidden"
-				style="background: var(--border-primary);"
-			>
-				<div
-					class="h-full rounded-full"
-					style="background: {morphedColor}; width: {bentoScrollProgress * 100}%;"
-				></div>
-			</div>
-		</div>
+		<!-- Mobile scroll indicators: hidden (cards now stack vertically) -->
 
 		<div class="flex flex-col gap-10 lg:gap-12">
 			<div class="grid grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
 				{#each benefits as benefit}
 					<div
-						class="rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col items-center justify-center text-center gap-1.5 sm:gap-2.5 transition-all duration-300 group hover:scale-[1.02]"
+						class="rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col items-center justify-center text-center gap-1.5 sm:gap-2.5 transition-all duration-300 group hover:scale-[1.03] hover:shadow-sm"
 						style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
 					>
 						<span
@@ -736,7 +692,7 @@
 							>{benefit.icon}</span
 						>
 						<span
-							class="text-[10px] sm:text-xs font-medium transition-colors leading-tight"
+							class="text-[11px] sm:text-xs font-medium transition-colors leading-tight"
 							style="color: var(--text-secondary);">{benefit.title}</span
 						>
 					</div>
@@ -830,10 +786,13 @@
 					<p class="text-base sm:text-lg font-light" style="color: var(--text-secondary);">
 						{m['services.finalCta.subline']()}
 					</p>
+					<p class="text-xs mt-2 opacity-60" style="color: var(--text-tertiary);">
+						{m['services.ctaSubtext']()}
+					</p>
 				</div>
 				<Button
 					href={localizeHref('/contact')}
-					className="cta-magnetic flex-shrink-0 inline-flex items-center justify-center gap-3 !px-8 !py-5 sm:!px-10 sm:!py-6 rounded-2xl border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 !text-lg"
+					className="group cta-magnetic flex-shrink-0 inline-flex items-center justify-center gap-3 !px-8 !py-5 sm:!px-10 sm:!py-6 rounded-2xl border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 !text-lg"
 					style="background: var(--bg-surface); border-color: var(--border-primary); color: var(--text-heading);"
 				>
 					<span class="font-medium">{m['services.cta']()}</span>
@@ -891,45 +850,11 @@
 		display: none;
 	}
 
-	.bento-grid {
-		scrollbar-width: none;
-		-ms-overflow-style: none;
-	}
-	.bento-grid::-webkit-scrollbar {
-		display: none;
-	}
-
-	.scrollbar-hide {
-		scrollbar-width: none;
-		-ms-overflow-style: none;
-	}
-	.scrollbar-hide::-webkit-scrollbar {
-		display: none;
-	}
-
 	@media (max-width: 767px) {
-		.bento-grid {
-			/* No mask - clean edges like all-in-one card */
-		}
-
 		.bento-item {
 			box-shadow:
 				0 4px 24px -4px rgba(0, 0, 0, 0.08),
 				0 1px 4px rgba(0, 0, 0, 0.04);
-			transform: scale(0.95);
-			opacity: 0.7;
-			transition:
-				transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-				opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-				box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-		}
-
-		.bento-item.bento-active {
-			transform: scale(1);
-			opacity: 1;
-			box-shadow:
-				0 8px 32px -4px rgba(0, 0, 0, 0.12),
-				0 2px 8px rgba(0, 0, 0, 0.06);
 		}
 	}
 
@@ -1115,6 +1040,45 @@
 	@media (max-width: 767px) {
 		.process-step-item:last-child {
 			padding-right: 1rem;
+		}
+	}
+
+	/* ═══════════════════════════════════════════════
+	   Feature chip interactions
+	   ═══════════════════════════════════════════════ */
+	.all-in-one-feature-chip {
+		transition:
+			border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+			box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+			transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.all-in-one-feature-chip:hover {
+		border-color: var(--border-accent) !important;
+		box-shadow: 0 0 14px var(--blue-glow);
+		transform: translateY(-1px);
+	}
+
+	.all-in-one-feature-chip:active {
+		transform: scale(0.96);
+		box-shadow: none;
+	}
+
+	/* ═══════════════════════════════════════════════
+	   Focus-visible ring for keyboard nav
+	   ═══════════════════════════════════════════════ */
+	.process-step-item:focus-visible .process-step-card {
+		outline: 2px solid var(--border-accent);
+		outline-offset: 2px;
+	}
+
+	/* Reduced motion: disable chip animations */
+	@media (prefers-reduced-motion: reduce) {
+		.all-in-one-feature-chip:hover {
+			transform: none;
+		}
+		.all-in-one-feature-chip:active {
+			transform: none;
 		}
 	}
 </style>

@@ -157,7 +157,8 @@
 		"finalCta": {
 			"headline": "Klingt interessant?",
 			"subline": "Lassen Sie uns über Ihr nächstes Projekt sprechen."
-		}
+		},
+		"sectionDivider": "Meine Leistungen"
 	},
 	"aboutCompact": {
 		"title": "Ihr Ansprechpartner",

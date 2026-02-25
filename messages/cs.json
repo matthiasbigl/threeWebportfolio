@@ -157,7 +157,8 @@
 		"finalCta": {
 			"headline": "Zní to zajímavě?",
 			"subline": "Pojďme mluvit o vašem dalším projektu."
-		}
+		},
+		"sectionDivider": "Moje služby"
 	},
 	"aboutCompact": {
 		"title": "Váš kontakt",
