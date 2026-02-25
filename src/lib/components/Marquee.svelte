@@ -37,7 +37,7 @@
 
 		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-		// If reduced motion, just make it scrollable — no auto-scroll
+		// If reduced motion, no auto-scroll
 		if (prefersReducedMotion) return;
 
 		let gsapInstance: typeof import('gsap').gsap;
@@ -45,6 +45,10 @@
 		let userInteracting = false;
 		let resumeTimer: ReturnType<typeof setTimeout> | null = null;
 		let destroyed = false;
+
+		// Current translateX in px — valid range: (-halfWidth, 0]
+		// Negative = scrolled forward; 0 = at the start
+		let xPos = 0;
 
 		(async () => {
 			const { gsap } = await import('gsap');
@@ -54,28 +58,52 @@
 			startAutoScroll();
 		})();
 
-		function startAutoScroll() {
-			if (!container || !track || destroyed) return;
+		/** Apply translate3d to the track for GPU-composited rendering */
+		function applyTransform(x: number) {
+			if (track) track.style.transform = `translate3d(${x}px, 0, 0)`;
+		}
 
-			// Half-width = one full set of items (content is duplicated)
+		/** Wrap x into the seamless range (-halfWidth, 0] */
+		function wrapX(x: number, halfWidth: number) {
+			while (x > 0) x -= halfWidth;
+			while (x <= -halfWidth) x += halfWidth;
+			return x;
+		}
+
+		function startAutoScroll() {
+			if (!track || destroyed) return;
+
 			const halfWidth = track.scrollWidth / 2;
 			if (halfWidth <= 0) return;
 
-			// Calculate remaining distance from current scroll position
-			const currentScroll = container.scrollLeft % halfWidth;
-			const remaining = halfWidth - currentScroll;
-			const fraction = remaining / halfWidth;
+			xPos = wrapX(xPos, halfWidth);
+
+			// Distance from current xPos to -halfWidth (one full cycle end)
+			const distance = Math.abs(-halfWidth - xPos);
+			const fraction = distance / halfWidth;
 			const adjustedDuration = resolvedDuration * fraction;
 
-			tween = gsapInstance.to(container, {
-				scrollLeft: container.scrollLeft + remaining,
+			if (adjustedDuration <= 0) {
+				xPos = 0;
+				applyTransform(xPos);
+				startAutoScroll();
+				return;
+			}
+
+			// Animate a proxy value so we can intercept and apply the transform ourselves
+			const proxy = { x: xPos };
+			tween = gsapInstance.to(proxy, {
+				x: -halfWidth,
 				duration: adjustedDuration,
 				ease: 'none',
-				onComplete: () => {
-					if (destroyed || !container) return;
-					// Reset to start for seamless loop
-					container.scrollLeft = container.scrollLeft - halfWidth;
-					// Restart the full loop
+				onUpdate() {
+					xPos = proxy.x;
+					applyTransform(xPos);
+				},
+				onComplete() {
+					if (destroyed) return;
+					xPos = 0; // seamless reset
+					applyTransform(xPos);
 					startAutoScroll();
 				}
 			});
@@ -113,8 +141,6 @@
 		}
 
 		function onTouchMove(e: TouchEvent) {
-			if (!container) return;
-
 			const dx = e.touches[0].clientX - touchStartX;
 			const dy = e.touches[0].clientY - touchStartY;
 
@@ -127,17 +153,13 @@
 			// If vertical, bail out and let page scroll normally
 			if (touchLocked === 'vertical') return;
 
-			// Horizontal swipe — prevent page scroll and manually drive scrollLeft
+			// Horizontal swipe — prevent page scroll and drive the transform
 			e.preventDefault();
+			if (!track) return;
 			const deltaX = e.touches[0].clientX - touchLastX;
 			touchLastX = e.touches[0].clientX;
-			if (!track) return;
-			const halfWidth = track.scrollWidth / 2;
-			let newScroll = container.scrollLeft - deltaX;
-			// Seamless loop wrapping
-			if (newScroll >= halfWidth) newScroll -= halfWidth;
-			else if (newScroll < 0) newScroll += halfWidth;
-			container.scrollLeft = newScroll;
+			xPos = wrapX(xPos + deltaX, track.scrollWidth / 2);
+			applyTransform(xPos);
 		}
 
 		function onTouchEnd() {
@@ -145,25 +167,26 @@
 			scheduleResume();
 		}
 
-		// --- Mouse drag handlers (desktop drag-scroll) ---
+		// --- Mouse drag handlers (desktop) ---
 		let isDragging = false;
-		let startX = 0;
-		let scrollStart = 0;
+		let dragStartX = 0;
+		let dragStartXPos = 0;
 
 		function onMouseDown(e: MouseEvent) {
 			isDragging = true;
-			startX = e.pageX;
-			scrollStart = container!.scrollLeft;
+			dragStartX = e.pageX;
+			dragStartXPos = xPos;
 			pauseAutoScroll();
 			container!.style.cursor = 'grabbing';
 			container!.style.userSelect = 'none';
 		}
 
 		function onMouseMove(e: MouseEvent) {
-			if (!isDragging || !container) return;
+			if (!isDragging || !track) return;
 			e.preventDefault();
-			const dx = e.pageX - startX;
-			container.scrollLeft = scrollStart - dx;
+			const dx = e.pageX - dragStartX;
+			xPos = wrapX(dragStartXPos + dx, track.scrollWidth / 2);
+			applyTransform(xPos);
 		}
 
 		function onMouseUp() {
@@ -183,21 +206,7 @@
 
 		function onMouseLeave() {
 			// Don't cancel an active drag — mousemove/mouseup on window handle it
-			if (!isDragging) {
-				scheduleResume();
-			}
-		}
-
-		// Seamless loop: if user scrolls past the halfway point, wrap around
-		function onScroll() {
-			if (!container || !track || !userInteracting) return;
-			const halfWidth = track.scrollWidth / 2;
-			if (halfWidth <= 0) return;
-			if (container.scrollLeft >= halfWidth) {
-				container.scrollLeft -= halfWidth;
-			} else if (container.scrollLeft <= 0) {
-				container.scrollLeft += halfWidth;
-			}
+			if (!isDragging) scheduleResume();
 		}
 
 		container.addEventListener('touchstart', onTouchStart, { passive: true });
@@ -209,7 +218,6 @@
 		window.addEventListener('mouseup', onMouseUp);
 		container.addEventListener('mouseenter', onMouseEnter);
 		container.addEventListener('mouseleave', onMouseLeave);
-		container.addEventListener('scroll', onScroll, { passive: true });
 
 		return () => {
 			destroyed = true;
@@ -223,14 +231,13 @@
 			window.removeEventListener('mouseup', onMouseUp);
 			container?.removeEventListener('mouseenter', onMouseEnter);
 			container?.removeEventListener('mouseleave', onMouseLeave);
-			container?.removeEventListener('scroll', onScroll);
 		};
 	});
 </script>
 
 <div
 	bind:this={container}
-	class="marquee-container flex overflow-x-auto cursor-grab {className}"
+	class="marquee-container flex overflow-hidden cursor-grab {className}"
 	role="marquee"
 >
 	<div bind:this={track} class="marquee-track flex items-center flex-nowrap" style="gap: {gap}px;">
@@ -242,12 +249,10 @@
 	.marquee-container {
 		mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 		-webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-		scrollbar-width: none;
-		-ms-overflow-style: none;
 		touch-action: pan-y;
-		will-change: scroll-position;
+		-webkit-tap-highlight-color: transparent;
 	}
-	.marquee-container::-webkit-scrollbar {
-		display: none;
+	.marquee-track {
+		will-change: transform;
 	}
 </style>
