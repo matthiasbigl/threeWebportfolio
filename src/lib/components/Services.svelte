@@ -648,19 +648,19 @@
 							</p>
 						</div>
 
-						<Marquee gap={6} speed="fast" className="-mx-5 px-5 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+						<Marquee gap={8} speed="fast" className="-mx-5 px-5 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
 							{#each service.features as feature}
 								<span
-									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
-									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+									class="font-syne flex-shrink-0 px-3 py-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.13em] rounded-[2px] whitespace-nowrap"
+									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid {service.accent}33; border-left: 2px solid {service.accent}99;"
 								>
 									{feature}
 								</span>
 							{/each}
 							{#each service.features as feature}
 								<span
-									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
-									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+									class="font-syne flex-shrink-0 px-3 py-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.13em] rounded-[2px] whitespace-nowrap"
+									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid {service.accent}33; border-left: 2px solid {service.accent}99;"
 								>
 									{feature}
 								</span>
