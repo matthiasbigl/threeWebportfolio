@@ -101,11 +101,13 @@
 		// --- Touch handling with direction lock ---
 		let touchStartX = 0;
 		let touchStartY = 0;
+		let touchLastX = 0;
 		let touchLocked: 'horizontal' | 'vertical' | null = null;
 
 		function onTouchStart(e: TouchEvent) {
 			pauseAutoScroll();
 			touchStartX = e.touches[0].clientX;
+			touchLastX = e.touches[0].clientX;
 			touchStartY = e.touches[0].clientY;
 			touchLocked = null;
 		}
@@ -125,8 +127,17 @@
 			// If vertical, bail out and let page scroll normally
 			if (touchLocked === 'vertical') return;
 
-			// Horizontal swipe — prevent page scroll; native scrollLeft handles movement
+			// Horizontal swipe — prevent page scroll and manually drive scrollLeft
 			e.preventDefault();
+			const deltaX = e.touches[0].clientX - touchLastX;
+			touchLastX = e.touches[0].clientX;
+			if (!track) return;
+			const halfWidth = track.scrollWidth / 2;
+			let newScroll = container.scrollLeft - deltaX;
+			// Seamless loop wrapping
+			if (newScroll >= halfWidth) newScroll -= halfWidth;
+			else if (newScroll < 0) newScroll += halfWidth;
+			container.scrollLeft = newScroll;
 		}
 
 		function onTouchEnd() {
@@ -233,6 +244,8 @@
 		-webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 		scrollbar-width: none;
 		-ms-overflow-style: none;
+		touch-action: pan-y;
+		will-change: scroll-position;
 	}
 	.marquee-container::-webkit-scrollbar {
 		display: none;
