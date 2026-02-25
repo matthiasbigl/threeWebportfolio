@@ -24,7 +24,7 @@
 				class="font-poppins text-4xl sm:text-5xl font-bold mb-4"
 				style="color: var(--text-heading);"
 			>
-				{m["privacy.title"]()}
+				{m['privacy.title']()}
 			</h1>
 			<div class="h-1 w-20 bg-blue-500 rounded-full"></div>
 		</header>
@@ -34,21 +34,21 @@
 			style="color: var(--text-secondary);"
 		>
 			<section>
-				<p>{m["privacy.intro"]()}</p>
+				<p>{m['privacy.intro']()}</p>
 			</section>
 
 			<section>
 				<h2 class="font-bold text-xl mb-4" style="color: var(--text-heading);">
-					{m["privacy.contact"]()}
+					{m['privacy.contact']()}
 				</h2>
-				<p>{m["privacy.contactText"]()}</p>
+				<p>{m['privacy.contactText']()}</p>
 			</section>
 
 			<section>
 				<h2 class="font-bold text-xl mb-4" style="color: var(--text-heading);">
-					{m["privacy.analytics"]()}
+					{m['privacy.analytics']()}
 				</h2>
-				<p>{m["privacy.analyticsText"]()}</p>
+				<p>{m['privacy.analyticsText']()}</p>
 			</section>
 
 			<section class="pt-6" style="border-top: 1px solid var(--border-primary);">

@@ -47,5 +47,7 @@ const securityHandle: Handle = async ({ event, resolve }) => {
 };
 
 export const handle: Handle = ({ event, resolve }) =>
-	paraglideHandle({ event, resolve: (e, opts) => securityHandle({ event: e, resolve: (ev) => resolve(ev, opts) }) });
-
+	paraglideHandle({
+		event,
+		resolve: (e, opts) => securityHandle({ event: e, resolve: (ev) => resolve(ev, opts) })
+	});

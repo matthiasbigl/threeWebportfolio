@@ -6,6 +6,12 @@
 		"faq": "FAQ",
 		"contact": "Kontakt"
 	},
+	"vibe": {
+		"title": "Více než",
+		"titleHighlight": "jen kód",
+		"subtitle": "Jako webový vývojář nepíšu jen kód. Chci pochopit váš byznys, váš vibe a vaši identitu.",
+		"description": "Mým úkolem je zachytit vás a pravé jádro vaší společnosti. Jen když pochopím vaši vizi, můžeme vytvořit web, který vám skutečně sedí."
+	},
 	"hero": {
 		"greeting": "Ahoj, jsem",
 		"name": "Matthias Bigl",
@@ -581,6 +587,7 @@
 		"journey": {
 			"label": "Můj příběh",
 			"title": "Cesta sem",
+			"scrollHint": "Posouvat",
 			"steps": {
 				"beginning": {
 					"title": "Začátek",

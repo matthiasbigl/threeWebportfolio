@@ -24,24 +24,24 @@
 
 	// Reactive quick links based on translations
 	const quickLinks = $derived([
-		{ name: m["nav.home"](), href: '/' },
-		{ name: m["nav.services"](), href: '/#services' },
+		{ name: m['nav.home'](), href: '/' },
+		{ name: m['nav.services'](), href: '/#services' },
 		{
 			name:
-				m["pricing.navTitle"]() ||
-				(m["language.de"]() === 'Deutsch' ? 'Preis-Leitfaden' : 'Pricing Guide'),
+				m['pricing.navTitle']() ||
+				(m['language.de']() === 'Deutsch' ? 'Preis-Leitfaden' : 'Pricing Guide'),
 			href: '/pricing'
 		},
-		{ name: m["nav.contact"](), href: '/contact' },
-		{ name: m["nav.faq"](), href: '/#faq' },
+		{ name: m['nav.contact'](), href: '/contact' },
+		{ name: m['nav.faq'](), href: '/#faq' },
 		{ name: 'Blog', href: 'https://blog.bigls.net' }
 	]);
 
 	const services = $derived([
-		{ name: m["footer.services.websites"](), href: '/#services' },
-		{ name: m["footer.services.webshops"](), href: '/#services' },
-		{ name: m["footer.services.experiences"](), href: '/#services' },
-		{ name: m["footer.services.hosting"](), href: '/#services' }
+		{ name: m['footer.services.websites'](), href: '/#services' },
+		{ name: m['footer.services.webshops'](), href: '/#services' },
+		{ name: m['footer.services.experiences'](), href: '/#services' },
+		{ name: m['footer.services.hosting'](), href: '/#services' }
 	]);
 </script>
 
@@ -62,7 +62,7 @@
 					<span class="blue-gradient_text">Matthias Bigl</span>
 				</h3>
 				<p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
-					{m["footer.description"]()}
+					{m['footer.description']()}
 				</p>
 				<address class="not-italic space-y-3 sm:space-y-4">
 					<div class="flex items-start gap-3 group/item">
@@ -114,7 +114,7 @@
 			<!-- Quick Links -->
 			<div class="space-y-5">
 				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
-					{m["footer.navigation"]()}
+					{m['footer.navigation']()}
 				</h4>
 				<nav class="flex flex-col space-y-3" aria-label="Footer navigation">
 					{#each quickLinks as link}
@@ -134,7 +134,7 @@
 			<!-- Services -->
 			<div class="space-y-5">
 				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
-					{m["footer.servicesTitle"]()}
+					{m['footer.servicesTitle']()}
 				</h4>
 				<nav class="flex flex-col space-y-3" aria-label="Services navigation">
 					{#each services as service}
@@ -152,7 +152,7 @@
 			<!-- Social & Contact -->
 			<div class="space-y-5">
 				<h4 class="text-base font-semibold tracking-tight" style="color: var(--text-heading);">
-					{m["footer.contactTitle"]()}
+					{m['footer.contactTitle']()}
 				</h4>
 				<div class="flex space-x-3">
 					{#each socialLinks as social}
@@ -197,14 +197,16 @@
 			style="border-top: 1px solid var(--border-secondary);"
 		>
 			<p class="text-sm" style="color: var(--text-tertiary);">
-				© {currentYear} Matthias Bigl. {m["footer.copyright"]()}
+				© {currentYear} Matthias Bigl. {m['footer.copyright']()}
 			</p>
 			<div class="flex space-x-6 text-xs" style="color: var(--text-tertiary);">
-				<a href={localizeHref("/impressum")} class="hover:text-gray-300 transition-colors duration-300"
-					>{m["footer.imprint"]()}</a
+				<a
+					href={localizeHref('/impressum')}
+					class="hover:text-gray-300 transition-colors duration-300">{m['footer.imprint']()}</a
 				>
-				<a href={localizeHref("/datenschutz")} class="hover:text-gray-300 transition-colors duration-300"
-					>{m["footer.privacy"]()}</a
+				<a
+					href={localizeHref('/datenschutz')}
+					class="hover:text-gray-300 transition-colors duration-300">{m['footer.privacy']()}</a
 				>
 				<a href="/humans.txt" class="hover:text-gray-300 transition-colors duration-300"
 					>humans.txt</a

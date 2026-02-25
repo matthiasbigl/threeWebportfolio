@@ -43,29 +43,29 @@
 		<div
 			class="cookie-banner glass-card"
 			role="dialog"
-			aria-label={m["cookies.bannerAria"]() || 'Cookie consent'}
+			aria-label={m['cookies.bannerAria']() || 'Cookie consent'}
 			aria-describedby="cookie-description"
 		>
 			<p id="cookie-description" class="cookie-text">
-				{m["cookies.message"]()}
-				<a href={localizeHref("/datenschutz")} class="cookie-link">{m["cookies.learnMore"]()}</a>
+				{m['cookies.message']()}
+				<a href={localizeHref('/datenschutz')} class="cookie-link">{m['cookies.learnMore']()}</a>
 			</p>
 			<div class="cookie-buttons">
 				<button
 					type="button"
 					class="cookie-btn cookie-btn-secondary"
 					onclick={handleReject}
-					aria-label={m["cookies.reject"]()}
+					aria-label={m['cookies.reject']()}
 				>
-					{m["cookies.reject"]()}
+					{m['cookies.reject']()}
 				</button>
 				<button
 					type="button"
 					class="cookie-btn cookie-btn-primary"
 					onclick={handleAccept}
-					aria-label={m["cookies.accept"]()}
+					aria-label={m['cookies.accept']()}
 				>
-					{m["cookies.accept"]()}
+					{m['cookies.accept']()}
 				</button>
 			</div>
 		</div>

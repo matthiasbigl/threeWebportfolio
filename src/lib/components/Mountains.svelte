@@ -32,134 +32,172 @@
 
 		const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-		onMount(async () => {
+		onMount(() => {
 			if (!canvasContainer) return;
 
-			// Dynamically import Three.js to keep it out of the main chunk
-			const THREE = await import('three');
+			let isMounted = true;
 
-			scene = new THREE.Scene();
+			(async () => {
+				// Dynamically import Three.js to keep it out of the main chunk
+				const THREE = await import('three');
 
-			// Add subtle fog for atmospheric depth
-			scene.fog = new THREE.FogExp2(0x0a0a1a, 0.02);
+				if (!isMounted || !canvasContainer) return;
 
-			camera = new THREE.PerspectiveCamera(
-				75,
-				canvasContainer.clientWidth / canvasContainer.clientHeight,
-				0.1,
-				1000
-			);
-			camera.position.set(5, 5, 5);
-			camera.lookAt(scene.position);
+				scene = new THREE.Scene();
 
-			renderer = new THREE.WebGLRenderer({
-				alpha: true,
-				antialias: !isMobile
-			});
+				// Add subtle fog for atmospheric depth - lightened for visibility
+				scene.fog = new THREE.FogExp2(0x1a1a2e, 0.015);
 
-			renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-			renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-			renderer.domElement.classList.add('w-full', 'h-full', 'overflow-hidden');
-			renderer.toneMapping = THREE.ACESFilmicToneMapping;
-			renderer.toneMappingExposure = 1.2;
+				camera = new THREE.PerspectiveCamera(
+					75,
+					canvasContainer.clientWidth / canvasContainer.clientHeight,
+					0.1,
+					1000
+				);
+				camera.position.set(5, 5, 5);
+				camera.lookAt(scene.position);
 
-			if (!isMobile) {
-				renderer.shadowMap.enabled = true;
-				renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-			}
-
-			canvasContainer.appendChild(renderer.domElement);
-
-			const textureLoader = new THREE.TextureLoader();
-			let loadedCount = 0;
-			const checkLoaded = () => {
-				loadedCount++;
-				if (loadedCount >= 2) isLoaded = true;
-			};
-
-			const mountain = new THREE.MeshStandardMaterial({
-				displacementMap: textureLoader.load('/assets/terainHeightMap.png', checkLoaded),
-				displacementScale: 12,
-				map: textureLoader.load('/assets/terain.png', checkLoaded),
-				roughness: 0.85,
-				metalness: 0.1
-			});
-
-			const plane = new THREE.PlaneGeometry(15, 15, isMobile ? 64 : 128, isMobile ? 64 : 128);
-			mountainMesh = new THREE.Mesh(plane, mountain);
-			mountainMesh.rotation.x = -Math.PI / 2;
-			mountainMesh.position.y = -1;
-			mountainMesh.castShadow = !isMobile;
-			mountainMesh.receiveShadow = !isMobile;
-			scene.add(mountainMesh);
-
-			// ── Snow particles ──
-			if (!isMobile) {
-				const snowCount = 300;
-				const snowGeo = new THREE.BufferGeometry();
-				const snowPositions = new Float32Array(snowCount * 3);
-				for (let i = 0; i < snowCount; i++) {
-					snowPositions[i * 3] = (Math.random() - 0.5) * 20;
-					snowPositions[i * 3 + 1] = Math.random() * 14;
-					snowPositions[i * 3 + 2] = (Math.random() - 0.5) * 20;
-				}
-				snowGeo.setAttribute('position', new THREE.BufferAttribute(snowPositions, 3));
-
-				const snowMat = new THREE.PointsMaterial({
-					color: 0xeef4ff,
-					size: 0.08,
-					transparent: true,
-					opacity: 0.7,
-					depthWrite: false,
-					blending: THREE.AdditiveBlending
+				renderer = new THREE.WebGLRenderer({
+					alpha: true,
+					antialias: !isMobile
 				});
-				snowParticles = new THREE.Points(snowGeo, snowMat);
-				scene.add(snowParticles);
-			}
 
-			// ── Lighting ──
-			const ambientLight = new THREE.AmbientLight(0x8899bb, 0.35);
-			scene.add(ambientLight);
+				renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+				renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+				renderer.domElement.classList.add('w-full', 'h-full', 'overflow-hidden');
+				renderer.toneMapping = THREE.LinearToneMapping;
+				renderer.toneMappingExposure = 1.0;
 
-			// Cool-toned key light
-			sunLight = new THREE.DirectionalLight(0x99ccee, 3.5);
-			sunLight.position.set(10, 8, 10);
-			scene.add(sunLight);
+				// Clean, neutral fog to let colors breathe
+				scene.fog = new THREE.FogExp2(0xf0f4f8, 0.01);
 
-			// Warm rim light for contrast
-			const rimLight = new THREE.DirectionalLight(0xffa366, 1.5);
-			rimLight.position.set(-8, 4, -6);
-			scene.add(rimLight);
+				camera = new THREE.PerspectiveCamera(
+					75,
+					canvasContainer.clientWidth / canvasContainer.clientHeight,
+					0.1,
+					1000
+				);
+				camera.position.set(5, 5, 5);
+				camera.lookAt(scene.position);
 
-			// Subtle blue fill from below
-			const fillLight = new THREE.PointLight(0x4488ff, 0.8, 30);
-			fillLight.position.set(0, -2, 0);
-			scene.add(fillLight);
+				if (!isMobile) {
+					renderer.shadowMap.enabled = true;
+					renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+				}
 
-			if (!isMobile) {
-				sunLight.castShadow = true;
-				sunLight.shadow.mapSize.width = 1024;
-				sunLight.shadow.mapSize.height = 1024;
-			}
+				canvasContainer.appendChild(renderer.domElement);
 
-			// Visibility tracking
-			observer = new IntersectionObserver(
-				(entries) => {
-					isVisible = entries[0].isIntersecting;
-					if (isVisible) {
-						animate(performance.now());
-					} else {
-						cancelAnimationFrame(animationId);
+				const textureLoader = new THREE.TextureLoader();
+				let loadedCount = 0;
+				const checkLoaded = () => {
+					loadedCount++;
+					if (loadedCount >= 2) isLoaded = true;
+				};
+
+				const terainTexture = textureLoader.load('/assets/terain.png', checkLoaded);
+				terainTexture.colorSpace = THREE.SRGBColorSpace;
+				terainTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
+				const mountain = new THREE.MeshStandardMaterial({
+					displacementMap: textureLoader.load('/assets/terainHeightMap.png', checkLoaded),
+					displacementScale: 12,
+					map: terainTexture,
+					roughness: 0.9,
+					metalness: 0.0
+				});
+
+				// Programmatically increase contrast and saturation of the texture
+				mountain.onBeforeCompile = (shader) => {
+					shader.fragmentShader = shader.fragmentShader.replace(
+						'#include <map_fragment>',
+						`
+						#include <map_fragment>
+						// Contrast adjustment: (color - 0.5) * factor + 0.5
+						diffuseColor.rgb = (diffuseColor.rgb - 0.5) * 1.4 + 0.52;
+						// Saturation adjustment
+						float luma = dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114));
+						diffuseColor.rgb = mix(vec3(luma), diffuseColor.rgb, 1.3);
+						`
+					);
+				};
+
+				const plane = new THREE.PlaneGeometry(15, 15, isMobile ? 64 : 128, isMobile ? 64 : 128);
+				mountainMesh = new THREE.Mesh(plane, mountain);
+				mountainMesh.rotation.x = -Math.PI / 2;
+				mountainMesh.position.y = -1;
+				mountainMesh.castShadow = !isMobile;
+				mountainMesh.receiveShadow = !isMobile;
+				scene.add(mountainMesh);
+
+				// ── Snow particles ──
+				if (!isMobile) {
+					const snowCount = 300;
+					const snowGeo = new THREE.BufferGeometry();
+					const snowPositions = new Float32Array(snowCount * 3);
+					for (let i = 0; i < snowCount; i++) {
+						snowPositions[i * 3] = (Math.random() - 0.5) * 20;
+						snowPositions[i * 3 + 1] = Math.random() * 14;
+						snowPositions[i * 3 + 2] = (Math.random() - 0.5) * 20;
 					}
-				},
-				{ threshold: 0.1 }
-			);
+					snowGeo.setAttribute('position', new THREE.BufferAttribute(snowPositions, 3));
 
-			observer.observe(canvasContainer);
+					const snowMat = new THREE.PointsMaterial({
+						color: 0xffffff,
+						size: 0.08,
+						transparent: true,
+						opacity: 0.8,
+						depthWrite: false,
+						blending: THREE.AdditiveBlending
+					});
+					snowParticles = new THREE.Points(snowGeo, snowMat);
+					scene.add(snowParticles);
+				}
+
+				// ── Pure White Lighting (True Color Fidelity) ──
+				const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
+				scene.add(ambientLight);
+
+				sunLight = new THREE.DirectionalLight(0xffffff, 1.5);
+				sunLight.position.set(5, 15, 5);
+				scene.add(sunLight);
+
+				const fillLight = new THREE.DirectionalLight(0xffffff, 0.8);
+				fillLight.position.set(-5, 5, -5);
+				scene.add(fillLight);
+
+				if (!isMobile) {
+					sunLight.castShadow = true;
+					sunLight.shadow.mapSize.width = 1024;
+					sunLight.shadow.mapSize.height = 1024;
+				}
+
+				// Visibility tracking
+				observer = new IntersectionObserver(
+					(entries) => {
+						isVisible = entries[0].isIntersecting;
+						if (isVisible) {
+							lastTimestamp = performance.now();
+							animate(lastTimestamp);
+						} else {
+							cancelAnimationFrame(animationId);
+						}
+					},
+					{ threshold: 0.1 }
+				);
+
+				observer.observe(canvasContainer);
+			})();
 
 			return () => {
+				isMounted = false;
 				observer?.disconnect();
 				cancelAnimationFrame(animationId);
+				if (renderer) {
+					renderer.dispose();
+					if (canvasContainer && renderer.domElement) {
+						canvasContainer.removeChild(renderer.domElement);
+					}
+				}
 			};
 		});
 

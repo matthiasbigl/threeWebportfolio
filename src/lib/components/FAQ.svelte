@@ -67,13 +67,13 @@
 				class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5 sm:mb-6 tracking-tight font-poppins"
 				style="color: var(--text-heading);"
 			>
-				{m["faq.title"]()} <span class="blue-gradient_text">{m["faq.titleHighlight"]()}</span>
+				{m['faq.title']()} <span class="blue-gradient_text">{m['faq.titleHighlight']()}</span>
 			</h2>
 			<p
 				class="text-sm sm:text-base max-w-xl mx-auto leading-relaxed"
 				style="color: var(--text-tertiary);"
 			>
-				{m["faq.subtitle"]()}
+				{m['faq.subtitle']()}
 			</p>
 		</div>
 
@@ -135,9 +135,13 @@
 
 		<!-- CTA -->
 		<div class="text-center mt-14 sm:mt-16">
-			<p class="mb-5 text-sm" style="color: var(--text-tertiary);">{m["faq.moreQuestions"]()}</p>
-			<Button href={localizeHref('/contact')} variant="secondary" className="!px-6 !py-3 !text-sm !rounded-xl">
-				<span class="font-semibold">{m["faq.cta"]()}</span>
+			<p class="mb-5 text-sm" style="color: var(--text-tertiary);">{m['faq.moreQuestions']()}</p>
+			<Button
+				href={localizeHref('/contact')}
+				variant="secondary"
+				className="!px-6 !py-3 !text-sm !rounded-xl"
+			>
+				<span class="font-semibold">{m['faq.cta']()}</span>
 				<svg
 					class="w-4 h-4 text-blue-400/70 group-hover:translate-x-1 transition-transform duration-300"
 					fill="none"

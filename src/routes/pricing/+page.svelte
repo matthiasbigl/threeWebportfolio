@@ -159,7 +159,7 @@
 									variant="primary"
 									className="flex-shrink-0 no-underline !text-base sm:!text-lg"
 								>
-									{m["hero.cta"]()}
+									{m['hero.cta']()}
 									<svg
 										class="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300"
 										fill="none"

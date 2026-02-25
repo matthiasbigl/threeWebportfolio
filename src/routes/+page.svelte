@@ -107,6 +107,26 @@
 				if (reduceMotion) return;
 
 				if (isDesktop) {
+					// Hero watermark parallax — drifts up-left on scroll
+					const heroBgText = document.querySelector('.hero-bg-text');
+					if (heroBgText) {
+						gsap.fromTo(
+							heroBgText,
+							{ yPercent: 0, xPercent: 0 },
+							{
+								yPercent: -30,
+								xPercent: -10,
+								ease: 'none',
+								scrollTrigger: {
+									trigger: '#hero',
+									start: 'top top',
+									end: 'bottom top',
+									scrub: 1
+								}
+							}
+						);
+					}
+
 					// Accent line grows in
 					gsap.fromTo(
 						'.hero-accent-line',
@@ -220,6 +240,152 @@
 						});
 					}
 
+					const vibeSection = document.querySelector('.vibe-section');
+					if (vibeSection) {
+						// Background text parallax — moves slower than scroll
+						const vibeBgText = vibeSection.querySelector('.vibe-bg-text');
+						if (vibeBgText) {
+							gsap.fromTo(
+								vibeBgText,
+								{ xPercent: 10 },
+								{
+									xPercent: -10,
+									ease: 'none',
+									scrollTrigger: {
+										trigger: vibeSection,
+										start: 'top bottom',
+										end: 'bottom top',
+										scrub: 1
+									}
+								}
+							);
+						}
+
+						// Label slides in
+						gsap.fromTo(
+							'.vibe-label',
+							{ opacity: 0, x: -30 },
+							{
+								opacity: 1,
+								x: 0,
+								duration: 0.8,
+								ease: 'power3.out',
+								scrollTrigger: { trigger: vibeSection, start: 'top 75%' }
+							}
+						);
+
+						// Overall group container fades and scales up slowly
+						gsap.fromTo(
+							'.vibe-svg-wrap',
+							{ opacity: 0, scale: 0.7, y: 40, rotation: -10 },
+							{
+								opacity: 1,
+								scale: 1,
+								y: 0,
+								rotation: 0,
+								duration: 1.8,
+								ease: 'power3.out',
+								scrollTrigger: { trigger: vibeSection, start: 'top 75%' }
+							}
+						);
+
+						// The glow slowly builds up
+						gsap.fromTo(
+							'.vibe-svg-glow',
+							{ opacity: 0 },
+							{
+								opacity: 0.8,
+								duration: 2,
+								delay: 0.5,
+								ease: 'power2.inOut',
+								scrollTrigger: { trigger: vibeSection, start: 'top 75%' }
+							}
+						);
+
+						// The swirly paths "draw" themselves
+						const paths = vibeSection.querySelectorAll('.vibe-path');
+						paths.forEach((path: any) => {
+							const length = path.getTotalLength ? path.getTotalLength() : 1000;
+							gsap.fromTo(
+								path,
+								{ strokeDasharray: length, strokeDashoffset: length },
+								{
+									strokeDashoffset: 0,
+									duration: 2.5,
+									ease: 'power2.out',
+									scrollTrigger: { trigger: vibeSection, start: 'top 75%' }
+								}
+							);
+						});
+
+						// Sparks pop in
+						gsap.fromTo(
+							'.vibe-spark',
+							{ opacity: 0, scale: 0, transformOrigin: 'center' },
+							{
+								opacity: 1,
+								scale: 1,
+								duration: 1,
+								stagger: 0.1,
+								delay: 1.5,
+								ease: 'back.out(2)',
+								scrollTrigger: { trigger: vibeSection, start: 'top 75%' }
+							}
+						);
+
+						// Outer light rays — pop in like sparks
+						gsap.fromTo(
+							'.vibe-ray',
+							{ opacity: 0, scale: 0, transformOrigin: 'center' },
+							{
+								opacity: 1,
+								scale: 1,
+								duration: 1,
+								delay: 2,
+								ease: 'back.out(2)',
+								scrollTrigger: { trigger: vibeSection, start: 'top 75%' }
+							}
+						);
+
+						// Text reveals
+						gsap.fromTo(
+							'.vibe-title',
+							{ opacity: 0, y: 30 },
+							{
+								opacity: 1,
+								y: 0,
+								duration: 1,
+								delay: 0.3,
+								ease: 'power3.out',
+								scrollTrigger: { trigger: vibeSection, start: 'top 75%' }
+							}
+						);
+						gsap.fromTo(
+							'.vibe-subtitle',
+							{ opacity: 0, y: 30 },
+							{
+								opacity: 1,
+								y: 0,
+								duration: 1,
+								delay: 0.5,
+								ease: 'power3.out',
+								scrollTrigger: { trigger: vibeSection, start: 'top 75%' }
+							}
+						);
+						gsap.fromTo(
+							'.vibe-desc',
+							{ opacity: 0, y: 30 },
+							{
+								opacity: 1,
+								y: 0,
+								duration: 1,
+								delay: 0.7,
+								ease: 'power3.out',
+								scrollTrigger: { trigger: vibeSection, start: 'top 75%' }
+							}
+						);
+					}
+
 					const aboutSection = document.querySelector('.about-section');
 					if (aboutSection) {
 						gsap.fromTo(
@@ -296,6 +462,26 @@
 				}
 
 				if (isMobile) {
+					// Hero watermark parallax on mobile too (subtler)
+					const heroBgTextMobile = document.querySelector('.hero-bg-text');
+					if (heroBgTextMobile) {
+						gsap.fromTo(
+							heroBgTextMobile,
+							{ yPercent: 0, xPercent: 0 },
+							{
+								yPercent: -15,
+								xPercent: -5,
+								ease: 'none',
+								scrollTrigger: {
+									trigger: '#hero',
+									start: 'top top',
+									end: 'bottom top',
+									scrub: 1
+								}
+							}
+						);
+					}
+
 					gsap.fromTo(
 						'.hero-headline-1',
 						{ opacity: 0, y: 10 },
@@ -333,6 +519,115 @@
 						{ opacity: 0, y: 10 },
 						{ opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out', delay: 1 }
 					);
+
+					const vibeSectionMobile = document.querySelector('.vibe-section');
+					if (vibeSectionMobile) {
+						// Background text parallax on mobile too
+						const vibeBgTextMobile = vibeSectionMobile.querySelector('.vibe-bg-text');
+						if (vibeBgTextMobile) {
+							gsap.fromTo(
+								vibeBgTextMobile,
+								{ xPercent: 5 },
+								{
+									xPercent: -5,
+									ease: 'none',
+									scrollTrigger: {
+										trigger: vibeSectionMobile,
+										start: 'top bottom',
+										end: 'bottom top',
+										scrub: 1
+									}
+								}
+							);
+						}
+
+						gsap.fromTo(
+							'.vibe-label',
+							{ opacity: 0, x: -20 },
+							{
+								opacity: 1,
+								x: 0,
+								duration: 0.6,
+								ease: 'power3.out',
+								scrollTrigger: { trigger: vibeSectionMobile, start: 'top 85%' }
+							}
+						);
+
+						gsap.fromTo(
+							'.vibe-svg-wrap',
+							{ opacity: 0, scale: 0.85, y: 20 },
+							{
+								opacity: 1,
+								scale: 1,
+								y: 0,
+								duration: 1,
+								ease: 'power3.out',
+								scrollTrigger: { trigger: vibeSectionMobile, start: 'top 85%' }
+							}
+						);
+						gsap.fromTo(
+							'.vibe-title',
+							{ opacity: 0, y: 20 },
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.8,
+								delay: 0.2,
+								scrollTrigger: { trigger: vibeSectionMobile, start: 'top 85%' }
+							}
+						);
+						gsap.fromTo(
+							'.vibe-subtitle',
+							{ opacity: 0, y: 20 },
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.8,
+								delay: 0.3,
+								scrollTrigger: { trigger: vibeSectionMobile, start: 'top 85%' }
+							}
+						);
+						gsap.fromTo(
+							'.vibe-desc',
+							{ opacity: 0, y: 20 },
+							{
+								opacity: 1,
+								y: 0,
+								duration: 0.8,
+								delay: 0.4,
+								scrollTrigger: { trigger: vibeSectionMobile, start: 'top 85%' }
+							}
+						);
+
+						const paths = vibeSectionMobile.querySelectorAll('.vibe-path');
+						paths.forEach((path: any) => {
+							const length = path.getTotalLength ? path.getTotalLength() : 1000;
+							gsap.fromTo(
+								path,
+								{ strokeDasharray: length, strokeDashoffset: length },
+								{
+									strokeDashoffset: 0,
+									duration: 2,
+									ease: 'power2.out',
+									scrollTrigger: { trigger: vibeSectionMobile, start: 'top 85%' }
+								}
+							);
+						});
+
+						// Outer light rays — pop in on mobile
+						gsap.fromTo(
+							'.vibe-ray',
+							{ opacity: 0, scale: 0, transformOrigin: 'center' },
+							{
+								opacity: 1,
+								scale: 1,
+								duration: 1,
+								delay: 1.5,
+								ease: 'back.out(2)',
+								scrollTrigger: { trigger: vibeSectionMobile, start: 'top 85%' }
+							}
+						);
+					}
 
 					gsap.utils.toArray('.reveal-section').forEach((section: any) => {
 						gsap.fromTo(
@@ -409,6 +704,16 @@
 		id="hero"
 		class="relative min-h-dvh flex items-start sm:items-center overflow-hidden pb-16 pt-24 sm:pt-20 sm:pb-28"
 	>
+		<!-- Parallax watermark text — bottom-right, very subtle, partially clipped -->
+		<div class="absolute bottom-[-12%] right-[-15%] pointer-events-none select-none z-[1]">
+			<span
+				class="hero-bg-text font-syne font-black text-[28vw] md:text-[18vw] tracking-tighter whitespace-nowrap"
+				style="color: var(--text-heading); opacity: 0.018;"
+			>
+				DIGITAL
+			</span>
+		</div>
+
 		<!-- Background: particle network + subtle radial glow -->
 		<div class="absolute inset-0 z-0">
 			<div
@@ -431,13 +736,13 @@
 					<div>
 						<!-- Opening line -->
 						<p
-							class="hero-headline-1 text-sm sm:text-base font-semibold uppercase tracking-[0.2em] mb-4 sm:mb-5"
+							class="hero-headline-1 font-syne text-sm sm:text-base font-semibold uppercase tracking-[0.2em] mb-4 sm:mb-5"
 							style="color: var(--text-tertiary);"
 						>
 							{m['heroNew.headline1']()}
 						</p>
 
-						<!-- Main headline — Poppins, solid color, accent on key words -->
+						<!-- Main headline — Syne display font, solid color, accent on key words -->
 						<h1
 							class="hero-headline-2 font-poppins font-extrabold text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] xl:text-[5.5rem] mb-6 sm:mb-8 leading-[1.08] tracking-tight"
 							style="color: var(--text-heading);"
@@ -508,6 +813,149 @@
 
 	<section class="services-wrapper reveal-section glass-section relative gradient-bg-1">
 		<Services />
+	</section>
+
+	<!-- Vibe Section — pinned scroll reveal with parallax -->
+	<section class="vibe-section relative overflow-hidden py-20 sm:py-28 lg:py-36">
+		<!-- Large background text -->
+		<div
+			class="absolute inset-0 pointer-events-none flex items-center justify-center select-none z-0 overflow-hidden"
+		>
+			<span
+				class="vibe-bg-text font-syne font-black text-[30vw] md:text-[20vw] tracking-tighter whitespace-nowrap"
+				style="color: var(--text-heading); opacity: 0.03;"
+			>
+				VIBE
+			</span>
+		</div>
+
+		<!-- Ambient glow blobs -->
+		<div class="absolute inset-0 z-0 pointer-events-none">
+			<div
+				class="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-blue-500/8 blur-[120px]"
+			></div>
+			<div
+				class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-purple-500/6 blur-[100px]"
+			></div>
+		</div>
+
+		<div class="relative z-10 container mx-auto px-6 sm:px-8 lg:px-12">
+			<div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
+				<!-- Text Content -->
+				<div class="lg:col-span-7 flex flex-col justify-center">
+					<!-- Section label -->
+					<div class="flex items-center gap-3 mb-6 vibe-label">
+						<div class="h-px w-10 md:w-12 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+						<span
+							class="font-syne text-blue-500 text-xs md:text-sm font-bold uppercase tracking-[0.3em]"
+						>
+							{m['vibe.title']()}
+						</span>
+					</div>
+
+					<h2
+						class="vibe-title font-syne text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 tracking-tight leading-[1.1]"
+						style="color: var(--text-heading);"
+					>
+						&bdquo;{m['vibe.titleHighlight']()}&ldquo;
+					</h2>
+
+					<p
+						class="vibe-subtitle text-xl sm:text-2xl font-medium mb-6 leading-relaxed max-w-2xl"
+						style="color: var(--text-heading);"
+					>
+						{m['vibe.subtitle']()}
+					</p>
+
+					<p
+						class="vibe-desc text-base sm:text-lg lg:text-xl font-light leading-relaxed max-w-2xl"
+						style="color: var(--text-secondary);"
+					>
+						{m['vibe.description']()}
+					</p>
+				</div>
+
+				<!-- SVG Container -->
+				<div class="lg:col-span-5 flex justify-center lg:justify-end mt-10 lg:mt-0">
+					<div
+						class="vibe-svg-wrap relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 flex justify-center items-center"
+					>
+						<!-- Glow effect behind SVG -->
+						<div
+							class="vibe-svg-glow absolute inset-0 rounded-full blur-3xl opacity-0 bg-blue-500/40"
+						></div>
+
+						<!-- Swirly Lightbulb SVG -->
+						<svg
+							viewBox="-10 -10 220 220"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+							class="w-full h-full relative z-10 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]"
+							style="overflow: visible;"
+						>
+							<g class="vibe-bulb-group">
+								<!-- Bulb outline -->
+								<path
+									class="vibe-path"
+									d="M100 20 C 135 20, 160 50, 160 90 C 160 120, 140 140, 125 160 L 75 160 C 60 140, 40 120, 40 90 C 40 50, 65 20, 100 20 Z"
+									stroke="url(#vibe-grad)"
+									stroke-width="5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+								<!-- Base lines -->
+								<path
+									class="vibe-path"
+									d="M85 168 L 115 168 M 88 178 L 112 178 M 95 188 L 105 188"
+									stroke="url(#vibe-grad)"
+									stroke-width="5"
+									stroke-linecap="round"
+								/>
+								<!-- Swirly filament -->
+								<path
+									class="vibe-path"
+									d="M90 150 C 90 120, 130 110, 110 80 C 90 50, 70 100, 110 110 C 130 115, 110 150, 110 150"
+									stroke="url(#vibe-grad)"
+									stroke-width="4"
+									stroke-linecap="round"
+								/>
+								<!-- Small sparks/stars (inner ring) -->
+								<path
+									class="vibe-spark"
+									d="M30 40 L 40 50 M 170 40 L 160 50 M 100 0 L 100 10 M 15 90 L 25 90 M 185 90 L 175 90"
+									stroke="url(#vibe-grad)"
+									stroke-width="3"
+									stroke-linecap="round"
+								/>
+								<!-- Outer light rays -->
+								<path
+									class="vibe-ray"
+									d="M14 22 L24 32 M186 22 L176 32 M100 -22 L100 -12 M-7 90 L3 90 M207 90 L197 90 M5 57 L15 60 M195 57 L185 60 M28 147 L38 140 M172 147 L162 140"
+									stroke="url(#vibe-grad)"
+									stroke-width="3"
+									stroke-linecap="round"
+									opacity="0.6"
+									fill="none"
+								/>
+							</g>
+							<defs>
+								<linearGradient
+									id="vibe-grad"
+									x1="40"
+									y1="20"
+									x2="160"
+									y2="188"
+									gradientUnits="userSpaceOnUse"
+								>
+									<stop stop-color="#3B82F6" />
+									<stop offset="1" stop-color="#8B5CF6" />
+								</linearGradient>
+							</defs>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
 	</section>
 
 	<section
@@ -611,7 +1059,7 @@
 			<div class="flex flex-col items-center mb-14 lg:mb-20">
 				<div class="flex items-center gap-3 mb-5">
 					<div class="h-px w-8 bg-blue-500/40"></div>
-					<span class="text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
+					<span class="font-syne text-blue-400/70 text-xs font-bold uppercase tracking-[0.2em]"
 						>{m['projects.title']()}</span
 					>
 					<div class="h-px w-8 bg-blue-500/40"></div>

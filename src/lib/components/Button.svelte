@@ -6,6 +6,7 @@
 		variant?: 'primary' | 'secondary' | 'inverted';
 		type?: 'button' | 'submit' | 'reset';
 		className?: string;
+		style?: string;
 		onclick?: (event: MouseEvent) => void;
 		children?: Snippet;
 		external?: boolean;
@@ -17,6 +18,7 @@
 		variant = 'primary',
 		type = 'button',
 		className = '',
+		style = '',
 		onclick,
 		children,
 		external = false,
@@ -39,54 +41,64 @@
 		}, 600);
 	}
 
-	onMount(async () => {
+	onMount(() => {
 		if (!element) return;
 
-		const { gsap } = await import('gsap');
+		let cleanupGSAP: (() => void) | undefined;
 
-		const handleMouseEnter = (e: Event) => {
-			const target = e.currentTarget as HTMLElement;
-			gsap.to(target, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
-		};
+		(async () => {
+			const { gsap } = await import('gsap');
 
-		const handleMouseLeave = (e: Event) => {
-			const target = e.currentTarget as HTMLElement;
-			gsap.to(target, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
-		};
+			const handleMouseEnter = (e: Event) => {
+				const target = e.currentTarget as HTMLElement;
+				gsap.to(target, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
+			};
 
-		const handleMouseMove = (e: MouseEvent) => {
-			const target = e.currentTarget as HTMLElement;
-			const rect = target.getBoundingClientRect();
-			const x = e.clientX - rect.left - rect.width / 2;
-			const y = e.clientY - rect.top - rect.height / 2;
+			const handleMouseLeave = (e: Event) => {
+				const target = e.currentTarget as HTMLElement;
+				gsap.to(target, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+			};
 
-			gsap.to(target, {
-				x: x * 0.3,
-				y: y * 0.3,
-				duration: 0.3,
-				ease: 'power2.out'
-			});
-		};
+			const handleMouseMove = (e: MouseEvent) => {
+				const target = e.currentTarget as HTMLElement;
+				const rect = target.getBoundingClientRect();
+				const x = e.clientX - rect.left - rect.width / 2;
+				const y = e.clientY - rect.top - rect.height / 2;
 
-		element.addEventListener('mouseenter', handleMouseEnter);
-		element.addEventListener('mouseleave', handleMouseLeave);
-		element.addEventListener('mousemove', handleMouseMove);
-		element.addEventListener('click', createRipple);
+				gsap.to(target, {
+					x: x * 0.3,
+					y: y * 0.3,
+					duration: 0.3,
+					ease: 'power2.out'
+				});
+			};
+
+			if (element) {
+				element.addEventListener('mouseenter', handleMouseEnter);
+				element.addEventListener('mouseleave', handleMouseLeave);
+				element.addEventListener('mousemove', handleMouseMove);
+				element.addEventListener('click', createRipple);
+
+				cleanupGSAP = () => {
+					if (element) {
+						element.removeEventListener('mouseenter', handleMouseEnter);
+						element.removeEventListener('mouseleave', handleMouseLeave);
+						element.removeEventListener('mousemove', handleMouseMove);
+						element.removeEventListener('click', createRipple);
+					}
+				};
+			}
+		})();
 
 		return () => {
-			if (element) {
-				element.removeEventListener('mouseenter', handleMouseEnter);
-				element.removeEventListener('mouseleave', handleMouseLeave);
-				element.removeEventListener('mousemove', handleMouseMove);
-				element.removeEventListener('click', createRipple);
-			}
+			if (cleanupGSAP) cleanupGSAP();
 		};
 	});
 
 	const baseClasses =
 		'magnetic-btn px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg font-bold text-center rounded-2xl transition-all duration-300 inline-flex items-center justify-center gap-2';
 
-	const baseStyle = variant === 'inverted' ? '' : `color: var(--text-heading);`;
+	const computedBaseStyle = $derived(variant === 'inverted' ? '' : `color: var(--text-heading);`);
 
 	const variants: Record<string, string> = {
 		primary:
@@ -99,16 +111,16 @@
 
 {#if href}
 	<a
-		bind:this={element}
 		{href}
+		bind:this={element}
 		target={external ? '_blank' : undefined}
 		rel={external ? 'noopener noreferrer' : undefined}
 		class="{baseClasses} {variants[variant]} {className}"
-		style={baseStyle}
-		{onclick}
+		style="{computedBaseStyle} {style}"
+		on:click={onclick}
 	>
 		{@render children?.()}
-		{#each ripples as ripple}
+		{#each ripples as ripple (ripple.id)}
 			<span
 				class="ripple-effect"
 				style="left: {ripple.x}px; top: {ripple.y}px; width: {ripple.size}px; height: {ripple.size}px;"
@@ -117,17 +129,15 @@
 	</a>
 {:else}
 	<button
-		bind:this={element}
 		{type}
-		class="{baseClasses} {variants[variant]} {className} {disabled
-			? 'opacity-50 cursor-not-allowed'
-			: ''}"
-		style={baseStyle}
-		{onclick}
+		bind:this={element}
 		{disabled}
+		class="{baseClasses} {variants[variant]} {className}"
+		style="{computedBaseStyle} {style}"
+		on:click={onclick}
 	>
 		{@render children?.()}
-		{#each ripples as ripple}
+		{#each ripples as ripple (ripple.id)}
 			<span
 				class="ripple-effect"
 				style="left: {ripple.x}px; top: {ripple.y}px; width: {ripple.size}px; height: {ripple.size}px;"

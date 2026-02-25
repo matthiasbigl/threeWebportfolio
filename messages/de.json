@@ -6,6 +6,12 @@
 		"faq": "FAQ",
 		"contact": "Kontakt"
 	},
+	"vibe": {
+		"title": "Mehr als",
+		"titleHighlight": "nur Code",
+		"subtitle": "Als Web-Entwickler schreibe ich nicht einfach nur Code. Ich möchte Ihr Business, Ihren Vibe und Ihre Identität verstehen.",
+		"description": "Es ist meine Aufgabe, den wahren Kern Ihres Unternehmens und Sie selbst einzufangen. Nur wenn ich Ihre Vision verstehe, entsteht eine Website, die wirklich zu Ihnen passt."
+	},
 	"hero": {
 		"greeting": "Hey, ich bin",
 		"name": "Matthias Bigl",
@@ -581,6 +587,7 @@
 		"journey": {
 			"label": "Meine Geschichte",
 			"title": "Der Weg hierher",
+			"scrollHint": "Scrollen",
 			"steps": {
 				"beginning": {
 					"title": "Der Anfang",

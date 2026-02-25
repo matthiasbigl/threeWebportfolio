@@ -23,7 +23,7 @@
 		class:fullscreen
 		transition:fade={{ duration: $reducedMotion ? 0 : 220 }}
 		aria-live="polite"
-		aria-label={m["a11y.loading"]()}
+		aria-label={m['a11y.loading']()}
 		role="status"
 	>
 		<div class="spinner-wrapper">

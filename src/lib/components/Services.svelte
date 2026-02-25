@@ -394,7 +394,7 @@
 		<div class="max-w-3xl mb-10 sm:mb-16 lg:mb-20">
 			<div class="flex items-center gap-3 mb-4 sm:mb-6">
 				<div class="h-px w-8 bg-blue-500"></div>
-				<span class="text-blue-400 text-xs font-bold uppercase tracking-[0.2em]">
+				<span class="font-syne text-blue-400 text-xs font-bold uppercase tracking-[0.2em]">
 					{m['services.title']()}
 				</span>
 			</div>
@@ -446,7 +446,7 @@
 							</div>
 							<div>
 								<h3
-									class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight"
+									class="font-syne text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight"
 									style="color: var(--text-heading);"
 								>
 									{m['services.allInOne.title']()}
@@ -556,7 +556,7 @@
 											{/if}
 										</div>
 										<h5
-											class="process-step-title text-xs sm:text-sm font-semibold mb-1 {isHovered
+											class="process-step-title font-syne text-xs sm:text-sm font-semibold mb-1 {isHovered
 												? 'step-title-active'
 												: ''} {isNextOfHovered ? 'step-title-next' : ''}"
 											style="color: var(--text-heading);"
@@ -564,7 +564,7 @@
 											{step.title}
 										</h5>
 										<p
-											class="text-[10px] sm:text-xs leading-relaxed text-center process-step-desc {isNextOfHovered
+											class="text-[10px] sm:text-xs leading-relaxed process-step-desc {isNextOfHovered
 												? 'step-desc-next'
 												: ''}"
 											style="color: var(--text-tertiary);"
@@ -639,7 +639,7 @@
 								<div class="flex-1 min-w-0">
 									<div class="flex items-center justify-between md:hidden">
 										<h3
-											class="text-lg font-bold tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-300 transition-all duration-300"
+											class="font-syne text-lg font-bold tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-300 transition-all duration-300"
 											style="color: var(--text-heading);"
 										>
 											{service.title}
@@ -647,7 +647,7 @@
 									</div>
 									<!-- Desktop-only title (hidden on mobile since it's shown inline above) -->
 									<h3
-										class="hidden md:block text-lg lg:text-xl font-bold mb-2.5 sm:mb-3 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-300 transition-all duration-300"
+										class="font-syne hidden md:block text-lg lg:text-xl font-bold mb-2.5 sm:mb-3 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-300 transition-all duration-300"
 										style="color: var(--text-heading);"
 									>
 										{service.title}

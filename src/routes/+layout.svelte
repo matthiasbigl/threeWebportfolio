@@ -27,13 +27,13 @@
 		{
 			pattern: /^\/projects\/.+/,
 			backHref: '/#projects',
-			getBackLabel: () => m["projectDetail.backLabel"](),
+			getBackLabel: () => m['projectDetail.backLabel'](),
 			hideFooter: true
 		},
 		{
 			pattern: /^\/pricing$/,
 			backHref: '/',
-			getBackLabel: () => m["pricing.backToHome"](),
+			getBackLabel: () => m['pricing.backToHome'](),
 			hideFooter: true
 		}
 	];
@@ -106,7 +106,7 @@
 			? 0
 			: 30}px);"
 		onclick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-		aria-label={m["a11y.scrollDown"]()}
+		aria-label={m['a11y.scrollDown']()}
 	>
 		<svg
 			class="w-6 h-6 transition-transform duration-300 group-hover:translate-y-0.5"
