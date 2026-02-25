@@ -559,13 +559,13 @@
 			</div>
 		</div>
 
-		<!-- Round 2: Section divider label between all-in-one card and individual service cards -->
+		<!-- Section divider label between all-in-one card and individual service cards -->
 		<div class="flex items-center gap-3 mb-5 sm:mb-6">
 			<div class="h-px flex-1" style="background: var(--border-primary);"></div>
 			<span
 				class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] px-1"
 				style="color: var(--text-tertiary);"
-			>Einzelne Leistungen</span>
+			>{m['services.sectionDivider']()}</span>
 			<div class="h-px flex-1" style="background: var(--border-primary);"></div>
 		</div>
 
