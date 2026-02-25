@@ -10,7 +10,11 @@
 		"title": "More than",
 		"titleHighlight": "just code",
 		"subtitle": "As a web developer, I don't just write code. I want to understand your business, your vibe, and your identity.",
-		"description": "It is my job to capture the true core of your company and you. Only when I truly understand your vision can we build a digital home that really fits."
+		"description": "It is my job to capture the true core of your company and you. Only when I truly understand your vision can we build a digital home that really fits.",
+		"hint": {
+			"tap": "Tap to activate",
+			"hover": "Hover to activate"
+		}
 	},
 	"hero": {
 		"greeting": "Hey, I'm",
