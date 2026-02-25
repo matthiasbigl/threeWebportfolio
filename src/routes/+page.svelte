@@ -107,21 +107,20 @@
 				if (reduceMotion) return;
 
 				if (isDesktop) {
-					// Hero watermark parallax — drifts up-left on scroll
+					// Hero watermark parallax — drifts left on scroll
 					const heroBgText = document.querySelector('.hero-bg-text');
 					if (heroBgText) {
 						gsap.fromTo(
 							heroBgText,
-							{ yPercent: 0, xPercent: 0 },
+							{ xPercent: 15 },
 							{
-								yPercent: -30,
-								xPercent: -10,
+								xPercent: -40,
 								ease: 'none',
 								scrollTrigger: {
 									trigger: '#hero',
-									start: 'top top',
+									start: 'top bottom',
 									end: 'bottom top',
-									scrub: 1
+									scrub: 1.5
 								}
 							}
 						);
@@ -467,16 +466,15 @@
 					if (heroBgTextMobile) {
 						gsap.fromTo(
 							heroBgTextMobile,
-							{ yPercent: 0, xPercent: 0 },
+							{ xPercent: 12 },
 							{
-								yPercent: -15,
-								xPercent: -5,
+								xPercent: -25,
 								ease: 'none',
 								scrollTrigger: {
 									trigger: '#hero',
-									start: 'top top',
+									start: 'top bottom',
 									end: 'bottom top',
-									scrub: 1
+									scrub: 1.5
 								}
 							}
 						);
@@ -705,10 +703,12 @@
 		class="relative min-h-dvh flex items-start sm:items-center overflow-hidden pb-16 pt-24 sm:pt-20 sm:pb-28"
 	>
 		<!-- Parallax watermark text — bottom-right, very subtle, partially clipped -->
-		<div class="absolute bottom-[-12%] right-[-15%] pointer-events-none select-none z-[1]">
+		<div
+			class="hero-bg-text absolute bottom-[-16%] right-[-15%] pointer-events-none select-none z-[1]"
+		>
 			<span
-				class="hero-bg-text font-syne font-black text-[28vw] md:text-[18vw] tracking-tighter whitespace-nowrap"
-				style="color: var(--text-heading); opacity: 0.018;"
+				class="font-syne font-black text-[28vw] md:text-[18vw] tracking-tighter whitespace-nowrap"
+				style="color: var(--text-heading); opacity: 0.018; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);"
 			>
 				DIGITAL
 			</span>
@@ -927,10 +927,10 @@
 									stroke-width="3"
 									stroke-linecap="round"
 								/>
-								<!-- Outer light rays -->
+								<!-- Outer light rays (offset from inner sparks) -->
 								<path
 									class="vibe-ray"
-									d="M14 22 L24 32 M186 22 L176 32 M100 -22 L100 -12 M-7 90 L3 90 M207 90 L197 90 M5 57 L15 60 M195 57 L185 60 M28 147 L38 140 M172 147 L162 140"
+									d="M50 -10 L56 2 M150 -10 L144 2 M-2 55 L10 58 M202 55 L190 58 M8 130 L20 125 M192 130 L180 125 M55 155 L62 148 M145 155 L138 148"
 									stroke="url(#vibe-grad)"
 									stroke-width="3"
 									stroke-linecap="round"

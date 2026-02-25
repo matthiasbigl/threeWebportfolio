@@ -4,6 +4,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import Button from './Button.svelte';
+	import Marquee from './Marquee.svelte';
 
 	const processSteps = $derived([
 		{
@@ -474,26 +475,26 @@
 					</div>
 
 					<!-- Mobile marquee pills -->
-					<ul class="marquee-container-fast flex overflow-hidden -mx-5 px-5 md:hidden">
-						<div class="marquee-track-fast flex items-center gap-1.5">
+					<div class="md:hidden -mx-5 px-5">
+						<Marquee gap={6} speed="fast">
 							{#each m['services.allInOne.features']().split('\n') as feature}
-								<li
-									class="marquee-item flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-xs font-medium rounded-full whitespace-nowrap transition-all duration-300"
+								<span
+									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-xs font-medium rounded-full whitespace-nowrap transition-all duration-300"
 									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
 								>
 									{feature}
-								</li>
+								</span>
 							{/each}
 							{#each m['services.allInOne.features']().split('\n') as feature}
-								<li
-									class="marquee-item flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-xs font-medium rounded-full whitespace-nowrap transition-all duration-300"
+								<span
+									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-xs font-medium rounded-full whitespace-nowrap transition-all duration-300"
 									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
 								>
 									{feature}
-								</li>
+								</span>
 							{/each}
-						</div>
-					</ul>
+						</Marquee>
+					</div>
 
 					<div class="relative rounded-lg">
 						<div
@@ -663,28 +664,24 @@
 							</p>
 						</div>
 
-						<ul
-							class="marquee-container-fast flex overflow-hidden -mx-5 px-5 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
-						>
-							<div class="marquee-track-fast flex items-center gap-1.5 sm:gap-2">
-								{#each service.features as feature}
-									<li
-										class="marquee-item flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
-										style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
-									>
-										{feature}
-									</li>
-								{/each}
-								{#each service.features as feature}
-									<li
-										class="marquee-item flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
-										style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
-									>
-										{feature}
-									</li>
-								{/each}
-							</div>
-						</ul>
+						<Marquee gap={6} speed="fast" className="-mx-5 px-5 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+							{#each service.features as feature}
+								<span
+									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
+									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+								>
+									{feature}
+								</span>
+							{/each}
+							{#each service.features as feature}
+								<span
+									class="flex-shrink-0 px-3 py-1.5 text-[10px] sm:text-[11px] font-medium rounded-full whitespace-nowrap transition-all duration-300"
+									style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+								>
+									{feature}
+								</span>
+							{/each}
+						</Marquee>
 					</div>
 				</article>
 			{/each}
@@ -908,39 +905,6 @@
 	}
 	.scrollbar-hide::-webkit-scrollbar {
 		display: none;
-	}
-
-	.marquee-container,
-	.marquee-container-fast {
-		mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-		-webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-	}
-
-	.marquee-track {
-		animation: marquee 35s linear infinite;
-	}
-	.marquee-track-fast {
-		animation: marquee 25s linear infinite;
-	}
-	.all-in-one-card:hover .marquee-track,
-	.bento-item:hover .marquee-track-fast {
-		animation-play-state: paused;
-	}
-
-	@keyframes marquee {
-		0% {
-			transform: translateX(0);
-		}
-		100% {
-			transform: translateX(-50%);
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.marquee-track,
-		.marquee-track-fast {
-			animation: none;
-		}
 	}
 
 	@media (max-width: 767px) {

@@ -31,7 +31,7 @@
 	href={link}
 	{target}
 	{rel}
-	class="project-row-item group block relative border-b border-[var(--border-primary)] py-8 sm:py-12 lg:py-16 transition-all duration-500 hover:bg-[var(--text-primary)] {className}"
+	class="project-row-item group block relative border-b border-[var(--border-primary)] py-8 sm:py-12 lg:py-16 transition-all duration-500 hover:bg-[var(--text-primary)] will-change-[background-color] {className}"
 >
 	<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 px-4 sm:px-8">
 		<div class="flex-1 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-12">
@@ -59,13 +59,13 @@
 						<enhanced:img
 							src={image}
 							alt={imageAlt}
-							class="w-full h-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transition-transform duration-700 ease-expo group-hover:scale-105"
+							class="w-full h-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transition-transform duration-700 ease-expo group-hover:scale-105 will-change-transform"
 						/>
 					{:else if image}
 						<img
 							src={image}
 							alt={imageAlt}
-							class="w-full h-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transition-transform duration-700 ease-expo group-hover:scale-105"
+							class="w-full h-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transition-transform duration-700 ease-expo group-hover:scale-105 will-change-transform"
 						/>
 					{/if}
 				</div>
@@ -74,20 +74,20 @@
 
 		<!-- Hover Reveal Image (Desktop) -->
 		<div
-			class="hidden lg:block w-0 opacity-0 group-hover:w-72 group-hover:opacity-100 transition-all duration-700 ease-expo overflow-hidden rounded-xl flex-shrink-0 origin-left"
+			class="hidden lg:block w-0 opacity-0 group-hover:w-72 group-hover:opacity-100 transition-all duration-700 ease-expo overflow-hidden rounded-xl flex-shrink-0 origin-left will-change-[width,opacity]"
 		>
 			<div class="w-72 h-40 relative flex items-center justify-center p-2">
 				{#if image && typeof image === 'object'}
 					<enhanced:img
 						src={image}
 						alt={imageAlt}
-						class="w-full h-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transition-transform duration-700 ease-expo group-hover:scale-110"
+						class="w-full h-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transition-transform duration-700 ease-expo group-hover:scale-110 will-change-transform"
 					/>
 				{:else if image}
 					<img
 						src={image}
 						alt={imageAlt}
-						class="w-full h-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transition-transform duration-700 ease-expo group-hover:scale-110"
+						class="w-full h-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transition-transform duration-700 ease-expo group-hover:scale-110 will-change-transform"
 					/>
 				{/if}
 			</div>
@@ -108,7 +108,7 @@
 					class="absolute inset-0 bg-[var(--bg-body)] opacity-0 group-hover:opacity-10 transition-opacity duration-300"
 				></div>
 				<svg
-					class="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform duration-500 ease-expo-in-out relative z-10"
+					class="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform duration-500 ease-expo-in-out relative z-10 will-change-transform"
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"

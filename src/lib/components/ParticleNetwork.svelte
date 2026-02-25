@@ -264,8 +264,8 @@
 		}
 
 		if (interactive && !isMobile) {
-			canvas.addEventListener('mousemove', onMouseMove);
-			canvas.addEventListener('mouseleave', onMouseLeave);
+			window.addEventListener('mousemove', onMouseMove);
+			canvas.parentElement?.addEventListener('mouseleave', onMouseLeave);
 		}
 
 		return () => {
@@ -277,8 +277,8 @@
 			}
 			if (resizeTimer) clearTimeout(resizeTimer);
 			if (interactive) {
-				canvas.removeEventListener('mousemove', onMouseMove);
-				canvas.removeEventListener('mouseleave', onMouseLeave);
+				window.removeEventListener('mousemove', onMouseMove);
+				canvas.parentElement?.removeEventListener('mouseleave', onMouseLeave);
 			}
 		};
 	});
