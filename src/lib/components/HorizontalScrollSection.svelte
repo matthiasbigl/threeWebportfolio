@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import type { Snippet } from 'svelte';
+	import { MoveRight, Hand } from 'lucide-svelte';
 
 	interface Props {
 		/** The HTML id of the outer <section> element — also used as GSAP trigger selector */
@@ -36,11 +37,24 @@
 	let wrapperEl: HTMLElement | null = null;
 	let progressBarEl: HTMLElement | null = null;
 
+	// Touch tracking for mobile swipe
+	let touchStartY = 0;
+	let touchStartX = 0;
+	let isTouchScrolling = false;
+	let hasInteracted = $state(false);
+	let isTouchDevice = $state(false);
+
 	onMount(() => {
 		if (!browser) return;
 
+		// Detect touch device
+		isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
 		const triggers: gsap.core.Tween[] = [];
 		let wheelHandler: ((e: WheelEvent) => void) | null = null;
+		let touchStartHandler: ((e: TouchEvent) => void) | null = null;
+		let touchMoveHandler: ((e: TouchEvent) => void) | null = null;
+		let touchEndHandler: (() => void) | null = null;
 
 		(async () => {
 			const { gsap } = await import('gsap');
@@ -83,6 +97,7 @@
 					invalidateOnRefresh: true,
 					onUpdate: (self) => {
 						if (progressBarEl) progressBarEl.style.width = `${self.progress * 100}%`;
+						if (!hasInteracted && self.progress > 0.04) hasInteracted = true;
 					}
 				}
 			});
@@ -90,22 +105,105 @@
 
 			// Translate horizontal wheel delta into vertical scroll so ScrollTrigger picks it up
 			wheelHandler = (e: WheelEvent) => {
-				// Let the event pass through if it originated inside a horizontally scrollable child
-				// (e.g. the chips row) — that element handles it natively
 				const target = e.target as HTMLElement;
 				const scrollableParent = target.closest('.chips-row, [data-hscroll]');
 				if (scrollableParent) return;
 
+				if (!hasInteracted) hasInteracted = true;
+
 				const st = mainTween.scrollTrigger;
 				if (!st) return;
+
+				// Pure vertical scroll — let it pass through to GSAP/page naturally
+				const absX = Math.abs(e.deltaX);
+				const absY = Math.abs(e.deltaY);
+				if (absY > absX) return;
+
+				// Horizontal delta at boundaries — pass through to page scroll
 				if (st.progress <= 0 && e.deltaX <= 0) return;
 				if (st.progress >= 1 && e.deltaX >= 0) return;
-				const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : 0;
-				if (delta === 0) return;
+
 				e.preventDefault();
-				window.scrollBy({ top: delta, behavior: 'instant' });
+				window.scrollBy({ top: e.deltaX, behavior: 'instant' });
 			};
 			sectionEl.addEventListener('wheel', wheelHandler, { passive: false });
+
+			// Mobile touch swipe — translate horizontal swipe into vertical scroll for GSAP
+			touchStartHandler = (e: TouchEvent) => {
+				const target = e.target as HTMLElement;
+				const scrollableParent = target.closest('.chips-row, [data-hscroll]');
+				if (scrollableParent) return;
+
+				// Mark that user has interacted
+				if (!hasInteracted) hasInteracted = true;
+
+				touchStartX = e.touches[0].clientX;
+				touchStartY = e.touches[0].clientY;
+				isTouchScrolling = true;
+			};
+
+			touchMoveHandler = (e: TouchEvent) => {
+				if (!isTouchScrolling) return;
+
+				const target = e.target as HTMLElement;
+				const scrollableParent = target.closest('.chips-row, [data-hscroll]');
+				if (scrollableParent) return;
+
+				const deltaX = e.touches[0].clientX - touchStartX;
+				const deltaY = e.touches[0].clientY - touchStartY;
+				const st = mainTween.scrollTrigger;
+				if (!st) return;
+
+				const absX = Math.abs(deltaX);
+				const absY = Math.abs(deltaY);
+
+				const tryPrevent = () => {
+					if (e.cancelable) e.preventDefault();
+				};
+
+				// Horizontal swipe dominant — drive the horizontal scroll
+				if (absX > absY && absX > 10) {
+					// At the start swiping right → push page upward past pin
+					if (st.progress <= 0 && deltaX > 0) {
+						tryPrevent();
+						window.scrollBy({ top: -deltaX * 0.5, behavior: 'instant' });
+						touchStartX = e.touches[0].clientX;
+						touchStartY = e.touches[0].clientY;
+						return;
+					}
+					// At the end swiping left → push page downward past pin
+					if (st.progress >= 1 && deltaX < 0) {
+						tryPrevent();
+						window.scrollBy({ top: absX, behavior: 'instant' });
+						touchStartX = e.touches[0].clientX;
+						touchStartY = e.touches[0].clientY;
+						return;
+					}
+					// Mid-section: convert horizontal swipe to vertical scroll for GSAP
+					tryPrevent();
+					window.scrollBy({ top: -deltaX, behavior: 'instant' });
+					touchStartX = e.touches[0].clientX;
+					touchStartY = e.touches[0].clientY;
+				}
+
+				// Vertical swipe dominant at boundaries — push page past pin
+				if (absY > absX && absY > 10) {
+					if (st.progress >= 1 || st.progress <= 0) {
+						tryPrevent();
+						window.scrollBy({ top: -deltaY, behavior: 'instant' });
+						touchStartX = e.touches[0].clientX;
+						touchStartY = e.touches[0].clientY;
+					}
+				}
+			};
+
+			touchEndHandler = () => {
+				isTouchScrolling = false;
+			};
+
+			sectionEl.addEventListener('touchstart', touchStartHandler, { passive: true });
+			sectionEl.addEventListener('touchmove', touchMoveHandler, { passive: false });
+			sectionEl.addEventListener('touchend', touchEndHandler, { passive: true });
 
 			// Parallax on big background numbers — scoped to wrapperEl
 			allCards.forEach((card) => {
@@ -135,6 +233,9 @@
 			triggers.forEach((t) => t.scrollTrigger?.kill());
 			sectionEl?.classList.remove('gsap-pinned');
 			if (wheelHandler) sectionEl?.removeEventListener('wheel', wheelHandler);
+			if (touchStartHandler) sectionEl?.removeEventListener('touchstart', touchStartHandler);
+			if (touchMoveHandler) sectionEl?.removeEventListener('touchmove', touchMoveHandler);
+			if (touchEndHandler) sectionEl?.removeEventListener('touchend', touchEndHandler);
 		};
 	});
 </script>
@@ -144,6 +245,7 @@
 	{id}
 	class="relative h-[100dvh] overflow-x-auto overflow-y-hidden flex items-center"
 	style="background: {background};"
+	aria-label="Horizontal scroll section - {watermark}"
 >
 	<!-- Large background watermark -->
 	<div
@@ -183,6 +285,18 @@
 	<div class="progress-track">
 		<div bind:this={progressBarEl} class="progress-fill"></div>
 	</div>
+
+	<!-- Persistent scroll hint — bottom-right, dims after first interaction -->
+	<div class="scroll-hint" class:interacted={hasInteracted} aria-hidden="true">
+		{#if isTouchDevice}
+			<Hand class="w-4 h-4" />
+			<span>Swipe</span>
+			<MoveRight class="w-4 h-4" />
+		{:else}
+			<MoveRight class="w-4 h-4" />
+			<span>Scroll</span>
+		{/if}
+	</div>
 </section>
 
 <style>
@@ -214,8 +328,8 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		height: 3px;
-		background: var(--glass-border, rgba(255 255 255 / 0.1));
+		height: 4px;
+		background: rgba(255 255 255 / 0.08);
 		z-index: 20;
 	}
 	.progress-fill {
@@ -224,6 +338,59 @@
 		background: linear-gradient(to right, #3b82f6, #a855f7);
 		border-radius: 0 2px 2px 0;
 		transition: width 0.05s linear;
+		box-shadow: 0 0 8px rgba(168 85 247 / 0.4);
+	}
+
+	/* Scroll hint — persistent pill, bottom-right */
+	.scroll-hint {
+		position: absolute;
+		bottom: 1rem;
+		right: 1.25rem;
+		z-index: 30;
+		pointer-events: none;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 0.875rem;
+		border-radius: 9999px;
+		background: rgba(15 23 42 / 0.75);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid rgba(255 255 255 / 0.12);
+		color: rgba(255 255 255 / 0.75);
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		animation: hint-slide-in 0.5s 0.8s ease forwards;
+		opacity: 0;
+		transition: opacity 0.6s ease;
+	}
+	/* Dim after interaction — animation: none means fill is dropped,
+	   but we immediately set opacity so there is no flash */
+	.scroll-hint.interacted {
+		animation: none;
+		opacity: 0.22;
+	}
+	@keyframes hint-slide-in {
+		from {
+			opacity: 0;
+			transform: translateY(6px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	.scroll-hint :global(.lucide) {
+		flex-shrink: 0;
+	}
+
+	/* Hide on reduced motion */
+	@media (prefers-reduced-motion: reduce) {
+		.scroll-hint {
+			display: none;
+		}
 	}
 
 	@keyframes bounce-x {

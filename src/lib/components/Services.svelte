@@ -18,7 +18,8 @@
 		Target,
 		Star,
 		Wrench,
-		Check
+		Check,
+		ChevronRight
 	} from 'lucide-svelte';
 
 	const processSteps = $derived([
@@ -136,6 +137,28 @@
 	onMount(() => {
 		if (!browser) return;
 
+		function checkChipsScroll() {
+			const inners = document.querySelectorAll<HTMLElement>('.chips-inner');
+			inners.forEach((inner) => {
+				const wrapper = inner.closest('.chips-wrapper') as HTMLElement;
+				if (!wrapper) return;
+				const hasOverflow = inner.scrollWidth > inner.clientWidth + 1;
+				const atEnd = inner.scrollWidth - inner.scrollLeft - inner.clientWidth <= 2;
+				wrapper.dataset.hasOverflow = hasOverflow && !atEnd ? 'true' : 'false';
+			});
+		}
+
+		requestAnimationFrame(checkChipsScroll);
+
+		const resizeObserver = new ResizeObserver(checkChipsScroll);
+		resizeObserver.observe(document.body);
+
+		// Listen to scroll on each inner track
+		const inners = document.querySelectorAll<HTMLElement>('.chips-inner');
+		inners.forEach((inner) =>
+			inner.addEventListener('scroll', checkChipsScroll, { passive: true })
+		);
+
 		let mm: gsap.MatchMedia;
 
 		(async () => {
@@ -238,7 +261,12 @@
 			);
 		})();
 
-		return () => mm?.revert();
+		return () => {
+			mm?.revert();
+			resizeObserver.disconnect();
+			const inners2 = document.querySelectorAll<HTMLElement>('.chips-inner');
+			inners2.forEach((inner) => inner.removeEventListener('scroll', checkChipsScroll));
+		};
 	});
 </script>
 
@@ -543,15 +571,24 @@
 
 					<!-- Feature chips — single row, horizontally scrollable -->
 					<div class="chips-wrapper">
-						<div class="flex gap-2 overflow-x-auto pb-1 chips-row">
-							{#each service.features as feature}
-								<span
-									class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-[0.1em] shrink-0"
-									style="background: {service.accent}18; color: {service.accent}; border: 1px solid {service.accent}30;"
-								>
-									{feature}
-								</span>
-							{/each}
+						<div class="flex overflow-hidden pb-1 chips-row">
+							<div class="flex gap-2 pl-4 pr-2 chips-inner">
+								{#each service.features as feature}
+									<span
+										class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-[0.1em] shrink-0"
+										style="background: {service.accent}18; color: {service.accent}; border: 1px solid {service.accent}30;"
+									>
+										{feature}
+									</span>
+								{/each}
+							</div>
+							<!-- Scroll hint - reserved flex column on right -->
+							<div
+								class="shrink-0 flex items-center justify-center chips-scroll-hint"
+								aria-hidden="true"
+							>
+								<ChevronRight class="w-4 h-4" />
+							</div>
 						</div>
 					</div>
 				</div>
@@ -657,6 +694,7 @@
 					onmouseenter={handleCtaMouseEnter}
 					onmouseleave={handleCtaMouseLeave}
 					onmousemove={handleCtaMouseMove}
+					role="presentation"
 				>
 					<Button
 						href={localizeHref('/contact')}
@@ -685,31 +723,61 @@
 </section>
 
 <style>
-	/* Hide scrollbar on chip rows — still scrollable via touch/mouse */
+	/* Hide scrollbar on chip rows */
 	.chips-row {
 		scrollbar-width: none;
-		mask-image: linear-gradient(
-			to right,
-			transparent 0%,
-			black 2rem,
-			black calc(100% - 2rem),
-			transparent 100%
-		);
-		-webkit-mask-image: linear-gradient(
-			to right,
-			transparent 0%,
-			black 2rem,
-			black calc(100% - 2rem),
-			transparent 100%
-		);
+		-ms-overflow-style: none;
 	}
 	.chips-row::-webkit-scrollbar {
 		display: none;
 	}
 
-	/* Wrapper only needs relative positioning for any future use */
+	.chips-inner {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		overflow-x: auto;
+		flex: 1;
+		min-width: 0;
+		mask-image: linear-gradient(to right, black 80%, transparent 100%);
+		-webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+	}
+	.chips-inner::-webkit-scrollbar {
+		display: none;
+	}
+
+	/* Wrapper positioning */
 	.chips-wrapper {
 		position: relative;
+	}
+
+	/* Scroll hint styling - now part of flex layout */
+	.chips-scroll-hint {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--text-muted, #94a3b8);
+		animation: chips-bounce 1.5s ease-in-out infinite;
+		flex-shrink: 0;
+	}
+	@keyframes chips-bounce {
+		0%,
+		100% {
+			transform: translateX(0);
+		}
+		50% {
+			transform: translateX(4px);
+		}
+	}
+
+	/* Hide hint when no overflow */
+	.chips-wrapper[data-has-overflow='false'] .chips-scroll-hint {
+		display: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.chips-scroll-hint {
+			animation: none;
+		}
 	}
 
 	.animate-blob {
