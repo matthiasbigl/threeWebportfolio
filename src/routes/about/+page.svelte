@@ -11,6 +11,7 @@
 	import SEO from '$lib/components/SEO.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
+	import HorizontalScrollSection from '$lib/components/HorizontalScrollSection.svelte';
 	import dumbbellImg from '$lib/assets/dumbbell.png';
 	import surfingImg from '$lib/assets/surfing.JPG';
 
@@ -104,52 +105,6 @@
 								}
 							}
 						);
-					}
-
-					// Horizontal scroll effect — works on BOTH mobile and desktop
-					const journeySection = document.querySelector('#journey');
-					const journeyWrapper = document.querySelector('.journey-horizontal-wrapper');
-					const journeyCards = gsap.utils.toArray('.journey-horizontal-card');
-
-					if (journeySection && journeyWrapper && journeyCards.length > 0) {
-						const getScrollDistance = () => {
-							return (journeyWrapper as HTMLElement).scrollWidth - window.innerWidth;
-						};
-
-						gsap.to(journeyWrapper, {
-							x: () => -getScrollDistance(),
-							ease: 'none',
-							scrollTrigger: {
-								trigger: journeySection,
-								start: 'top top',
-								end: () => `+=${getScrollDistance() + window.innerWidth * 0.3}`,
-								pin: true,
-								scrub: 0.8,
-								invalidateOnRefresh: true
-							}
-						});
-
-						// Parallax on big background numbers — slight offset effect
-						journeyCards.forEach((card: any) => {
-							const number = card.querySelector('.journey-bg-number');
-							if (number) {
-								gsap.fromTo(
-									number,
-									{ xPercent: -15 },
-									{
-										xPercent: 15,
-										ease: 'none',
-										scrollTrigger: {
-											trigger: journeySection,
-											start: 'top top',
-											end: () => `+=${getScrollDistance() + window.innerWidth * 0.3}`,
-											scrub: 0.8,
-											invalidateOnRefresh: true
-										}
-									}
-								);
-							}
-						});
 					}
 
 					if (isMobile) {
@@ -535,163 +490,145 @@
 	</section>
 
 	<!-- TIMELINE / JOURNEY (Horizontal Scroll — all breakpoints) -->
-	<section
-		id="journey"
-		class="relative h-[100dvh] bg-[var(--bg-body)] overflow-hidden flex items-center"
-	>
-		<!-- Huge Background Text -->
-		<div
-			class="absolute inset-0 pointer-events-none flex items-center justify-center select-none z-0"
-		>
-			<span
-				class="font-syne font-black text-[40vw] md:text-[25vw] tracking-tighter whitespace-nowrap"
-				style="color: var(--text-heading); opacity: 0.04;"
-			>
-				JOURNEY
+	{#snippet journeyIntroSlide()}
+		<div class="flex items-center gap-3 mb-4 md:mb-6">
+			<div class="h-px w-10 md:w-12 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+			<span class="text-blue-500 text-xs md:text-sm font-bold uppercase tracking-[0.3em]">
+				{m['aboutPage.journey.label']()}
 			</span>
 		</div>
-
-		<!-- Wrapper that moves horizontally -->
-		<div
-			class="journey-horizontal-wrapper flex h-full items-center relative z-10 w-max pl-[6vw] md:pl-[10vw] pr-[30vw] md:pr-[25vw] gap-6 md:gap-8"
+		<h2
+			class="font-syne text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-6 md:mb-8 leading-[1.1]"
+			style="color: var(--text-heading);"
 		>
-			<!-- Intro Card/Title Area -->
-			<div
-				class="journey-horizontal-card w-[88vw] md:w-[70vw] lg:w-[50vw] max-w-2xl shrink-0 flex flex-col justify-center px-4 md:px-12 relative"
+			{m['aboutPage.journey.title']()}
+		</h2>
+		<div class="flex items-center gap-4">
+			<div class="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+			<span
+				class="text-sm font-medium uppercase tracking-widest"
+				style="color: var(--text-tertiary);">{m['aboutPage.journey.scrollHint']()}</span
 			>
-				<div class="flex items-center gap-3 mb-4 md:mb-6">
-					<div class="h-px w-10 md:w-12 bg-gradient-to-r from-blue-500 to-purple-500"></div>
-					<span class="text-blue-500 text-xs md:text-sm font-bold uppercase tracking-[0.3em]">
-						{m['aboutPage.journey.label']()}
-					</span>
-				</div>
-				<h2
-					class="font-syne text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-6 md:mb-8 leading-[1.1]"
-					style="color: var(--text-heading);"
-				>
-					{m['aboutPage.journey.title']()}
-				</h2>
-				<div class="flex items-center gap-4">
-					<div class="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-					<span
-						class="text-sm font-medium uppercase tracking-widest"
-						style="color: var(--text-tertiary);">{m['aboutPage.journey.scrollHint']()}</span
-					>
-					<svg
-						class="w-5 h-5 animate-bounce-x"
-						style="color: var(--text-tertiary);"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M17 8l4 4m0 0l-4 4m4-4H3"
-						/>
-					</svg>
-				</div>
-			</div>
+			<svg
+				class="w-5 h-5 animate-bounce-x"
+				style="color: var(--text-tertiary);"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M17 8l4 4m0 0l-4 4m4-4H3"
+				/>
+			</svg>
+		</div>
+	{/snippet}
 
-			<!-- Journey Steps as Horizontal Cards -->
-			{#each journeySteps as step, i}
-				{@const accentColors = [
-					{
-						gradient: 'from-blue-500 to-cyan-400',
-						bg: 'from-blue-500/8 to-cyan-500/8',
-						border: 'border-blue-500/15',
-						dot: 'bg-blue-500'
-					},
-					{
-						gradient: 'from-cyan-500 to-emerald-400',
-						bg: 'from-cyan-500/8 to-emerald-500/8',
-						border: 'border-cyan-500/15',
-						dot: 'bg-cyan-500'
-					},
-					{
-						gradient: 'from-purple-500 to-pink-400',
-						bg: 'from-purple-500/8 to-pink-500/8',
-						border: 'border-purple-500/15',
-						dot: 'bg-purple-500'
-					},
-					{
-						gradient: 'from-pink-500 to-orange-400',
-						bg: 'from-pink-500/8 to-orange-500/8',
-						border: 'border-pink-500/15',
-						dot: 'bg-pink-500'
-					}
-				]}
-				{@const accent = accentColors[i % accentColors.length]}
+	{#snippet journeyCards()}
+		{#each journeySteps as step, i}
+			{@const accentColors = [
+				{
+					gradient: 'from-blue-500 to-cyan-400',
+					bg: 'from-blue-500/8 to-cyan-500/8',
+					border: 'border-blue-500/15',
+					dot: 'bg-blue-500'
+				},
+				{
+					gradient: 'from-cyan-500 to-emerald-400',
+					bg: 'from-cyan-500/8 to-emerald-500/8',
+					border: 'border-cyan-500/15',
+					dot: 'bg-cyan-500'
+				},
+				{
+					gradient: 'from-purple-500 to-pink-400',
+					bg: 'from-purple-500/8 to-pink-500/8',
+					border: 'border-purple-500/15',
+					dot: 'bg-purple-500'
+				},
+				{
+					gradient: 'from-pink-500 to-orange-400',
+					bg: 'from-pink-500/8 to-orange-500/8',
+					border: 'border-pink-500/15',
+					dot: 'bg-pink-500'
+				}
+			]}
+			{@const accent = accentColors[i % accentColors.length]}
 
+			<div
+				class="journey-horizontal-card w-[82vw] sm:w-[75vw] md:w-[55vw] lg:w-[45vw] max-w-[560px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center relative group"
+			>
 				<div
-					class="journey-horizontal-card w-[82vw] sm:w-[75vw] md:w-[55vw] lg:w-[45vw] max-w-[560px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center relative group"
+					class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] p-6 sm:p-8 md:p-10 lg:p-14 relative overflow-hidden flex flex-col justify-between isolate border {accent.border}"
 				>
-					<!-- Card -->
+					<!-- Top accent bar -->
 					<div
-						class="journey-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] p-6 sm:p-8 md:p-10 lg:p-14 relative overflow-hidden flex flex-col justify-between isolate border {accent.border}"
+						class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r {accent.gradient} rounded-full"
+					></div>
+
+					<!-- Inset highlight (top edge glow) -->
+					<div
+						class="absolute inset-x-0 top-0 h-px pointer-events-none"
+						style="background: var(--glass-inset-highlight);"
+					></div>
+
+					<!-- Background Number — centered, visible -->
+					<div
+						class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-hidden"
 					>
-						<!-- Top accent bar -->
-						<div
-							class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r {accent.gradient} rounded-full"
-						></div>
+						<span
+							class="journey-bg-number font-syne font-black text-[14rem] sm:text-[18rem] md:text-[22rem] leading-none select-none"
+							style="color: var(--text-heading); opacity: 0.07;"
+						>
+							0{i + 1}
+						</span>
+					</div>
 
-						<!-- Inset highlight (top edge glow) -->
-						<div
-							class="absolute inset-x-0 top-0 h-px pointer-events-none"
-							style="background: var(--glass-inset-highlight);"
-						></div>
+					<!-- Soft gradient wash inside card -->
+					<div class="absolute inset-0 bg-gradient-to-br {accent.bg} -z-10"></div>
 
-						<!-- Background Number — centered, visible -->
+					<!-- Top Row: Number badge + line -->
+					<div class="flex items-center gap-3 md:gap-4">
 						<div
-							class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-hidden"
+							class="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-xl flex items-center justify-center"
+							style="background: var(--bg-inset); border: 1px solid var(--border-primary);"
 						>
 							<span
-								class="journey-bg-number font-syne font-black text-[14rem] sm:text-[18rem] md:text-[22rem] leading-none select-none"
-								style="color: var(--text-heading); opacity: 0.07;"
+								class="font-syne font-bold text-sm md:text-base bg-clip-text text-transparent bg-gradient-to-br {accent.gradient}"
 							>
 								0{i + 1}
 							</span>
 						</div>
+						<div class="h-px flex-1 bg-gradient-to-r {accent.gradient} opacity-20"></div>
+					</div>
 
-						<!-- Soft gradient wash inside card -->
-						<div class="absolute inset-0 bg-gradient-to-br {accent.bg} -z-10"></div>
-
-						<!-- Top Row: Number badge + line -->
-						<div class="flex items-center gap-3 md:gap-4">
-							<div
-								class="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-xl flex items-center justify-center"
-								style="background: var(--bg-inset); border: 1px solid var(--border-primary);"
-							>
-								<span
-									class="font-syne font-bold text-sm md:text-base bg-clip-text text-transparent bg-gradient-to-br {accent.gradient}"
-								>
-									0{i + 1}
-								</span>
-							</div>
-							<div class="h-px flex-1 bg-gradient-to-r {accent.gradient} opacity-20"></div>
-						</div>
-
-						<!-- Bottom: Title + Text -->
-						<div class="relative z-10">
-							<h3
-								class="font-syne text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 md:mb-4 tracking-tight leading-[1.2]"
-								style="color: var(--text-heading);"
-							>
-								{step.title}
-							</h3>
-							<p
-								class="text-sm sm:text-base lg:text-lg font-light leading-relaxed"
-								style="color: var(--text-secondary);"
-							>
-								{step.text}
-							</p>
-						</div>
+					<!-- Bottom: Title + Text -->
+					<div class="relative z-10">
+						<h3
+							class="font-syne text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 md:mb-4 tracking-tight leading-[1.2]"
+							style="color: var(--text-heading);"
+						>
+							{step.title}
+						</h3>
+						<p
+							class="text-sm sm:text-base lg:text-lg font-light leading-relaxed"
+							style="color: var(--text-secondary);"
+						>
+							{step.text}
+						</p>
 					</div>
 				</div>
-			{/each}
-		</div>
-	</section>
+			</div>
+		{/each}
+	{/snippet}
+
+	<HorizontalScrollSection
+		id="journey"
+		watermark="JOURNEY"
+		introSlide={journeyIntroSlide}
+		cards={journeyCards}
+	/>
 
 	<!-- RESUME SECTION -->
 	<section id="resume" class="reveal-section relative py-24 sm:py-36 overflow-hidden">
@@ -1012,43 +949,6 @@
 <style>
 	:global(.font-poppins) {
 		font-family: 'Poppins', sans-serif;
-	}
-
-	/* Journey cards — glass morphism with blur */
-	.journey-card {
-		background: var(--glass-bg);
-		backdrop-filter: blur(20px) saturate(130%);
-		-webkit-backdrop-filter: blur(20px) saturate(130%);
-		box-shadow:
-			0 8px 32px var(--glass-shadow),
-			inset 0 1px 0 var(--glass-inset-highlight);
-		transition:
-			box-shadow 0.4s ease,
-			border-color 0.4s ease,
-			background 0.4s ease;
-	}
-
-	.journey-card:hover {
-		background: var(--glass-bg-hover);
-		border-color: var(--glass-border-hover);
-		box-shadow:
-			0 16px 48px var(--glass-shadow-hover),
-			inset 0 1px 0 var(--glass-inset-highlight);
-	}
-
-	/* Horizontal bounce for scroll hint arrow */
-	@keyframes bounce-x {
-		0%,
-		100% {
-			transform: translateX(0);
-		}
-		50% {
-			transform: translateX(6px);
-		}
-	}
-
-	.animate-bounce-x {
-		animation: bounce-x 1.5s ease-in-out infinite;
 	}
 
 	.aurora-bg {

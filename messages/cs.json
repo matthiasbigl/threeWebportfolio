@@ -19,7 +19,7 @@
 	"hero": {
 		"greeting": "Ahoj, jsem",
 		"name": "Matthias Bigl",
-		"subtitle": "Profesionální <span class=\"blue-gradient_text font-semibold\">webdesign & vývoj webu</span> 🇦🇹",
+		"subtitle": "Profesionální <span class=\"blue-gradient_text font-semibold\">webdesign & vývoj webu</span>",
 		"description": "Váš <span class=\"blue-gradient_text font-semibold\">digitální vizitka</span> ve Vídni & Korneuburgu, který získává nové zákazníky 24 hodin denně – zatímco se vy soustředíte na svůj hlavní byznys.",
 		"cta": "Bezplatná konzultace",
 		"ctaServices": "Moje služby"
@@ -60,6 +60,8 @@
 	"services": {
 		"title": "Více zákazníků,",
 		"titleHighlight": "méně stresu",
+		"scrollSectionLabel": "Služby v detailu",
+		"scrollSectionHeadline": "Co pro vás dělám",
 		"subtitle": "Chcete být online viditelní, ale nechcete trávit týdny s technikou? <span class=\"blue-gradient_text\">Postarám se o to za vás</span> – osobně, bez agenturního chaosu, za férovou cenu.",
 		"allInOne": {
 			"title": "Kompletní servis – od A do Z",
@@ -186,7 +188,7 @@
 	"skills": {
 		"title": "Některé z mých nejlepších",
 		"titleHighlight": "dovedností",
-		"hint": "👆 Zkuste uchopit kostky!",
+		"hint": "Zkuste uchopit kostky!",
 		"languages": "Jazyky",
 		"strengths": "Silné stránky",
 		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin",
@@ -381,17 +383,17 @@
 		"items": {
 			"gym": {
 				"title": "Posilovna",
-				"description": "Vždy se snažím překonávat své limity v posilovně 💪",
+				"description": "Vždy se snažím překonávat své limity v posilovně",
 				"alt": "Činka jako symbol fitness tréninku a posilovny"
 			},
 			"skiing": {
 				"title": "Lyžování",
-				"description": "Sjíždět sjezdovky je jedna z mých nejoblíbenějších zimních aktivit 🎿",
+				"description": "Sjíždět sjezdovky je jedna z mých nejoblíbenějších zimních aktivit",
 				"alt": "3D horská scéna jako zobrazení koníčku lyžování"
 			},
 			"surfing": {
 				"title": "Surfování",
-				"description": "Surfuji od svých 6 let 🤙",
+				"description": "Surfuji od svých 6 let",
 				"alt": "Matthias surfující na vlně v moři"
 			}
 		}
@@ -617,5 +619,31 @@
 			"subtitle": "Máte projekt na mysli? Těším se, až od vás uslyším, a společně zjistíme, jak vám mohu pomoci.",
 			"button": "Kontaktovat"
 		}
+	},
+	"marquee": {
+		"row1_0": "Weby od €650",
+		"row1_1": "Eshopy",
+		"row1_2": "SEO Optimalizace",
+		"row1_3": "Hosting v ceně",
+		"row1_4": "Řešení na míru",
+		"row1_5": "1–2 týdny do spuštění",
+		"row1_6": "Bez přirážky agentury",
+		"row1_7": "Osobní přístup",
+		"row1_8": "React & SvelteKit",
+		"row1_9": "Three.js & 3D Web",
+		"row1_10": "Mobile-First Design",
+		"row1_11": "Vídeň & Dolní Rakousy",
+		"row2_0": "Bezplatná konzultace",
+		"row2_1": "Rychlé načítání",
+		"row2_2": "Moderní technologie",
+		"row2_3": "GDPR kompatibilní",
+		"row2_4": "Přímo od vývojáře",
+		"row2_5": "Bez prostředníků",
+		"row2_6": "Responzivní design",
+		"row2_7": "TypeScript & Tailwind",
+		"row2_8": "Přístupnost na prvním místě",
+		"row2_9": "Férové ceny",
+		"row2_10": "Full Stack vývoj",
+		"row2_11": "Pro celé Rakousko"
 	}
 }

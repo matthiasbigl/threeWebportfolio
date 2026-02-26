@@ -5,6 +5,13 @@
 
 	let vibeActive = $state(false);
 	let sectionEl: HTMLElement | undefined = $state();
+	let vibeBgTextEl = $state<HTMLElement>();
+	let vibeLabelEl = $state<HTMLElement>();
+	let vibeSvgWrapEl = $state<HTMLElement>();
+	let vibeSvgGlowEl = $state<HTMLElement>();
+	let vibeTitleEl = $state<HTMLElement>();
+	let vibeSubtitleEl = $state<HTMLElement>();
+	let vibeDescEl = $state<HTMLElement>();
 
 	onMount(async () => {
 		if (!browser) return;
@@ -28,10 +35,9 @@
 				if (reduceMotion) return;
 
 				if (isDesktop) {
-					const vibeBgText = sectionEl.querySelector('.vibe-bg-text');
-					if (vibeBgText) {
+					if (vibeBgTextEl) {
 						gsap.fromTo(
-							vibeBgText,
+							vibeBgTextEl,
 							{ xPercent: 10 },
 							{
 								xPercent: -10,
@@ -47,7 +53,7 @@
 					}
 
 					gsap.fromTo(
-						sectionEl.querySelector('.vibe-label'),
+						vibeLabelEl,
 						{ opacity: 0, x: -30 },
 						{
 							opacity: 1,
@@ -59,7 +65,7 @@
 					);
 
 					gsap.fromTo(
-						sectionEl.querySelector('.vibe-svg-wrap'),
+						vibeSvgWrapEl,
 						{ opacity: 0, scale: 0.7, y: 40, rotation: -10 },
 						{
 							opacity: 1,
@@ -73,7 +79,7 @@
 					);
 
 					gsap.fromTo(
-						sectionEl.querySelector('.vibe-svg-glow'),
+						vibeSvgGlowEl,
 						{ opacity: 0 },
 						{
 							opacity: 0.8,
@@ -127,7 +133,7 @@
 					);
 
 					gsap.fromTo(
-						sectionEl.querySelector('.vibe-title'),
+						vibeTitleEl,
 						{ opacity: 0, y: 30 },
 						{
 							opacity: 1,
@@ -139,7 +145,7 @@
 						}
 					);
 					gsap.fromTo(
-						sectionEl.querySelector('.vibe-subtitle'),
+						vibeSubtitleEl,
 						{ opacity: 0, y: 30 },
 						{
 							opacity: 1,
@@ -151,7 +157,7 @@
 						}
 					);
 					gsap.fromTo(
-						sectionEl.querySelector('.vibe-desc'),
+						vibeDescEl,
 						{ opacity: 0, y: 30 },
 						{
 							opacity: 1,
@@ -165,10 +171,9 @@
 				}
 
 				if (isMobile) {
-					const vibeBgTextMobile = sectionEl.querySelector('.vibe-bg-text');
-					if (vibeBgTextMobile) {
+					if (vibeBgTextEl) {
 						gsap.fromTo(
-							vibeBgTextMobile,
+							vibeBgTextEl,
 							{ xPercent: 5 },
 							{
 								xPercent: -5,
@@ -184,7 +189,7 @@
 					}
 
 					gsap.fromTo(
-						sectionEl.querySelector('.vibe-label'),
+						vibeLabelEl,
 						{ opacity: 0, x: -20 },
 						{
 							opacity: 1,
@@ -196,7 +201,7 @@
 					);
 
 					gsap.fromTo(
-						sectionEl.querySelector('.vibe-svg-wrap'),
+						vibeSvgWrapEl,
 						{ opacity: 0, scale: 0.85, y: 20 },
 						{
 							opacity: 1,
@@ -208,7 +213,7 @@
 						}
 					);
 					gsap.fromTo(
-						sectionEl.querySelector('.vibe-title'),
+						vibeTitleEl,
 						{ opacity: 0, y: 20 },
 						{
 							opacity: 1,
@@ -219,7 +224,7 @@
 						}
 					);
 					gsap.fromTo(
-						sectionEl.querySelector('.vibe-subtitle'),
+						vibeSubtitleEl,
 						{ opacity: 0, y: 20 },
 						{
 							opacity: 1,
@@ -230,7 +235,7 @@
 						}
 					);
 					gsap.fromTo(
-						sectionEl.querySelector('.vibe-desc'),
+						vibeDescEl,
 						{ opacity: 0, y: 20 },
 						{
 							opacity: 1,
@@ -279,12 +284,16 @@
 </script>
 
 <!-- Vibe Section — pinned scroll reveal with parallax -->
-<section bind:this={sectionEl} class="vibe-section relative overflow-hidden py-20 sm:py-28 lg:py-36">
+<section
+	bind:this={sectionEl}
+	class="vibe-section relative overflow-hidden py-20 sm:py-28 lg:py-36"
+>
 	<!-- Large background text -->
 	<div
 		class="absolute inset-0 pointer-events-none flex items-center justify-center select-none z-0 overflow-hidden"
 	>
 		<span
+			bind:this={vibeBgTextEl}
 			class="vibe-bg-text font-syne font-black text-[30vw] md:text-[20vw] tracking-tighter whitespace-nowrap"
 			style="color: var(--text-heading); opacity: 0.03;"
 		>
@@ -313,7 +322,7 @@
 			<!-- Text Header: label + title -->
 			<div class="lg:col-start-1 lg:col-span-7 lg:row-start-1 flex flex-col justify-center">
 				<!-- Section label -->
-				<div class="flex items-center gap-3 mb-6 vibe-label">
+				<div class="flex items-center gap-3 mb-6 vibe-label" bind:this={vibeLabelEl}>
 					<div class="h-px w-10 md:w-12 bg-gradient-to-r from-blue-500 to-purple-500"></div>
 					<span
 						class="font-syne text-blue-500 text-xs md:text-sm font-bold uppercase tracking-[0.3em]"
@@ -323,6 +332,7 @@
 				</div>
 
 				<h2
+					bind:this={vibeTitleEl}
 					class="vibe-title font-syne text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 tracking-tight leading-[1.1]"
 					style="color: var(--text-heading);"
 				>
@@ -335,6 +345,7 @@
 				class="lg:col-start-8 lg:col-span-5 lg:row-start-1 lg:row-span-2 flex flex-col items-center lg:items-end mt-0 lg:mt-0"
 			>
 				<div
+					bind:this={vibeSvgWrapEl}
 					class="vibe-svg-wrap relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 flex justify-center items-center"
 					class:vibe-active={vibeActive}
 					onclick={() => {
@@ -343,16 +354,14 @@
 					role="button"
 					tabindex="0"
 					onkeydown={(e) => {
-						if (
-							(e.key === 'Enter' || e.key === ' ') &&
-							window.matchMedia('(hover: none)').matches
-						)
+						if ((e.key === 'Enter' || e.key === ' ') && window.matchMedia('(hover: none)').matches)
 							vibeActive = !vibeActive;
 					}}
 					aria-label={m['vibe.hint.tap']()}
 				>
 					<!-- Glow effect behind SVG -->
 					<div
+						bind:this={vibeSvgGlowEl}
 						class="vibe-svg-glow absolute inset-0 rounded-full blur-3xl opacity-0 bg-blue-500/40"
 					></div>
 
@@ -528,6 +537,7 @@
 			<!-- Text Body: subtitle + description -->
 			<div class="lg:col-start-1 lg:col-span-7 lg:row-start-2 flex flex-col justify-center">
 				<p
+					bind:this={vibeSubtitleEl}
 					class="vibe-subtitle text-xl sm:text-2xl font-medium mb-6 leading-relaxed max-w-2xl"
 					style="color: var(--text-heading);"
 				>
@@ -535,6 +545,7 @@
 				</p>
 
 				<p
+					bind:this={vibeDescEl}
 					class="vibe-desc text-base sm:text-lg lg:text-xl font-light leading-relaxed max-w-2xl"
 					style="color: var(--text-secondary);"
 				>

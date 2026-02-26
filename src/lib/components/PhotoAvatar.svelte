@@ -1,81 +1,61 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
 	import * as m from '$lib/paraglide/messages.js';
 
 	let container = $state<HTMLElement>();
 	let image = $state<HTMLElement>();
 
-	onMount(() => {
-		if (!browser) return;
+	async function handleMouseEnter() {
+		if (!container || !image) return;
+		const { gsap } = await import('gsap');
+		gsap.to(container, {
+			scale: 1.02,
+			duration: 0.4,
+			ease: 'power2.out'
+		});
+		gsap.to(image, {
+			scale: 1.1,
+			duration: 0.6,
+			ease: 'power2.out'
+		});
+	}
 
-		const init = async () => {
-			const { gsap } = await import('gsap');
+	async function handleMouseLeave() {
+		if (!container || !image) return;
+		const { gsap } = await import('gsap');
+		gsap.to(container, {
+			scale: 1,
+			duration: 0.4,
+			ease: 'power2.out'
+		});
+		gsap.to(image, {
+			scale: 1.05,
+			duration: 0.6,
+			ease: 'power2.out'
+		});
+	}
 
-			if (!container || !image) return;
-
-			// Subtle hover interaction
-			const handleMouseEnter = () => {
-				gsap.to(container, {
-					scale: 1.02,
-					duration: 0.4,
-					ease: 'power2.out'
-				});
-				gsap.to(image, {
-					scale: 1.1,
-					duration: 0.6,
-					ease: 'power2.out'
-				});
-			};
-
-			const handleMouseLeave = () => {
-				gsap.to(container, {
-					scale: 1,
-					duration: 0.4,
-					ease: 'power2.out'
-				});
-				gsap.to(image, {
-					scale: 1.05,
-					duration: 0.6,
-					ease: 'power2.out'
-				});
-			};
-
-			const handleMouseMove = (e: MouseEvent) => {
-				const rect = container.getBoundingClientRect();
-				const x = (e.clientX - rect.left) / rect.width - 0.5;
-				const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-				gsap.to(container, {
-					rotationY: x * 10,
-					rotationX: -y * 10,
-					duration: 0.5,
-					ease: 'power2.out'
-				});
-			};
-
-			container.addEventListener('mouseenter', handleMouseEnter);
-			container.addEventListener('mouseleave', handleMouseLeave);
-			container.addEventListener('mousemove', handleMouseMove);
-
-			return () => {
-				container?.removeEventListener('mouseenter', handleMouseEnter);
-				container?.removeEventListener('mouseleave', handleMouseLeave);
-				container?.removeEventListener('mousemove', handleMouseMove);
-			};
-		};
-
-		let cleanup: (() => void) | undefined;
-		init().then((cb) => (cleanup = cb));
-
-		return () => cleanup?.();
-	});
+	async function handleMouseMove(e: MouseEvent) {
+		if (!container) return;
+		const rect = container.getBoundingClientRect();
+		const x = (e.clientX - rect.left) / rect.width - 0.5;
+		const y = (e.clientY - rect.top) / rect.height - 0.5;
+		const { gsap } = await import('gsap');
+		gsap.to(container, {
+			rotationY: x * 10,
+			rotationX: -y * 10,
+			duration: 0.5,
+			ease: 'power2.out'
+		});
+	}
 </script>
 
 <figure
 	bind:this={container}
 	class="photo-avatar-container relative w-full h-full rounded-3xl overflow-hidden glass-card-premium shadow-2xl"
 	style="perspective: 1000px;"
+	onmouseenter={handleMouseEnter}
+	onmouseleave={handleMouseLeave}
+	onmousemove={handleMouseMove}
 >
 	<!-- Background Gradient/Glow (Subtle) -->
 	<div

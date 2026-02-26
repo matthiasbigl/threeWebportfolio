@@ -9,7 +9,7 @@
 	"hero": {
 		"greeting": "Ahoj, jsem",
 		"name": "Matthias Bigl",
-		"subtitle": "Profesionální <span class=\"blue-gradient_text font-semibold\">webdesign & vývoj webu</span> 🇦🇹",
+		"subtitle": "Profesionální <span class=\"blue-gradient_text font-semibold\">webdesign & vývoj webu</span>",
 		"description": "Váš <span class=\"blue-gradient_text font-semibold\">digitální vizitka</span> ve Vídni & Korneuburgu, který získává nové zákazníky 24 hodin denně – zatímco se vy soustředíte na svůj hlavní byznys.",
 		"cta": "Bezplatná konzultace",
 		"ctaServices": "Moje služby"
@@ -200,7 +200,7 @@
 	"skills": {
 		"title": "Některé z mých nejlepších",
 		"titleHighlight": "dovedností",
-		"hint": "👆 Zkuste uchopit kostky!",
+		"hint": "Zkuste uchopit kostky!",
 		"languages": "Jazyky",
 		"strengths": "Silné stránky",
 		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin, React, Next.js",
@@ -437,17 +437,17 @@
 		"items": {
 			"gym": {
 				"title": "Posilovna",
-				"description": "Vždy se snažím překonávat své limity v posilovně 💪",
+				"description": "Vždy se snažím překonávat své limity v posilovně",
 				"alt": "Činka jako symbol fitness tréninku a posilovny"
 			},
 			"skiing": {
 				"title": "Lyžování",
-				"description": "Sjíždět sjezdovky je jedna z mých nejoblíbenějších zimních aktivit 🎿",
+				"description": "Sjíždět sjezdovky je jedna z mých nejoblíbenějších zimních aktivit",
 				"alt": "3D horská scéna jako zobrazení koníčku lyžování"
 			},
 			"surfing": {
 				"title": "Surfování",
-				"description": "Surfuji od svých 6 let 🤙",
+				"description": "Surfuji od svých 6 let",
 				"alt": "Matthias surfující na vlně v moři"
 			}
 		}

@@ -4,7 +4,22 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import Button from './Button.svelte';
-	import Marquee from './Marquee.svelte';
+	import HorizontalScrollSection from './HorizontalScrollSection.svelte';
+	import {
+		Globe,
+		ShoppingCart,
+		TrendingUp,
+		Sparkles,
+		Shield,
+		Handshake,
+		MapPin,
+		Banknote,
+		Zap,
+		Target,
+		Star,
+		Wrench,
+		Check
+	} from 'lucide-svelte';
 
 	const processSteps = $derived([
 		{
@@ -42,7 +57,7 @@
 	const services = $derived([
 		{
 			id: 'websites',
-			icon: '🌐',
+			icon: Globe,
 			title: m['services.items.fullstack.title'](),
 			description: m['services.items.fullstack.description'](),
 			features: m['services.items.fullstack.features']().split('\n'),
@@ -55,7 +70,7 @@
 		},
 		{
 			id: 'webshops',
-			icon: '🛒',
+			icon: ShoppingCart,
 			title: m['services.items.webshops.title'](),
 			description: m['services.items.webshops.description'](),
 			features: m['services.items.webshops.features']().split('\n'),
@@ -68,7 +83,7 @@
 		},
 		{
 			id: 'seo',
-			icon: '📈',
+			icon: TrendingUp,
 			title: m['services.items.seo.title'](),
 			description: m['services.items.seo.description'](),
 			features: m['services.items.seo.features']().split('\n'),
@@ -81,7 +96,7 @@
 		},
 		{
 			id: 'custom',
-			icon: '✨',
+			icon: Sparkles,
 			title: m['services.items.experiences.title'](),
 			description: m['services.items.experiences.description'](),
 			features: m['services.items.experiences.features']().split('\n'),
@@ -95,69 +110,28 @@
 	]);
 
 	let hoveredStepIndex = $state(-1);
-	let bentoScrollProgress = $state(0);
-	let activeBentoIndex = $state(0);
+	let ctaMagnetic = $state<HTMLElement>();
 
-	function hexToRgb(hex: string) {
-		const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-		return result
-			? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
-			: [0, 0, 0];
+	async function handleCtaMouseEnter() {
+		if (!ctaMagnetic) return;
+		const { gsap } = await import('gsap');
+		gsap.to(ctaMagnetic, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
 	}
 
-	const morphedColor = $derived.by(() => {
-		if (services.length < 2) return services[0]?.accent || '#3b82f6';
-		const totalIntervals = services.length - 1;
-		const exactPos = bentoScrollProgress * totalIntervals;
-		const index1 = Math.floor(exactPos);
-		const index2 = Math.min(Math.ceil(exactPos), totalIntervals);
-		const factor = exactPos - index1;
-
-		const rgb1 = hexToRgb(services[index1].accent);
-		const rgb2 = hexToRgb(services[index2].accent);
-
-		const r = Math.round(rgb1[0] + factor * (rgb2[0] - rgb1[0]));
-		const g = Math.round(rgb1[1] + factor * (rgb2[1] - rgb1[1]));
-		const b = Math.round(rgb1[2] + factor * (rgb2[2] - rgb1[2]));
-
-		return `rgb(${r}, ${g}, ${b})`;
-	});
-
-	function handleBentoScroll(e: Event) {
-		const target = e.target as HTMLElement;
-		if (!target) return;
-		const scrollLeft = target.scrollLeft;
-		const maxScroll = target.scrollWidth - target.clientWidth;
-
-		if (maxScroll > 0) {
-			bentoScrollProgress = scrollLeft / maxScroll;
-			// Calculate active card index based on scroll position
-			const cardWidth = target.scrollWidth / services.length;
-			activeBentoIndex = Math.round(scrollLeft / cardWidth);
-		}
+	async function handleCtaMouseLeave() {
+		if (!ctaMagnetic) return;
+		const { gsap } = await import('gsap');
+		gsap.to(ctaMagnetic, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
 	}
 
-	const benefitIcons: Record<string, string> = {
-		allInOne: '🛡️',
-		personal: '🤝',
-		local: '📍',
-		prices: '💰',
-		tech: '⚡',
-		detail: '🎯'
-	};
-
-	const benefitOrder = ['allInOne', 'personal', 'local', 'prices', 'tech', 'detail'];
-
-	const benefits = $derived(
-		benefitOrder.map((key) => ({
-			id: key,
-			icon: benefitIcons[key] || '⭐',
-			title:
-				(m as unknown as Record<string, (() => string) | undefined>)[
-					`services.benefits.${key}.title`
-				]?.() ?? ''
-		}))
-	);
+	async function handleCtaMouseMove(e: MouseEvent) {
+		if (!ctaMagnetic) return;
+		const { gsap } = await import('gsap');
+		const rect = ctaMagnetic.getBoundingClientRect();
+		const x = e.clientX - rect.left - rect.width / 2;
+		const y = e.clientY - rect.top - rect.height / 2;
+		gsap.to(ctaMagnetic, { x: x * 0.3, y: y * 0.3, duration: 0.3, ease: 'power2.out' });
+	}
 
 	onMount(() => {
 		if (!browser) return;
@@ -206,29 +180,6 @@
 						);
 
 						gsap.fromTo(
-							'.bento-item',
-							{
-								opacity: 0,
-								y: 50,
-								scale: 0.9,
-								filter: 'blur(10px)'
-							},
-							{
-								opacity: 1,
-								y: 0,
-								scale: 1,
-								filter: 'blur(0px)',
-								duration: 1,
-								stagger: 0.1,
-								ease: 'power3.out',
-								scrollTrigger: {
-									trigger: '.bento-grid',
-									start: 'top 90%'
-								}
-							}
-						);
-
-						gsap.fromTo(
 							'.process-step-item',
 							{
 								opacity: 0,
@@ -248,74 +199,6 @@
 								}
 							}
 						);
-
-						const cards = document.querySelectorAll('.bento-item');
-						cards.forEach((card: any) => {
-							card.addEventListener('mousemove', (e: MouseEvent) => {
-								const rect = card.getBoundingClientRect();
-								const x = e.clientX - rect.left;
-								const y = e.clientY - rect.top;
-
-								const centerX = rect.width / 2;
-								const centerY = rect.height / 2;
-
-								const rotateX = ((y - centerY) / centerY) * -5;
-								const rotateY = ((x - centerX) / centerX) * 5;
-
-								gsap.to(card, {
-									rotationX: rotateX,
-									rotationY: rotateY,
-									duration: 0.4,
-									ease: 'power2.out',
-									transformPerspective: 1000
-								});
-
-								const spotlight = card.querySelector('.card-spotlight');
-								if (spotlight) {
-									gsap.to(spotlight, {
-										background: `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 40%)`,
-										duration: 0.3
-									});
-								}
-							});
-
-							card.addEventListener('mouseleave', () => {
-								gsap.to(card, {
-									rotationX: 0,
-									rotationY: 0,
-									duration: 0.7,
-									ease: 'elastic.out(1, 0.5)'
-								});
-								const spotlight = card.querySelector('.card-spotlight');
-								if (spotlight) {
-									gsap.to(spotlight, {
-										background: `radial-gradient(600px circle at 50% 50%, rgba(255,255,255,0), transparent 40%)`,
-										duration: 0.3
-									});
-								}
-							});
-						});
-
-						const cta = document.querySelector('.cta-magnetic');
-						if (cta) {
-							cta.addEventListener('mouseenter', () => {
-								gsap.to(cta, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
-							});
-							cta.addEventListener('mouseleave', () => {
-								gsap.to(cta, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
-							});
-							(cta as HTMLElement).addEventListener('mousemove', (e: MouseEvent) => {
-								const rect = cta.getBoundingClientRect();
-								const x = e.clientX - rect.left - rect.width / 2;
-								const y = e.clientY - rect.top - rect.height / 2;
-								gsap.to(cta, {
-									x: x * 0.3,
-									y: y * 0.3,
-									duration: 0.3,
-									ease: 'power2.out'
-								});
-							});
-						}
 					}
 
 					if (isMobile) {
@@ -329,22 +212,6 @@
 								ease: 'power2.out',
 								scrollTrigger: {
 									trigger: '.all-in-one-card',
-									start: 'top 95%'
-								}
-							}
-						);
-
-						gsap.fromTo(
-							'.bento-item',
-							{ opacity: 0, x: -20 },
-							{
-								opacity: 1,
-								x: 0,
-								duration: 0.8,
-								stagger: 0.1,
-								ease: 'power2.out',
-								scrollTrigger: {
-									trigger: '.bento-grid',
 									start: 'top 95%'
 								}
 							}
@@ -378,6 +245,7 @@
 <section
 	id="services"
 	class="relative pt-20 lg:pt-32 pb-12 lg:pb-20 overflow-hidden selection:bg-blue-500/30 selection:text-white"
+	style="background: var(--bg-inset); border-top: 1px solid var(--border-secondary); border-bottom: 1px solid var(--border-secondary);"
 >
 	<div class="absolute inset-0 pointer-events-none">
 		<div
@@ -438,46 +306,43 @@
 			<div class="relative z-10 p-5 sm:p-6 lg:p-8">
 				<div class="flex flex-col gap-5 lg:gap-6">
 					<div class="flex items-start gap-3 sm:gap-4">
-					<div
-						class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-xl flex items-center justify-center text-xl sm:text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg mt-0.5"
-						style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
-					>
-						🔧
+						<div
+							class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg mt-0.5"
+							style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
+						>
+							<Wrench class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--text-secondary);" />
+						</div>
+						<div class="flex-1 min-w-0">
+							<h3
+								class="font-syne text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight mb-0.5"
+								style="color: var(--text-heading);"
+							>
+								{m['services.allInOne.title']()}
+							</h3>
+							<p class="text-sm sm:text-base font-light" style="color: var(--text-secondary);">
+								{m['services.allInOne.tagline']()}
+							</p>
+						</div>
 					</div>
-					<div class="flex-1 min-w-0">
-						<h3
-							class="font-syne text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight mb-0.5"
-							style="color: var(--text-heading);"
-						>
-							{m['services.allInOne.title']()}
-						</h3>
-						<p
-							class="text-sm sm:text-base font-light"
-							style="color: var(--text-secondary);"
-						>
-							{m['services.allInOne.tagline']()}
-						</p>
+
+					<!-- Feature chips — simple, flat, 2-col grid on mobile -->
+					<div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+						{#each m['services.allInOne.features']().split('\n') as feature}
+							<span
+								class="all-in-one-feature-chip inline-flex items-center gap-1 px-3 py-1.5 text-xs sm:text-[13px] font-medium rounded-full select-none"
+								style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+							>
+								<Check class="w-3 h-3 text-blue-400 flex-shrink-0" />
+								{feature}
+							</span>
+						{/each}
 					</div>
-				</div>
 
-				<!-- Feature chips — simple, flat, 2-col grid on mobile -->
-				<div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
-					{#each m['services.allInOne.features']().split('\n') as feature}
-						<span
-							class="all-in-one-feature-chip inline-flex items-center gap-1 px-3 py-1.5 text-xs sm:text-[13px] font-medium rounded-full select-none"
-							style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+					<!-- Process steps -->
+					<div class="relative rounded-lg">
+						<div
+							class="process-flow flex items-stretch gap-1 sm:gap-2 overflow-x-auto py-2 -mx-1 px-1 sm:-mx-2 sm:px-2"
 						>
-							<span class="text-blue-400 font-bold">✓</span>
-							{feature}
-						</span>
-					{/each}
-				</div>
-
-				<!-- Process steps -->
-				<div class="relative rounded-lg">
-					<div
-						class="process-flow flex items-stretch gap-1 sm:gap-2 overflow-x-auto py-2 -mx-1 px-1 sm:-mx-2 sm:px-2"
-					>
 							{#each processSteps as step, i}
 								{@const isHovered = hoveredStepIndex === i}
 								{@const isNextOfHovered = hoveredStepIndex >= 0 && i === hoveredStepIndex + 1}
@@ -558,221 +423,218 @@
 				</div>
 			</div>
 		</div>
+	</div>
+</section>
 
-		<!-- Section divider label between all-in-one card and individual service cards -->
-		<div class="flex items-center gap-3 mb-5 sm:mb-6">
-			<div class="h-px flex-1" style="background: var(--border-primary);"></div>
-			<span
-				class="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] px-1"
-				style="color: var(--text-tertiary);"
-			>{m['services.sectionDivider']()}</span>
-			<div class="h-px flex-1" style="background: var(--border-primary);"></div>
-		</div>
+{#snippet servicesIntroSlide()}
+	<div class="flex items-center gap-3 mb-4 md:mb-6">
+		<div class="h-px w-10 md:w-12 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+		<span class="text-blue-500 text-xs md:text-sm font-bold uppercase tracking-[0.3em]">
+			{m['services.scrollSectionLabel']()}
+		</span>
+	</div>
+	<h2
+		class="font-syne text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-6 md:mb-8 leading-[1.1]"
+		style="color: var(--text-heading);"
+	>
+		{m['services.scrollSectionHeadline']()}
+	</h2>
+	<div class="flex items-center gap-4">
+		<div class="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+		<span class="animate-bounce-x" style="color: var(--text-tertiary);">
+			<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M17 8l4 4m0 0l-4 4m4-4H3"
+				/>
+			</svg>
+		</span>
+	</div>
+{/snippet}
+
+{#snippet servicesCards()}
+	{#each services as service, i}
+		{@const accentConfigs = [
+			{
+				gradient: 'from-blue-500 to-cyan-400',
+				bg: 'from-blue-500/8 to-cyan-500/8',
+				border: 'border-blue-500/15',
+				dot: 'bg-blue-500'
+			},
+			{
+				gradient: 'from-purple-500 to-pink-400',
+				bg: 'from-purple-500/8 to-pink-500/8',
+				border: 'border-purple-500/15',
+				dot: 'bg-purple-500'
+			},
+			{
+				gradient: 'from-orange-500 to-amber-400',
+				bg: 'from-orange-500/8 to-amber-500/8',
+				border: 'border-orange-500/15',
+				dot: 'bg-orange-500'
+			},
+			{
+				gradient: 'from-emerald-500 to-teal-400',
+				bg: 'from-emerald-500/8 to-teal-500/8',
+				border: 'border-emerald-500/15',
+				dot: 'bg-emerald-500'
+			}
+		]}
+		{@const accentCfg = accentConfigs[i % accentConfigs.length]}
+		{@const IconComponent = service.icon}
 
 		<div
-			class="bento-grid grid grid-cols-1 md:grid-cols-6 gap-4 lg:gap-5 mb-6 sm:mb-8 md:mb-10 lg:mb-12"
+			class="services-cards-horizontal-card w-[82vw] sm:w-[75vw] md:w-[55vw] lg:w-[45vw] max-w-[560px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center relative group"
 		>
-			{#each services as service, i}
-				<article
-					class="bento-item group relative {service.colSpan} w-full rounded-2xl overflow-hidden border isolate backdrop-blur-md"
-					style="border-color: var(--glass-border);"
-				>
-					<!-- Colored top accent line (visible always, stronger on mobile) -->
-					<div
-						class="absolute top-0 left-0 right-0 h-[2px] md:h-px z-20"
-						style="background: linear-gradient(90deg, transparent, {service.accent}, transparent);"
-					></div>
-
-					<div
-						class="absolute inset-0 transition-colors duration-500"
-						style="background: var(--glass-bg);"
-					></div>
-					<div
-						class="absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none dark:from-white/[0.04] from-black/[0.02]"
-					></div>
-
-					<div
-						class="absolute inset-0 bg-gradient-to-br {service.gradient} opacity-20 transition-opacity duration-500 group-hover:opacity-50"
-					></div>
-
-					<!-- Subtle top-corner glow on mobile -->
-					<div
-						class="absolute -top-8 -left-8 w-32 h-32 rounded-full blur-3xl opacity-30 md:opacity-0 pointer-events-none"
-						style="background: {service.accentGlow};"
-					></div>
-
-					<div
-						class="card-spotlight absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-soft-light"
-					></div>
-
-					<div
-						class="absolute inset-0 rounded-2xl border border-transparent {service.border} transition-colors duration-500"
-					></div>
-
-					<div
-						class="relative z-10 h-full p-5 sm:p-6 lg:p-8 flex flex-col justify-between min-h-auto md:min-h-[300px] transition-transform duration-500 group-hover:scale-[1.01]"
-					>
-						<div>
-							<!-- Icon + title inline on mobile, stacked on desktop -->
-							<div class="flex items-start gap-3 md:block mb-2.5 sm:mb-3">
-								<div
-									class="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-xl flex items-center justify-center text-lg sm:text-xl md:text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg md:mb-5"
-									style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
-								>
-									{service.icon}
-								</div>
-								<div class="flex-1 min-w-0">
-									<div class="flex items-center justify-between md:hidden">
-										<h3
-											class="font-syne text-lg font-bold tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-300 transition-all duration-300"
-											style="color: var(--text-heading);"
-										>
-											{service.title}
-										</h3>
-									</div>
-									<!-- Desktop-only title (hidden on mobile since it's shown inline above) -->
-									<h3
-										class="font-syne hidden md:block text-lg lg:text-xl font-bold mb-2.5 sm:mb-3 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-300 transition-all duration-300"
-										style="color: var(--text-heading);"
-									>
-										{service.title}
-									</h3>
-								</div>
-							</div>
-
-							<p
-								class="text-[13px] sm:text-sm font-light leading-relaxed mb-5 sm:mb-5 pl-3 sm:pl-4 transition-colors duration-500"
-								style="color: var(--text-secondary); border-left: 2px solid {service.accent}40;"
-							>
-								{service.description}
-							</p>
-						</div>
-
-						<Marquee
-							gap={0}
-							speed="fast"
-							className="-mx-5 sm:-mx-6 lg:-mx-8 py-2"
-							style="background: {service.accent}0d; border-top: 1px solid {service.accent}33; border-bottom: 1px solid {service.accent}33;"
-						>
-							{#each service.features as feature}
-								<span
-									class="font-syne flex-shrink-0 px-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.14em] whitespace-nowrap"
-									style="color: {service.accent}cc;"
-								>
-									{feature}
-								</span>
-								<span class="flex-shrink-0 select-none" style="color: {service.accent}44;">|</span>
-							{/each}
-							{#each service.features as feature}
-								<span
-									class="font-syne flex-shrink-0 px-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.14em] whitespace-nowrap"
-									style="color: {service.accent}cc;"
-								>
-									{feature}
-								</span>
-								<span class="flex-shrink-0 select-none" style="color: {service.accent}44;">|</span>
-							{/each}
-						</Marquee>
-					</div>
-				</article>
-			{/each}
-		</div>
-
-		<!-- Mobile scroll indicators: hidden (cards now stack vertically) -->
-
-		<div class="flex flex-col gap-10 lg:gap-12">
-			<div class="grid grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
-				{#each benefits as benefit}
-					<div
-						class="rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col items-center justify-center text-center gap-1.5 sm:gap-2.5 transition-all duration-300 group hover:scale-[1.03] hover:shadow-sm"
-						style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
-					>
-						<span
-							class="text-lg sm:text-2xl group-hover:scale-110 transition-transform duration-300"
-							>{benefit.icon}</span
-						>
-						<span
-							class="text-[11px] sm:text-xs font-medium transition-colors leading-tight"
-							style="color: var(--text-secondary);">{benefit.title}</span
-						>
-					</div>
-				{/each}
-			</div>
-
 			<div
-				class="relative group rounded-3xl overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-blue-500/10"
-				style="border: 1px solid var(--glass-border); background: var(--bg-surface);"
+				class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between isolate border {accentCfg.border}"
 			>
+				<!-- Top accent bar -->
 				<div
-					class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-700"
+					class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r {accentCfg.gradient} rounded-full"
 				></div>
 
-				<div
-					class="absolute -top-32 -right-32 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] group-hover:bg-blue-500/20 transition-colors duration-700 pointer-events-none"
-				></div>
-				<div
-					class="absolute -bottom-32 -left-32 w-80 h-80 bg-purple-500/10 rounded-full blur-[100px] group-hover:bg-purple-500/20 transition-colors duration-700 pointer-events-none"
-				></div>
+				<!-- Gradient wash -->
+				<div class="absolute inset-0 bg-gradient-to-br {accentCfg.bg} -z-10"></div>
 
+				<!-- Big background number -->
 				<div
-					class="relative h-full p-8 sm:p-12 lg:p-16 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 isolate"
+					class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-hidden"
 				>
+					<span
+						class="services-cards-bg-number font-syne font-black text-[14rem] sm:text-[18rem] md:text-[22rem] leading-none select-none"
+						style="color: var(--text-heading); opacity: 0.07;"
+					>
+						0{i + 1}
+					</span>
+				</div>
+
+				<!-- Top row: icon badge + line -->
+				<div class="flex items-center gap-3 md:gap-4 p-6 sm:p-8 md:p-10 lg:p-14 pb-0">
 					<div
-						class="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay"
-					></div>
+						class="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-xl flex items-center justify-center"
+						style="background: var(--bg-inset); border: 1px solid var(--border-primary);"
+					>
+						<IconComponent class="w-5 h-5 md:w-6 md:h-6" style="color: var(--text-secondary);" />
+					</div>
+					<div class="h-px flex-1 bg-gradient-to-r {accentCfg.gradient} opacity-20"></div>
+				</div>
 
-					<div class="relative z-10 w-full md:max-w-2xl text-center md:text-left space-y-5">
-						<div
-							class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-xs sm:text-sm font-bold uppercase tracking-[0.15em] border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]"
-						>
-							<span
-								class="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.8)]"
-							></span>
-							{m['services.pricingCard.badge']()}
-						</div>
-
+				<!-- Bottom: title + desc + features -->
+				<div
+					class="relative z-10 p-6 sm:p-8 md:p-10 lg:p-14 pt-4 flex flex-col gap-4 flex-1 justify-end"
+				>
+					<div>
 						<h3
-							class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight"
+							class="font-syne text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 md:mb-4 tracking-tight leading-[1.2]"
 							style="color: var(--text-heading);"
 						>
-							{m['services.pricingCard.title']()}
+							{service.title}
 						</h3>
-
 						<p
-							class="text-base sm:text-lg lg:text-xl font-light leading-relaxed max-w-xl mx-auto md:mx-0"
-							style="color: var(--text-secondary);"
+							class="text-sm sm:text-base font-light leading-relaxed pl-3 sm:pl-4"
+							style="color: var(--text-secondary); border-left: 2px solid {service.accent}60;"
 						>
-							{m['services.pricingCard.description']()}
+							{service.description}
 						</p>
 					</div>
 
-					<Button
-						href={localizeHref('/pricing')}
-						variant="inverted"
-						className="relative z-10 flex-shrink-0 !text-base sm:!text-lg !px-8 !py-4 sm:!px-10 sm:!py-5 transition-all duration-300 hover:scale-105 group/btn border border-white/10"
-					>
-						<span class="flex items-center gap-3">
-							<span>{m['pricing.navTitle']()}</span>
-							<svg
-								class="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform duration-300"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M17 8l4 4m0 0l-4 4m4-4H3"
-								/>
-							</svg>
-						</span>
-					</Button>
+					<!-- Feature chips — single row, horizontally scrollable -->
+					<div class="chips-wrapper">
+						<div class="flex gap-2 overflow-x-auto pb-1 chips-row">
+							{#each service.features as feature}
+								<span
+									class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-[0.1em] shrink-0"
+									style="background: {service.accent}18; color: {service.accent}; border: 1px solid {service.accent}30;"
+								>
+									{feature}
+								</span>
+							{/each}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
+	{/each}
+{/snippet}
 
-		<div class="mt-16 md:mt-24 pt-8 border-t" style="border-color: var(--border-primary);">
+{#snippet servicesPricingCta()}
+	<div
+		class="services-cards-horizontal-card w-[82vw] sm:w-[70vw] md:w-[50vw] lg:w-[42vw] max-w-[520px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center"
+	>
+		<div
+			class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between isolate border"
+			style="border-color: var(--glass-border);"
+		>
+			<div
+				class="absolute inset-0 bg-gradient-to-br from-blue-500/8 via-purple-500/5 to-transparent -z-10"
+			></div>
+			<div
+				class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-500 to-purple-500"
+			></div>
+
+			<div class="p-6 sm:p-8 md:p-10 lg:p-14 flex flex-col h-full justify-between">
+				<div>
+					<div
+						class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.15em] mb-6"
+						style="background: rgba(59,130,246,0.1); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2);"
+					>
+						<span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+						{m['services.pricingCard.badge']()}
+					</div>
+					<h3
+						class="font-syne text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-4 leading-[1.2]"
+						style="color: var(--text-heading);"
+					>
+						{m['services.pricingCard.title']()}
+					</h3>
+					<p
+						class="text-sm sm:text-base font-light leading-relaxed"
+						style="color: var(--text-secondary);"
+					>
+						{m['services.pricingCard.description']()}
+					</p>
+				</div>
+
+				<Button
+					href={localizeHref('/pricing')}
+					variant="inverted"
+					className="w-full !text-sm sm:!text-base !px-6 !py-4 transition-all duration-300 hover:scale-[1.02]"
+				>
+					<span class="flex items-center justify-center gap-3">
+						<span>{m['pricing.navTitle']()}</span>
+						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M17 8l4 4m0 0l-4 4m4-4H3"
+							/>
+						</svg>
+					</span>
+				</Button>
+			</div>
+		</div>
+	</div>
+{/snippet}
+
+<HorizontalScrollSection
+	id="services-cards"
+	watermark="SERVICES"
+	introSlide={servicesIntroSlide}
+	cards={servicesCards}
+	trailingSlide={servicesPricingCta}
+/>
+
+<section
+	id="services-cta"
+	class="relative pt-16 lg:pt-24 pb-12 lg:pb-20 overflow-hidden"
+	style="background: var(--bg-body);"
+>
+	<div class="container mx-auto px-4 sm:px-6 relative z-10">
+		<div class="pt-8 border-t" style="border-color: var(--border-primary);">
 			<div
 				class="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 max-w-5xl mx-auto"
 			>
@@ -790,32 +652,66 @@
 						{m['services.ctaSubtext']()}
 					</p>
 				</div>
-				<Button
-					href={localizeHref('/contact')}
-					className="group cta-magnetic flex-shrink-0 inline-flex items-center justify-center gap-3 !px-8 !py-5 sm:!px-10 sm:!py-6 rounded-2xl border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 !text-lg"
-					style="background: var(--bg-surface); border-color: var(--border-primary); color: var(--text-heading);"
+				<div
+					bind:this={ctaMagnetic}
+					onmouseenter={handleCtaMouseEnter}
+					onmouseleave={handleCtaMouseLeave}
+					onmousemove={handleCtaMouseMove}
 				>
-					<span class="font-medium">{m['services.cta']()}</span>
-					<svg
-						class="w-6 h-6 transition-transform duration-300 group-hover:translate-x-1"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
+					<Button
+						href={localizeHref('/contact')}
+						className="group flex-shrink-0 inline-flex items-center justify-center gap-3 !px-8 !py-5 sm:!px-10 sm:!py-6 rounded-2xl border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 !text-lg"
+						style="background: var(--bg-surface); border-color: var(--border-primary); color: var(--text-heading);"
 					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M17 8l4 4m0 0l-4 4m4-4H3"
-						/>
-					</svg>
-				</Button>
+						<span class="font-medium">{m['services.cta']()}</span>
+						<svg
+							class="w-6 h-6 transition-transform duration-300 group-hover:translate-x-1"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M17 8l4 4m0 0l-4 4m4-4H3"
+							/>
+						</svg>
+					</Button>
+				</div>
 			</div>
 		</div>
 	</div>
 </section>
 
 <style>
+	/* Hide scrollbar on chip rows — still scrollable via touch/mouse */
+	.chips-row {
+		scrollbar-width: none;
+		mask-image: linear-gradient(
+			to right,
+			transparent 0%,
+			black 2rem,
+			black calc(100% - 2rem),
+			transparent 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to right,
+			transparent 0%,
+			black 2rem,
+			black calc(100% - 2rem),
+			transparent 100%
+		);
+	}
+	.chips-row::-webkit-scrollbar {
+		display: none;
+	}
+
+	/* Wrapper only needs relative positioning for any future use */
+	.chips-wrapper {
+		position: relative;
+	}
+
 	.animate-blob {
 		animation: blob 10s infinite;
 	}
@@ -848,14 +744,6 @@
 	}
 	.process-flow::-webkit-scrollbar {
 		display: none;
-	}
-
-	@media (max-width: 767px) {
-		.bento-item {
-			box-shadow:
-				0 4px 24px -4px rgba(0, 0, 0, 0.08),
-				0 1px 4px rgba(0, 0, 0, 0.04);
-		}
 	}
 
 	@media (max-width: 1023px) {

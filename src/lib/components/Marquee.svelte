@@ -18,6 +18,8 @@
 		speed?: 'fast' | 'slow';
 		/** Resume delay after user interaction in ms (default 2000) */
 		resumeDelay?: number;
+		/** Scroll direction — 'ltr' scrolls left (default), 'rtl' scrolls right */
+		direction?: 'ltr' | 'rtl';
 	}
 
 	let {
@@ -27,13 +29,23 @@
 		className = '',
 		style = '',
 		speed = 'fast',
-		resumeDelay = 2000
+		resumeDelay = 2000,
+		direction = 'ltr'
 	}: Props = $props();
 
 	const resolvedDuration = $derived(duration ?? (speed === 'fast' ? 25 : 35));
 
 	let container: HTMLElement | undefined = $state();
 	let track: HTMLElement | undefined = $state();
+
+	// Handlers are defined inside onMount (they close over local variables),
+	// so we expose them via $state for use as native event props on the element.
+	let _onTouchStart = $state<((e: TouchEvent) => void) | undefined>(undefined);
+	let _onTouchMove = $state<((e: TouchEvent) => void) | undefined>(undefined);
+	let _onTouchEnd = $state<(() => void) | undefined>(undefined);
+	let _onMouseDown = $state<((e: MouseEvent) => void) | undefined>(undefined);
+	let _onMouseEnter = $state<(() => void) | undefined>(undefined);
+	let _onMouseLeave = $state<(() => void) | undefined>(undefined);
 
 	onMount(() => {
 		if (!browser || !container || !track) return;
@@ -81,22 +93,30 @@
 
 			xPos = wrapX(xPos, halfWidth);
 
-			// Distance from current xPos to -halfWidth (one full cycle end)
-			const distance = Math.abs(-halfWidth - xPos);
+			// LTR: 0 → -halfWidth (scrolls left)
+			// RTL: -halfWidth → 0 (scrolls right) — same range, opposite direction
+			const target = direction === 'rtl' ? 0 : -halfWidth;
+			const origin = direction === 'rtl' ? -halfWidth : 0;
+
+			if (direction === 'rtl' && xPos >= 0) {
+				xPos = -halfWidth;
+				applyTransform(xPos);
+			}
+
+			const distance = Math.abs(target - xPos);
 			const fraction = distance / halfWidth;
 			const adjustedDuration = resolvedDuration * fraction;
 
 			if (adjustedDuration <= 0) {
-				xPos = 0;
+				xPos = origin;
 				applyTransform(xPos);
 				startAutoScroll();
 				return;
 			}
 
-			// Animate a proxy value so we can intercept and apply the transform ourselves
 			const proxy = { x: xPos };
 			tween = gsapInstance.to(proxy, {
-				x: -halfWidth,
+				x: target,
 				duration: adjustedDuration,
 				ease: 'none',
 				onUpdate() {
@@ -105,7 +125,7 @@
 				},
 				onComplete() {
 					if (destroyed) return;
-					xPos = 0; // seamless reset
+					xPos = origin;
 					applyTransform(xPos);
 					startAutoScroll();
 				}
@@ -212,28 +232,24 @@
 			if (!isDragging) scheduleResume();
 		}
 
-		container.addEventListener('touchstart', onTouchStart, { passive: true });
-		container.addEventListener('touchmove', onTouchMove, { passive: false });
-		container.addEventListener('touchend', onTouchEnd, { passive: true });
-		container.addEventListener('mousedown', onMouseDown);
+		// Expose handlers via $state so native event props on the element can use them
+		_onTouchStart = onTouchStart;
+		_onTouchMove = onTouchMove;
+		_onTouchEnd = onTouchEnd;
+		_onMouseDown = onMouseDown;
+		_onMouseEnter = onMouseEnter;
+		_onMouseLeave = onMouseLeave;
+
 		// Listen on window so dragging works even when cursor leaves the container
 		window.addEventListener('mousemove', onMouseMove);
 		window.addEventListener('mouseup', onMouseUp);
-		container.addEventListener('mouseenter', onMouseEnter);
-		container.addEventListener('mouseleave', onMouseLeave);
 
 		return () => {
 			destroyed = true;
 			tween?.kill();
 			if (resumeTimer) clearTimeout(resumeTimer);
-			container?.removeEventListener('touchstart', onTouchStart);
-			container?.removeEventListener('touchmove', onTouchMove);
-			container?.removeEventListener('touchend', onTouchEnd);
-			container?.removeEventListener('mousedown', onMouseDown);
 			window.removeEventListener('mousemove', onMouseMove);
 			window.removeEventListener('mouseup', onMouseUp);
-			container?.removeEventListener('mouseenter', onMouseEnter);
-			container?.removeEventListener('mouseleave', onMouseLeave);
 		};
 	});
 </script>
@@ -243,6 +259,12 @@
 	class="marquee-container flex overflow-hidden cursor-grab {className}"
 	{style}
 	role="marquee"
+	ontouchstart={_onTouchStart}
+	ontouchmovenonpassive={_onTouchMove}
+	ontouchend={_onTouchEnd}
+	onmousedown={_onMouseDown}
+	onmouseenter={_onMouseEnter}
+	onmouseleave={_onMouseLeave}
 >
 	<div bind:this={track} class="marquee-track flex items-center flex-nowrap" style="gap: {gap}px;">
 		{@render children()}

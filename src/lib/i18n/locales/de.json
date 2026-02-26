@@ -9,7 +9,7 @@
 	"hero": {
 		"greeting": "Hey, ich bin",
 		"name": "Matthias Bigl",
-		"subtitle": "Professionelles <span class=\"blue-gradient_text font-semibold\">Webdesign & Webentwicklung</span> 🇦🇹",
+		"subtitle": "Professionelles <span class=\"blue-gradient_text font-semibold\">Webdesign & Webentwicklung</span>",
 		"description": "Ihre <span class=\"blue-gradient_text font-semibold\">digitale Visitenkarte</span> in Wien & Korneuburg, die rund um die Uhr neue Kunden gewinnt – während Sie sich auf Ihr Kerngeschäft konzentrieren.",
 		"cta": "Kostenlose Beratung",
 		"ctaServices": "Meine Leistungen"
@@ -50,6 +50,8 @@
 	"services": {
 		"title": "Mehr Kunden,",
 		"titleHighlight": "weniger Stress",
+		"scrollSectionLabel": "Leistungen im Detail",
+		"scrollSectionHeadline": "Was ich für Sie tue",
 		"subtitle": "Sie wollen online sichtbar sein, aber nicht Wochen mit Technik verschwenden? <span class=\"blue-gradient_text\">Ich übernehme das für Sie</span> – persönlich, ohne Agentur-Chaos, zum fairen Preis.",
 		"allInOne": {
 			"title": "Voller Service – von A bis Z",
@@ -200,7 +202,7 @@
 	"skills": {
 		"title": "Einige meiner besten",
 		"titleHighlight": "Skills",
-		"hint": "👆 Probier die Würfel zu greifen!",
+		"hint": "Probier die Würfel zu greifen!",
 		"languages": "Sprachen",
 		"strengths": "Stärken",
 		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin, React, Next.js",
@@ -444,17 +446,17 @@
 		"items": {
 			"gym": {
 				"title": "GYM",
-				"description": "Ich versuche immer, meine Grenzen im Fitnessstudio zu überschreiten 💪",
+				"description": "Ich versuche immer, meine Grenzen im Fitnessstudio zu überschreiten",
 				"alt": "Hantel als Symbol für Fitnesstraining und Gym"
 			},
 			"skiing": {
 				"title": "Skifahren",
-				"description": "Die Pisten hinunterzucarven ist eines meiner Lieblingsdinge im Winter 🎿",
+				"description": "Die Pisten hinunterzucarven ist eines meiner Lieblingsdinge im Winter",
 				"alt": "3D-Bergszene als Darstellung des Skifahren-Hobbys"
 			},
 			"surfing": {
 				"title": "Surfen",
-				"description": "Ich surfe seit ich 6 Jahre alt bin 🤙",
+				"description": "Ich surfe seit ich 6 Jahre alt bin",
 				"alt": "Matthias beim Surfen auf einer Welle im Meer"
 			}
 		}

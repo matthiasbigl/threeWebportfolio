@@ -19,6 +19,19 @@
 
 	let isSubmitting = $state(false);
 	let formLoadTime = $state(0);
+	let formEl = $state<HTMLFormElement | undefined>(undefined);
+
+	async function handleInputFocus(e: FocusEvent) {
+		const { gsap } = await import('gsap');
+		const input = e.currentTarget as HTMLElement;
+		gsap.to(input.parentElement, { scale: 1.02, duration: 0.3 });
+	}
+
+	async function handleInputBlur(e: FocusEvent) {
+		const { gsap } = await import('gsap');
+		const input = e.currentTarget as HTMLElement;
+		gsap.to(input.parentElement, { scale: 1, duration: 0.3 });
+	}
 
 	const contactLocalizedUrl = `https://bigls.net${localizeHref('/contact', { locale: getLocale() })}`;
 
@@ -129,16 +142,7 @@
 			);
 		});
 
-		// Form input focus animations
-		document.querySelectorAll('.form-input').forEach((input: any) => {
-			input.addEventListener('focus', () => {
-				gsap.to(input.parentElement, { scale: 1.02, duration: 0.3 });
-			});
-
-			input.addEventListener('blur', () => {
-				gsap.to(input.parentElement, { scale: 1, duration: 0.3 });
-			});
-		});
+		// Form input focus animations are handled via native onfocus/onblur on each input
 
 		return () => mm.revert();
 	});
@@ -342,6 +346,7 @@
 					</h2>
 
 					<form
+						bind:this={formEl}
 						method="POST"
 						use:enhance={() => {
 							isSubmitting = true;
@@ -349,8 +354,7 @@
 								isSubmitting = false;
 								if (result.type === 'success') {
 									// Clear form on success
-									const form = document.querySelector('form');
-									if (form) form.reset();
+									formEl?.reset();
 								}
 								await update();
 							};
@@ -389,6 +393,8 @@
 									style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
 									placeholder={m['contact.form.namePlaceholder']()}
 									class:border-red-500={form?.errors?.name}
+									onfocus={handleInputFocus}
+									onblur={handleInputBlur}
 								/>
 								<div
 									class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
@@ -419,6 +425,8 @@
 									style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
 									placeholder={m['contact.form.emailPlaceholder']()}
 									class:border-red-500={form?.errors?.email}
+									onfocus={handleInputFocus}
+									onblur={handleInputBlur}
 								/>
 								<div
 									class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
@@ -449,6 +457,8 @@
 									style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-primary);"
 									placeholder={m['contact.form.messagePlaceholder']()}
 									class:border-red-500={form?.errors?.message}
+									onfocus={handleInputFocus}
+									onblur={handleInputBlur}
 								></textarea>
 								<div
 									class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"

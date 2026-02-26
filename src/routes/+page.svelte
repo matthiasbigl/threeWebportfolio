@@ -8,12 +8,23 @@
 	import FAQ from '$lib/components/FAQ.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import Marquee from '$lib/components/Marquee.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { projects } from '$lib/data/projects';
 	import * as m from '$lib/paraglide/messages.js';
 	import { localizeHref } from '$lib/paraglide/runtime.js';
 	import { reducedMotion } from '$lib/stores/reducedMotion';
+	import {
+		Globe,
+		ShoppingCart,
+		Sparkles,
+		TrendingUp,
+		Shield,
+		Handshake,
+		MapPin,
+		Zap
+	} from 'lucide-svelte';
 
 	// Helper for dynamic project message keys
 	const pm = m as unknown as Record<string, () => string>;
@@ -23,7 +34,7 @@
 	const heroServices = $derived([
 		{
 			id: 'websites',
-			icon: '🌐',
+			icon: Globe,
 			title: m['heroNew.services.websites.title'](),
 			tagline: m['heroNew.services.websites.tagline'](),
 			hover: m['heroNew.services.websites.hover'](),
@@ -31,7 +42,7 @@
 		},
 		{
 			id: 'webshops',
-			icon: '🛒',
+			icon: ShoppingCart,
 			title: m['heroNew.services.webshops.title'](),
 			tagline: m['heroNew.services.webshops.tagline'](),
 			hover: m['heroNew.services.webshops.hover'](),
@@ -39,7 +50,7 @@
 		},
 		{
 			id: 'custom',
-			icon: '✨',
+			icon: Sparkles,
 			title: m['heroNew.services.custom.title'](),
 			tagline: m['heroNew.services.custom.tagline'](),
 			hover: m['heroNew.services.custom.hover'](),
@@ -47,7 +58,7 @@
 		},
 		{
 			id: 'seo',
-			icon: '📈',
+			icon: TrendingUp,
 			title: m['heroNew.services.seo.title'](),
 			tagline: m['heroNew.services.seo.tagline'](),
 			hover: m['heroNew.services.seo.hover'](),
@@ -55,7 +66,7 @@
 		},
 		{
 			id: 'hosting',
-			icon: '🛡️',
+			icon: Shield,
 			title: m['heroNew.services.hosting.title'](),
 			tagline: m['heroNew.services.hosting.tagline'](),
 			hover: m['heroNew.services.hosting.hover'](),
@@ -66,26 +77,90 @@
 	const aboutDifferentiators = $derived([
 		{
 			id: 'partner',
-			icon: '🤝',
+			icon: Handshake,
 			title: m['aboutCompact.differentiators.partner.title'](),
 			desc: m['aboutCompact.differentiators.partner.desc'](),
 			gradient: 'from-blue-500/10 via-blue-600/5 to-cyan-500/10'
 		},
 		{
 			id: 'local',
-			icon: '📍',
+			icon: MapPin,
 			title: m['aboutCompact.differentiators.local.title'](),
 			desc: m['aboutCompact.differentiators.local.desc'](),
 			gradient: 'from-purple-500/10 via-pink-500/5 to-purple-600/10'
 		},
 		{
 			id: 'direct',
-			icon: '⚡',
+			icon: Zap,
 			title: m['aboutCompact.differentiators.direct.title'](),
 			desc: m['aboutCompact.differentiators.direct.desc'](),
 			gradient: 'from-emerald-500/10 via-teal-500/5 to-cyan-500/10'
 		}
 	]);
+
+	const marqueeRow1 = $derived([
+		m['marquee.row1_0'](),
+		m['marquee.row1_1'](),
+		m['marquee.row1_2'](),
+		m['marquee.row1_3'](),
+		m['marquee.row1_4'](),
+		m['marquee.row1_5'](),
+		m['marquee.row1_6'](),
+		m['marquee.row1_7'](),
+		m['marquee.row1_8'](),
+		m['marquee.row1_9'](),
+		m['marquee.row1_10'](),
+		m['marquee.row1_11']()
+	]);
+
+	const marqueeRow2 = $derived([
+		m['marquee.row2_0'](),
+		m['marquee.row2_1'](),
+		m['marquee.row2_2'](),
+		m['marquee.row2_3'](),
+		m['marquee.row2_4'](),
+		m['marquee.row2_5'](),
+		m['marquee.row2_6'](),
+		m['marquee.row2_7'](),
+		m['marquee.row2_8'](),
+		m['marquee.row2_9'](),
+		m['marquee.row2_10'](),
+		m['marquee.row2_11']()
+	]);
+
+	let heroBgTextEl = $state<HTMLElement | undefined>(undefined);
+	let projectListEl = $state<HTMLElement | undefined>(undefined);
+	let aboutSectionEl = $state<HTMLElement | undefined>(undefined);
+
+	async function handlePillMouseMove(e: MouseEvent) {
+		const { gsap } = await import('gsap');
+		const pill = e.currentTarget as HTMLElement;
+		const rect = pill.getBoundingClientRect();
+		const x = e.clientX - rect.left;
+		const y = e.clientY - rect.top;
+		const centerX = rect.width / 2;
+		const centerY = rect.height / 2;
+		const rotateX = ((y - centerY) / centerY) * -8;
+		const rotateY = ((x - centerX) / centerX) * 8;
+		gsap.to(pill, {
+			rotationX: rotateX,
+			rotationY: rotateY,
+			duration: 0.3,
+			ease: 'power2.out',
+			transformPerspective: 800
+		});
+	}
+
+	async function handlePillMouseLeave(e: MouseEvent) {
+		const { gsap } = await import('gsap');
+		const pill = e.currentTarget as HTMLElement;
+		gsap.to(pill, {
+			rotationX: 0,
+			rotationY: 0,
+			duration: 0.5,
+			ease: 'elastic.out(1, 0.5)'
+		});
+	}
 
 	onMount(async () => {
 		if (!browser) return;
@@ -109,10 +184,9 @@
 
 				if (isDesktop) {
 					// Hero watermark parallax — drifts left on scroll
-					const heroBgText = document.querySelector('.hero-bg-text');
-					if (heroBgText) {
+					if (heroBgTextEl) {
 						gsap.fromTo(
-							heroBgText,
+							heroBgTextEl,
 							{ xPercent: 15 },
 							{
 								xPercent: -40,
@@ -217,9 +291,8 @@
 					});
 
 					// Project rows — direct slide-up for bold typography
-					const projectList = document.querySelector('.project-list');
-					if (projectList) {
-						const rows = projectList.querySelectorAll('.project-row-item');
+					if (projectListEl) {
+						const rows = projectListEl.querySelectorAll('.project-row-item');
 						rows.forEach((row, i) => {
 							gsap.fromTo(
 								row,
@@ -241,8 +314,7 @@
 						});
 					}
 
-					const aboutSection = document.querySelector('.about-section');
-					if (aboutSection) {
+					if (aboutSectionEl) {
 						gsap.fromTo(
 							'.about-avatar-wrap',
 							{
@@ -257,7 +329,7 @@
 								duration: 1.2,
 								ease: 'power3.out',
 								scrollTrigger: {
-									trigger: aboutSection,
+									trigger: aboutSectionEl,
 									start: 'top 80%'
 								}
 							}
@@ -278,50 +350,19 @@
 								stagger: 0.08,
 								ease: 'back.out(1.4)',
 								scrollTrigger: {
-									trigger: aboutSection,
+									trigger: aboutSectionEl,
 									start: 'top 70%'
 								}
 							}
 						);
 					}
-
-					const pills = document.querySelectorAll('.service-pill');
-					pills.forEach((pill: any) => {
-						pill.addEventListener('mousemove', (e: MouseEvent) => {
-							const rect = pill.getBoundingClientRect();
-							const x = e.clientX - rect.left;
-							const y = e.clientY - rect.top;
-							const centerX = rect.width / 2;
-							const centerY = rect.height / 2;
-							const rotateX = ((y - centerY) / centerY) * -8;
-							const rotateY = ((x - centerX) / centerX) * 8;
-
-							gsap.to(pill, {
-								rotationX: rotateX,
-								rotationY: rotateY,
-								duration: 0.3,
-								ease: 'power2.out',
-								transformPerspective: 800
-							});
-						});
-
-						pill.addEventListener('mouseleave', () => {
-							gsap.to(pill, {
-								rotationX: 0,
-								rotationY: 0,
-								duration: 0.5,
-								ease: 'elastic.out(1, 0.5)'
-							});
-						});
-					});
 				}
 
 				if (isMobile) {
 					// Hero watermark parallax on mobile too (subtler)
-					const heroBgTextMobile = document.querySelector('.hero-bg-text');
-					if (heroBgTextMobile) {
+					if (heroBgTextEl) {
 						gsap.fromTo(
-							heroBgTextMobile,
+							heroBgTextEl,
 							{ xPercent: 12 },
 							{
 								xPercent: -25,
@@ -452,6 +493,7 @@
 	>
 		<!-- Parallax watermark text — bottom-right, very subtle, partially clipped -->
 		<div
+			bind:this={heroBgTextEl}
 			class="hero-bg-text absolute bottom-[-16%] right-[-15%] pointer-events-none select-none z-[1] will-change-transform"
 		>
 			<span
@@ -512,16 +554,22 @@
 				<div class="mb-10 sm:mb-12">
 					<div class="flex flex-wrap gap-2 sm:gap-3 max-w-4xl" style="perspective: 1000px;">
 						{#each heroServices as service}
+							{@const IconComponent = service.icon}
 							<div
 								class="service-pill group relative flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer transition-all duration-300 sm:hover:translate-y-[-2px]"
 								style="background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(12px); transform-style: preserve-3d;"
+								onmousemove={handlePillMouseMove}
+								onmouseleave={handlePillMouseLeave}
 							>
 								<div class="service-pill-shimmer"></div>
 								<div class="service-pill-glow"></div>
 								<span
-									class="text-lg sm:text-xl group-hover:scale-110 transition-transform duration-300"
+									class="text-lg sm:text-xl group-hover:scale-110 transition-transform duration-300 flex items-center justify-center"
 								>
-									{service.icon}
+									<IconComponent
+										class="w-5 h-5 sm:w-6 sm:h-6"
+										style="color: var(--text-secondary);"
+									/>
 								</span>
 								<div class="flex flex-col">
 									<span
@@ -559,14 +607,50 @@
 		</div>
 	</section>
 
-	<section class="services-wrapper reveal-section glass-section relative gradient-bg-1">
-		<Services />
-	</section>
+	<!-- Trust Marquee Strip — double-row infinite scroll between hero and services -->
+	<!-- <div class="trust-marquee-wrap relative overflow-hidden py-5 sm:py-6" aria-hidden="true">
+		<div class="absolute inset-x-0 top-0 h-px" style="background: var(--border-primary);"></div>
+		<div class="absolute inset-x-0 bottom-0 h-px" style="background: var(--border-primary);"></div>
+
+		<div class="mb-3">
+			<Marquee speed="slow" gap={24} className="trust-marquee-row">
+				{#snippet children()}
+					{#each [...marqueeRow1, ...marqueeRow1] as item}
+						<span class="trust-marquee-item">
+							<span class="trust-dot" aria-hidden="true"></span>
+							{item}
+						</span>
+					{/each}
+				{/snippet}
+			</Marquee>
+		</div>
+
+		<div>
+			<Marquee
+				speed="fast"
+				gap={24}
+				direction="rtl"
+				className="trust-marquee-row trust-marquee-row--rtl"
+			>
+				{#snippet children()}
+					{#each [...marqueeRow2, ...marqueeRow2] as item}
+						<span class="trust-marquee-item trust-marquee-item--alt">
+							<span class="trust-dot trust-dot--alt" aria-hidden="true"></span>
+							{item}
+						</span>
+					{/each}
+				{/snippet}
+			</Marquee>
+		</div>
+	</div> -->
+
+	<Services />
 
 	<VibeSection />
 
 	<section
 		id="about"
+		bind:this={aboutSectionEl}
 		class="about-section reveal-section relative overflow-hidden py-16 sm:py-20 lg:py-24"
 		aria-labelledby="about-heading"
 	>
@@ -612,12 +696,16 @@
 
 						<div class="flex flex-wrap gap-3 mb-8">
 							{#each aboutDifferentiators as diff}
+								{@const IconComponent = diff.icon}
 								<div
 									class="about-pill inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full transition-all duration-300 hover:translate-y-[-2px] cursor-pointer"
 									style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
 								>
 									<div class="about-pill-glow"></div>
-									<span class="text-base">{diff.icon}</span>
+									<IconComponent
+										class="w-4 h-4 flex-shrink-0"
+										style="color: var(--text-secondary);"
+									/>
 									<span class="text-sm font-medium" style="color: var(--text-secondary);"
 										>{diff.title}</span
 									>
@@ -681,7 +769,10 @@
 			</div>
 
 			<!-- Project rows — brutalist typography layout -->
-			<div class="project-list border-t border-[var(--border-primary)] flex flex-col">
+			<div
+				bind:this={projectListEl}
+				class="project-list border-t border-[var(--border-primary)] flex flex-col"
+			>
 				{#each projects as project, i}
 					<ProjectRow
 						title={projectMsg(project.slug, 'title')}
@@ -866,6 +957,65 @@
 		.about-avatar-container,
 		.about-diff-card {
 			transform-style: flat;
+		}
+	}
+
+	/* Trust Marquee Strip */
+	.trust-marquee-wrap {
+		background: var(--bg-body);
+	}
+
+	:global(.trust-marquee-row) {
+		height: 28px;
+	}
+
+	:global(.trust-marquee-item) {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		white-space: nowrap;
+		font-size: 0.72rem;
+		font-weight: 500;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--text-tertiary);
+		transition: color 0.2s ease;
+		cursor: default;
+		padding: 0 4px;
+	}
+
+	:global(.trust-marquee-item:hover) {
+		color: var(--text-secondary);
+	}
+
+	:global(.trust-marquee-item--alt) {
+		color: var(--text-tertiary);
+		opacity: 0.75;
+	}
+
+	:global(.trust-marquee-item--alt:hover) {
+		opacity: 1;
+		color: var(--text-secondary);
+	}
+
+	:global(.trust-dot) {
+		display: inline-block;
+		width: 4px;
+		height: 4px;
+		border-radius: 50%;
+		background: #3b82f6;
+		opacity: 0.45;
+		flex-shrink: 0;
+	}
+
+	:global(.trust-dot--alt) {
+		background: #7b68ee;
+		opacity: 0.35;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global(.trust-marquee-item) {
+			animation: none;
 		}
 	}
 </style>

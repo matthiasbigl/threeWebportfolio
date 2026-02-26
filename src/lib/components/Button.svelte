@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte';
+	import { type Snippet } from 'svelte';
 
 	interface Props {
 		href?: string;
@@ -41,59 +41,36 @@
 		}, 600);
 	}
 
-	onMount(() => {
-		if (!element) return;
+	async function handleMouseEnter(e: MouseEvent) {
+		const target = e.currentTarget as HTMLElement;
+		const { gsap } = await import('gsap');
+		gsap.to(target, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
+	}
 
-		let cleanupGSAP: (() => void) | undefined;
+	async function handleMouseLeave(e: MouseEvent) {
+		const target = e.currentTarget as HTMLElement;
+		const { gsap } = await import('gsap');
+		gsap.to(target, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+	}
 
-		(async () => {
-			const { gsap } = await import('gsap');
+	async function handleMouseMove(e: MouseEvent) {
+		const target = e.currentTarget as HTMLElement;
+		const rect = target.getBoundingClientRect();
+		const x = e.clientX - rect.left - rect.width / 2;
+		const y = e.clientY - rect.top - rect.height / 2;
+		const { gsap } = await import('gsap');
+		gsap.to(target, {
+			x: x * 0.3,
+			y: y * 0.3,
+			duration: 0.3,
+			ease: 'power2.out'
+		});
+	}
 
-			const handleMouseEnter = (e: Event) => {
-				const target = e.currentTarget as HTMLElement;
-				gsap.to(target, { scale: 1.05, duration: 0.3, ease: 'back.out(1.7)' });
-			};
-
-			const handleMouseLeave = (e: Event) => {
-				const target = e.currentTarget as HTMLElement;
-				gsap.to(target, { scale: 1, x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
-			};
-
-			const handleMouseMove = (e: MouseEvent) => {
-				const target = e.currentTarget as HTMLElement;
-				const rect = target.getBoundingClientRect();
-				const x = e.clientX - rect.left - rect.width / 2;
-				const y = e.clientY - rect.top - rect.height / 2;
-
-				gsap.to(target, {
-					x: x * 0.3,
-					y: y * 0.3,
-					duration: 0.3,
-					ease: 'power2.out'
-				});
-			};
-
-			if (element) {
-				element.addEventListener('mouseenter', handleMouseEnter);
-				element.addEventListener('mouseleave', handleMouseLeave);
-				element.addEventListener('mousemove', handleMouseMove);
-				element.addEventListener('click', createRipple);
-
-				cleanupGSAP = () => {
-					if (element) {
-						element.removeEventListener('mouseenter', handleMouseEnter);
-						element.removeEventListener('mouseleave', handleMouseLeave);
-						element.removeEventListener('mousemove', handleMouseMove);
-						element.removeEventListener('click', createRipple);
-					}
-				};
-			}
-		})();
-
-		return () => {
-			if (cleanupGSAP) cleanupGSAP();
-		};
-	});
+	function handleClick(e: MouseEvent) {
+		createRipple(e);
+		onclick?.(e);
+	}
 
 	const baseClasses =
 		'magnetic-btn px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg font-bold text-center rounded-2xl transition-all duration-300 inline-flex items-center justify-center gap-2';
@@ -117,7 +94,10 @@
 		rel={external ? 'noopener noreferrer' : undefined}
 		class="{baseClasses} {variants[variant]} {className}"
 		style="{computedBaseStyle} {style}"
-		on:click={onclick}
+		onmouseenter={handleMouseEnter}
+		onmouseleave={handleMouseLeave}
+		onmousemove={handleMouseMove}
+		onclick={handleClick}
 	>
 		{@render children?.()}
 		{#each ripples as ripple (ripple.id)}
@@ -134,7 +114,10 @@
 		{disabled}
 		class="{baseClasses} {variants[variant]} {className}"
 		style="{computedBaseStyle} {style}"
-		on:click={onclick}
+		onmouseenter={handleMouseEnter}
+		onmouseleave={handleMouseLeave}
+		onmousemove={handleMouseMove}
+		onclick={handleClick}
 	>
 		{@render children?.()}
 		{#each ripples as ripple (ripple.id)}

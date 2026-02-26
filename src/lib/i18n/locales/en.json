@@ -8,7 +8,7 @@
 	"hero": {
 		"greeting": "Hey, I'm",
 		"name": "Matthias Bigl",
-		"subtitle": "Freelance <span class=\"blue-gradient_text font-semibold\">Web Designer & Full Stack Developer</span> in Vienna, Austria 🇦🇹",
+		"subtitle": "Freelance <span class=\"blue-gradient_text font-semibold\">Web Designer & Full Stack Developer</span> in Vienna, Austria",
 		"description": "Your <span class=\"blue-gradient_text font-semibold\">professional website</span> from Vienna & Korneuburg that wins new customers 24/7 – while you focus on running your business.",
 		"cta": "Free Consultation",
 		"ctaServices": "My Services"
@@ -49,6 +49,8 @@
 	"services": {
 		"title": "More Customers,",
 		"titleHighlight": "Less Hassle",
+		"scrollSectionLabel": "Services in Detail",
+		"scrollSectionHeadline": "What I do for you",
 		"subtitle": "Want to be visible online but don't want to waste weeks on tech? <span class=\"blue-gradient_text\">I'll handle it for you</span> – personally, no agency chaos, fair pricing.",
 		"allInOne": {
 			"title": "Full Service – A to Z",
@@ -194,7 +196,7 @@
 	"skills": {
 		"title": "Some of My Best",
 		"titleHighlight": "Skills",
-		"hint": "👆 Try grabbing the cubes!",
+		"hint": "Try grabbing the cubes!",
 		"languages": "Languages",
 		"strengths": "Strengths",
 		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin, React, Next.js",
@@ -445,17 +447,17 @@
 		"items": {
 			"gym": {
 				"title": "GYM",
-				"description": "I'm always trying to push my limits in the gym 💪",
+				"description": "I'm always trying to push my limits in the gym",
 				"alt": "Dumbbell representing gym training and fitness"
 			},
 			"skiing": {
 				"title": "Skiing",
-				"description": "Carving down the slopes is one of my favorite things to do in winter 🎿",
+				"description": "Carving down the slopes is one of my favorite things to do in winter",
 				"alt": "3D mountain scene representing skiing hobby"
 			},
 			"surfing": {
 				"title": "Surfing",
-				"description": "Been surfing since I was 6 years old 🤙",
+				"description": "Been surfing since I was 6 years old",
 				"alt": "Matthias surfing a wave in the ocean"
 			}
 		}

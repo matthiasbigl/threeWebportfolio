@@ -19,7 +19,7 @@
 	"hero": {
 		"greeting": "Hey, ich bin",
 		"name": "Matthias Bigl",
-		"subtitle": "Professionelles <span class=\"blue-gradient_text font-semibold\">Webdesign & Webentwicklung</span> 🇦🇹",
+		"subtitle": "Professionelles <span class=\"blue-gradient_text font-semibold\">Webdesign & Webentwicklung</span>",
 		"description": "Ihre <span class=\"blue-gradient_text font-semibold\">digitale Visitenkarte</span> in Wien & Korneuburg, die rund um die Uhr neue Kunden gewinnt – während Sie sich auf Ihr Kerngeschäft konzentrieren.",
 		"cta": "Kostenlose Beratung",
 		"ctaServices": "Meine Leistungen"
@@ -60,6 +60,8 @@
 	"services": {
 		"title": "Mehr Kunden,",
 		"titleHighlight": "weniger Stress",
+		"scrollSectionLabel": "Leistungen im Detail",
+		"scrollSectionHeadline": "Was ich für Sie tue",
 		"subtitle": "Sie wollen online sichtbar sein, aber nicht Wochen mit Technik verschwenden? <span class=\"blue-gradient_text\">Ich übernehme das für Sie</span> – persönlich, ohne Agentur-Chaos, zum fairen Preis.",
 		"allInOne": {
 			"title": "Voller Service – von A bis Z",
@@ -186,7 +188,7 @@
 	"skills": {
 		"title": "Einige meiner besten",
 		"titleHighlight": "Skills",
-		"hint": "👆 Probier die Würfel zu greifen!",
+		"hint": "Probier die Würfel zu greifen!",
 		"languages": "Sprachen",
 		"strengths": "Stärken",
 		"languagesList": "Python, Java, Svelte, TypeScript, Kotlin",
@@ -381,17 +383,17 @@
 		"items": {
 			"gym": {
 				"title": "GYM",
-				"description": "Ich versuche immer, meine Grenzen im Fitnessstudio zu überschreiten 💪",
+				"description": "Ich versuche immer, meine Grenzen im Fitnessstudio zu überschreiten",
 				"alt": "Hantel als Symbol für Fitnesstraining und Gym"
 			},
 			"skiing": {
 				"title": "Skifahren",
-				"description": "Die Pisten hinunterzucarven ist eines meiner Lieblingsdinge im Winter 🎿",
+				"description": "Die Pisten hinunterzucarven ist eines meiner Lieblingsdinge im Winter",
 				"alt": "3D-Bergszene als Darstellung des Skifahren-Hobbys"
 			},
 			"surfing": {
 				"title": "Surfen",
-				"description": "Ich surfe seit ich 6 Jahre alt bin 🤙",
+				"description": "Ich surfe seit ich 6 Jahre alt bin",
 				"alt": "Matthias beim Surfen auf einer Welle im Meer"
 			}
 		}
@@ -617,6 +619,32 @@
 			"subtitle": "Haben Sie ein Projekt im Kopf? Ich freue mich darauf, von Ihnen zu hören und gemeinsam herauszufinden, wie ich Ihnen helfen kann.",
 			"button": "Kontakt aufnehmen"
 		}
+	},
+	"marquee": {
+		"row1_0": "Websites ab €650",
+		"row1_1": "Webshops",
+		"row1_2": "SEO-Optimierung",
+		"row1_3": "Hosting inklusive",
+		"row1_4": "Maßgeschneiderte Lösungen",
+		"row1_5": "1–2 Wochen bis zum Launch",
+		"row1_6": "Kein Agentur-Aufschlag",
+		"row1_7": "Persönliche Betreuung",
+		"row1_8": "React & SvelteKit",
+		"row1_9": "Three.js & 3D Web",
+		"row1_10": "Mobile-First Design",
+		"row1_11": "Wien & Korneuburg",
+		"row2_0": "Kostenlose Erstberatung",
+		"row2_1": "Schnelle Ladezeiten",
+		"row2_2": "Moderne Technologie",
+		"row2_3": "DSGVO-konform",
+		"row2_4": "Direkt vom Entwickler",
+		"row2_5": "Kein Mittelsmann",
+		"row2_6": "Responsive Design",
+		"row2_7": "TypeScript & Tailwind",
+		"row2_8": "Barrierefreiheit",
+		"row2_9": "Faire Preise",
+		"row2_10": "Full Stack Entwicklung",
+		"row2_11": "Österreichweit"
 	},
 	"aboutPageNew": {
 		"philosophy": {

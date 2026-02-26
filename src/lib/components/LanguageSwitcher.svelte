@@ -7,12 +7,6 @@
 
 	const currentLocale = $derived(getLocale());
 
-	const flagMap: Record<string, string> = {
-		de: '🇩🇪',
-		en: '🇬🇧',
-		cs: '🇨🇿'
-	};
-
 	const labelMap: Record<string, () => string> = {
 		de: () => m['language.de'](),
 		en: () => m['language.en'](),
@@ -56,7 +50,6 @@
 				d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
 			/>
 		</svg>
-		<span class="text-base md:text-sm">{flagMap[currentLocale] ?? '🌐'}</span>
 		<span class="text-xs uppercase tracking-wide">{currentLocale}</span>
 		<svg
 			class="w-3 h-3 transition-transform duration-200"
@@ -86,7 +79,6 @@
 						: ''}"
 					style="color: var(--text-primary);"
 				>
-					<span class="text-lg">{flagMap[lang] ?? '🌐'}</span>
 					<span>{labelMap[lang]?.() ?? lang.toUpperCase()}</span>
 					{#if currentLocale === lang}
 						<svg class="w-4 h-4 ml-auto text-blue-400" fill="currentColor" viewBox="0 0 20 20">
