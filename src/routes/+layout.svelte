@@ -13,6 +13,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	/** @type {{children?: import('svelte').Snippet}} */
 	let { children } = $props();
 
@@ -60,6 +61,20 @@
 			return () => {
 				window.removeEventListener('scroll', handleScroll);
 			};
+		}
+	});
+
+	afterNavigate((navigation) => {
+		if (!browser) return;
+
+		const hash = navigation.to?.url.hash;
+		if (hash) {
+			const target = document.querySelector(hash);
+			if (target) {
+				target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}
+		} else if (navigation.to?.url.pathname === '/' && navigation.from?.url.pathname !== '/') {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
 		}
 	});
 </script>

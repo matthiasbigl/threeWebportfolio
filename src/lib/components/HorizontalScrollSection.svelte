@@ -163,25 +163,21 @@
 
 				// Horizontal swipe dominant — drive the horizontal scroll
 				if (absX > absY && absX > 10) {
-					// At the start swiping right → push page upward past pin
-					if (st.progress <= 0 && deltaX > 0) {
-						tryPrevent();
-						window.scrollBy({ top: -deltaX * 0.5, behavior: 'instant' });
-						touchStartX = e.touches[0].clientX;
-						touchStartY = e.touches[0].clientY;
-						return;
-					}
-					// At the end swiping left → push page downward past pin
-					if (st.progress >= 1 && deltaX < 0) {
-						tryPrevent();
-						window.scrollBy({ top: absX, behavior: 'instant' });
-						touchStartX = e.touches[0].clientX;
-						touchStartY = e.touches[0].clientY;
-						return;
-					}
-					// Mid-section: convert horizontal swipe to vertical scroll for GSAP
 					tryPrevent();
-					window.scrollBy({ top: -deltaX, behavior: 'instant' });
+
+					// Instead of window.scrollBy which is sluggish, directly apply the delta to the scroll position
+					// This cuts out the middleman and updates GSAP instantly
+					const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+
+					// Multiplier to match physical finger movement.
+					// On iOS, a slightly higher multiplier feels more 1:1 because of pixel scaling.
+					const scrollDelta = -deltaX * 1.5;
+
+					window.scrollTo({
+						top: currentScroll + scrollDelta,
+						behavior: 'instant'
+					});
+
 					touchStartX = e.touches[0].clientX;
 					touchStartY = e.touches[0].clientY;
 				}
@@ -219,7 +215,7 @@
 								trigger: sectionEl!,
 								start: 'top top',
 								end: () => `+=${getScrollDistance() + window.innerWidth * 0.3}`,
-								scrub: 0.8,
+								scrub: isTouchDevice ? 0.05 : 0.8,
 								invalidateOnRefresh: true
 							}
 						}

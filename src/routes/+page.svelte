@@ -558,6 +558,8 @@
 							<div
 								class="service-pill group relative flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer transition-all duration-300 sm:hover:translate-y-[-2px]"
 								style="background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(12px); transform-style: preserve-3d;"
+								role="button"
+								tabindex="0"
 								onmousemove={handlePillMouseMove}
 								onmouseleave={handlePillMouseLeave}
 							>
@@ -932,37 +934,6 @@
 		box-shadow:
 			0 8px 24px -8px rgba(59, 130, 246, 0.15),
 			0 0 0 1px rgba(59, 130, 246, 0.1);
-	}
-
-	.line-clamp-2 {
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-
-	/* External CTA links */
-	.external-cta {
-		background: var(--card-bg);
-		border: 1px solid var(--glass-border);
-	}
-
-	.external-cta:hover {
-		background: var(--card-bg-hover, var(--card-bg));
-		border-color: var(--cta-accent);
-		box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.1);
-	}
-
-	@media (max-width: 1023px) {
-		.about-avatar-container,
-		.about-diff-card {
-			transform-style: flat;
-		}
-	}
-
-	/* Trust Marquee Strip */
-	.trust-marquee-wrap {
-		background: var(--bg-body);
 	}
 
 	:global(.trust-marquee-row) {

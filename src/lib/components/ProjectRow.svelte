@@ -23,8 +23,8 @@
 		className = ''
 	}: Props = $props();
 
-	const target = isExternal ? '_blank' : undefined;
-	const rel = isExternal ? 'noopener noreferrer' : undefined;
+	const target = $derived(isExternal ? '_blank' : undefined);
+	const rel = $derived(isExternal ? 'noopener noreferrer' : undefined);
 </script>
 
 <a
