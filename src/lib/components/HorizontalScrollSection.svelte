@@ -28,8 +28,8 @@
 	}: Props = $props();
 
 	// Unique CSS class names derived from id so multiple instances don't clash
-	const cardClass = `${id}-horizontal-card`;
-	const bgNumClass = `${id}-bg-number`;
+	const cardClass = $derived(`${id}-horizontal-card`);
+	const bgNumClass = $derived(`${id}-bg-number`);
 
 	// Bound DOM refs
 	let sectionEl: HTMLElement | null = null;
