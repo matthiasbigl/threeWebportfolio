@@ -360,7 +360,7 @@
 					</div>
 
 					<!-- Features Grid - Redesigned -->
-					<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 mt-2">
+					<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mt-2">
 						{#each m['services.allInOne.features']().split('\n') as feature, i}
 							{@const featureIcons = [Server, Tool, MessageCircle, PenTool]}
 							{@const FeatureIcon = featureIcons[i % featureIcons.length]}
