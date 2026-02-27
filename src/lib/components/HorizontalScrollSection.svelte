@@ -55,7 +55,8 @@
 		(async () => {
 			const { gsap } = await import('gsap');
 			const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-			gsap.registerPlugin(ScrollTrigger);
+			const { ScrollToPlugin } = await import('gsap/ScrollToPlugin');
+			gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 			if (!sectionEl || !wrapperEl) return;
 
@@ -194,7 +195,7 @@
 							targetProgress = points[currentIndex + 1];
 						} else {
 							// Push page past boundary so user can keep reading downwards smoothly
-							window.scrollBy({ top: 200, behavior: 'smooth' });
+							gsap.to(window, { scrollTo: { y: '+=200' }, duration: 0.4, ease: 'power2.out' });
 							return;
 						}
 					} else {
@@ -202,13 +203,18 @@
 							targetProgress = points[currentIndex - 1];
 						} else {
 							// Push page up
-							window.scrollBy({ top: -200, behavior: 'smooth' });
+							gsap.to(window, { scrollTo: { y: '-=200' }, duration: 0.4, ease: 'power2.out' });
 							return;
 						}
 					}
 
 					const scrollTarget = st.start + targetProgress * (st.end - st.start);
-					window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+					gsap.to(window, {
+						scrollTo: { y: scrollTarget },
+						duration: 0.5,
+						ease: 'power4.out',
+						overwrite: 'auto'
+					});
 				};
 
 				scrollToNext = () => jumpToCard('next');
