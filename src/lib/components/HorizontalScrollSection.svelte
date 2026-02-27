@@ -196,7 +196,7 @@
 				if (!isTouchDevice) {
 					wheelHandler = (e: WheelEvent) => {
 						const target = e.target as HTMLElement;
-						if (target.closest('.chips-row, [data-hscroll]')) return;
+						if (target.closest('.chips-row, .chips-wrapper, [data-hscroll="false"]')) return;
 						const st = tl.scrollTrigger;
 						if (!st) return;
 
@@ -230,7 +230,7 @@
 						const diffY = Math.abs(startY - endY);
 
 						// Only count as a horizontal swipe if it moved >30px and was mostly horizontal
-						if (Math.abs(diffX) > 30 && Math.abs(diffX) > diffY) {
+						if (Math.abs(diffX) > 20 && Math.abs(diffX) > diffY + 10) {
 							if (diffX > 0) {
 								jumpToCard('next'); // Swiped left
 							} else {

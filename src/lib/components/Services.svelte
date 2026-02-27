@@ -552,7 +552,8 @@
 			class="w-[82vw] sm:w-[75vw] md:w-[55vw] lg:w-[45vw] max-w-[560px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center relative group"
 		>
 			<div
-				class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between isolate border {accentCfg.border}"
+				class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-y-auto flex flex-col justify-between isolate border {accentCfg.border}"
+				data-hscroll="false"
 			>
 				<!-- Top accent bar -->
 				<div
@@ -606,10 +607,14 @@
 					</div>
 
 					<!-- Feature chips — single row, horizontally scrollable -->
-					<div class="chips-wrapper">
+					<div class="chips-wrapper" data-hscroll="false">
 						<!-- svelte-ignore a11y_click_events_have_key_events -->
 						<!-- svelte-ignore a11y_no_static_element_interactions -->
-						<div class="flex overflow-hidden pb-1 chips-row cursor-pointer" onclick={scrollChips}>
+						<div
+							class="flex overflow-hidden pb-1 chips-row cursor-pointer"
+							onclick={scrollChips}
+							data-hscroll="false"
+						>
 							<div class="flex gap-2 pl-4 pr-2 chips-inner">
 								{#each service.features as feature}
 									<span
@@ -638,8 +643,9 @@
 		class="w-[82vw] sm:w-[70vw] md:w-[50vw] lg:w-[42vw] max-w-[520px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center"
 	>
 		<div
-			class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between isolate border"
+			class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-y-auto flex flex-col isolate border"
 			style="border-color: var(--glass-border);"
+			data-hscroll="false"
 		>
 			<div
 				class="absolute inset-0 bg-gradient-to-br from-blue-500/8 via-purple-500/5 to-transparent -z-10"
@@ -661,7 +667,7 @@
 				</span>
 			</div>
 
-			<div class="p-5 sm:p-6 md:p-8 flex flex-col h-full justify-between">
+			<div class="p-5 sm:p-6 md:p-8 pb-8 sm:pb-10 flex flex-col">
 				<div>
 					<div
 						class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.15em] mb-4"
@@ -727,7 +733,7 @@
 				<Button
 					href={localizeHref('/pricing')}
 					variant="inverted"
-					className="w-full mt-6 !text-sm sm:!text-base !px-6 !py-4 transition-all duration-300 hover:scale-[1.02]"
+					className="w-full mt-6 md:mt-8 !text-sm sm:!text-base !px-6 !py-4 transition-all duration-300 hover:scale-[1.02]"
 				>
 					<span class="flex items-center justify-center gap-3">
 						<span>{m['pricing.navTitle']()}</span>
@@ -818,6 +824,7 @@
 	.chips-row {
 		scrollbar-width: none;
 		-ms-overflow-style: none;
+		touch-action: pan-x;
 	}
 	.chips-row::-webkit-scrollbar {
 		display: none;

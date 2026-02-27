@@ -716,7 +716,7 @@
 							{/each}
 						</div>
 
-						<div class="flex items-center gap-6">
+						<div class="flex flex-col sm:flex-row sm:items-center gap-6 items-start">
 							<div class="flex items-center gap-2.5">
 								<span class="relative flex h-2.5 w-2.5">
 									<span
