@@ -553,7 +553,6 @@
 		>
 			<div
 				class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-y-auto flex flex-col justify-between isolate border {accentCfg.border}"
-				data-hscroll="false"
 			>
 				<!-- Top accent bar -->
 				<div
@@ -645,7 +644,6 @@
 		<div
 			class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-y-auto flex flex-col isolate border"
 			style="border-color: var(--glass-border);"
-			data-hscroll="false"
 		>
 			<div
 				class="absolute inset-0 bg-gradient-to-br from-blue-500/8 via-purple-500/5 to-transparent -z-10"

@@ -105,12 +105,12 @@
 						start: 'top top',
 						end: () => `+=${getScrollDistance() + window.innerWidth * 0.3}`,
 						pin: true,
-						scrub: 0.5, // 0.5 scrub offers nice dampening across devices
+						scrub: 0.1, // Lower scrub value makes the movement follow the scroll much faster
 						snap: isTouchDevice
 							? {
 									snapTo: (progress) => gsap.utils.snap(getCardSnapPoints(), progress),
-									duration: { min: 0.2, max: 0.5 },
-									ease: 'power2.inOut',
+									duration: { min: 0.1, max: 0.3 },
+									ease: 'power2.out',
 									delay: 0.05,
 									inertia: false // CRITICAL: Stop GSAP from jumping again based on previous swipe velocity
 								}
@@ -246,11 +246,19 @@
 					let startY = 0;
 
 					const onTouchStart = (e: TouchEvent) => {
+						const target = e.target as HTMLElement;
+						// If user is swiping on an internal scrollable element, ignore the jump logic
+						if (target.closest('.chips-row, .chips-wrapper, [data-hscroll="false"]')) {
+							startX = -1;
+							return;
+						}
 						startX = e.touches[0].clientX;
 						startY = e.touches[0].clientY;
 					};
 
 					const onTouchEnd = (e: TouchEvent) => {
+						if (startX === -1) return;
+
 						const endX = e.changedTouches[0].clientX;
 						const endY = e.changedTouches[0].clientY;
 						const diffX = startX - endX;
