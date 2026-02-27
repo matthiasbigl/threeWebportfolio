@@ -17,6 +17,10 @@
 		cards: Snippet;
 		/** Optional trailing slide (e.g. pricing CTA) rendered after the cards */
 		trailingSlide?: Snippet;
+		/** Bound elements for the scrollable cards */
+		cardElements?: HTMLElement[];
+		/** Bound elements for the background numbers */
+		bgNumElements?: HTMLElement[];
 	}
 
 	let {
@@ -25,36 +29,28 @@
 		background = 'var(--bg-body)',
 		introSlide,
 		cards,
-		trailingSlide
+		trailingSlide,
+		cardElements = [],
+		bgNumElements = []
 	}: Props = $props();
-
-	// Unique CSS class names derived from id so multiple instances don't clash
-	const cardClass = $derived(`${id}-horizontal-card`);
-	const bgNumClass = $derived(`${id}-bg-number`);
 
 	// Bound DOM refs
 	let sectionEl: HTMLElement | null = null;
 	let wrapperEl: HTMLElement | null = null;
 	let progressBarEl: HTMLElement | null = null;
+	let introEl: HTMLElement | null = null;
 
-	// Touch tracking for mobile swipe
-	let touchStartY = 0;
-	let touchStartX = 0;
-	let isTouchScrolling = false;
 	let hasInteracted = $state(false);
 	let isTouchDevice = $state(false);
+
+	// Exposed for the clickable scroll hint
+	let scrollToNext: (() => void) | null = null;
 
 	onMount(() => {
 		if (!browser) return;
 
-		// Detect touch device
 		isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-		const triggers: gsap.core.Tween[] = [];
-		let wheelHandler: ((e: WheelEvent) => void) | null = null;
-		let touchStartHandler: ((e: TouchEvent) => void) | null = null;
-		let touchMoveHandler: ((e: TouchEvent) => void) | null = null;
-		let touchEndHandler: (() => void) | null = null;
+		let mm: gsap.MatchMedia;
 
 		(async () => {
 			const { gsap } = await import('gsap');
@@ -63,7 +59,7 @@
 
 			if (!sectionEl || !wrapperEl) return;
 
-			// Reduced-motion: leave native horizontal scroll intact, wire up native scroll progress
+			// Reduced-motion: simple native horizontal scroll fallback
 			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 				const onScroll = () => {
 					if (!sectionEl || !progressBarEl) return;
@@ -75,163 +71,199 @@
 				return () => sectionEl!.removeEventListener('scroll', onScroll);
 			}
 
-			// GSAP is active — switch section to pin-compatible overflow mode
-			sectionEl.classList.add('gsap-pinned');
-
-			// Cards are rendered inside wrapperEl by the consumer snippets
-			const allCards = gsap.utils.toArray<HTMLElement>(`.${cardClass}`, wrapperEl!);
-
+			// Use the passed-in cardElements and the introEl
+			const allCards = [introEl, ...cardElements].filter(Boolean) as HTMLElement[];
 			if (allCards.length === 0) return;
 
 			const getScrollDistance = () => wrapperEl!.scrollWidth - window.innerWidth;
 
-			const mainTween = gsap.to(wrapperEl!, {
-				x: () => -getScrollDistance(),
-				ease: 'none',
-				scrollTrigger: {
-					trigger: sectionEl!,
-					start: 'top top',
-					end: () => `+=${getScrollDistance() + window.innerWidth * 0.3}`,
-					pin: true,
-					scrub: 0.8,
-					invalidateOnRefresh: true,
-					onUpdate: (self) => {
-						if (progressBarEl) progressBarEl.style.width = `${self.progress * 100}%`;
-						if (!hasInteracted && self.progress > 0.04) hasInteracted = true;
+			const getCardSnapPoints = () => {
+				const scrollDist = getScrollDistance();
+				if (scrollDist <= 0) return [0, 1];
+				return allCards.map((card) => {
+					const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+					const viewportCenter = window.innerWidth / 2;
+					const targetScroll = cardCenter - viewportCenter;
+					return Math.max(0, Math.min(1, targetScroll / scrollDist));
+				});
+			};
+
+			mm = gsap.matchMedia();
+
+			// ═══════════════════════════════════════════════
+			// UNIFIED LOGIC: Let native browser vertical scroll
+			// power the timeline smoothly with snapping.
+			// ═══════════════════════════════════════════════
+			mm.add('(min-width: 0px)', () => {
+				sectionEl?.classList.add('gsap-pinned');
+
+				// Base timeline containing horizontal movement + parallax
+				const tl = gsap.timeline({
+					scrollTrigger: {
+						trigger: sectionEl!,
+						start: 'top top',
+						end: () => `+=${getScrollDistance() + window.innerWidth * 0.3}`,
+						pin: true,
+						scrub: 0.5, // 0.5 scrub offers nice dampening across devices
+						snap: {
+							snapTo: (progress) => gsap.utils.snap(getCardSnapPoints(), progress),
+							duration: { min: 0.2, max: 0.5 },
+							ease: 'power2.inOut',
+							delay: 0.05,
+							inertia: false // CRITICAL: Stop GSAP from jumping again based on previous swipe velocity
+						},
+						invalidateOnRefresh: true,
+						onUpdate: (self) => {
+							if (progressBarEl) progressBarEl.style.width = `${self.progress * 100}%`;
+							if (!hasInteracted && self.progress > 0.04) hasInteracted = true;
+						}
 					}
-				}
-			});
-			triggers.push(mainTween);
+				});
 
-			// Translate horizontal wheel delta into vertical scroll so ScrollTrigger picks it up
-			wheelHandler = (e: WheelEvent) => {
-				const target = e.target as HTMLElement;
-				const scrollableParent = target.closest('.chips-row, [data-hscroll]');
-				if (scrollableParent) return;
+				// Move the wrapper horizontally
+				tl.to(
+					wrapperEl!,
+					{
+						x: () => -getScrollDistance(),
+						ease: 'none'
+					},
+					0
+				);
 
-				if (!hasInteracted) hasInteracted = true;
+				// Parallax the background numbers alongside
+				bgNumElements.filter(Boolean).forEach((bgNum) => {
+					tl.fromTo(bgNum, { xPercent: -15 }, { xPercent: 15, ease: 'none' }, 0);
+				});
 
-				const st = mainTween.scrollTrigger;
-				if (!st) return;
+				// Logic to jump safely between cards natively (for swipes & clicks)
+				let lastJumpTime = 0;
+				const JUMP_COOLDOWN = 400;
 
-				// Pure vertical scroll — let it pass through to GSAP/page naturally
-				const absX = Math.abs(e.deltaX);
-				const absY = Math.abs(e.deltaY);
-				if (absY > absX) return;
+				const jumpToCard = (direction: 'next' | 'prev') => {
+					const now = Date.now();
+					if (now - lastJumpTime < JUMP_COOLDOWN) return;
 
-				// Horizontal delta at boundaries — pass through to page scroll
-				if (st.progress <= 0 && e.deltaX <= 0) return;
-				if (st.progress >= 1 && e.deltaX >= 0) return;
+					const st = tl.scrollTrigger;
+					if (!st) return;
 
-				e.preventDefault();
-				window.scrollBy({ top: e.deltaX, behavior: 'instant' });
-			};
-			sectionEl.addEventListener('wheel', wheelHandler, { passive: false });
+					// Register jump time only if successful
+					lastJumpTime = now;
 
-			// Mobile touch swipe — translate horizontal swipe into vertical scroll for GSAP
-			touchStartHandler = (e: TouchEvent) => {
-				const target = e.target as HTMLElement;
-				const scrollableParent = target.closest('.chips-row, [data-hscroll]');
-				if (scrollableParent) return;
+					const points = getCardSnapPoints();
+					let currentIndex = 0;
+					let minDist = Infinity;
 
-				// Mark that user has interacted
-				if (!hasInteracted) hasInteracted = true;
-
-				touchStartX = e.touches[0].clientX;
-				touchStartY = e.touches[0].clientY;
-				isTouchScrolling = true;
-			};
-
-			touchMoveHandler = (e: TouchEvent) => {
-				if (!isTouchScrolling) return;
-
-				const target = e.target as HTMLElement;
-				const scrollableParent = target.closest('.chips-row, [data-hscroll]');
-				if (scrollableParent) return;
-
-				const deltaX = e.touches[0].clientX - touchStartX;
-				const deltaY = e.touches[0].clientY - touchStartY;
-				const st = mainTween.scrollTrigger;
-				if (!st) return;
-
-				const absX = Math.abs(deltaX);
-				const absY = Math.abs(deltaY);
-
-				const tryPrevent = () => {
-					if (e.cancelable) e.preventDefault();
-				};
-
-				// Horizontal swipe dominant — drive the horizontal scroll
-				if (absX > absY && absX > 10) {
-					tryPrevent();
-
-					// Instead of window.scrollBy which is sluggish, directly apply the delta to the scroll position
-					// This cuts out the middleman and updates GSAP instantly
-					const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
-
-					// Multiplier to match physical finger movement.
-					// On iOS, a slightly higher multiplier feels more 1:1 because of pixel scaling.
-					const scrollDelta = -deltaX * 1.5;
-
-					window.scrollTo({
-						top: currentScroll + scrollDelta,
-						behavior: 'instant'
+					points.forEach((p, i) => {
+						const d = Math.abs(st.progress - p);
+						if (d < minDist) {
+							minDist = d;
+							currentIndex = i;
+						}
 					});
 
-					touchStartX = e.touches[0].clientX;
-					touchStartY = e.touches[0].clientY;
-				}
-
-				// Vertical swipe dominant at boundaries — push page past pin
-				if (absY > absX && absY > 10) {
-					if (st.progress >= 1 || st.progress <= 0) {
-						tryPrevent();
-						window.scrollBy({ top: -deltaY, behavior: 'instant' });
-						touchStartX = e.touches[0].clientX;
-						touchStartY = e.touches[0].clientY;
+					let targetProgress = st.progress;
+					if (direction === 'next') {
+						if (currentIndex < points.length - 1) {
+							targetProgress = points[currentIndex + 1];
+						} else {
+							// Push page past boundary so user can keep reading downwards smoothly
+							window.scrollBy({ top: 200, behavior: 'smooth' });
+							return;
+						}
+					} else {
+						if (currentIndex > 0) {
+							targetProgress = points[currentIndex - 1];
+						} else {
+							// Push page up
+							window.scrollBy({ top: -200, behavior: 'smooth' });
+							return;
+						}
 					}
+
+					const scrollTarget = st.start + targetProgress * (st.end - st.start);
+					window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+				};
+
+				scrollToNext = () => jumpToCard('next');
+
+				// ==============================
+				// VIEWPORT SPECIFIC HANDLERS
+				// ==============================
+				let wheelHandler: ((e: WheelEvent) => void) | null = null;
+				let observer: gsap.core.Observer | null = null;
+
+				// Desktop Additions
+				if (!isTouchDevice) {
+					wheelHandler = (e: WheelEvent) => {
+						const target = e.target as HTMLElement;
+						if (target.closest('.chips-row, [data-hscroll]')) return;
+						const st = tl.scrollTrigger;
+						if (!st) return;
+
+						const absX = Math.abs(e.deltaX);
+						const absY = Math.abs(e.deltaY);
+						if (absY > absX) return; // Ignore standard vertical mouse wheel scrolling
+
+						if (st.progress <= 0 && e.deltaX <= 0) return;
+						if (st.progress >= 1 && e.deltaX >= 0) return;
+
+						if (!hasInteracted) hasInteracted = true;
+						e.preventDefault();
+						window.scrollBy({ top: e.deltaX, behavior: 'auto' });
+					};
+					sectionEl!.addEventListener('wheel', wheelHandler, { passive: false });
 				}
-			};
+				// Mobile Additions
+				else {
+					let startX = 0;
+					let startY = 0;
 
-			touchEndHandler = () => {
-				isTouchScrolling = false;
-			};
+					const onTouchStart = (e: TouchEvent) => {
+						startX = e.touches[0].clientX;
+						startY = e.touches[0].clientY;
+					};
 
-			sectionEl.addEventListener('touchstart', touchStartHandler, { passive: true });
-			sectionEl.addEventListener('touchmove', touchMoveHandler, { passive: false });
-			sectionEl.addEventListener('touchend', touchEndHandler, { passive: true });
+					const onTouchEnd = (e: TouchEvent) => {
+						const endX = e.changedTouches[0].clientX;
+						const endY = e.changedTouches[0].clientY;
+						const diffX = startX - endX;
+						const diffY = Math.abs(startY - endY);
 
-			// Parallax on big background numbers — scoped to wrapperEl
-			allCards.forEach((card) => {
-				const bgNum = card.querySelector<HTMLElement>(`.${bgNumClass}`);
-				if (bgNum) {
-					const t = gsap.fromTo(
-						bgNum,
-						{ xPercent: -15 },
-						{
-							xPercent: 15,
-							ease: 'none',
-							scrollTrigger: {
-								trigger: sectionEl!,
-								start: 'top top',
-								end: () => `+=${getScrollDistance() + window.innerWidth * 0.3}`,
-								scrub: isTouchDevice ? 0.05 : 0.8,
-								invalidateOnRefresh: true
+						// Only count as a horizontal swipe if it moved >30px and was mostly horizontal
+						if (Math.abs(diffX) > 30 && Math.abs(diffX) > diffY) {
+							if (diffX > 0) {
+								jumpToCard('next'); // Swiped left
+							} else {
+								jumpToCard('prev'); // Swiped right
 							}
 						}
-					);
-					triggers.push(t);
+					};
+
+					sectionEl!.addEventListener('touchstart', onTouchStart, { passive: true });
+					sectionEl!.addEventListener('touchend', onTouchEnd, { passive: true });
+
+					// Cleanup hook closure will capture these to remove them
+					observer = {
+						kill: () => {
+							sectionEl!.removeEventListener('touchstart', onTouchStart);
+							sectionEl!.removeEventListener('touchend', onTouchEnd);
+						}
+					} as any;
 				}
+
+				return () => {
+					if (wheelHandler) sectionEl!.removeEventListener('wheel', wheelHandler);
+					if (observer) observer.kill();
+					tl.scrollTrigger?.kill();
+					tl.kill();
+					sectionEl?.classList.remove('gsap-pinned');
+					scrollToNext = null;
+				};
 			});
 		})();
 
 		return () => {
-			triggers.forEach((t) => t.scrollTrigger?.kill());
-			sectionEl?.classList.remove('gsap-pinned');
-			if (wheelHandler) sectionEl?.removeEventListener('wheel', wheelHandler);
-			if (touchStartHandler) sectionEl?.removeEventListener('touchstart', touchStartHandler);
-			if (touchMoveHandler) sectionEl?.removeEventListener('touchmove', touchMoveHandler);
-			if (touchEndHandler) sectionEl?.removeEventListener('touchend', touchEndHandler);
+			mm?.revert();
 		};
 	});
 </script>
@@ -239,7 +271,7 @@
 <section
 	bind:this={sectionEl}
 	{id}
-	class="relative h-[100dvh] overflow-x-auto overflow-y-hidden flex items-center"
+	class="hscroll-section relative h-[100dvh] overflow-x-auto overflow-y-hidden flex items-center"
 	style="background: {background};"
 	aria-label="Horizontal scroll section - {watermark}"
 >
@@ -263,7 +295,8 @@
 	>
 		<!-- Intro slide -->
 		<div
-			class="{cardClass} w-[88vw] md:w-[70vw] lg:w-[50vw] max-w-2xl shrink-0 flex flex-col justify-center px-4 md:px-12 relative"
+			bind:this={introEl}
+			class="w-[88vw] md:w-[70vw] lg:w-[50vw] max-w-2xl shrink-0 flex flex-col justify-center px-4 md:px-12 relative"
 		>
 			{@render introSlide()}
 		</div>
@@ -282,8 +315,20 @@
 		<div bind:this={progressBarEl} class="progress-fill"></div>
 	</div>
 
-	<!-- Persistent scroll hint — bottom-right, dims after first interaction -->
-	<div class="scroll-hint" class:interacted={hasInteracted} aria-hidden="true">
+	<!-- Persistent scroll hint — clickable, bottom-right, dims after interaction -->
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<div
+		class="scroll-hint"
+		class:interacted={hasInteracted}
+		role="button"
+		tabindex="0"
+		aria-label="Scroll to next card"
+		onclick={() => scrollToNext?.()}
+		onkeydown={(e) => {
+			if (e.key === 'Enter' || e.key === ' ') scrollToNext?.();
+		}}
+	>
 		{#if isTouchDevice}
 			<Hand class="w-4 h-4" />
 			<span>Swipe</span>
@@ -293,32 +338,32 @@
 			<span>Scroll</span>
 		{/if}
 	</div>
+
+	<!-- Mobile spacer: ensures last card can snap fully into view -->
+	<div class="mobile-end-spacer" aria-hidden="true"></div>
 </section>
 
 <style>
-	/* Native horizontal scroll fallback (no GSAP / reduced-motion) */
-	section {
-		scroll-behavior: smooth;
-		scrollbar-width: thin;
-		scrollbar-color: var(--glass-border, rgba(255 255 255 / 0.2)) transparent;
+	/* ═══════════════════════════════════════════════
+	   Section base
+	   ═══════════════════════════════════════════════ */
+	.hscroll-section {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		touch-action: pan-y; /* Prevent browser navigation swiping, allow native vertical scroll */
 	}
-	section::-webkit-scrollbar {
-		height: 4px;
-	}
-	section::-webkit-scrollbar-track {
-		background: transparent;
-	}
-	section::-webkit-scrollbar-thumb {
-		background: var(--glass-border, rgba(255 255 255 / 0.2));
-		border-radius: 2px;
+	.hscroll-section::-webkit-scrollbar {
+		display: none;
 	}
 
 	/* When GSAP takes over, lock overflow so the pin works correctly */
-	section:global(.gsap-pinned) {
+	.hscroll-section:global(.gsap-pinned) {
 		overflow: hidden !important;
 	}
 
-	/* Progress bar */
+	/* ═══════════════════════════════════════════════
+	   Progress bar
+	   ═══════════════════════════════════════════════ */
 	.progress-track {
 		position: absolute;
 		bottom: 0;
@@ -337,13 +382,15 @@
 		box-shadow: 0 0 8px rgba(168 85 247 / 0.4);
 	}
 
-	/* Scroll hint — persistent pill, bottom-right */
+	/* ═══════════════════════════════════════════════
+	   Scroll hint — persistent pill, bottom-right
+	   ═══════════════════════════════════════════════ */
 	.scroll-hint {
 		position: absolute;
 		bottom: 1rem;
 		right: 1.25rem;
 		z-index: 30;
-		pointer-events: none;
+		cursor: pointer;
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -360,10 +407,18 @@
 		text-transform: uppercase;
 		animation: hint-slide-in 0.5s 0.8s ease forwards;
 		opacity: 0;
-		transition: opacity 0.6s ease;
+		transition:
+			opacity 0.6s ease,
+			background 0.2s ease,
+			transform 0.2s ease;
 	}
-	/* Dim after interaction — animation: none means fill is dropped,
-	   but we immediately set opacity so there is no flash */
+	.scroll-hint:hover {
+		background: rgba(15 23 42 / 0.9);
+		transform: translateY(-2px);
+	}
+	.scroll-hint:active {
+		transform: scale(0.95);
+	}
 	.scroll-hint.interacted {
 		animation: none;
 		opacity: 0.22;
@@ -382,13 +437,15 @@
 		flex-shrink: 0;
 	}
 
-	/* Hide on reduced motion */
 	@media (prefers-reduced-motion: reduce) {
 		.scroll-hint {
 			display: none;
 		}
 	}
 
+	/* ═══════════════════════════════════════════════
+	   Animations
+	   ═══════════════════════════════════════════════ */
 	@keyframes bounce-x {
 		0%,
 		100% {
@@ -409,7 +466,9 @@
 		}
 	}
 
-	/* Glass card base — used by both journey-card and service-card */
+	/* ═══════════════════════════════════════════════
+	   Glass card base
+	   ═══════════════════════════════════════════════ */
 	:global(.hscroll-card) {
 		background: var(--glass-bg);
 		backdrop-filter: blur(20px) saturate(130%);

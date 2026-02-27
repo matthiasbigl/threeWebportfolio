@@ -167,13 +167,10 @@
 		"cta": "Jetzt gratis Webdesign-Beratung",
 		"ctaSubtext": "Unverbindlich • Gratis Beratung • Keine versteckten Kosten",
 		"pricingCard": {
-			"badge": "Klartext",
-			"title": "Transparente Preise",
-			"description": "Laden Sie meinen vollständigen Preisführer 2026 herunter und erfahren Sie sofort, was Ihr Projekt kostet. Keine versteckten Gebühren, keine bösen Überraschungen."
-		},
-		"finalCta": {
-			"headline": "Klingt interessant?",
-			"subline": "Lassen Sie uns über Ihr nächstes Projekt sprechen."
+			"badge": "Individuell",
+			"title": "Individuelle Preise",
+			"description": "Jedes Projekt ist einzigartig – die Preise richten sich nach Ihrem konkreten Bedarf. Mein Guide gibt Ihnen eine Orientierung, damit Sie wissen, was auf Sie zukommt.",
+			"personalized": "Individuell & Bedarfsbasiert"
 		}
 	},
 	"aboutCompact": {

@@ -161,13 +161,10 @@
 		"cta": "Get Free Webdesign Consultation ",
 		"ctaSubtext": "No strings attached • Free Consult • No hidden costs",
 		"pricingCard": {
-			"badge": "No Surprises",
-			"title": "Transparent Pricing",
-			"description": "Download my complete 2026 pricing guide and find out exactly what your project costs right away. No hidden fees, no nasty surprises."
-		},
-		"finalCta": {
-			"headline": "Sounds interesting?",
-			"subline": "Let's talk about your next project."
+			"badge": "Personal",
+			"title": "Personalized Pricing",
+			"description": "Every project is unique – pricing depends on your specific needs. My guide gives you an orientation so you know what to expect.",
+			"personalized": "Personalized & Needs-Based"
 		}
 	},
 	"aboutCompact": {

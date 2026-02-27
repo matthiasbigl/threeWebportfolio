@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO.svelte';
-	import CustomCursor from '$lib/components/CustomCursor.svelte';
+
 	import * as m from '$lib/paraglide/messages.js';
 </script>
 
@@ -10,8 +10,6 @@
 	url="https://bigls.net/impressum"
 	noindex={true}
 />
-
-<CustomCursor />
 
 <div class="relative min-h-dvh pt-32 pb-20 selection:bg-blue-500/20">
 	<div class="fixed inset-0 z-0 opacity-20 pointer-events-none">

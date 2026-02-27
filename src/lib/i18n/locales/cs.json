@@ -165,9 +165,10 @@
 		"cta": "Bezplatná konzultace webdesignu",
 		"ctaSubtext": "Nezávazně • Zdarma • Bez skrytých poplatků",
 		"pricingCard": {
-			"badge": "Jasná řeč",
-			"title": "Transparentní ceny",
-			"description": "Stáhněte si můj kompletní cenový průvodce 2026 a okamžitě zjistěte, co stojí váš projekt. Žádné skryté poplatky, žádné nepříjemné překvapení."
+			"badge": "Individuální",
+			"title": "Individuální ceny",
+			"description": "Každý projekt je jedinečný – ceny závisí na vašich konkrétních potřebách. Můj průvodce vám poskytne orientaci, abyste věděli, co můžete očekávat.",
+			"personalized": "Individuální & Na míru"
 		},
 		"finalCta": {
 			"headline": "Zní to zajímavě?",

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO.svelte';
-	import CustomCursor from '$lib/components/CustomCursor.svelte';
+
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import * as m from '$lib/paraglide/messages.js';
@@ -266,7 +266,6 @@
 	{@html `<script type="application/ld+json">${JSON.stringify(projectSchema)}</script>`}
 </svelte:head>
 
-<CustomCursor />
 <ScrollProgress />
 
 <article

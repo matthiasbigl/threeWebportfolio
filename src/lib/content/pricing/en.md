@@ -1,28 +1,30 @@
-# Website Costs in Austria 2026: The Ultimate Guide to Pricing, Strategy & ROI
+# Website Costs Austria 2026: The Orientation Guide to Pricing, Strategy & ROI
 
-**Are you planning a new website and looking for reliable cost estimates for 2026?** In a market that fluctuates between €10 "do-it-yourself" builders and €50,000 high-end agencies, transparency is hard to find.
+**Are you planning a new website and wondering what costs to expect in 2026?** In a market that fluctuates between €10 "do-it-yourself" builders and €50,000 high-end agencies, transparency is hard to find.
 
-This guide breaks the silence. We analyze current **web design prices in Austria**, explain the massive differences between freelancers and agencies, and show you why your website should be viewed as a profitable investment rather than just an expense.
+This guide gives you **orientation**. Actual costs depend on your specific requirements – the upper limit is virtually unbounded.
 
 ---
 
-## 1. Market Overview 2026: What Does Web Design Cost in Austria?
+## 1. Market Overview 2026: Orientation Values for Web Design in Austria
 
 While prices for professional web design have remained stable into 2026, the technical requirements (Core Web Vitals) and legal compliance (AI Act, Accessibility Acts) have significantly increased the complexity of builds.
 
-### Pricing Matrix by Project Type (Estimated Net Prices)
+### Orientation Matrix by Project Type (Estimated Net Prices)
 
-| Website Type                     | Investment (from) | Project Duration | Recommended For                                      |
-| :------------------------------- | :---------------- | :--------------- | :--------------------------------------------------- |
-| **High-Conversion Landing Page** | **€ 650,-**       | 1-2 Weeks        | Startups, specific ad campaigns, lead gen            |
-| **Business Pro (Corporate)**     | **€ 2,000,-**     | 3-6 Weeks        | SMEs, service providers, local businesses            |
-| **E-Commerce / Webshop**         | **€ 3,250,-**     | 4-8 Weeks        | Online retail, D2C brands, manufacturers             |
-| **Custom Experience / 3D**       | **€ 5,000,-**     | 2-4 Months       | Brands looking for the "Wow" factor (SvelteKit + 3D) |
-| **Custom Web-App / SaaS**        | **On Request**    | 3-9 Months       | Platforms, portals, complex software solutions       |
+| Website Type                     | Orientation Price (from) | Project Duration | Recommended For                                      |
+| :------------------------------- | :----------------------- | :--------------- | :--------------------------------------------------- |
+| **High-Conversion Landing Page** | **from ca. € 650,-**     | 1-2 Weeks        | Startups, specific ad campaigns, lead gen            |
+| **Business Pro (Corporate)**     | **from ca. € 2,000,-**   | 3-6 Weeks        | SMEs, service providers, local businesses            |
+| **E-Commerce / Webshop**         | **from ca. € 3,250,-**   | 4-8 Weeks        | Online retail, D2C brands, manufacturers             |
+| **Custom Experience / 3D**       | **from ca. € 5,000,-**   | 2-4 Months       | Brands looking for the "Wow" factor (SvelteKit + 3D) |
+| **Custom Web-App / SaaS**        | **Individual**           | 3-9 Months       | Platforms, portals, complex software solutions       |
+
+> **Important:** These are orientation values. The final quote depends on your specific requirements.
 
 ---
 
-## 2. Why the Price Range is So Vast (The Value Drivers)
+## 2. What Influences the Price (The Value Drivers)
 
 The term "website" covers vastly different technological approaches. In 2026, the gap between "standard" and "high-performance" has widened further.
 
@@ -77,7 +79,7 @@ A website, like any piece of infrastructure, has fixed costs. Here is an honest 
 
 Let's look at an example for a **service provider in Austria**:
 
-- **Website Investment:** € 3,500 (one-time)
+- **Website Investment:** approx. € 3,500 (one-time)
 - **Running Costs:** € 150 / month
 - **Value of a New Customer (LTV):** € 2,500 (profit)
 
@@ -97,6 +99,19 @@ When comparing quotes, look for these technical details. If they are missing, th
 2.  **Semantic HTML:** Is the code cleanly structured for search engines?
 3.  **Mobile-First:** Does the site work as intuitively on an iPhone as it does on a desktop?
 4.  **Security:** Is an SSL certificate included, and is the site hardened against attacks?
+
+---
+
+## 7. Individual Consultation: The Best Way to Get an Accurate Quote
+
+The best way to find out the exact cost for your project is a personal conversation. During this we clarify:
+
+- Your specific requirements and goals
+- The scope of the project
+- Desired features and functionality
+- Timeline and priorities
+
+**After this conversation, you will receive a tailored quote** – transparent, without hidden fees.
 
 ---
 

@@ -3,75 +3,27 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import SEO from '$lib/components/SEO.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import { marked } from 'marked';
 	import type { PageData } from './$types';
 
 	interface Props {
-		data: PageData;
+		data: PageData & { seo: { title: string; description: string; keywords: string[] } };
 	}
 	let { data }: Props = $props();
 
-	// Use SSR content as initial state, then reactively update when locale changes
-	let content = $state(data.article);
-
-	// Static German SEO metadata (avoids duplicate <head> on hydration locale switch)
-	const seoTitle = 'Website Kosten Österreich 2026 | Was kostet eine Website? Matthias Bigl';
-	const seoDescription =
-		'Was kostet eine Website 2026 in Österreich? Landingpages ab €650, Websites ab €2.000, Webshops ab €3.250. Ehrlicher Preisguide von Matthias Bigl – Webdesigner Wien/Korneuburg. Jetzt lesen!';
-	const seoKeywords = [
-		'Website Kosten Österreich',
-		'Was kostet eine Website',
-		'Was kostet eine Website 2026',
-		'Webdesign Preise 2026',
-		'Homepage Kosten Österreich',
-		'Webdesigner Wien Preise',
-		'Website erstellen lassen Kosten',
-		'Landingpage Kosten',
-		'Webshop Kosten Österreich',
-		'Matthias Bigl Preise',
-		'Webdesign günstig Wien',
-		'Website Preise Vergleich'
-	];
-
-	async function loadContent(lang: string) {
-		try {
-			const modules = import.meta.glob('$lib/content/pricing/*.md', {
-				query: '?raw',
-				import: 'default',
-				eager: true
-			});
-			const rawContent = modules[`/src/lib/content/pricing/${lang}.md`] as string;
-
-			if (rawContent) {
-				content = await marked.parse(rawContent);
-			}
-		} catch (e) {
-			console.error('Failed to load pricing content', e);
-		}
-	}
-
-	$effect(() => {
-		// Only run client-side to update if locale is not 'de' (which was already SSR'd)
-		if (getLocale() && getLocale() !== 'de') {
-			loadContent(getLocale());
-		} else if (getLocale() === 'de' && content !== data.article) {
-			// Fallback if user switches back to 'de'
-			content = data.article;
-		}
-	});
+	let content = $derived(data.article);
 </script>
 
 <SEO
-	title={seoTitle}
-	description={seoDescription}
-	keywords={seoKeywords}
+	title={data.seo.title}
+	description={data.seo.description}
+	keywords={data.seo.keywords}
 	type="article"
 	url="https://bigls.net/pricing"
 	datePublished="2025-12-01"
 	dateModified="2026-02-01"
 	breadcrumbs={[
 		{ name: 'Matthias Bigl', url: 'https://bigls.net' },
-		{ name: seoTitle, url: 'https://bigls.net/pricing' }
+		{ name: data.seo.title, url: 'https://bigls.net/pricing' }
 	]}
 />
 
@@ -143,7 +95,11 @@
 										class="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold mb-3 sm:mb-4 !mt-0 !bg-none tracking-tight"
 										style="color: var(--text-heading);"
 									>
-										{getLocale() === 'de' ? 'Bereit für Ihr Projekt?' : 'Ready for your project?'}
+										{getLocale() === 'de'
+											? 'Bereit für Ihr Projekt?'
+											: getLocale() === 'cs'
+												? 'Připraveni na váš projekt?'
+												: 'Ready for your project?'}
 									</h2>
 									<p
 										class="text-sm sm:text-base lg:text-lg font-light leading-relaxed max-w-lg"
@@ -151,7 +107,9 @@
 									>
 										{getLocale() === 'de'
 											? 'Lassen Sie uns gemeinsam herausfinden, wie wir Ihre Ziele erreichen können.'
-											: "Let's find out together how we can achieve your goals."}
+											: getLocale() === 'cs'
+												? 'Pojďme společně zjistit, jak můžeme dosáhnout vašich cílů.'
+												: "Let's find out together how we can achieve your goals."}
 									</p>
 								</div>
 								<Button

@@ -153,8 +153,9 @@
 		"ctaSubtext": "Nezávazně • Zdarma • Bez skrytých poplatků",
 		"pricingCard": {
 			"badge": "Jasná řeč",
-			"title": "Transparentní ceny",
-			"description": "Stáhněte si můj kompletní cenový průvodce 2026 a okamžitě zjistěte, co stojí váš projekt. Žádné skryté poplatky, žádné nepříjemné překvapení."
+			"title": "Vysoce individuální ceny",
+			"subheading": "Vaše vize, řešení na míru",
+			"description": "Navštivte můj kompletní cenový průvodce 2026 pro přesné počáteční náklady. Každý projekt je jedinečný, proberme vaše specifické potřeby. Žádné skryté poplatky, žádná nepříjemná překvapení."
 		},
 		"finalCta": {
 			"headline": "Zní to zajímavě?",

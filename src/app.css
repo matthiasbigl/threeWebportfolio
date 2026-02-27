@@ -60,24 +60,18 @@
 	--scrollbar-thumb-hover: rgba(59, 130, 246, 0.5);
 
 	/* Sections */
-	--section-gradient-1: linear-gradient(
-		145deg,
-		rgba(248, 250, 255, 0.95) 0%,
-		rgba(240, 245, 255, 0.9) 50%,
-		rgba(245, 248, 255, 0.95) 100%
-	);
-	--section-gradient-2: linear-gradient(
-		145deg,
-		rgba(245, 248, 255, 0.95) 0%,
-		rgba(240, 242, 255, 0.9) 50%,
-		rgba(248, 250, 255, 0.95) 100%
-	);
-	--section-gradient-3: linear-gradient(
-		145deg,
-		rgba(242, 245, 255, 0.95) 0%,
-		rgba(238, 240, 252, 0.9) 50%,
-		rgba(245, 248, 255, 0.95) 100%
-	);
+	--section-gradient-1: linear-gradient(145deg,
+			rgba(248, 250, 255, 0.95) 0%,
+			rgba(240, 245, 255, 0.9) 50%,
+			rgba(245, 248, 255, 0.95) 100%);
+	--section-gradient-2: linear-gradient(145deg,
+			rgba(245, 248, 255, 0.95) 0%,
+			rgba(240, 242, 255, 0.9) 50%,
+			rgba(248, 250, 255, 0.95) 100%);
+	--section-gradient-3: linear-gradient(145deg,
+			rgba(242, 245, 255, 0.95) 0%,
+			rgba(238, 240, 252, 0.9) 50%,
+			rgba(245, 248, 255, 0.95) 100%);
 
 	/* Hero */
 	--hero-bg: linear-gradient(135deg, #f0f5ff 0%, #e8eef8 50%, #f5f8ff 100%);
@@ -105,12 +99,10 @@
 
 	/* Footer */
 	--footer-border: rgba(0, 0, 0, 0.06);
-	--footer-gradient: linear-gradient(
-		to bottom,
-		transparent,
-		rgba(248, 250, 255, 0.5),
-		rgba(240, 245, 255, 0.7)
-	);
+	--footer-gradient: linear-gradient(to bottom,
+			transparent,
+			rgba(248, 250, 255, 0.5),
+			rgba(240, 245, 255, 0.7));
 
 	/* Forms */
 	--input-bg: rgba(255, 255, 255, 0.8);
@@ -175,24 +167,18 @@
 	--scrollbar-thumb-hover: rgba(59, 130, 246, 0.6);
 
 	/* Sections */
-	--section-gradient-1: linear-gradient(
-		145deg,
-		rgba(12, 12, 24, 0.9) 0%,
-		rgba(18, 12, 36, 0.8) 50%,
-		rgba(12, 20, 40, 0.9) 100%
-	);
-	--section-gradient-2: linear-gradient(
-		145deg,
-		rgba(14, 12, 30, 0.9) 0%,
-		rgba(24, 14, 50, 0.8) 50%,
-		rgba(14, 26, 52, 0.9) 100%
-	);
-	--section-gradient-3: linear-gradient(
-		145deg,
-		rgba(18, 14, 36, 0.9) 0%,
-		rgba(30, 18, 60, 0.8) 50%,
-		rgba(18, 32, 64, 0.9) 100%
-	);
+	--section-gradient-1: linear-gradient(145deg,
+			rgba(12, 12, 24, 0.9) 0%,
+			rgba(18, 12, 36, 0.8) 50%,
+			rgba(12, 20, 40, 0.9) 100%);
+	--section-gradient-2: linear-gradient(145deg,
+			rgba(14, 12, 30, 0.9) 0%,
+			rgba(24, 14, 50, 0.8) 50%,
+			rgba(14, 26, 52, 0.9) 100%);
+	--section-gradient-3: linear-gradient(145deg,
+			rgba(18, 14, 36, 0.9) 0%,
+			rgba(30, 18, 60, 0.8) 50%,
+			rgba(18, 32, 64, 0.9) 100%);
 
 	/* Hero */
 	--hero-bg: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
@@ -220,12 +206,10 @@
 
 	/* Footer */
 	--footer-border: rgba(255, 255, 255, 0.06);
-	--footer-gradient: linear-gradient(
-		to bottom,
-		transparent,
-		rgba(0, 0, 0, 0.3),
-		rgba(0, 0, 0, 0.5)
-	);
+	--footer-gradient: linear-gradient(to bottom,
+			transparent,
+			rgba(0, 0, 0, 0.3),
+			rgba(0, 0, 0, 0.5));
 
 	/* Forms */
 	--input-bg: rgba(255, 255, 255, 0.05);
@@ -393,6 +377,28 @@ body:has(.card[data-color='green']:hover) {
 			var(--card-inset-shadow);
 	}
 
+	.glass-card-primary {
+		background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(123, 104, 238, 0.08));
+		backdrop-filter: blur(20px) saturate(140%);
+		-webkit-backdrop-filter: blur(20px) saturate(140%);
+		border: 1.5px solid rgba(59, 130, 246, 0.4);
+		border-radius: 1rem;
+		box-shadow:
+			0 0 20px rgba(59, 130, 246, 0.15),
+			0 4px 16px rgba(59, 130, 246, 0.1),
+			var(--card-inset-shadow);
+		transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.glass-card-primary:hover {
+		border-color: rgba(59, 130, 246, 0.6);
+		background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(123, 104, 238, 0.12));
+		box-shadow:
+			0 0 30px rgba(59, 130, 246, 0.25),
+			0 8px 24px rgba(59, 130, 246, 0.15),
+			var(--card-inset-shadow);
+	}
+
 	.grid-lines {
 		background-image:
 			linear-gradient(var(--grid-color) 1px, transparent 1px),
@@ -422,8 +428,7 @@ body:has(.card[data-color='green']:hover) {
 	}
 
 	.cube-glow:hover {
-		filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.25))
-			drop-shadow(0 0 80px rgba(139, 92, 246, 0.15));
+		filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.25)) drop-shadow(0 0 80px rgba(139, 92, 246, 0.15));
 	}
 
 	/* Motion Tokens */
@@ -510,6 +515,7 @@ body:has(.card[data-color='green']:hover) {
 }
 
 @keyframes aurora {
+
 	0%,
 	100% {
 		background-position:
@@ -545,6 +551,7 @@ body:has(.card[data-color='green']:hover) {
 }
 
 @keyframes float-1 {
+
 	0%,
 	100% {
 		transform: translate(0, 0) rotate(0deg);
@@ -560,6 +567,7 @@ body:has(.card[data-color='green']:hover) {
 }
 
 @keyframes float-2 {
+
 	0%,
 	100% {
 		transform: translate(0, 0) rotate(0deg);
@@ -571,6 +579,7 @@ body:has(.card[data-color='green']:hover) {
 }
 
 @keyframes float-3 {
+
 	0%,
 	100% {
 		transform: translate(0, 0) rotate(0deg);
@@ -598,6 +607,7 @@ body:has(.card[data-color='green']:hover) {
 }
 
 @keyframes float {
+
 	0%,
 	100% {
 		transform: translateY(0px);
@@ -631,6 +641,7 @@ body:has(.card[data-color='green']:hover) {
 }
 
 @keyframes borderGlow {
+
 	0%,
 	100% {
 		background-position: 0% 50%;
@@ -656,8 +667,7 @@ body:has(.card[data-color='green']:hover) {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M30 30c0-16.569 13.431-30 30-30v60c-16.569 0-30-13.431-30-30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
-		repeat;
+	background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M30 30c0-16.569 13.431-30 30-30v60c-16.569 0-30-13.431-30-30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
 	opacity: var(--grid-opacity);
 	animation: backgroundMove 20s linear infinite;
 }
@@ -684,6 +694,7 @@ body:has(.card[data-color='green']:hover) {
 }
 
 @keyframes gradientShift {
+
 	0%,
 	100% {
 		background-position: 0% 50%;
@@ -834,6 +845,7 @@ body:has(.card[data-color='green']:hover) {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
 	*,
 	::before,
 	::after {

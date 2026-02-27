@@ -78,8 +78,7 @@
 	const computedBaseStyle = $derived(variant === 'inverted' ? '' : `color: var(--text-heading);`);
 
 	const variants: Record<string, string> = {
-		primary:
-			'glass-card shadow-lg shadow-blue-500/10 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-500/25 hover:border-blue-500/40 hover:shadow-blue-500/20',
+		primary: 'glass-card-primary',
 		secondary: 'glass-card glass-card-hover border hover:border-white/15',
 		inverted:
 			'bg-white text-slate-900 shadow-xl shadow-black/15 hover:bg-blue-50 hover:shadow-2xl hover:-translate-y-0.5'

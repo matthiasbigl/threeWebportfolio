@@ -153,8 +153,9 @@
 		"ctaSubtext": "Unverbindlich • Gratis Beratung • Keine versteckten Kosten",
 		"pricingCard": {
 			"badge": "Klartext",
-			"title": "Transparente Preise",
-			"description": "Laden Sie meinen vollständigen Preisführer 2026 herunter und erfahren Sie sofort, was Ihr Projekt kostet. Keine versteckten Gebühren, keine bösen Überraschungen."
+			"title": "Höchst Individuelle Preise",
+			"subheading": "Ihre Vision, Maßgeschneiderte Lösungen",
+			"description": "Besuchen Sie meinen kompletten Preisguide 2026 für exakte Startpreise. Jedes Projekt ist einzigartig – lassen Sie uns über Ihre genauen Anforderungen sprechen. Keine versteckten Kosten, keine bösen Überraschungen."
 		},
 		"finalCta": {
 			"headline": "Klingt interessant?",

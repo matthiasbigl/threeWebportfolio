@@ -10,15 +10,10 @@
 		ShoppingCart,
 		TrendingUp,
 		Sparkles,
-		Shield,
-		Handshake,
-		MapPin,
-		Banknote,
-		Zap,
-		Target,
-		Star,
-		Wrench,
-		Check,
+		Server,
+		Wrench as Tool,
+		MessageCircle,
+		PenTool,
 		ChevronRight
 	} from 'lucide-svelte';
 
@@ -113,6 +108,9 @@
 	let hoveredStepIndex = $state(-1);
 	let ctaMagnetic = $state<HTMLElement>();
 
+	let servicesCardsElements = $state<HTMLElement[]>([]);
+	let servicesBgNumElements = $state<HTMLElement[]>([]);
+
 	async function handleCtaMouseEnter() {
 		if (!ctaMagnetic) return;
 		const { gsap } = await import('gsap');
@@ -132,6 +130,14 @@
 		const x = e.clientX - rect.left - rect.width / 2;
 		const y = e.clientY - rect.top - rect.height / 2;
 		gsap.to(ctaMagnetic, { x: x * 0.3, y: y * 0.3, duration: 0.3, ease: 'power2.out' });
+	}
+
+	function scrollChips(e: MouseEvent) {
+		const target = e.currentTarget as HTMLElement;
+		const inner = target.querySelector('.chips-inner');
+		if (inner) {
+			inner.scrollBy({ left: 140, behavior: 'smooth' });
+		}
 	}
 
 	onMount(() => {
@@ -338,7 +344,7 @@
 							class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg mt-0.5"
 							style="background: var(--bg-surface); border: 1px solid var(--border-primary);"
 						>
-							<Wrench class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--text-secondary);" />
+							<Tool class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--text-secondary);" />
 						</div>
 						<div class="flex-1 min-w-0">
 							<h3
@@ -353,99 +359,127 @@
 						</div>
 					</div>
 
-					<!-- Feature chips — simple, flat, 2-col grid on mobile -->
-					<div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
-						{#each m['services.allInOne.features']().split('\n') as feature}
-							<span
-								class="all-in-one-feature-chip inline-flex items-center gap-1 px-3 py-1.5 text-xs sm:text-[13px] font-medium rounded-full select-none"
-								style="color: var(--text-secondary); background: var(--bg-surface); border: 1px solid var(--border-primary);"
+					<!-- Features Grid - Redesigned -->
+					<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 mt-2">
+						{#each m['services.allInOne.features']().split('\n') as feature, i}
+							{@const featureIcons = [Server, Tool, MessageCircle, PenTool]}
+							{@const FeatureIcon = featureIcons[i % featureIcons.length]}
+							<div
+								class="all-in-one-feature-chip group flex items-start sm:items-center gap-3 p-3 lg:p-4 rounded-xl transition-all duration-300 hover:-translate-y-0.5 relative overflow-hidden"
+								style="background: var(--bg-surface); border: 1px solid var(--border-primary); box-shadow: var(--card-shadow);"
 							>
-								<Check class="w-3 h-3 text-blue-400 flex-shrink-0" />
-								{feature}
-							</span>
+								<!-- Subtle glow effect on hover -->
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+								></div>
+								<div
+									class="mt-0.5 sm:mt-0 w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 relative z-10"
+									style="background: var(--bg-inset); border: 1px solid var(--border-secondary);"
+								>
+									<FeatureIcon
+										class="w-4 h-4 text-blue-500 transition-colors duration-300 group-hover:text-purple-500"
+									/>
+								</div>
+								<span
+									class="text-sm font-medium leading-tight relative z-10 transition-colors duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-400"
+									style="color: var(--text-secondary);"
+								>
+									{feature}
+								</span>
+							</div>
 						{/each}
 					</div>
 
-					<!-- Process steps -->
-					<div class="relative rounded-lg">
+					<!-- Process steps - Vertical on mobile, Horizontal on desktop -->
+					<div
+						class="mt-8 pt-8 md:mt-12 md:pt-10 border-t relative"
+						style="border-color: var(--border-primary);"
+					>
 						<div
-							class="process-flow flex items-stretch gap-1 sm:gap-2 overflow-x-auto py-2 -mx-1 px-1 sm:-mx-2 sm:px-2"
-						>
-							{#each processSteps as step, i}
-								{@const isHovered = hoveredStepIndex === i}
-								{@const isNextOfHovered = hoveredStepIndex >= 0 && i === hoveredStepIndex + 1}
-								<!-- svelte-ignore a11y_no_static_element_interactions -->
+							class="absolute top-0 left-1/2 -mt-px w-32 h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent -translate-x-1/2"
+						></div>
+
+						<!-- Process Flow Container -->
+						<div class="relative process-flow-container max-w-full md:px-2">
+							<!-- Mobile Vertical Connector Track -->
+							<div
+								class="absolute md:hidden left-[23px] top-[32px] bottom-[32px] w-[2px] rounded-full overflow-hidden"
+								style="background: var(--border-primary);"
+							>
 								<div
-									class="process-step-item flex-shrink-0 flex-1 min-w-[140px] sm:min-w-[160px] lg:min-w-0 relative group/step"
-									onmouseenter={() => (hoveredStepIndex = i)}
-									onmouseleave={() => (hoveredStepIndex = -1)}
-								>
-									<!-- Step card -->
+									class="w-full bg-gradient-to-b from-blue-500 to-purple-500 h-0 transition-all duration-500 ease-out will-change-[height]"
+									style="height: {hoveredStepIndex >= 0
+										? ((hoveredStepIndex + 1) / processSteps.length) * 100
+										: 0}%"
+								></div>
+							</div>
+
+							<!-- Desktop Horizontal Connector Track -->
+							<div
+								class="hidden md:block absolute top-[27px] left-[32px] right-[32px] h-[2px] rounded-full overflow-hidden"
+								style="background: var(--border-primary);"
+							>
+								<div
+									class="h-full bg-gradient-to-r from-blue-500 to-purple-500 w-0 transition-all duration-500 ease-out will-change-[width]"
+									style="width: {hoveredStepIndex >= 0
+										? ((hoveredStepIndex + 1) / processSteps.length) * 100
+										: 0}%"
+								></div>
+							</div>
+
+							<div class="flex flex-col md:flex-row gap-8 md:gap-4 relative z-10 w-full">
+								{#each processSteps as step, i}
+									{@const isHovered = hoveredStepIndex === i}
+									{@const isLit = hoveredStepIndex >= i}
+									<!-- svelte-ignore a11y_no_static_element_interactions -->
 									<div
-										class="process-step-card h-full p-3 sm:p-4 rounded-xl border cursor-default {isHovered
-											? 'step-active'
-											: ''} {isNextOfHovered ? 'step-next-lit' : ''}"
-										style="background: var(--bg-surface); border-color: var(--border-primary);"
+										class="process-step-item flex-1 relative group/step flex flex-row md:flex-col gap-5 md:gap-6 md:items-center md:text-center"
+										onmouseenter={() => (hoveredStepIndex = i)}
+										onmouseleave={() => (hoveredStepIndex = -1)}
 									>
-										<div class="flex items-center gap-2 mb-2">
-											<!-- Number badge -->
+										<!-- Step Node -->
+										<div
+											class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-2xl flex items-center justify-center font-bold text-sm md:text-base z-10 transition-all duration-500 overflow-hidden relative"
+											style="background: var(--bg-surface); border: 2px solid {isLit
+												? 'transparent'
+												: 'var(--border-primary)'}; color: {isLit
+												? 'white'
+												: 'var(--text-secondary)'}; box-shadow: {isLit
+												? '0 0 20px rgba(59, 130, 246, 0.25)'
+												: 'none'}; transform: scale({isHovered ? 1.08 : 1});"
+										>
 											<div
-												class="process-step-number w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-xs font-bold {isHovered
-													? 'step-number-active'
-													: ''} {isNextOfHovered ? 'step-number-next' : ''}"
-												style="background: var(--bg-inset); color: var(--text-heading); border: 1px solid var(--border-secondary);"
+												class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 transition-opacity duration-300"
+												style="opacity: {isLit ? 1 : 0};"
+											></div>
+											<span class="relative z-10 font-syne {isLit ? 'drop-shadow-sm' : ''}"
+												>{step.number}</span
 											>
-												{step.number}
-											</div>
-											<!-- Connector arrow -->
-											{#if i < processSteps.length - 1}
-												<div class="hidden lg:flex items-center gap-1 flex-1 connector-wrapper">
-													<div
-														class="connector-track flex-1 h-[2px] rounded-full relative overflow-hidden"
-														style="background: var(--border-primary);"
-													>
-														<div
-															class="connector-fill absolute inset-y-0 left-0 rounded-full {isHovered
-																? 'connector-active'
-																: ''}"
-														></div>
-													</div>
-													<svg
-														class="w-3.5 h-3.5 flex-shrink-0 connector-chevron {isHovered
-															? 'chevron-active'
-															: ''}"
-														style="color: var(--text-tertiary);"
-														fill="currentColor"
-														viewBox="0 0 20 20"
-													>
-														<path
-															fill-rule="evenodd"
-															d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-															clip-rule="evenodd"
-														/>
-													</svg>
-												</div>
-											{/if}
 										</div>
-										<h5
-											class="process-step-title font-syne text-xs sm:text-sm font-semibold mb-1 {isHovered
-												? 'step-title-active'
-												: ''} {isNextOfHovered ? 'step-title-next' : ''}"
-											style="color: var(--text-heading);"
+
+										<!-- Step Content -->
+										<div
+											class="flex-1 pb-4 md:pb-0 border-b md:border-transparent transition-colors duration-300 md:w-full"
+											style="border-color: {isHovered
+												? 'var(--border-accent)'
+												: 'var(--border-secondary)'};"
 										>
-											{step.title}
-										</h5>
-										<p
-											class="text-[10px] sm:text-xs leading-relaxed process-step-desc {isNextOfHovered
-												? 'step-desc-next'
-												: ''}"
-											style="color: var(--text-tertiary);"
-										>
-											{step.desc}
-										</p>
+											<h5
+												class="font-syne text-base md:text-lg font-bold mb-2 md:mb-2.5 transition-colors duration-300"
+												style="color: {isLit ? '#60a5fa' : 'var(--text-heading)'};"
+											>
+												{step.title}
+											</h5>
+											<p
+												class="text-sm leading-relaxed transition-colors duration-300"
+												style="color: {isLit ? 'var(--text-primary)' : 'var(--text-secondary)'};"
+											>
+												{step.desc}
+											</p>
+										</div>
 									</div>
-								</div>
-							{/each}
+								{/each}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -514,7 +548,8 @@
 		{@const IconComponent = service.icon}
 
 		<div
-			class="services-cards-horizontal-card w-[82vw] sm:w-[75vw] md:w-[55vw] lg:w-[45vw] max-w-[560px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center relative group"
+			bind:this={servicesCardsElements[i]}
+			class="w-[82vw] sm:w-[75vw] md:w-[55vw] lg:w-[45vw] max-w-[560px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center relative group"
 		>
 			<div
 				class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between isolate border {accentCfg.border}"
@@ -532,7 +567,8 @@
 					class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-hidden"
 				>
 					<span
-						class="services-cards-bg-number font-syne font-black text-[14rem] sm:text-[18rem] md:text-[22rem] leading-none select-none"
+						bind:this={servicesBgNumElements[i]}
+						class="font-syne font-black text-[14rem] sm:text-[18rem] md:text-[22rem] leading-none select-none"
 						style="color: var(--text-heading); opacity: 0.07;"
 					>
 						0{i + 1}
@@ -571,7 +607,9 @@
 
 					<!-- Feature chips — single row, horizontally scrollable -->
 					<div class="chips-wrapper">
-						<div class="flex overflow-hidden pb-1 chips-row">
+						<!-- svelte-ignore a11y_click_events_have_key_events -->
+						<!-- svelte-ignore a11y_no_static_element_interactions -->
+						<div class="flex overflow-hidden pb-1 chips-row cursor-pointer" onclick={scrollChips}>
 							<div class="flex gap-2 pl-4 pr-2 chips-inner">
 								{#each service.features as feature}
 									<span
@@ -582,11 +620,8 @@
 									</span>
 								{/each}
 							</div>
-							<!-- Scroll hint - reserved flex column on right -->
-							<div
-								class="shrink-0 flex items-center justify-center chips-scroll-hint"
-								aria-hidden="true"
-							>
+							<!-- Scroll hint -->
+							<div class="shrink-0 flex items-center justify-center chips-scroll-hint">
 								<ChevronRight class="w-4 h-4" />
 							</div>
 						</div>
@@ -599,7 +634,8 @@
 
 {#snippet servicesPricingCta()}
 	<div
-		class="services-cards-horizontal-card w-[82vw] sm:w-[70vw] md:w-[50vw] lg:w-[42vw] max-w-[520px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center"
+		bind:this={servicesCardsElements[services.length]}
+		class="w-[82vw] sm:w-[70vw] md:w-[50vw] lg:w-[42vw] max-w-[520px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center"
 	>
 		<div
 			class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between isolate border"
@@ -612,33 +648,86 @@
 				class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-500 to-purple-500"
 			></div>
 
-			<div class="p-6 sm:p-8 md:p-10 lg:p-14 flex flex-col h-full justify-between">
+			<!-- Big background Euro sign — parallax via services-cards-bg-number -->
+			<div
+				class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-hidden"
+			>
+				<span
+					bind:this={servicesBgNumElements[services.length]}
+					class="font-syne font-black text-[14rem] sm:text-[18rem] md:text-[22rem] leading-none select-none"
+					style="color: var(--text-heading); opacity: 0.07;"
+				>
+					€
+				</span>
+			</div>
+
+			<div class="p-5 sm:p-6 md:p-8 flex flex-col h-full justify-between">
 				<div>
 					<div
-						class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.15em] mb-6"
+						class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.15em] mb-4"
 						style="background: rgba(59,130,246,0.1); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2);"
 					>
 						<span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
 						{m['services.pricingCard.badge']()}
 					</div>
 					<h3
-						class="font-syne text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-4 leading-[1.2]"
+						class="font-syne text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2 leading-[1.2]"
 						style="color: var(--text-heading);"
 					>
 						{m['services.pricingCard.title']()}
 					</h3>
+
+					<!-- Subheading from translations -->
 					<p
-						class="text-sm sm:text-base font-light leading-relaxed"
+						class="text-blue-400 font-syne font-semibold text-[10px] sm:text-xs uppercase tracking-[0.2em] mb-3"
+					>
+						{m['services.pricingCard.subheading']()}
+					</p>
+
+					<!-- Euro price range pill -->
+					<div class="flex items-center gap-2 mb-4">
+						<div
+							class="px-4 py-2 rounded-xl text-lg sm:text-xl font-bold font-syne flex items-center gap-2"
+							style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); color: var(--text-heading);"
+						>
+							<span class="text-blue-400">€</span>
+							<span>650 – 5.000+</span>
+						</div>
+					</div>
+
+					<p
+						class="text-sm sm:text-base font-light leading-relaxed mb-4"
 						style="color: var(--text-secondary);"
 					>
 						{m['services.pricingCard.description']()}
 					</p>
+
+					<!-- Meaningful Value Add - Reduced Spacing -->
+					<div
+						class="pt-4 border-t flex items-start gap-3"
+						style="border-color: rgba(59, 130, 246, 0.1);"
+					>
+						<div
+							class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+							style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);"
+						>
+							<Sparkles class="w-4 h-4 text-blue-400" />
+						</div>
+						<div class="flex flex-col">
+							<span class="text-[11px] font-bold uppercase tracking-wider text-blue-300">
+								{m['services.items.experiences.features']().split('\n')[2]}
+							</span>
+							<p class="text-xs opacity-60 mt-0.5" style="color: var(--text-tertiary);">
+								{m['services.allInOne.tagline']()}
+							</p>
+						</div>
+					</div>
 				</div>
 
 				<Button
 					href={localizeHref('/pricing')}
 					variant="inverted"
-					className="w-full !text-sm sm:!text-base !px-6 !py-4 transition-all duration-300 hover:scale-[1.02]"
+					className="w-full mt-6 !text-sm sm:!text-base !px-6 !py-4 transition-all duration-300 hover:scale-[1.02]"
 				>
 					<span class="flex items-center justify-center gap-3">
 						<span>{m['pricing.navTitle']()}</span>
@@ -663,6 +752,8 @@
 	introSlide={servicesIntroSlide}
 	cards={servicesCards}
 	trailingSlide={servicesPricingCta}
+	cardElements={servicesCardsElements}
+	bgNumElements={servicesBgNumElements}
 />
 
 <section
@@ -767,11 +858,6 @@
 		50% {
 			transform: translateX(4px);
 		}
-	}
-
-	/* Hide hint when no overflow */
-	.chips-wrapper[data-has-overflow='false'] .chips-scroll-hint {
-		display: none;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

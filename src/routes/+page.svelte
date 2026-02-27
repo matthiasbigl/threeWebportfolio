@@ -135,6 +135,7 @@
 	async function handlePillMouseMove(e: MouseEvent) {
 		const { gsap } = await import('gsap');
 		const pill = e.currentTarget as HTMLElement;
+		if (!pill) return;
 		const rect = pill.getBoundingClientRect();
 		const x = e.clientX - rect.left;
 		const y = e.clientY - rect.top;

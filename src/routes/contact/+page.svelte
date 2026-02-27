@@ -1,5 +1,4 @@
 <script lang="ts">
-	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import ScrollProgress from '$lib/components/ScrollProgress.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -181,7 +180,6 @@
 	{@html `<script type="application/ld+json">${JSON.stringify(contactPageSchema)}</script>`}
 </svelte:head>
 
-<CustomCursor />
 <ScrollProgress />
 
 <div class="relative min-h-dvh overflow-hidden pt-16 sm:pt-20">

@@ -34,6 +34,9 @@
 		}
 	]);
 
+	let journeyCardsElements = $state<HTMLElement[]>([]);
+	let journeyBgNumElements = $state<HTMLElement[]>([]);
+
 	onMount(() => {
 		if (!browser) return;
 
@@ -557,7 +560,8 @@
 			{@const accent = accentColors[i % accentColors.length]}
 
 			<div
-				class="journey-horizontal-card w-[82vw] sm:w-[75vw] md:w-[55vw] lg:w-[45vw] max-w-[560px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center relative group"
+				bind:this={journeyCardsElements[i]}
+				class="w-[82vw] sm:w-[75vw] md:w-[55vw] lg:w-[45vw] max-w-[560px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center relative group"
 			>
 				<div
 					class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] p-6 sm:p-8 md:p-10 lg:p-14 relative overflow-hidden flex flex-col justify-between isolate border {accent.border}"
@@ -578,7 +582,8 @@
 						class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-hidden"
 					>
 						<span
-							class="journey-bg-number font-syne font-black text-[14rem] sm:text-[18rem] md:text-[22rem] leading-none select-none"
+							bind:this={journeyBgNumElements[i]}
+							class="font-syne font-black text-[14rem] sm:text-[18rem] md:text-[22rem] leading-none select-none"
 							style="color: var(--text-heading); opacity: 0.07;"
 						>
 							0{i + 1}
@@ -628,6 +633,8 @@
 		watermark="JOURNEY"
 		introSlide={journeyIntroSlide}
 		cards={journeyCards}
+		cardElements={journeyCardsElements}
+		bgNumElements={journeyBgNumElements}
 	/>
 
 	<!-- RESUME SECTION -->
