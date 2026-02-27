@@ -97,6 +97,7 @@
 			mm.add('(min-width: 0px)', () => {
 				sectionEl?.classList.add('gsap-pinned');
 
+				let lastActiveIndex = -1;
 				// Base timeline containing horizontal movement + parallax
 				const tl = gsap.timeline({
 					scrollTrigger: {
@@ -105,17 +106,43 @@
 						end: () => `+=${getScrollDistance() + window.innerWidth * 0.3}`,
 						pin: true,
 						scrub: 0.5, // 0.5 scrub offers nice dampening across devices
-						snap: {
-							snapTo: (progress) => gsap.utils.snap(getCardSnapPoints(), progress),
-							duration: { min: 0.2, max: 0.5 },
-							ease: 'power2.inOut',
-							delay: 0.05,
-							inertia: false // CRITICAL: Stop GSAP from jumping again based on previous swipe velocity
-						},
+						snap: isTouchDevice
+							? {
+									snapTo: (progress) => gsap.utils.snap(getCardSnapPoints(), progress),
+									duration: { min: 0.2, max: 0.5 },
+									ease: 'power2.inOut',
+									delay: 0.05,
+									inertia: false // CRITICAL: Stop GSAP from jumping again based on previous swipe velocity
+								}
+							: undefined,
 						invalidateOnRefresh: true,
 						onUpdate: (self) => {
 							if (progressBarEl) progressBarEl.style.width = `${self.progress * 100}%`;
 							if (!hasInteracted && self.progress > 0.04) hasInteracted = true;
+
+							// Focus tracking: Find which card is closest to being centered
+							const points = getCardSnapPoints();
+							let bestIndex = 0;
+							let minDist = Infinity;
+							points.forEach((p, i) => {
+								const d = Math.abs(self.progress - p);
+								if (d < minDist) {
+									minDist = d;
+									bestIndex = i;
+								}
+							});
+
+							// Only update classes if the active card has changed
+							if (bestIndex !== lastActiveIndex) {
+								lastActiveIndex = bestIndex;
+								allCards.forEach((card, idx) => {
+									if (idx === bestIndex) {
+										card.classList.add('is-focused');
+									} else {
+										card.classList.remove('is-focused');
+									}
+								});
+							}
 						}
 					}
 				});
@@ -479,7 +506,24 @@
 		transition:
 			box-shadow 0.4s ease,
 			border-color 0.4s ease,
-			background 0.4s ease;
+			background 0.4s ease,
+			transform 0.4s ease;
+	}
+
+	:global(.is-focused .hscroll-card) {
+		background: var(--glass-bg-hover);
+		border-color: var(--glass-border-hover);
+		box-shadow:
+			0 20px 60px var(--glass-shadow-hover),
+			inset 0 1px 0 var(--glass-inset-highlight);
+		transform: scale(1.05);
+		z-index: 10;
+	}
+
+	/* Subtle scale for focused intro slide */
+	:global(.is-focused:not(:has(.hscroll-card))) {
+		transform: scale(1.03);
+		transition: transform 0.4s ease;
 	}
 
 	:global(.hscroll-card:hover) {
