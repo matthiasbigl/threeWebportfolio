@@ -77,6 +77,24 @@
 				}
 			})();
 		</script>
+		<!-- Convert horizontal trackpad/wheel into vertical scroll globally -->
+		<script>
+			(function () {
+				if ('ontouchstart' in window) return;
+				window.addEventListener(
+					'wheel',
+					function (e) {
+						var ax = Math.abs(e.deltaX);
+						var ay = Math.abs(e.deltaY);
+						if (ax > ay && ax > 0) {
+							e.preventDefault();
+							window.scrollBy(0, e.deltaX);
+						}
+					},
+					{ passive: false }
+				);
+			})();
+		</script>
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>

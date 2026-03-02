@@ -705,27 +705,6 @@
 					>
 						{m['services.pricingCard.description']()}
 					</p>
-
-					<!-- Meaningful Value Add — hidden on small screens to prevent overflow -->
-					<div
-						class="hidden sm:flex pt-3 sm:pt-4 border-t items-start gap-3"
-						style="border-color: rgba(59, 130, 246, 0.1);"
-					>
-						<div
-							class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-							style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);"
-						>
-							<Sparkles class="w-4 h-4 text-blue-400" />
-						</div>
-						<div class="flex flex-col">
-							<span class="text-[11px] font-bold uppercase tracking-wider text-blue-300">
-								{m['services.items.experiences.features']().split('\n')[2]}
-							</span>
-							<p class="text-xs opacity-60 mt-0.5" style="color: var(--text-tertiary);">
-								{m['services.allInOne.tagline']()}
-							</p>
-						</div>
-					</div>
 				</div>
 
 				<Button

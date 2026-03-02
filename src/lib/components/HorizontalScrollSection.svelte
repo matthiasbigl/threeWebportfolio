@@ -38,7 +38,9 @@
 	const MOBILE_BREAKPOINT = '(max-width: 767px)';
 	const DESKTOP_BREAKPOINT = '(min-width: 768px)';
 	const DESKTOP_SCRUB_SPEED = 0.5;
+	const MOBILE_SCRUB_SPEED = 0.3;
 	const DESKTOP_SCROLL_MULTIPLIER = 0.5;
+	const MOBILE_SCROLL_MULTIPLIER = 0.35;
 	const BOUNDARY_SCROLL_PX = 300;
 	const BOUNDARY_SCROLL_DURATION = 0.5;
 	const RESIZE_DEBOUNCE_MS = 150;
@@ -72,6 +74,7 @@
 			const { gsap } = await import('gsap');
 			const { ScrollTrigger } = await import('gsap/ScrollTrigger');
 			const { ScrollToPlugin } = await import('gsap/ScrollToPlugin');
+			const { WheelGesture } = await import('@use-gesture/vanilla');
 			gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 			ScrollTrigger.config({ ignoreMobileResize: true });
 
@@ -79,7 +82,6 @@
 
 			/* ─── Reduced motion: simple native fallback ─── */
 			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-				/* Enable native horizontal scroll for reduced-motion users */
 				sectionEl.style.overflowX = 'auto';
 				sectionEl.style.overflowY = 'hidden';
 				const onScroll = () => {
@@ -122,19 +124,18 @@
 			}
 
 			/* Debounced resize handler — only recalc when width changes.
-			   iOS Safari fires resize on address bar show/hide (height-only change);
-			   recalculating layout on those events breaks pin positions mid-scroll. */
+			   iOS Safari fires resize on address bar show/hide (height-only);
+			   recalculating on those breaks pin positions mid-scroll. */
 			let lastWidth = window.innerWidth;
 			onResize = () => {
 				const w = window.innerWidth;
-				if (w === lastWidth) return; // height-only change (iOS address bar)
+				if (w === lastWidth) return;
 				lastWidth = w;
 				clearTimeout(resizeTimer);
 				resizeTimer = setTimeout(recalcLayout, RESIZE_DEBOUNCE_MS);
 			};
 			window.addEventListener('resize', onResize, { passive: true });
 
-			/* Initial layout computation */
 			recalcLayout();
 
 			/* ─── Shared: find closest card index to a given progress value ─── */
@@ -162,40 +163,75 @@
 				}
 			}
 
-			/* ─── Shared: update progress bar via gsap.set (keeps GSAP cache in sync) ─── */
+			/* ─── Shared: update progress bar ─── */
 			function updateProgressBar(progress: number) {
 				if (progressBarEl) {
 					gsap.set(progressBarEl, { scaleX: progress });
 				}
 			}
 
-			mm = gsap.matchMedia();
+			/* ─── Shared: create the pin+scrub ScrollTrigger ───
+			   Both mobile and desktop use the same fundamental approach:
+			   vertical scroll is pinned and drives horizontal translation.
+			   The ONLY differences are scrub speed, scroll multiplier, and
+			   whether we add a wheel handler for trackpad gestures (desktop).
 
-			/* ═══════════════════════════════════════════════
-			   DESKTOP: Vertical scroll drives horizontal scrub
-			   ═══════════════════════════════════════════════ */
-			mm.add(DESKTOP_BREAKPOINT, () => {
+			   Why the same approach on mobile:
+			   - iOS vertical scroll is 100% native — no fighting, no preventDefault
+			   - ScrollTrigger pin is battle-tested on iOS
+			   - snap gives discrete card positions
+			   - Entry/exit is just normal vertical scrolling
+			   - Zero touch event listeners = zero stuck states */
+
+			function createScrollSection(opts: {
+				scrubSpeed: number;
+				scrollMultiplier: number;
+				enableSnap: boolean;
+			}) {
 				sectionEl?.classList.add('gsap-pinned');
 				recalcLayout();
 
-				const tl = gsap.timeline({
-					scrollTrigger: {
-						trigger: sectionEl!,
-						start: 'top top',
-						end: () =>
-							`+=${cachedScrollDistance * DESKTOP_SCROLL_MULTIPLIER + window.innerWidth * 0.3}`,
-						pin: true,
-						scrub: DESKTOP_SCRUB_SPEED,
-						invalidateOnRefresh: true,
-						onRefreshInit: () => recalcLayout(),
-						onUpdate: (self) => {
-							if (!hasInteracted && self.progress > 0.04) hasInteracted = true;
-							updateFocus(findClosestCardIndex(self.progress));
-						}
+				/* Build ScrollTrigger config — snap only on mobile */
+				const stConfig: ScrollTrigger.Vars = {
+					trigger: sectionEl!,
+					start: 'top top',
+					end: () => `+=${cachedScrollDistance * opts.scrollMultiplier + window.innerWidth * 0.3}`,
+					pin: true,
+					scrub: opts.scrubSpeed,
+					invalidateOnRefresh: true,
+					onRefreshInit: () => recalcLayout(),
+					onUpdate: (self) => {
+						if (!hasInteracted && self.progress > 0.04) hasInteracted = true;
+						updateFocus(findClosestCardIndex(self.progress));
 					}
-				});
+				};
 
-				/* Horizontal movement */
+				if (opts.enableSnap) {
+					/* Mobile only: snap one card at a time.
+					   Compare progress to the last active card and only
+					   allow moving to the immediate neighbour. */
+					stConfig.snap = {
+						snapTo: (progress: number) => {
+							if (cachedSnapPoints.length === 0) return progress;
+							const prev = lastActiveIndex >= 0 ? lastActiveIndex : 0;
+							const delta = progress - cachedSnapPoints[prev];
+							if (Math.abs(delta) < 0.005) return cachedSnapPoints[prev];
+							if (delta > 0 && prev < cachedSnapPoints.length - 1) {
+								return cachedSnapPoints[prev + 1];
+							}
+							if (delta < 0 && prev > 0) {
+								return cachedSnapPoints[prev - 1];
+							}
+							return cachedSnapPoints[prev];
+						},
+						duration: { min: 0.15, max: 0.3 },
+						ease: 'power1.inOut'
+					};
+				}
+
+				const tl = gsap.timeline({ scrollTrigger: stConfig });
+
+				/* Horizontal movement — transform only, compositor-friendly */
 				tl.to(
 					wrapperEl!,
 					{
@@ -205,23 +241,23 @@
 					0
 				);
 
-				/* Progress bar — driven by timeline, no manual DOM writes */
+				/* Progress bar driven by timeline */
 				if (progressBarEl) {
 					tl.fromTo(progressBarEl, { scaleX: 0 }, { scaleX: 1, ease: 'none' }, 0);
 				}
 
-				/* Background numbers: static position on desktop.
-				   Continuous parallax behind backdrop-filter cards is expensive —
-				   the blur kernel must re-rasterize every frame. Keep them fixed. */
+				/* Background numbers: keep static — continuous parallax behind
+				   backdrop-filter cards forces re-rasterization every frame */
 				bgNumElements.filter(Boolean).forEach((bgNum) => {
 					gsap.set(bgNum, { xPercent: 0 });
 				});
 
-				/* Desktop jump helper — used by scroll hint click and vertical scroll jump */
-				const jumpToCardViaScroll = (direction: 'next' | 'prev') => {
+				/* Jump helpers for scroll hint button */
+				const jumpToCard = (direction: 'next' | 'prev', fromIndex?: number) => {
 					const st = tl.scrollTrigger;
 					if (!st) return;
-					const currentIndex = findClosestCardIndex(st.progress);
+					const currentIndex =
+						fromIndex !== undefined ? fromIndex : findClosestCardIndex(st.progress);
 					if (direction === 'next') {
 						if (currentIndex < cachedSnapPoints.length - 1) {
 							const targetProgress = cachedSnapPoints[currentIndex + 1];
@@ -229,10 +265,11 @@
 							gsap.to(window, {
 								scrollTo: { y: scrollTarget },
 								duration: 0.5,
-								ease: 'power4.out',
+								ease: 'power2.out',
 								overwrite: 'auto'
 							});
 						} else {
+							/* Past last card: scroll out of pinned section */
 							gsap.to(window, {
 								scrollTo: { y: `+=${BOUNDARY_SCROLL_PX}` },
 								duration: BOUNDARY_SCROLL_DURATION,
@@ -246,7 +283,7 @@
 							gsap.to(window, {
 								scrollTo: { y: scrollTarget },
 								duration: 0.5,
-								ease: 'power4.out',
+								ease: 'power2.out',
 								overwrite: 'auto'
 							});
 						} else {
@@ -258,107 +295,98 @@
 						}
 					}
 				};
-				scrollToNext = () => jumpToCardViaScroll('next');
-				scrollToPrev = () => jumpToCardViaScroll('prev');
 
-				/* Direct card jump — scrolls to the exact target position instantly,
-				   then the scrub smoothly animates the wrapper. No fighting. */
-				let desktopCardIndex = 0;
-				let isDesktopJumping = false;
+				scrollToNext = () => jumpToCard('next');
+				scrollToPrev = () => jumpToCard('prev');
 
-				const jumpToCardDirect = (direction: 'next' | 'prev') => {
-					if (isDesktopJumping) return;
-					const st = tl.scrollTrigger;
-					if (!st) return;
+				return { tl, jumpToCard };
+			}
 
-					/* Sync index from scroll position in case user scrolled with mouse wheel */
-					desktopCardIndex = findClosestCardIndex(st.progress);
+			mm = gsap.matchMedia();
 
-					const targetIndex = direction === 'next' ? desktopCardIndex + 1 : desktopCardIndex - 1;
+			/* ═══════════════════════════════════════════════
+			   DESKTOP
+			   ═══════════════════════════════════════════════ */
+			mm.add(DESKTOP_BREAKPOINT, () => {
+				const { tl } = createScrollSection({
+					scrubSpeed: DESKTOP_SCRUB_SPEED,
+					scrollMultiplier: DESKTOP_SCROLL_MULTIPLIER,
+					enableSnap: false
+				});
 
-					/* Boundary: past last card → scroll page forward */
-					if (targetIndex >= allCards.length) {
-						gsap.to(window, {
-							scrollTo: { y: `+=${BOUNDARY_SCROLL_PX}` },
-							duration: BOUNDARY_SCROLL_DURATION,
-							ease: 'power2.out'
-						});
-						return;
-					}
-					/* Boundary: before first card → scroll page backward */
-					if (targetIndex < 0) {
-						gsap.to(window, {
-							scrollTo: { y: `-=${BOUNDARY_SCROLL_PX}` },
-							duration: BOUNDARY_SCROLL_DURATION,
-							ease: 'power2.out'
-						});
-						return;
-					}
+				/* Horizontal trackpad → drive scroll position.
+				   During a GSAP pin, window.scrollBy/scrollTo are blocked.
+				   But gsap.to(window, { scrollTo }) via ScrollToPlugin
+				   DOES work — proven by jumpToCard. We accumulate deltas,
+				   lerp via ticker, and use ScrollToPlugin with a small
+				   non-zero duration (duration:0 doesn't trigger the plugin
+				   the same way the animated version does). */
+				const st = tl.scrollTrigger!;
+				let proxyP = 0;
+				let targetP = 0;
+				let trackpadActive = false;
+				let scrollTween: gsap.core.Tween | null = null;
 
-					isDesktopJumping = true;
-					if (!hasInteracted) hasInteracted = true;
-					desktopCardIndex = targetIndex;
+				const wheel = new WheelGesture(
+					sectionEl!,
+					({ delta: [dx], event, first, last }) => {
+						if (!st.isActive) return;
+						const el = event?.target as HTMLElement | null;
+						if (el?.closest('.chips-row, .chips-wrapper, [data-hscroll="false"]')) return;
+						if (Math.abs(dx) < 1) return;
 
-					/* Scroll to exact target — scrub will animate the wrapper */
-					const targetProgress = cachedSnapPoints[targetIndex];
-					const scrollTarget = st.start + targetProgress * (st.end - st.start);
-					gsap.to(window, {
-						scrollTo: { y: scrollTarget },
-						duration: 0.35,
-						ease: 'power2.out',
-						overwrite: 'auto',
-						onComplete() {
-							isDesktopJumping = false;
+						/* Don't trap at boundaries — let vertical scroll escape */
+						if (st.progress <= 0.001 && dx < 0) return;
+						if (st.progress >= 0.999 && dx > 0) return;
+
+						if (!hasInteracted) hasInteracted = true;
+						event?.preventDefault();
+
+						if (first || !trackpadActive) {
+							trackpadActive = true;
+							targetP = st.progress;
+							proxyP = st.progress;
 						}
+
+						/* Convert px delta to progress delta */
+						const range = st.end - st.start;
+						if (range <= 0) return;
+						targetP = Math.max(0, Math.min(1, targetP + dx / range));
+
+						if (last) trackpadActive = false;
+					},
+					{ eventOptions: { passive: false }, axis: 'x' }
+				);
+
+				/* Smooth lerp on every frame while trackpad is active */
+				let lastScrollTarget = -1;
+				const tickerFn = () => {
+					if (!trackpadActive && Math.abs(proxyP - targetP) < 0.0005) return;
+					const prevP = proxyP;
+					proxyP += (targetP - proxyP) * 0.15;
+					if (Math.abs(proxyP - targetP) < 0.0005) proxyP = targetP;
+					/* Skip if proxy didn't move enough to matter */
+					if (Math.abs(proxyP - prevP) < 0.00001) return;
+
+					const scrollTarget = Math.round(st.start + proxyP * (st.end - st.start));
+					if (scrollTarget === lastScrollTarget) return;
+					lastScrollTarget = scrollTarget;
+
+					/* Kill previous tween to avoid queueing */
+					if (scrollTween) scrollTween.kill();
+					scrollTween = gsap.to(window, {
+						scrollTo: { y: scrollTarget },
+						duration: 0.05,
+						ease: 'none',
+						overwrite: true
 					});
 				};
-
-				/* Desktop wheel: horizontal trackpad gestures trigger discrete card jumps.
-				   We accumulate horizontal deltas and jump when threshold is crossed.
-				   Vertical mouse wheel is left to ScrollTrigger's native scrub. */
-				const TRACKPAD_JUMP_THRESHOLD = 40;
-				let accumulatedDeltaX = 0;
-				let wheelResetTimer: ReturnType<typeof setTimeout>;
-				const wheelHandler = (e: WheelEvent) => {
-					const target = e.target as HTMLElement;
-					if (target.closest('.chips-row, .chips-wrapper, [data-hscroll="false"]')) return;
-					const st = tl.scrollTrigger;
-					if (!st) return;
-
-					const absX = Math.abs(e.deltaX);
-					const absY = Math.abs(e.deltaY);
-
-					/* Only intercept predominantly-horizontal gestures */
-					if (absY > absX) return;
-
-					/* Don't block if already at boundaries */
-					if (st.progress <= 0 && e.deltaX <= 0) return;
-					if (st.progress >= 1 && e.deltaX >= 0) return;
-
-					if (!hasInteracted) hasInteracted = true;
-					e.preventDefault();
-
-					/* Accumulate horizontal delta */
-					accumulatedDeltaX += e.deltaX;
-
-					/* Reset accumulator if user stops swiping */
-					clearTimeout(wheelResetTimer);
-					wheelResetTimer = setTimeout(() => {
-						accumulatedDeltaX = 0;
-					}, 200);
-
-					/* Jump when threshold is crossed */
-					if (Math.abs(accumulatedDeltaX) >= TRACKPAD_JUMP_THRESHOLD) {
-						const direction = accumulatedDeltaX > 0 ? 'next' : 'prev';
-						accumulatedDeltaX = 0;
-						jumpToCardDirect(direction);
-					}
-				};
-				sectionEl!.addEventListener('wheel', wheelHandler, { passive: false });
+				gsap.ticker.add(tickerFn);
 
 				return () => {
-					sectionEl!.removeEventListener('wheel', wheelHandler);
-					clearTimeout(wheelResetTimer);
+					gsap.ticker.remove(tickerFn);
+					if (scrollTween) scrollTween.kill();
+					wheel.destroy();
 					tl.scrollTrigger?.kill();
 					tl.kill();
 					sectionEl?.classList.remove('gsap-pinned');
@@ -369,77 +397,72 @@
 			});
 
 			/* ═══════════════════════════════════════════════
-			   MOBILE: Native horizontal scroll with CSS snap
+			   MOBILE: pin+scrub+snap + native touch swipe detection.
+			   We intentionally avoid DragGesture here because it
+			   requires touch-action:none which kills native vertical
+			   scroll — the very thing that drives ScrollTrigger.
+			   Simple touchstart/touchend gives us everything we need.
 			   ═══════════════════════════════════════════════ */
 			mm.add(MOBILE_BREAKPOINT, () => {
-				if (!sectionEl || !wrapperEl) return;
-
-				/* Enable native horizontal scrolling on the section */
-				sectionEl.classList.add('mobile-native-scroll');
-
-				/* Add scroll-snap-align to each card so CSS snap works */
-				allCards.forEach((card) => {
-					card.style.scrollSnapAlign = 'center';
+				const { tl, jumpToCard } = createScrollSection({
+					scrubSpeed: MOBILE_SCRUB_SPEED,
+					scrollMultiplier: MOBILE_SCROLL_MULTIPLIER,
+					enableSnap: true
 				});
 
-				/* Track active card via IntersectionObserver */
-				const observers: IntersectionObserver[] = [];
+				let startX = 0;
+				let startY = 0;
+				let startTime = 0;
+				let startCardIndex = 0;
 
-				const cardObserver = new IntersectionObserver(
-					(entries) => {
-						for (const entry of entries) {
-							if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-								const idx = allCards.indexOf(entry.target as HTMLElement);
-								if (idx !== -1) {
-									activeCardIndex = idx;
-									updateFocus(idx);
-									if (!hasInteracted && idx > 0) hasInteracted = true;
+				const onTouchStart = (e: TouchEvent) => {
+					const touch = e.touches[0];
+					startX = touch.clientX;
+					startY = touch.clientY;
+					startTime = Date.now();
+					startCardIndex = lastActiveIndex >= 0 ? lastActiveIndex : 0;
+				};
 
-									/* Update progress bar */
-									const progress = allCards.length > 1 ? idx / (allCards.length - 1) : 0;
-									updateProgressBar(progress);
-								}
-							}
-						}
-					},
-					{
-						root: sectionEl,
-						threshold: 0.5
+				const onTouchEnd = (e: TouchEvent) => {
+					const touch = e.changedTouches[0];
+					const dx = touch.clientX - startX;
+					const dy = touch.clientY - startY;
+					const dt = Date.now() - startTime;
+					const absDx = Math.abs(dx);
+					const absDy = Math.abs(dy);
+
+					/* Need at least 30px movement and under 800ms */
+					if (Math.max(absDx, absDy) < 30 || dt > 800) return;
+
+					/* Skip if inside a horizontally-scrollable child */
+					const target = touch.target as HTMLElement | null;
+					if (target?.closest('.chips-row, .chips-wrapper, [data-hscroll="false"]')) return;
+
+					/* Determine direction: use whichever axis had more movement */
+					let direction: 'next' | 'prev' | null = null;
+					if (absDx >= absDy) {
+						/* Horizontal dominant: left = next, right = prev */
+						direction = dx < 0 ? 'next' : 'prev';
+					} else {
+						/* Vertical dominant: up = next, down = prev */
+						direction = dy < 0 ? 'next' : 'prev';
 					}
-				);
 
-				allCards.forEach((card) => cardObserver.observe(card));
-				observers.push(cardObserver);
-
-				/* Scroll hint: scroll to next card natively */
-				scrollToNext = () => {
-					const nextIdx = Math.min(activeCardIndex + 1, allCards.length - 1);
-					allCards[nextIdx]?.scrollIntoView({
-						behavior: 'smooth',
-						block: 'nearest',
-						inline: 'center'
-					});
-				};
-				scrollToPrev = () => {
-					const prevIdx = Math.max(activeCardIndex - 1, 0);
-					allCards[prevIdx]?.scrollIntoView({
-						behavior: 'smooth',
-						block: 'nearest',
-						inline: 'center'
-					});
+					if (direction) {
+						if (!hasInteracted) hasInteracted = true;
+						jumpToCard(direction, startCardIndex);
+					}
 				};
 
-				/* Set initial state */
-				updateFocus(0);
-				updateProgressBar(0);
+				sectionEl!.addEventListener('touchstart', onTouchStart, { passive: true });
+				sectionEl!.addEventListener('touchend', onTouchEnd, { passive: true });
 
 				return () => {
-					observers.forEach((obs) => obs.disconnect());
-					/* Clean up inline snap styles */
-					allCards.forEach((card) => {
-						card.style.scrollSnapAlign = '';
-					});
-					sectionEl?.classList.remove('mobile-native-scroll');
+					sectionEl!.removeEventListener('touchstart', onTouchStart);
+					sectionEl!.removeEventListener('touchend', onTouchEnd);
+					tl.scrollTrigger?.kill();
+					tl.kill();
+					sectionEl?.classList.remove('gsap-pinned');
 					scrollToNext = null;
 					scrollToPrev = null;
 					lastActiveIndex = -1;
@@ -456,55 +479,52 @@
 	});
 </script>
 
-<!-- Outer wrapper: holds the scroll section + overlay UI elements -->
-<div class="hscroll-outer relative" style="background: {background};">
-	<section
-		bind:this={sectionEl}
-		{id}
-		class="hscroll-section relative h-auto md:h-[100dvh] overflow-hidden flex items-center"
-		aria-label="Horizontal scroll section - {watermark}"
+<section
+	bind:this={sectionEl}
+	{id}
+	class="hscroll-section relative h-[100dvh] overflow-hidden flex items-center"
+	style="background: {background};"
+	aria-label="Horizontal scroll section - {watermark}"
+>
+	<!-- Large background watermark -->
+	<div
+		class="absolute inset-0 pointer-events-none flex items-center justify-center select-none z-0"
 	>
-		<!-- Large background watermark -->
-		<div
-			class="absolute inset-0 pointer-events-none flex items-center justify-center select-none z-0"
+		<span
+			class="watermark-text font-syne font-black tracking-tighter whitespace-nowrap"
+			style="color: var(--text-heading); opacity: 0.04;"
 		>
-			<span
-				class="watermark-text font-syne font-black tracking-tighter whitespace-nowrap"
-				style="color: var(--text-heading); opacity: 0.04;"
-			>
-				{watermark}
-			</span>
-		</div>
+			{watermark}
+		</span>
+	</div>
 
-		<!-- Horizontal scroll wrapper — GSAP translates this on desktop; native scroll on mobile -->
+	<!-- Horizontal scroll wrapper — GSAP translates this via transform -->
+	<div
+		bind:this={wrapperEl}
+		class="flex h-full items-center relative z-10 w-max pl-[6vw] md:pl-[10vw] pr-[30vw] md:pr-[25vw] gap-6 md:gap-8"
+	>
+		<!-- Intro slide -->
 		<div
-			bind:this={wrapperEl}
-			class="hscroll-wrapper flex h-full items-center relative z-10 w-max pl-[6vw] md:pl-[10vw] pr-[30vw] md:pr-[25vw] gap-6 md:gap-8"
+			bind:this={introEl}
+			class="w-[88vw] md:w-[70vw] lg:w-[50vw] max-w-2xl shrink-0 flex flex-col justify-center px-4 md:px-12 relative"
 		>
-			<!-- Intro slide -->
-			<div
-				bind:this={introEl}
-				class="w-[88vw] md:w-[70vw] lg:w-[50vw] max-w-2xl shrink-0 flex flex-col justify-center px-4 md:px-12 relative"
-			>
-				{@render introSlide()}
-			</div>
-
-			<!-- Cards (consumer renders the loop) -->
-			{@render cards()}
-
-			<!-- Optional trailing slide -->
-			{#if trailingSlide}
-				{@render trailingSlide()}
-			{/if}
+			{@render introSlide()}
 		</div>
 
-		<!-- Progress bar (desktop) -->
-		<div class="progress-track desktop-only">
-			<div bind:this={progressBarEl} class="progress-fill"></div>
-		</div>
-	</section>
+		<!-- Cards (consumer renders the loop) -->
+		{@render cards()}
 
-	<!-- Mobile overlay UI — outside the scroll container so they don't scroll away -->
+		<!-- Optional trailing slide -->
+		{#if trailingSlide}
+			{@render trailingSlide()}
+		{/if}
+	</div>
+
+	<!-- Progress bar -->
+	<div class="progress-track">
+		<div bind:this={progressBarEl} class="progress-fill"></div>
+	</div>
+
 	<!-- Progress dots (mobile) -->
 	{#if totalCards > 0}
 		<div class="progress-dots mobile-only" role="tablist" aria-label="Card navigation">
@@ -517,20 +537,14 @@
 					aria-label="Card {i + 1} of {totalCards}"
 					tabindex={i === activeCardIndex ? 0 : -1}
 					onclick={() => {
-						/* Dot tap: scroll to that card natively */
-						const allCardEls = [introEl, ...cardElements].filter(Boolean) as HTMLElement[];
-						allCardEls[i]?.scrollIntoView({
-							behavior: 'smooth',
-							block: 'nearest',
-							inline: 'center'
-						});
+						/* Dot taps do nothing for now — scroll handles navigation */
 					}}
 				></button>
 			{/each}
 		</div>
 	{/if}
 
-	<!-- Scroll hint — shows prompt before interaction, position counter after -->
+	<!-- Scroll hint — prompt before interaction, position counter after -->
 	<div
 		class="scroll-hint"
 		class:interacted={hasInteracted}
@@ -560,7 +574,7 @@
 			<span>Scroll</span>
 		{/if}
 	</div>
-</div>
+</section>
 
 <style>
 	/* ═══════════════════════════════════════════════
@@ -574,22 +588,9 @@
 		display: none;
 	}
 
-	/* When GSAP takes over (desktop), lock overflow so the pin works correctly */
+	/* When GSAP pins, lock overflow so the pin works correctly */
 	.hscroll-section:global(.gsap-pinned) {
 		overflow: hidden !important;
-	}
-
-	/* Mobile: native horizontal scroll with CSS snap */
-	.hscroll-section:global(.mobile-native-scroll) {
-		overflow-x: auto;
-		overflow-y: hidden;
-		scroll-snap-type: x mandatory;
-		-webkit-overflow-scrolling: touch;
-		height: 85dvh;
-		scrollbar-width: none;
-	}
-	.hscroll-section:global(.mobile-native-scroll)::-webkit-scrollbar {
-		display: none;
 	}
 
 	/* ═══════════════════════════════════════════════
@@ -623,7 +624,7 @@
 	}
 
 	/* ═══════════════════════════════════════════════
-	   Progress bar (desktop) — thicker, theme-aware
+	   Progress bar — bottom of section
 	   ═══════════════════════════════════════════════ */
 	.progress-track {
 		position: absolute;
@@ -646,7 +647,7 @@
 	}
 
 	/* ═══════════════════════════════════════════════
-	   Progress dots (mobile) — segmented position
+	   Progress dots (mobile)
 	   ═══════════════════════════════════════════════ */
 	.progress-dots {
 		position: absolute;
@@ -663,7 +664,6 @@
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
 		border: 1px solid var(--border-primary);
-		pointer-events: auto;
 	}
 	.progress-dot {
 		width: 8px;
@@ -690,7 +690,7 @@
 	}
 
 	/* ═══════════════════════════════════════════════
-	   Scroll hint — theme-aware pill, position counter
+	   Scroll hint — theme-aware pill
 	   ═══════════════════════════════════════════════ */
 	.scroll-hint {
 		position: absolute;
@@ -726,7 +726,6 @@
 	.scroll-hint:active {
 		transform: scale(0.95);
 	}
-	/* After interaction: dim but stay readable */
 	.scroll-hint.interacted {
 		animation: none;
 		opacity: 0.55;
@@ -735,7 +734,6 @@
 		opacity: 1;
 	}
 
-	/* Position counter styling */
 	.hint-counter {
 		display: flex;
 		align-items: center;
@@ -808,8 +806,7 @@
 	}
 
 	/* ═══════════════════════════════════════════════
-	   Glass card base — backdrop-filter kept for
-	   visual richness (small isolated surfaces)
+	   Glass card base
 	   ═══════════════════════════════════════════════ */
 	:global(.hscroll-card) {
 		background: var(--glass-bg);
@@ -825,8 +822,6 @@
 			opacity 0.4s ease;
 	}
 
-	/* Focused card: elevated shadow instead of scale to avoid
-	   repainting the backdrop-filter on a resized surface */
 	:global(.is-focused .hscroll-card) {
 		background: var(--glass-bg-hover);
 		border-color: var(--glass-border-hover);
@@ -844,7 +839,6 @@
 			inset 0 1px 0 var(--glass-inset-highlight);
 	}
 
-	/* Mobile touch feedback — brief highlight on tap */
 	@media (max-width: 767px) {
 		:global(.hscroll-card:active) {
 			background: var(--glass-bg-hover);
