@@ -534,6 +534,15 @@
 					startTime = Date.now();
 				};
 
+				/* Block native scroll while pinned so iOS doesn't steal the gesture.
+				   Without this, iOS starts native scrolling during the drag, which can
+				   push the page past the pin boundary before touchend fires — causing
+				   isPinned to go false and our swipe to be silently dropped. */
+				const onTouchMove = (e: TouchEvent) => {
+					if (startX === -1 || !isPinned) return;
+					e.preventDefault();
+				};
+
 				const onTouchEnd = (e: TouchEvent) => {
 					if (startX === -1) return;
 					if (!isPinned) return;
@@ -561,6 +570,7 @@
 				};
 
 				sectionEl!.addEventListener('touchstart', onTouchStart, { passive: true });
+				sectionEl!.addEventListener('touchmove', onTouchMove, { passive: false });
 				sectionEl!.addEventListener('touchend', onTouchEnd, { passive: true });
 
 				/* Set initial state */
@@ -570,6 +580,7 @@
 
 				return () => {
 					sectionEl!.removeEventListener('touchstart', onTouchStart);
+					sectionEl!.removeEventListener('touchmove', onTouchMove);
 					sectionEl!.removeEventListener('touchend', onTouchEnd);
 					pinTrigger.kill();
 					bgNumTweens.forEach((t) => t.kill());
