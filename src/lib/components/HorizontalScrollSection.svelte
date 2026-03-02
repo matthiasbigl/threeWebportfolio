@@ -395,14 +395,17 @@
 					onRefreshInit: () => recalcLayout(),
 					onEnter: (self) => {
 						isPinned = true;
-						/* Kill iOS momentum scroll — snap to pin start so the fling
-						   doesn't carry the user right through the pinned section. */
-						gsap.to(window, {
-							scrollTo: { y: self.start },
-							duration: 0.15,
-							ease: 'power2.out',
-							overwrite: 'auto'
-						});
+						/* Kill iOS momentum scroll — only if we've overshot the pin start,
+						   which means momentum carried us in. A gentle scroll won't overshoot. */
+						const overshoot = window.scrollY - self.start;
+						if (overshoot > 30) {
+							gsap.to(window, {
+								scrollTo: { y: self.start },
+								duration: 0.2,
+								ease: 'power2.out',
+								overwrite: 'auto'
+							});
+						}
 						currentCardIndex = 0;
 						gsap.set(wrapperEl!, { x: 0 });
 						updateFocus(0);
@@ -416,15 +419,8 @@
 						isPinned = false;
 						sectionEl?.classList.remove('mobile-pinned');
 					},
-					onEnterBack: (self) => {
+					onEnterBack: () => {
 						isPinned = true;
-						/* Kill iOS momentum scroll — snap to pin end */
-						gsap.to(window, {
-							scrollTo: { y: self.end },
-							duration: 0.15,
-							ease: 'power2.out',
-							overwrite: 'auto'
-						});
 						currentCardIndex = allCards.length - 1;
 						const lastProgress = cachedSnapPoints[allCards.length - 1];
 						gsap.set(wrapperEl!, { x: -(lastProgress * cachedScrollDistance) });
