@@ -393,8 +393,16 @@
 					anticipatePin: 1,
 					invalidateOnRefresh: true,
 					onRefreshInit: () => recalcLayout(),
-					onEnter: () => {
+					onEnter: (self) => {
 						isPinned = true;
+						/* Kill iOS momentum scroll — snap to pin start so the fling
+						   doesn't carry the user right through the pinned section. */
+						gsap.to(window, {
+							scrollTo: { y: self.start },
+							duration: 0.15,
+							ease: 'power2.out',
+							overwrite: 'auto'
+						});
 						currentCardIndex = 0;
 						gsap.set(wrapperEl!, { x: 0 });
 						updateFocus(0);
@@ -408,8 +416,15 @@
 						isPinned = false;
 						sectionEl?.classList.remove('mobile-pinned');
 					},
-					onEnterBack: () => {
+					onEnterBack: (self) => {
 						isPinned = true;
+						/* Kill iOS momentum scroll — snap to pin end */
+						gsap.to(window, {
+							scrollTo: { y: self.end },
+							duration: 0.15,
+							ease: 'power2.out',
+							overwrite: 'auto'
+						});
 						currentCardIndex = allCards.length - 1;
 						const lastProgress = cachedSnapPoints[allCards.length - 1];
 						gsap.set(wrapperEl!, { x: -(lastProgress * cachedScrollDistance) });
