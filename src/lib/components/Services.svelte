@@ -552,7 +552,7 @@
 			class="w-[82vw] sm:w-[75vw] md:w-[55vw] lg:w-[45vw] max-w-[560px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center relative group"
 		>
 			<div
-				class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-y-auto flex flex-col justify-between isolate border {accentCfg.border}"
+				class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between isolate border {accentCfg.border}"
 			>
 				<!-- Top accent bar -->
 				<div
@@ -576,7 +576,7 @@
 				</div>
 
 				<!-- Top row: icon badge + line -->
-				<div class="flex items-center gap-3 md:gap-4 p-6 sm:p-8 md:p-10 lg:p-14 pb-0">
+				<div class="flex items-center gap-3 md:gap-4 p-4 sm:p-8 md:p-10 lg:p-14 pb-0">
 					<div
 						class="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-xl flex items-center justify-center"
 						style="background: var(--bg-inset); border: 1px solid var(--border-primary);"
@@ -588,17 +588,17 @@
 
 				<!-- Bottom: title + desc + features -->
 				<div
-					class="relative z-10 p-6 sm:p-8 md:p-10 lg:p-14 pt-4 flex flex-col gap-4 flex-1 justify-end"
+					class="relative z-10 p-4 sm:p-8 md:p-10 lg:p-14 pt-3 sm:pt-4 flex flex-col gap-3 sm:gap-4 flex-1 justify-end"
 				>
 					<div>
 						<h3
-							class="font-syne text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 md:mb-4 tracking-tight leading-[1.2]"
+							class="font-syne text-xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3 md:mb-4 tracking-tight leading-[1.2]"
 							style="color: var(--text-heading);"
 						>
 							{service.title}
 						</h3>
 						<p
-							class="text-sm sm:text-base font-light leading-relaxed pl-3 sm:pl-4"
+							class="text-sm sm:text-base font-light leading-relaxed pl-3 sm:pl-4 line-clamp-3 sm:line-clamp-none"
 							style="color: var(--text-secondary); border-left: 2px solid {service.accent}60;"
 						>
 							{service.description}
@@ -642,7 +642,7 @@
 		class="w-[82vw] sm:w-[70vw] md:w-[50vw] lg:w-[42vw] max-w-[520px] shrink-0 h-[65dvh] md:h-[70dvh] flex items-center"
 	>
 		<div
-			class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-y-auto flex flex-col isolate border"
+			class="hscroll-card w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] relative overflow-hidden flex flex-col isolate border"
 			style="border-color: var(--glass-border);"
 		>
 			<div
@@ -665,17 +665,17 @@
 				</span>
 			</div>
 
-			<div class="p-5 sm:p-6 md:p-8 pb-8 sm:pb-10 flex flex-col">
+			<div class="p-4 sm:p-6 md:p-8 pb-5 sm:pb-10 flex flex-col flex-1 justify-between">
 				<div>
 					<div
-						class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.15em] mb-4"
+						class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.15em] mb-3 sm:mb-4"
 						style="background: rgba(59,130,246,0.1); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2);"
 					>
 						<span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
 						{m['services.pricingCard.badge']()}
 					</div>
 					<h3
-						class="font-syne text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2 leading-[1.2]"
+						class="font-syne text-xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-1.5 sm:mb-2 leading-[1.2]"
 						style="color: var(--text-heading);"
 					>
 						{m['services.pricingCard.title']()}
@@ -683,15 +683,15 @@
 
 					<!-- Subheading from translations -->
 					<p
-						class="text-blue-400 font-syne font-semibold text-[10px] sm:text-xs uppercase tracking-[0.2em] mb-3"
+						class="text-blue-400 font-syne font-semibold text-[10px] sm:text-xs uppercase tracking-[0.2em] mb-2 sm:mb-3"
 					>
 						{m['services.pricingCard.subheading']()}
 					</p>
 
 					<!-- Euro price range pill -->
-					<div class="flex items-center gap-2 mb-4">
+					<div class="flex items-center gap-2 mb-3 sm:mb-4">
 						<div
-							class="px-4 py-2 rounded-xl text-lg sm:text-xl font-bold font-syne flex items-center gap-2"
+							class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-base sm:text-xl font-bold font-syne flex items-center gap-2"
 							style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); color: var(--text-heading);"
 						>
 							<span class="text-blue-400">€</span>
@@ -700,15 +700,15 @@
 					</div>
 
 					<p
-						class="text-sm sm:text-base font-light leading-relaxed mb-4"
+						class="text-sm sm:text-base font-light leading-relaxed mb-3 sm:mb-4"
 						style="color: var(--text-secondary);"
 					>
 						{m['services.pricingCard.description']()}
 					</p>
 
-					<!-- Meaningful Value Add - Reduced Spacing -->
+					<!-- Meaningful Value Add — hidden on small screens to prevent overflow -->
 					<div
-						class="pt-4 border-t flex items-start gap-3"
+						class="hidden sm:flex pt-3 sm:pt-4 border-t items-start gap-3"
 						style="border-color: rgba(59, 130, 246, 0.1);"
 					>
 						<div
@@ -731,7 +731,7 @@
 				<Button
 					href={localizeHref('/pricing')}
 					variant="inverted"
-					className="w-full mt-6 md:mt-8 !text-sm sm:!text-base !px-6 !py-4 transition-all duration-300 hover:scale-[1.02]"
+					className="w-full mt-4 sm:mt-6 md:mt-8 !text-sm sm:!text-base !px-6 !py-3 sm:!py-4 transition-all duration-300 hover:scale-[1.02]"
 				>
 					<span class="flex items-center justify-center gap-3">
 						<span>{m['pricing.navTitle']()}</span>

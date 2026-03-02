@@ -393,19 +393,14 @@
 					anticipatePin: 1,
 					invalidateOnRefresh: true,
 					onRefreshInit: () => recalcLayout(),
-					onEnter: (self) => {
+					onEnter: () => {
 						isPinned = true;
-						/* Kill iOS momentum scroll — only if we've overshot the pin start,
-						   which means momentum carried us in. A gentle scroll won't overshoot. */
-						const overshoot = window.scrollY - self.start;
-						if (overshoot > 30) {
-							gsap.to(window, {
-								scrollTo: { y: self.start },
-								duration: 0.2,
-								ease: 'power2.out',
-								overwrite: 'auto'
-							});
-						}
+						/* Kill iOS momentum scroll by setting scroll position to itself.
+						   This is a no-op positionally but interrupts the native momentum
+						   engine — prevents fling-scrolling straight through the pin zone.
+						   We do NOT use gsap.to/scrollTo here because animating to a different
+						   position would confuse ScrollTrigger's state machine. */
+						window.scrollTo(window.scrollX, window.scrollY);
 						currentCardIndex = 0;
 						gsap.set(wrapperEl!, { x: 0 });
 						updateFocus(0);
@@ -421,6 +416,8 @@
 					},
 					onEnterBack: () => {
 						isPinned = true;
+						/* Same momentum kill for scrolling up into the section */
+						window.scrollTo(window.scrollX, window.scrollY);
 						currentCardIndex = allCards.length - 1;
 						const lastProgress = cachedSnapPoints[allCards.length - 1];
 						gsap.set(wrapperEl!, { x: -(lastProgress * cachedScrollDistance) });
