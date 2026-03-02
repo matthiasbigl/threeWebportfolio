@@ -383,11 +383,12 @@
 				let isPinned = false;
 
 				/* Pin the section — no scrub, no scroll-driven horizontal movement.
-				   Large pin range so momentum scroll can't accidentally skip past it. */
+				   Massive pin range ensures iOS momentum scroll naturally decays inside the trap
+				   without accidentally popping the user out the other side. */
 				const pinTrigger = ScrollTrigger.create({
 					trigger: sectionEl!,
 					start: 'top top',
-					end: () => `+=${cachedScrollDistance + window.innerWidth * 0.3}`,
+					end: () => `+=${cachedScrollDistance * 1.5 + window.innerHeight * 2}`,
 					pin: true,
 					pinSpacing: true,
 					anticipatePin: 1,
@@ -395,12 +396,7 @@
 					onRefreshInit: () => recalcLayout(),
 					onEnter: () => {
 						isPinned = true;
-						/* Kill iOS momentum scroll by setting scroll position to itself.
-						   This is a no-op positionally but interrupts the native momentum
-						   engine — prevents fling-scrolling straight through the pin zone.
-						   We do NOT use gsap.to/scrollTo here because animating to a different
-						   position would confuse ScrollTrigger's state machine. */
-						window.scrollTo(window.scrollX, window.scrollY);
+						isAnimating = false;
 						currentCardIndex = 0;
 						gsap.set(wrapperEl!, { x: 0 });
 						updateFocus(0);
@@ -412,12 +408,12 @@
 					},
 					onLeave: () => {
 						isPinned = false;
+						isAnimating = false;
 						sectionEl?.classList.remove('mobile-pinned');
 					},
 					onEnterBack: () => {
 						isPinned = true;
-						/* Same momentum kill for scrolling up into the section */
-						window.scrollTo(window.scrollX, window.scrollY);
+						isAnimating = false;
 						currentCardIndex = allCards.length - 1;
 						const lastProgress = cachedSnapPoints[allCards.length - 1];
 						gsap.set(wrapperEl!, { x: -(lastProgress * cachedScrollDistance) });
@@ -430,6 +426,7 @@
 					},
 					onLeaveBack: () => {
 						isPinned = false;
+						isAnimating = false;
 						sectionEl?.classList.remove('mobile-pinned');
 					}
 				});
@@ -442,43 +439,45 @@
 
 				/* Animate wrapper to a specific card position */
 				function jumpToCard(targetIndex: number) {
-					if (isAnimating || !isPinned) return;
-					targetIndex = Math.max(0, Math.min(targetIndex, allCards.length - 1));
+					if (!isPinned) return;
+
+					/* Failsafe: if we think we are animating but no tweens are active on the wrapper, unlock */
+					if (isAnimating && !gsap.isTweening(wrapperEl)) {
+						isAnimating = false;
+					}
+
+					if (isAnimating) return;
+
+					let boundedIndex = Math.max(0, Math.min(targetIndex, allCards.length - 1));
 
 					/* Boundary: swiped past last card → scroll past pin end to exit */
-					if (targetIndex === currentCardIndex && targetIndex === allCards.length - 1) {
-						isAnimating = true;
-						const scrollTarget = pinTrigger.end + BOUNDARY_SCROLL_PX;
-						gsap.to(window, {
-							scrollTo: { y: scrollTarget },
-							duration: BOUNDARY_SCROLL_DURATION,
-							ease: 'power2.out',
-							onComplete: () => {
-								isAnimating = false;
-							}
-						});
+					if (boundedIndex === currentCardIndex && targetIndex > currentCardIndex) {
+						if (!gsap.isTweening(window)) {
+							gsap.to(window, {
+								scrollTo: { y: pinTrigger.end + 150, autoKill: true },
+								duration: 0.8,
+								ease: 'power3.inOut'
+							});
+						}
 						return;
 					}
 					/* Boundary: swiped before first card → scroll before pin start to exit */
-					if (targetIndex === currentCardIndex && targetIndex === 0) {
-						isAnimating = true;
-						const scrollTarget = Math.max(0, pinTrigger.start - BOUNDARY_SCROLL_PX);
-						gsap.to(window, {
-							scrollTo: { y: scrollTarget },
-							duration: BOUNDARY_SCROLL_DURATION,
-							ease: 'power2.out',
-							onComplete: () => {
-								isAnimating = false;
-							}
-						});
+					if (boundedIndex === currentCardIndex && targetIndex < currentCardIndex) {
+						if (!gsap.isTweening(window)) {
+							gsap.to(window, {
+								scrollTo: { y: Math.max(0, pinTrigger.start - 150), autoKill: true },
+								duration: 0.8,
+								ease: 'power3.inOut'
+							});
+						}
 						return;
 					}
 
-					if (targetIndex === currentCardIndex) return;
+					if (boundedIndex === currentCardIndex) return;
 
 					isAnimating = true;
-					const targetX = -(cachedSnapPoints[targetIndex] * cachedScrollDistance);
-					const progress = cachedSnapPoints[targetIndex];
+					const targetX = -(cachedSnapPoints[boundedIndex] * cachedScrollDistance);
+					const progress = cachedSnapPoints[boundedIndex];
 
 					/* Animate bg number parallax in sync with card jump */
 					const targetXPct = -15 + 30 * progress;
@@ -497,8 +496,8 @@
 						ease: MOBILE_JUMP_EASE,
 						overwrite: 'auto',
 						onComplete: () => {
-							currentCardIndex = targetIndex;
-							updateFocus(targetIndex);
+							currentCardIndex = boundedIndex;
+							updateFocus(boundedIndex);
 							if (!hasInteracted) hasInteracted = true;
 							isAnimating = false;
 						}
@@ -515,7 +514,7 @@
 					}
 
 					/* Update focus immediately for responsiveness */
-					updateFocus(targetIndex);
+					updateFocus(boundedIndex);
 				}
 
 				scrollToNext = () => jumpToCard(currentCardIndex + 1);
@@ -527,6 +526,11 @@
 				let startTime = 0;
 
 				const onTouchStart = (e: TouchEvent) => {
+					/* Failsafe unlock: if user taps the screen while it's "stuck", clear the lock */
+					if (isAnimating && !gsap.isTweening(wrapperEl)) {
+						isAnimating = false;
+					}
+
 					/* Only intercept touches when section is actively pinned */
 					if (!isPinned) {
 						startX = -1;
