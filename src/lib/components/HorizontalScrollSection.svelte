@@ -76,6 +76,7 @@
 			const { ScrollTrigger } = await import('gsap/ScrollTrigger');
 			const { ScrollToPlugin } = await import('gsap/ScrollToPlugin');
 			gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+			ScrollTrigger.config({ ignoreMobileResize: true });
 
 			if (!sectionEl || !wrapperEl) return;
 
@@ -123,8 +124,14 @@
 				});
 			}
 
-			/* Debounced resize handler */
+			/* Debounced resize handler — only recalc when width changes.
+			   iOS Safari fires resize on address bar show/hide (height-only change);
+			   recalculating layout on those events breaks pin positions mid-scroll. */
+			let lastWidth = window.innerWidth;
 			onResize = () => {
+				const w = window.innerWidth;
+				if (w === lastWidth) return; // height-only change (iOS address bar)
+				lastWidth = w;
 				clearTimeout(resizeTimer);
 				resizeTimer = setTimeout(recalcLayout, RESIZE_DEBOUNCE_MS);
 			};

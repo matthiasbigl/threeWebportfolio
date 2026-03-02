@@ -46,6 +46,7 @@
 			const { gsap } = await import('gsap');
 			const { ScrollTrigger } = await import('gsap/ScrollTrigger');
 			gsap.registerPlugin(ScrollTrigger);
+			ScrollTrigger.config({ ignoreMobileResize: true });
 
 			mm = gsap.matchMedia();
 
