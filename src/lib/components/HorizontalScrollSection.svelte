@@ -37,9 +37,6 @@
 	/* ─── Constants ─── */
 	const MOBILE_BREAKPOINT = '(max-width: 767px)';
 	const DESKTOP_BREAKPOINT = '(min-width: 768px)';
-	const SWIPE_THRESHOLD_PX = 30;
-	const MOBILE_JUMP_DURATION = 0.4;
-	const MOBILE_JUMP_EASE = 'power2.out';
 	const DESKTOP_SCRUB_SPEED = 0.5;
 	const DESKTOP_SCROLL_MULTIPLIER = 0.5;
 	const BOUNDARY_SCROLL_PX = 300;
@@ -372,231 +369,77 @@
 			});
 
 			/* ═══════════════════════════════════════════════
-			   MOBILE: Pin-only, discrete card jumps via touch
+			   MOBILE: Native horizontal scroll with CSS snap
 			   ═══════════════════════════════════════════════ */
 			mm.add(MOBILE_BREAKPOINT, () => {
-				sectionEl?.classList.add('gsap-pinned');
-				recalcLayout();
+				if (!sectionEl || !wrapperEl) return;
 
-				let currentCardIndex = 0;
-				let isAnimating = false;
-				let isPinned = false;
+				/* Enable native horizontal scrolling on the section */
+				sectionEl.classList.add('mobile-native-scroll');
 
-				/* Pin the section — no scrub, no scroll-driven horizontal movement.
-				   Massive pin range ensures iOS momentum scroll naturally decays inside the trap
-				   without accidentally popping the user out the other side. */
-				const pinTrigger = ScrollTrigger.create({
-					trigger: sectionEl!,
-					start: 'top top',
-					end: () => `+=${cachedScrollDistance * 1.5 + window.innerHeight * 2}`,
-					pin: true,
-					pinSpacing: true,
-					anticipatePin: 1,
-					invalidateOnRefresh: true,
-					onRefreshInit: () => recalcLayout(),
-					onEnter: () => {
-						isPinned = true;
-						isAnimating = false;
-						currentCardIndex = 0;
-						gsap.set(wrapperEl!, { x: 0 });
-						updateFocus(0);
-						updateProgressBar(0);
-						bgNumElements.filter(Boolean).forEach((bgNum) => {
-							gsap.set(bgNum, { xPercent: -15 });
-						});
-						sectionEl?.classList.add('mobile-pinned');
-					},
-					onLeave: () => {
-						isPinned = false;
-						isAnimating = false;
-						sectionEl?.classList.remove('mobile-pinned');
-					},
-					onEnterBack: () => {
-						isPinned = true;
-						isAnimating = false;
-						currentCardIndex = allCards.length - 1;
-						const lastProgress = cachedSnapPoints[allCards.length - 1];
-						gsap.set(wrapperEl!, { x: -(lastProgress * cachedScrollDistance) });
-						updateFocus(allCards.length - 1);
-						updateProgressBar(lastProgress);
-						bgNumElements.filter(Boolean).forEach((bgNum) => {
-							gsap.set(bgNum, { xPercent: -15 + 30 * lastProgress });
-						});
-						sectionEl?.classList.add('mobile-pinned');
-					},
-					onLeaveBack: () => {
-						isPinned = false;
-						isAnimating = false;
-						sectionEl?.classList.remove('mobile-pinned');
-					}
+				/* Add scroll-snap-align to each card so CSS snap works */
+				allCards.forEach((card) => {
+					card.style.scrollSnapAlign = 'center';
 				});
 
-				/* Parallax background numbers — driven by a proxy progress */
-				const bgNumTweens: gsap.core.Tween[] = [];
-				bgNumElements.filter(Boolean).forEach((bgNum) => {
-					gsap.set(bgNum, { xPercent: -15 });
-				});
+				/* Track active card via IntersectionObserver */
+				const observers: IntersectionObserver[] = [];
 
-				/* Animate wrapper to a specific card position */
-				function jumpToCard(targetIndex: number) {
-					if (!isPinned) return;
+				const cardObserver = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+								const idx = allCards.indexOf(entry.target as HTMLElement);
+								if (idx !== -1) {
+									activeCardIndex = idx;
+									updateFocus(idx);
+									if (!hasInteracted && idx > 0) hasInteracted = true;
 
-					/* Failsafe: if we think we are animating but no tweens are active on the wrapper, unlock */
-					if (isAnimating && !gsap.isTweening(wrapperEl)) {
-						isAnimating = false;
-					}
-
-					if (isAnimating) return;
-
-					let boundedIndex = Math.max(0, Math.min(targetIndex, allCards.length - 1));
-
-					/* Boundary: swiped past last card → scroll past pin end to exit */
-					if (boundedIndex === currentCardIndex && targetIndex > currentCardIndex) {
-						if (!gsap.isTweening(window)) {
-							gsap.to(window, {
-								scrollTo: { y: pinTrigger.end + 150, autoKill: true },
-								duration: 0.8,
-								ease: 'power3.inOut'
-							});
+									/* Update progress bar */
+									const progress = allCards.length > 1 ? idx / (allCards.length - 1) : 0;
+									updateProgressBar(progress);
+								}
+							}
 						}
-						return;
+					},
+					{
+						root: sectionEl,
+						threshold: 0.5
 					}
-					/* Boundary: swiped before first card → scroll before pin start to exit */
-					if (boundedIndex === currentCardIndex && targetIndex < currentCardIndex) {
-						if (!gsap.isTweening(window)) {
-							gsap.to(window, {
-								scrollTo: { y: Math.max(0, pinTrigger.start - 150), autoKill: true },
-								duration: 0.8,
-								ease: 'power3.inOut'
-							});
-						}
-						return;
-					}
+				);
 
-					if (boundedIndex === currentCardIndex) return;
+				allCards.forEach((card) => cardObserver.observe(card));
+				observers.push(cardObserver);
 
-					isAnimating = true;
-					const targetX = -(cachedSnapPoints[boundedIndex] * cachedScrollDistance);
-					const progress = cachedSnapPoints[boundedIndex];
-
-					/* Animate bg number parallax in sync with card jump */
-					const targetXPct = -15 + 30 * progress;
-					bgNumElements.filter(Boolean).forEach((bgNum) => {
-						gsap.to(bgNum, {
-							xPercent: targetXPct,
-							duration: MOBILE_JUMP_DURATION,
-							ease: MOBILE_JUMP_EASE,
-							overwrite: 'auto'
-						});
+				/* Scroll hint: scroll to next card natively */
+				scrollToNext = () => {
+					const nextIdx = Math.min(activeCardIndex + 1, allCards.length - 1);
+					allCards[nextIdx]?.scrollIntoView({
+						behavior: 'smooth',
+						block: 'nearest',
+						inline: 'center'
 					});
-
-					gsap.to(wrapperEl!, {
-						x: targetX,
-						duration: MOBILE_JUMP_DURATION,
-						ease: MOBILE_JUMP_EASE,
-						overwrite: 'auto',
-						onComplete: () => {
-							currentCardIndex = boundedIndex;
-							updateFocus(boundedIndex);
-							if (!hasInteracted) hasInteracted = true;
-							isAnimating = false;
-						}
+				};
+				scrollToPrev = () => {
+					const prevIdx = Math.max(activeCardIndex - 1, 0);
+					allCards[prevIdx]?.scrollIntoView({
+						behavior: 'smooth',
+						block: 'nearest',
+						inline: 'center'
 					});
-
-					/* Progress bar — tween directly alongside wrapper, no per-frame reads */
-					if (progressBarEl) {
-						gsap.to(progressBarEl, {
-							scaleX: progress,
-							duration: MOBILE_JUMP_DURATION,
-							ease: MOBILE_JUMP_EASE,
-							overwrite: 'auto'
-						});
-					}
-
-					/* Update focus immediately for responsiveness */
-					updateFocus(boundedIndex);
-				}
-
-				scrollToNext = () => jumpToCard(currentCardIndex + 1);
-				scrollToPrev = () => jumpToCard(currentCardIndex - 1);
-
-				/* ─── Touch handler: omni-directional swipe ─── */
-				let startX = 0;
-				let startY = 0;
-				let startTime = 0;
-
-				const onTouchStart = (e: TouchEvent) => {
-					/* Failsafe unlock: if user taps the screen while it's "stuck", clear the lock */
-					if (isAnimating && !gsap.isTweening(wrapperEl)) {
-						isAnimating = false;
-					}
-
-					/* Only intercept touches when section is actively pinned */
-					if (!isPinned) {
-						startX = -1;
-						return;
-					}
-					const target = e.target as HTMLElement;
-					if (target.closest('.chips-row, .chips-wrapper, [data-hscroll="false"]')) {
-						startX = -1;
-						return;
-					}
-					startX = e.touches[0].clientX;
-					startY = e.touches[0].clientY;
-					startTime = Date.now();
 				};
-
-				/* Block native scroll while pinned so iOS doesn't steal the gesture.
-				   Without this, iOS starts native scrolling during the drag, which can
-				   push the page past the pin boundary before touchend fires — causing
-				   isPinned to go false and our swipe to be silently dropped. */
-				const onTouchMove = (e: TouchEvent) => {
-					if (startX === -1 || !isPinned) return;
-					e.preventDefault();
-				};
-
-				const onTouchEnd = (e: TouchEvent) => {
-					if (startX === -1) return;
-					if (!isPinned) return;
-
-					const endX = e.changedTouches[0].clientX;
-					const endY = e.changedTouches[0].clientY;
-					const deltaX = startX - endX;
-					const deltaY = startY - endY;
-					const totalDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-					/* Require minimum distance to count as a swipe */
-					if (totalDistance < SWIPE_THRESHOLD_PX) return;
-
-					/* Determine dominant direction:
-					   - Positive deltaX = swiped left, positive deltaY = swiped up
-					   - Any "forward" swipe (left OR up) → next card
-					   - Any "backward" swipe (right OR down) → previous card */
-					const isForward = Math.abs(deltaX) >= Math.abs(deltaY) ? deltaX > 0 : deltaY > 0;
-
-					if (isForward) {
-						jumpToCard(currentCardIndex + 1);
-					} else {
-						jumpToCard(currentCardIndex - 1);
-					}
-				};
-
-				sectionEl!.addEventListener('touchstart', onTouchStart, { passive: true });
-				sectionEl!.addEventListener('touchmove', onTouchMove, { passive: false });
-				sectionEl!.addEventListener('touchend', onTouchEnd, { passive: true });
 
 				/* Set initial state */
 				updateFocus(0);
 				updateProgressBar(0);
-				gsap.set(wrapperEl!, { x: 0 });
 
 				return () => {
-					sectionEl!.removeEventListener('touchstart', onTouchStart);
-					sectionEl!.removeEventListener('touchmove', onTouchMove);
-					sectionEl!.removeEventListener('touchend', onTouchEnd);
-					pinTrigger.kill();
-					bgNumTweens.forEach((t) => t.kill());
-					sectionEl?.classList.remove('gsap-pinned', 'mobile-pinned');
+					observers.forEach((obs) => obs.disconnect());
+					/* Clean up inline snap styles */
+					allCards.forEach((card) => {
+						card.style.scrollSnapAlign = '';
+					});
+					sectionEl?.classList.remove('mobile-native-scroll');
 					scrollToNext = null;
 					scrollToPrev = null;
 					lastActiveIndex = -1;
@@ -613,52 +456,55 @@
 	});
 </script>
 
-<section
-	bind:this={sectionEl}
-	{id}
-	class="hscroll-section relative h-[100dvh] overflow-hidden flex items-center"
-	style="background: {background};"
-	aria-label="Horizontal scroll section - {watermark}"
->
-	<!-- Large background watermark -->
-	<div
-		class="absolute inset-0 pointer-events-none flex items-center justify-center select-none z-0"
+<!-- Outer wrapper: holds the scroll section + overlay UI elements -->
+<div class="hscroll-outer relative" style="background: {background};">
+	<section
+		bind:this={sectionEl}
+		{id}
+		class="hscroll-section relative h-auto md:h-[100dvh] overflow-hidden flex items-center"
+		aria-label="Horizontal scroll section - {watermark}"
 	>
-		<span
-			class="watermark-text font-syne font-black tracking-tighter whitespace-nowrap"
-			style="color: var(--text-heading); opacity: 0.04;"
-		>
-			{watermark}
-		</span>
-	</div>
-
-	<!-- Horizontal scroll wrapper — GSAP translates this element -->
-	<div
-		bind:this={wrapperEl}
-		class="flex h-full items-center relative z-10 w-max pl-[6vw] md:pl-[10vw] pr-[30vw] md:pr-[25vw] gap-6 md:gap-8"
-	>
-		<!-- Intro slide -->
+		<!-- Large background watermark -->
 		<div
-			bind:this={introEl}
-			class="w-[88vw] md:w-[70vw] lg:w-[50vw] max-w-2xl shrink-0 flex flex-col justify-center px-4 md:px-12 relative"
+			class="absolute inset-0 pointer-events-none flex items-center justify-center select-none z-0"
 		>
-			{@render introSlide()}
+			<span
+				class="watermark-text font-syne font-black tracking-tighter whitespace-nowrap"
+				style="color: var(--text-heading); opacity: 0.04;"
+			>
+				{watermark}
+			</span>
 		</div>
 
-		<!-- Cards (consumer renders the loop) -->
-		{@render cards()}
+		<!-- Horizontal scroll wrapper — GSAP translates this on desktop; native scroll on mobile -->
+		<div
+			bind:this={wrapperEl}
+			class="hscroll-wrapper flex h-full items-center relative z-10 w-max pl-[6vw] md:pl-[10vw] pr-[30vw] md:pr-[25vw] gap-6 md:gap-8"
+		>
+			<!-- Intro slide -->
+			<div
+				bind:this={introEl}
+				class="w-[88vw] md:w-[70vw] lg:w-[50vw] max-w-2xl shrink-0 flex flex-col justify-center px-4 md:px-12 relative"
+			>
+				{@render introSlide()}
+			</div>
 
-		<!-- Optional trailing slide -->
-		{#if trailingSlide}
-			{@render trailingSlide()}
-		{/if}
-	</div>
+			<!-- Cards (consumer renders the loop) -->
+			{@render cards()}
 
-	<!-- Progress bar (desktop) -->
-	<div class="progress-track desktop-only">
-		<div bind:this={progressBarEl} class="progress-fill"></div>
-	</div>
+			<!-- Optional trailing slide -->
+			{#if trailingSlide}
+				{@render trailingSlide()}
+			{/if}
+		</div>
 
+		<!-- Progress bar (desktop) -->
+		<div class="progress-track desktop-only">
+			<div bind:this={progressBarEl} class="progress-fill"></div>
+		</div>
+	</section>
+
+	<!-- Mobile overlay UI — outside the scroll container so they don't scroll away -->
 	<!-- Progress dots (mobile) -->
 	{#if totalCards > 0}
 		<div class="progress-dots mobile-only" role="tablist" aria-label="Card navigation">
@@ -671,7 +517,13 @@
 					aria-label="Card {i + 1} of {totalCards}"
 					tabindex={i === activeCardIndex ? 0 : -1}
 					onclick={() => {
-						/* Allow dot-tap navigation on mobile */
+						/* Dot tap: scroll to that card natively */
+						const allCardEls = [introEl, ...cardElements].filter(Boolean) as HTMLElement[];
+						allCardEls[i]?.scrollIntoView({
+							behavior: 'smooth',
+							block: 'nearest',
+							inline: 'center'
+						});
 					}}
 				></button>
 			{/each}
@@ -708,7 +560,7 @@
 			<span>Scroll</span>
 		{/if}
 	</div>
-</section>
+</div>
 
 <style>
 	/* ═══════════════════════════════════════════════
@@ -722,14 +574,22 @@
 		display: none;
 	}
 
-	/* When GSAP takes over, lock overflow so the pin works correctly */
+	/* When GSAP takes over (desktop), lock overflow so the pin works correctly */
 	.hscroll-section:global(.gsap-pinned) {
 		overflow: hidden !important;
 	}
 
-	/* Mobile pinned: block all native touch scroll so swipe handler has full control */
-	.hscroll-section:global(.mobile-pinned) {
-		touch-action: none;
+	/* Mobile: native horizontal scroll with CSS snap */
+	.hscroll-section:global(.mobile-native-scroll) {
+		overflow-x: auto;
+		overflow-y: hidden;
+		scroll-snap-type: x mandatory;
+		-webkit-overflow-scrolling: touch;
+		height: 85dvh;
+		scrollbar-width: none;
+	}
+	.hscroll-section:global(.mobile-native-scroll)::-webkit-scrollbar {
+		display: none;
 	}
 
 	/* ═══════════════════════════════════════════════
@@ -803,6 +663,7 @@
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
 		border: 1px solid var(--border-primary);
+		pointer-events: auto;
 	}
 	.progress-dot {
 		width: 8px;
